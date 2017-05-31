@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,38 +41,19 @@ public class PreCmpChargeRedisServiceImpl implements PreCmpChargeRedisService {
     }
 
     @Override
-    public PreCmpChargeReq getFixDate(Date date) {
+    public List<PreCmpChargeReq> batchPop(Date date) {
         Jedis jedis = criusJedisFactory.getInstance();
         String key = RedisConstants.CLEAR_PREFIX.PLUTUS_CMP_CHARGE.key(DateUtil.formatDateTime(date, "yyMMddHH"));
-        String lockKey = RedisConstants.CLEAR_PREFIX.PLUTUS_CMP_CHARGE.lock();
-
-        if (StringUtils.isNotBlank(jedis.get(lockKey))) {
-            try {
-                Thread.sleep(10000L);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        List<PreCmpChargeReq> list = new ArrayList<>();
+        for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
+            String reqStr = jedis.rpop(key);
+            if (StringUtils.isNotBlank(reqStr)) {
+                list.add(JSON.parseObject(reqStr, PreCmpChargeReq.class));
+            } else {
+                break;
             }
         }
-        if (StringUtils.isNotBlank(jedis.get(lockKey))) {
-            return null;
-        }
-        jedis.incr(lockKey);
-        String indexKey = RedisConstants.CLEAR_PREFIX.PLUTUS_CMP_CHARGE.index();
-        long length = jedis.llen(key);
-        Long index = Long.valueOf(jedis.get(indexKey));
-        if (index == null) {
-            index = 0L;
-        }
-        //TODO
-        long differ = length - index;
-        if (differ <= 1000) {
-            jedis.setex(indexKey, RedisConstants.EXPIRE_ONE_DAY, length + "");
-            jedis.del(lockKey);
-            List<String> list = jedis.lrange(key, index, length - 1);
-        } else if (differ > 1000 && differ <= 2000) {
-            List<String > list = jedis.lrange(key, index, 1000L);
-        }
-        return null;
+        return list;
     }
 
 

@@ -23,13 +23,21 @@
             <artifactId>crius-service</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
 
     </dependencies>
 
 
     <build>
-        <finalName>criusb</finalName>
+        <finalName>crius-web</finalName>
     </build>
 
 

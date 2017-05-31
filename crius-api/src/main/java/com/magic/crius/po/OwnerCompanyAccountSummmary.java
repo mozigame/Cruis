@@ -1,5 +1,8 @@
 package com.magic.crius.po;
 
+/**
+ * 公司账目汇总
+ */
 public class OwnerCompanyAccountSummmary {
 
     private Integer id;

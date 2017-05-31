@@ -1,24 +1,47 @@
 package com.magic.crius.po;
 
+/**
+ * 公司入款明细
+ */
 public class OwnerCompanyFlowSummmary {
+
     private Integer id;
 
+    /**
+     * 公司/业主
+     */
     private Long ownerId;
-
+    /**
+     * 入款金额
+     */
     private Long companyFlowMoneyCount;
-
+    /**
+     * 入款次数
+     */
     private Integer companyFlowNum;
-
+    /**
+     * 账户号
+     */
     private Long accountCode;
-
+    /**
+     * 卡号
+     */
     private Long accountNum;
-
+    /**
+     * 账户名称
+     */
     private String accountName;
-
+    /**
+     * 银行类型
+     */
     private String bankSystemCode;
-
+    /**
+     * 银行类型名称
+     */
     private String bankSystemName;
-
+    /**
+     * 状态
+     */
     private Integer state;
 
     private Integer pdate;

@@ -10,6 +10,7 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +21,7 @@ import java.util.Map;
  * Time: 18:54
  */
 @Configuration
+@EnableScheduling
 @EnableKafka
 public class CustomerProducerConfig {
 

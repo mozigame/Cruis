@@ -31,6 +31,7 @@ public class OnlChargeReq {
     private Long PaySystemCode;
 
     private String PaySystemName;
+
     private Long ProduceTime;
 
     public Long getProduceTime() {

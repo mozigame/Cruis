@@ -8,24 +8,24 @@ package com.magic.crius.vo;
  */
 public class PreCmpChargeReq {
 
+
     private Long ReqId;
     private Long UserId;
     private Long AgentId;
     private Long OwnerId;
-    private Long Amount;
+    private Long Amount;    //公司充值金额
     private String Currency;
     private Integer Rate;
-    private String BankCode;
-    private Long BankNum;
-    private String BankHolder;
-    private String InBankCode;
-    private Long InBankNum;
-    private String InBankHolder;
-    private String InBankBranch;
-    private Integer BankCountry;
-    private String Remark;
-    private Long InTime;
-    private Long ProduceTime;
+    private String BankCode;    //用户银行代号
+    private Long BankNum;   //用户银行卡号
+    private String BankHolder;  //用户银行卡持有者名字
+    private String InBankCode;//转入公司账号的银行代号
+    private Long InBankNum;//转入公司账号的银行卡号
+    private String InBankHolder;//转入公司账号的银行卡持有者
+    private String InBankBranch;//转入公司账号的银行卡分支
+    private String Remark;//备注
+    private Long InTime;//转入时间
+    private Long ProduceTime;//注入kafka的ms时间
 
     public Long getProduceTime() {
         return ProduceTime;
@@ -144,14 +144,6 @@ public class PreCmpChargeReq {
 
     public void setInBankBranch(String inBankBranch) {
         InBankBranch = inBankBranch;
-    }
-
-    public Integer getBankCountry() {
-        return BankCountry;
-    }
-
-    public void setBankCountry(Integer bankCountry) {
-        BankCountry = bankCountry;
     }
 
     public String getRemark() {

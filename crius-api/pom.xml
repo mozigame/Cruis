@@ -11,5 +11,8 @@
 
     <artifactId>crius-api</artifactId>
 
+    <build>
+        <finalName>crius-api</finalName>
+    </build>
 
 </project>

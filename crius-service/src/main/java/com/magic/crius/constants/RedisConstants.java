@@ -9,6 +9,10 @@ package com.magic.crius.constants;
 public class RedisConstants {
 
     public static final int EXPIRE_ONE_DAY = 60 * 60 * 3;
+    /**
+     * 批量pop redis中的数据
+     */
+    public static final int BATCH_POP_NUM = 1000;
 
     /**
      * @doc
@@ -43,21 +47,6 @@ public class RedisConstants {
             return prefix + date;
         }
 
-        /**
-         * 当前处理的最后索引
-         * @return
-         */
-        public String index() {
-            return prefix + "index";
-        }
-
-        /**
-         * 上锁，只允许一个服务操作
-         * @return
-         */
-        public String lock() {
-            return prefix + "lock";
-        }
     }
 
 }

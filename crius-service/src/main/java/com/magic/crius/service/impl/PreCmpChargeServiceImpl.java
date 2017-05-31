@@ -7,6 +7,8 @@ import com.magic.crius.vo.PreCmpChargeReq;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
 
 /**
  * User: joey
@@ -37,5 +39,10 @@ public class PreCmpChargeServiceImpl implements PreCmpChargeService{
     @Override
     public PreCmpChargeReq getByReqId(Long reqId) {
         return preCmpChargeMongoService.getByReqId(reqId);
+    }
+
+    @Override
+    public List<PreCmpChargeReq> batchPopRedis(Date date) {
+        return preCmpChargeRedisService.batchPop(date);
     }
 }

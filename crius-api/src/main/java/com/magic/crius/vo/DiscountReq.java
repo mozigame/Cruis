@@ -12,12 +12,12 @@ public class DiscountReq {
     private Long UserId;
     private Long AgentId;
     private Long OwnerId;
-    private Long Amount;
-    private String Currency;
+    private Long Amount;//优惠赠送额度
+    private String Currency;//币种
     private Integer Rate;
-    private Integer NeedBettAmount;
+    private Integer NeedBettAmount;//待打码量
     private Integer Status; //优惠类型
-    private Long ProduceTime;
+    private Long ProduceTime;//注入kafka的ms时间
 
     public Long getProduceTime() {
         return ProduceTime;

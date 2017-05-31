@@ -20,5 +20,5 @@ public interface PreCmpChargeAssemService {
     /**
      * 在redis中获取数据，然后进行清洗
      */
-    void convertData(Date date);
+    boolean convertData(Date date);
 }

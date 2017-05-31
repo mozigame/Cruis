@@ -1,19 +1,35 @@
 package com.magic.crius.dao.db;
 
 import com.magic.crius.po.OwnerCompanyFlowSummmary;
+import org.apache.ibatis.annotations.Param;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
+@Transactional
 public interface OwnerCompanyFlowSummmaryMapper {
-    int deleteByPrimaryKey(Integer id);
 
-    int insert(OwnerCompanyFlowSummmary record);
+    /**
+     * 添加
+     * @param flowSummmary
+     * @return
+     */
+    int save(OwnerCompanyFlowSummmary flowSummmary);
 
-    int insertSelective(OwnerCompanyFlowSummmary record);
+    /**
+     * 修改
+     * @param flowSummmary
+     * @return
+     */
+    boolean updateSummary(OwnerCompanyFlowSummmary flowSummmary);
 
-    OwnerCompanyFlowSummmary selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(OwnerCompanyFlowSummmary record);
-
-    int updateByPrimaryKey(OwnerCompanyFlowSummmary record);
+    /**
+     * 判断是否存在数据
+     * @param ownerId
+     * @param accountNum
+     * @param pdate
+     * @return
+     */
+    int checkExist(@Param("ownerId") Long ownerId, @Param("accountNum") Long accountNum, @Param("pdate") Integer pdate);
 }

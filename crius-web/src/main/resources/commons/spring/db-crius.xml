@@ -52,15 +52,15 @@
 
 
     <!-- sql sessionTemplate -->
-    <bean id="mySqlSessionFactory_0" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <bean id="mySqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="userDataSource_0"/>
         <property name="configLocation" value="classpath:spring/sqlMapConfig.xml"/>
-        <property name="mapperLocations" value="classpath*:com/crius/user/dao/mapper/*.xml"/>
+        <property name="mapperLocations" value="classpath*:com/magic/crius/dao/mapper/*.xml"/>
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.crius.user.dao"/>
-        <property name="sqlSessionFactoryBeanName" value="mySqlSessionFactory_0"/>
+        <property name="basePackage" value="com.magic.crius.dao.db"/>
+        <property name="sqlSessionFactoryBeanName" value="mySqlSessionFactory"/>
     </bean>
 
     <bean id="mySqlSessionTemplate_0" class="org.mybatis.spring.SqlSessionTemplate">

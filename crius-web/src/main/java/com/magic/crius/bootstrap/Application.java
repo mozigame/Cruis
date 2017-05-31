@@ -7,12 +7,16 @@ import org.springframework.boot.autoconfigure.web.DispatcherServletAutoConfigura
 import org.springframework.boot.autoconfigure.web.EmbeddedServletContainerAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.ServerPropertiesAutoConfiguration;
 import org.springframework.context.annotation.*;
+import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
 @ComponentScan({"com.magic"})
 @EnableAspectJAutoProxy
 @EnableWebMvc
+@EnableKafka
+@EnableScheduling
 @Import({ServerPropertiesAutoConfiguration.class, DispatcherServletAutoConfiguration.class,
         EmbeddedServletContainerAutoConfiguration.class})
 @PropertySource(value = {"classpath:codis-crius.properties", "classpath:crius-db.properties", "classpath:crius-kafka.properties", "classpath:crius-mongo.properties"})

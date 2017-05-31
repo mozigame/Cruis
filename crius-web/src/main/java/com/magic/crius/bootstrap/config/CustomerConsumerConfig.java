@@ -22,7 +22,6 @@ import java.util.Map;
  * Time: 18:57
  */
 @Configuration
-@EnableKafka
 public class CustomerConsumerConfig {
 
     @Value("${kafka.broker.host}")

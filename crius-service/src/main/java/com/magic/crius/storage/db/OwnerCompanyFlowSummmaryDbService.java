@@ -1,8 +1,13 @@
-package com.magic.crius.service;
+package com.magic.crius.storage.db;
 
 import com.magic.crius.po.OwnerCompanyFlowSummmary;
 
-public interface OwnerCompanyFlowSummmaryService {
+/**
+ * User: joey
+ * Date: 2017/5/31
+ * Time: 13:41
+ */
+public interface OwnerCompanyFlowSummmaryDbService {
 
     /**
      * 添加
@@ -26,5 +31,4 @@ public interface OwnerCompanyFlowSummmaryService {
      * @return
      */
     boolean checkExist(Long ownerId, Long accountNum, Integer pdate);
-
 }

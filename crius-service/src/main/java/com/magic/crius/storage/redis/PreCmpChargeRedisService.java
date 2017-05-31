@@ -14,8 +14,17 @@ import java.util.List;
 public interface PreCmpChargeRedisService {
 
 
+    /**
+     * 保存公司入款信息
+     * @param preCmpChargeReq
+     * @return
+     */
     boolean save(PreCmpChargeReq preCmpChargeReq);
 
-
-    PreCmpChargeReq getFixDate(Date date);
+    /**
+     * 批量获取公司入款信息
+     * @param date
+     * @return
+     */
+    List<PreCmpChargeReq> batchPop(Date date);
 }

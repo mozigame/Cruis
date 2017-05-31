@@ -9,21 +9,21 @@ package com.magic.crius.vo;
 public class OperateChargeReq {
 
     private Long ReqId;
-    private Long UserIds[];
+    private Long UserIds[];//用户Ids，数组
     private Long OwnerId;
     private Long AgentId;
-    private Long Amount;
+    private Long Amount;//人工充值金额
     private String Currency;
     private Integer Rate;
     // 存款优惠
     private Long DepositOffer;
     // 汇款优惠
     private Long RemittanceOffer;
-    private Long HandlerId;
-    private String HandlerName;
+    private Long HandlerId;//财务操作人员Id
+    private String HandlerName;//财务操作人员名字
     private Integer Type;
     private String Remark;
-    private Long ProduceTime;
+    private Long ProduceTime;//注入kafka的ms时间
 
     public Long getProduceTime() {
         return ProduceTime;

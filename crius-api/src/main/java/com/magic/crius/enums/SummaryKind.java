@@ -25,6 +25,9 @@ public enum SummaryKind {
         this.value = value;
     }
 
+    public int value() {
+        return value;
+    }
     public static SummaryKind parse(int value) {
         return maps.get(value);
     }

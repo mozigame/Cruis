@@ -26,7 +26,7 @@
     <aop:aspectj-autoproxy proxy-target-class="true" />
 
 
-    <!--<import resource="classpath*:spring/db-crius.xml"/>-->
+    <import resource="classpath*:spring/db-crius.xml"/>
     <import resource="classpath*:spring/codis-user.xml"/>
     <import resource="classpath*:spring/mongo-db-crius.xml"/>
 

@@ -25,14 +25,35 @@
     delete from owner_company_account_summmary
     where Id = #{id,jdbcType=INTEGER}
   </delete>
+
+    <!--添加公司账目汇总-->
     <insert id="insert" parameterType="com.magic.crius.po.OwnerCompanyAccountSummmary">
-    insert into owner_company_account_summmary (Id, owner_id, summary_money_count, 
+    insert into owner_company_account_summmary (owner_id, summary_money_count,
       summary_user_num, summary_type, summary_type_name, 
       summary_kind, pdate)
-    values (#{id,jdbcType=INTEGER}, #{ownerId,jdbcType=BIGINT}, #{summaryMoneyCount,jdbcType=BIGINT}, 
+    values ( #{ownerId,jdbcType=BIGINT}, #{summaryMoneyCount,jdbcType=BIGINT},
       #{summaryUserNum,jdbcType=INTEGER}, #{summaryType,jdbcType=INTEGER}, #{summaryTypeName,jdbcType=VARCHAR}, 
       #{summaryKind,jdbcType=INTEGER}, #{pdate,jdbcType=INTEGER})
   </insert>
+
+    <!--检查当天是否有数据-->
+    <select id="checkExit" resultType="java.lang.Integer">
+        SELECT COUNT(id) from owner_company_account_summmary
+        WHERE owner_id=#{ownerId}
+        and summary_type=#{summaryType}
+        and pdate=#{pdate}
+    </select>
+
+    <!--追加汇总数量-->
+    <update id="updateSummary" parameterType="com.magic.crius.po.OwnerCompanyAccountSummmary">
+        update owner_company_account_summmary
+        SET summary_money_count = summary_money_count +#{summaryMoneyCount},
+        summary_user_num = summary_user_num + #{summaryUserNum},
+        WHERE owner_id = #{ownerId}
+        AND summary_type = #{summaryType}
+        AND pdate = #{pdate}
+    </update>
+
     <insert id="insertSelective" parameterType="com.magic.crius.po.OwnerCompanyAccountSummmary">
         insert into owner_company_account_summmary
         <trim prefix="(" suffix=")" suffixOverrides=",">

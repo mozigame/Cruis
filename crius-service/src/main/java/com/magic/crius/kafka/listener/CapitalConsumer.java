@@ -42,7 +42,7 @@ public class CapitalConsumer {
      */
     private void transData(ConsumerRecord<?, ?> record) {
         JSONObject object = JSON.parseObject(record.value().toString());
-        KafkaConf.DataType type = KafkaConf.DataType.parse(object.getString("dataType"));
+        KafkaConf.DataType type = KafkaConf.DataType.parse(object.getString("DataType"));
         switch (type) {
             case PLUTUS_ONL_CHARGE:
                 OnlChargeReq onlChargeReq = JSON.parseObject(object.getString("data"), OnlChargeReq.class);

@@ -15,7 +15,7 @@ public class PreWithdrawReq {
     private Long Amount;
     private Long UserLevel;
     private String Remark;
-    private Long ProduceTime;
+    private Long ProduceTime;//注入kafka的ms时间
 
     public Long getProduceTime() {
         return ProduceTime;
