@@ -19,11 +19,11 @@ import com.alibaba.druid.pool.DruidDataSource;
  * @author shawn
  * @since 2017/05/20
  */
-@Configuration
-@EnableConfigurationProperties(DruidProperties.class)
-@ConditionalOnClass(DruidDataSource.class)
-@ConditionalOnProperty(prefix = "druid", name = "url")
-@AutoConfigureBefore(DataSourceAutoConfiguration.class)
+//@Configuration
+//@EnableConfigurationProperties(DruidProperties.class)
+//@ConditionalOnClass(DruidDataSource.class)
+//@ConditionalOnProperty(prefix = "druid", name = "url")
+//@AutoConfigureBefore(DataSourceAutoConfiguration.class)
 public class DruidAutoConfiguration {
 
     @Autowired

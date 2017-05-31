@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/Crius.iml" filepath="$PROJECT_DIR$/.idea/Crius.iml" />
+      <module fileurl="file://$PROJECT_DIR$/crius-api/crius-api.iml" filepath="$PROJECT_DIR$/crius-api/crius-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/crius-config/crius-config.iml" filepath="$PROJECT_DIR$/crius-config/crius-config.iml" />
+      <module fileurl="file://$PROJECT_DIR$/crius-service/crius-service.iml" filepath="$PROJECT_DIR$/crius-service/crius-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/crius-web/crius-web.iml" filepath="$PROJECT_DIR$/crius-web/crius-web.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.magic.crius.dao.db.OwnerCompanyFlowSummmaryMapper">
+    <resultMap id="BaseResultMap" type="com.magic.crius.po.OwnerCompanyFlowSummmary">
+        <id column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="owner_id" jdbcType="BIGINT" property="ownerId"/>
+        <result column="company_flow_money_count" jdbcType="BIGINT" property="companyFlowMoneyCount"/>
+        <result column="company_flow_num" jdbcType="INTEGER" property="companyFlowNum"/>
+        <result column="account_code" jdbcType="BIGINT" property="accountCode"/>
+        <result column="account_num" jdbcType="BIGINT" property="accountNum"/>
+        <result column="account_name" jdbcType="VARCHAR" property="accountName"/>
+        <result column="bank_system_code" jdbcType="VARCHAR" property="bankSystemCode"/>
+        <result column="bank_system_name" jdbcType="VARCHAR" property="bankSystemName"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="pdate" jdbcType="INTEGER" property="pdate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    Id, owner_id, company_flow_money_count, company_flow_num, account_code, account_num, 
+    account_name, bank_system_code, bank_system_name, state, pdate
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from owner_company_flow_summmary
+        where Id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from owner_company_flow_summmary
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.magic.crius.po.OwnerCompanyFlowSummmary">
+    insert into owner_company_flow_summmary (Id, owner_id, company_flow_money_count, 
+      company_flow_num, account_code, account_num, 
+      account_name, bank_system_code, bank_system_name, 
+      state, pdate)
+    values (#{id,jdbcType=INTEGER}, #{ownerId,jdbcType=BIGINT}, #{companyFlowMoneyCount,jdbcType=BIGINT}, 
+      #{companyFlowNum,jdbcType=INTEGER}, #{accountCode,jdbcType=BIGINT}, #{accountNum,jdbcType=BIGINT}, 
+      #{accountName,jdbcType=VARCHAR}, #{bankSystemCode,jdbcType=VARCHAR}, #{bankSystemName,jdbcType=VARCHAR}, 
+      #{state,jdbcType=INTEGER}, #{pdate,jdbcType=INTEGER})
+  </insert>
+    <insert id="insertSelective" parameterType="com.magic.crius.po.OwnerCompanyFlowSummmary">
+        insert into owner_company_flow_summmary
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                Id,
+            </if>
+            <if test="ownerId != null">
+                owner_id,
+            </if>
+            <if test="companyFlowMoneyCount != null">
+                company_flow_money_count,
+            </if>
+            <if test="companyFlowNum != null">
+                company_flow_num,
+            </if>
+            <if test="accountCode != null">
+                account_code,
+            </if>
+            <if test="accountNum != null">
+                account_num,
+            </if>
+            <if test="accountName != null">
+                account_name,
+            </if>
+            <if test="bankSystemCode != null">
+                bank_system_code,
+            </if>
+            <if test="bankSystemName != null">
+                bank_system_name,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="pdate != null">
+                pdate,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="ownerId != null">
+                #{ownerId,jdbcType=BIGINT},
+            </if>
+            <if test="companyFlowMoneyCount != null">
+                #{companyFlowMoneyCount,jdbcType=BIGINT},
+            </if>
+            <if test="companyFlowNum != null">
+                #{companyFlowNum,jdbcType=INTEGER},
+            </if>
+            <if test="accountCode != null">
+                #{accountCode,jdbcType=BIGINT},
+            </if>
+            <if test="accountNum != null">
+                #{accountNum,jdbcType=BIGINT},
+            </if>
+            <if test="accountName != null">
+                #{accountName,jdbcType=VARCHAR},
+            </if>
+            <if test="bankSystemCode != null">
+                #{bankSystemCode,jdbcType=VARCHAR},
+            </if>
+            <if test="bankSystemName != null">
+                #{bankSystemName,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=INTEGER},
+            </if>
+            <if test="pdate != null">
+                #{pdate,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.magic.crius.po.OwnerCompanyFlowSummmary">
+        update owner_company_flow_summmary
+        <set>
+            <if test="ownerId != null">
+                owner_id = #{ownerId,jdbcType=BIGINT},
+            </if>
+            <if test="companyFlowMoneyCount != null">
+                company_flow_money_count = #{companyFlowMoneyCount,jdbcType=BIGINT},
+            </if>
+            <if test="companyFlowNum != null">
+                company_flow_num = #{companyFlowNum,jdbcType=INTEGER},
+            </if>
+            <if test="accountCode != null">
+                account_code = #{accountCode,jdbcType=BIGINT},
+            </if>
+            <if test="accountNum != null">
+                account_num = #{accountNum,jdbcType=BIGINT},
+            </if>
+            <if test="accountName != null">
+                account_name = #{accountName,jdbcType=VARCHAR},
+            </if>
+            <if test="bankSystemCode != null">
+                bank_system_code = #{bankSystemCode,jdbcType=VARCHAR},
+            </if>
+            <if test="bankSystemName != null">
+                bank_system_name = #{bankSystemName,jdbcType=VARCHAR},
+            </if>
+            <if test="state != null">
+                state = #{state,jdbcType=INTEGER},
+            </if>
+            <if test="pdate != null">
+                pdate = #{pdate,jdbcType=INTEGER},
+            </if>
+        </set>
+        where Id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.magic.crius.po.OwnerCompanyFlowSummmary">
+    update owner_company_flow_summmary
+    set owner_id = #{ownerId,jdbcType=BIGINT},
+      company_flow_money_count = #{companyFlowMoneyCount,jdbcType=BIGINT},
+      company_flow_num = #{companyFlowNum,jdbcType=INTEGER},
+      account_code = #{accountCode,jdbcType=BIGINT},
+      account_num = #{accountNum,jdbcType=BIGINT},
+      account_name = #{accountName,jdbcType=VARCHAR},
+      bank_system_code = #{bankSystemCode,jdbcType=VARCHAR},
+      bank_system_name = #{bankSystemName,jdbcType=VARCHAR},
+      state = #{state,jdbcType=INTEGER},
+      pdate = #{pdate,jdbcType=INTEGER}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
