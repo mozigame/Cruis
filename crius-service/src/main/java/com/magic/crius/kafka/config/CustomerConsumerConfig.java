@@ -1,4 +1,4 @@
-package com.magic.crius.bootstrap.config;
+package com.magic.crius.kafka.config;
 
 import com.magic.crius.enums.KafkaConf;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -6,7 +6,6 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
@@ -42,11 +41,13 @@ public class CustomerConsumerConfig {
         return factory;
     }
 
-    private ConsumerFactory<String, String> consumerFactory() {
+    @Bean
+    public ConsumerFactory<String, String> consumerFactory() {
         return new DefaultKafkaConsumerFactory<>(consumerConfigs());
     }
 
-    private Map<String, Object> consumerConfigs() {
+    @Bean
+    public Map<String, Object> consumerConfigs() {
         Map<String, Object> propsMap = new HashMap<>();
         propsMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, broker_host);
         propsMap.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);

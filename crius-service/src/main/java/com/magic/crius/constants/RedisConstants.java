@@ -8,7 +8,11 @@ package com.magic.crius.constants;
  */
 public class RedisConstants {
 
-    public static final int EXPIRE_ONE_DAY = 60 * 60 * 3;
+    public static final int EXPIRE_ONE_DAY = 60 * 60 * 24;
+
+    public static final int EXPIRE_THREE_HOUR = 60 * 60 * 3;
+
+
     /**
      * 批量pop redis中的数据
      */
@@ -18,7 +22,7 @@ public class RedisConstants {
      * @doc
      */
     public enum CLEAR_PREFIX {
-        PLUTUS_ONL_CHARGE("p_onl_charge_"),    // 在线充值
+        PLUTUS_ONL_CHARGE("p_onl_charge_"),    // 用户充值
         PLUTUS_CMP_CHARGE("p_cmp_charge_"),    // 公司入款
         PLUTUS_DISCOUNT("p_discount_"),  // 优惠赠送
         PLUTUS_USER_WITHDRAW("p_user_withdraw_"), // 用户提现

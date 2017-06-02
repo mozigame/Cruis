@@ -12,7 +12,7 @@ import org.junit.Test;
 public class JsonConvertTest {
 
     /**
-     * 测试jason转换花费时间
+     * 测试json转换花费时间
      */
     @Test
     public void testJson() {

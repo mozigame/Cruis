@@ -35,7 +35,7 @@ public class PreCmpChargeAssemServiceImpl implements PreCmpChargeAssemService {
     private OwnerCompanyAccountSummmaryAssemService ownerCompanyAccountSummmaryAssemService;
 
     @Override
-    public void procPreCmpCharge(PreCmpChargeReq req) {
+    public void procKafkaData(PreCmpChargeReq req) {
         if (preCmpChargeService.getByReqId(req.getReqId()) == null) {
             if (!preCmpChargeService.savePreCmpCharge(req)) {
                 CriusLog.error("save PreCmpCharge error,reqId : " + req.getReqId());

@@ -15,7 +15,7 @@
 
     <!-- 扫描文件 -->
     <context:annotation-config/>
-    <context:component-scan base-package="com.magic.crius.bootstrap.config"/>
+    <context:component-scan base-package="com.magic.crius.kafka.config"/>
 
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 

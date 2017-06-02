@@ -1,4 +1,4 @@
-package com.magic.crius.bootstrap.config;
+package com.magic.crius.kafka.config;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.IntegerSerializer;
@@ -10,7 +10,6 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,24 +20,24 @@ import java.util.Map;
  * Time: 18:54
  */
 @Configuration
-@EnableScheduling
-@EnableKafka
 public class CustomerProducerConfig {
 
 
     @Value("${kafka.broker.host}")
     private String broker_host;
 
-    @Bean(name = "kafkaTemplate")
+    @Bean
     public KafkaTemplate<Integer, String> kafkaTemplate() {
         return new KafkaTemplate<Integer, String>(producerFactory());
     }
 
-    private ProducerFactory<Integer, String> producerFactory() {
-        return new DefaultKafkaProducerFactory<>(senderProps());
+    @Bean
+    public ProducerFactory<Integer, String> producerFactory() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
 
-    private Map<String, Object> senderProps() {
+    @Bean
+    public Map<String, Object> producerConfigs() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, broker_host);
         props.put(ProducerConfig.RETRIES_CONFIG, 0);

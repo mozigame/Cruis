@@ -3,8 +3,16 @@ package com.magic.crius.assemble.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.magic.crius.assemble.OnlChargeAssemService;
+import com.magic.crius.service.OnlChargeService;
+import com.magic.crius.service.PreCmpChargeService;
+import com.magic.crius.util.CriusLog;
+import com.magic.crius.vo.OnlChargeReq;
 import com.magic.crius.vo.Parent;
+import com.magic.crius.vo.PreCmpChargeReq;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * User: joey
@@ -14,11 +22,21 @@ import org.springframework.stereotype.Service;
 @Service("onlChargeAssembleService")
 public class OnlChargeAssemServiceImpl implements OnlChargeAssemService {
 
-    private void json() {
-        JSONObject object = new JSONObject();
-        JSONObject j1 = new JSONObject();
-        object.put("j1", j1);
-        JSON.parseObject(object.toJSONString(), Parent.class);
 
+    @Resource
+    private OnlChargeService onlChargeService;
+
+    @Override
+    public void procKafkaData(OnlChargeReq req) {
+        if (onlChargeService.getByReqId(req.getReqId()) == null) {
+            if (!onlChargeService.save(req)) {
+                CriusLog.error("save OnlChargeReq error,reqId : " + req.getReqId());
+            }
+        }
+    }
+
+    @Override
+    public boolean convertData(Date date) {
+        return false;
     }
 }

@@ -5,9 +5,9 @@ import com.magic.api.commons.codis.JedisFactory;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.api.commons.utils.StringUtils;
 import com.magic.crius.constants.RedisConstants;
-import com.magic.crius.storage.redis.PreCmpChargeRedisService;
+import com.magic.crius.storage.redis.OnlChargeRedisService;
+import com.magic.crius.vo.OnlChargeReq;
 import com.magic.crius.vo.PreCmpChargeReq;
-import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
@@ -17,21 +17,21 @@ import java.util.List;
 
 /**
  * User: joey
- * Date: 2017/5/30
- * Time: 14:33
+ * Date: 2017/6/2
+ * Time: 0:15
  */
-@Service("preCmpChargeRedisService")
-public class PreCmpChargeRedisServiceImpl implements PreCmpChargeRedisService {
+public class OnlChargeRedisServiceImpl implements OnlChargeRedisService{
+
 
     @Resource(name = "criusJedisFactory")
     private JedisFactory criusJedisFactory;
 
     @Override
-    public boolean save(PreCmpChargeReq preCmpChargeReq) {
+    public boolean save(OnlChargeReq onlChargeReq) {
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_CMP_CHARGE.key(DateUtil.formatDateTime(new Date(preCmpChargeReq.getProduceTime()), "yyMMddHH"));
-            Long result = jedis.lpush(key, JSON.toJSONString(preCmpChargeReq));
+            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_ONL_CHARGE.key(DateUtil.formatDateTime(new Date(onlChargeReq.getProduceTime()), "yyMMddHH"));
+            Long result = jedis.lpush(key, JSON.toJSONString(onlChargeReq));
             jedis.expire(key, RedisConstants.EXPIRE_THREE_HOUR);
             return result > 0;
         } catch (Exception e) {
@@ -41,15 +41,15 @@ public class PreCmpChargeRedisServiceImpl implements PreCmpChargeRedisService {
     }
 
     @Override
-    public List<PreCmpChargeReq> batchPop(Date date) {
+    public List<OnlChargeReq> batchPop(Date date) {
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_CMP_CHARGE.key(DateUtil.formatDateTime(date, "yyMMddHH"));
-            List<PreCmpChargeReq> list = new ArrayList<>();
+            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_ONL_CHARGE.key(DateUtil.formatDateTime(date, "yyMMddHH"));
+            List<OnlChargeReq> list = new ArrayList<>();
             for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
                 String reqStr = jedis.rpop(key);
                 if (StringUtils.isNotBlank(reqStr)) {
-                    list.add(JSON.parseObject(reqStr, PreCmpChargeReq.class));
+                    list.add(JSON.parseObject(reqStr, OnlChargeReq.class));
                 } else {
                     break;
                 }
@@ -60,6 +60,4 @@ public class PreCmpChargeRedisServiceImpl implements PreCmpChargeRedisService {
         }
         return null;
     }
-
-
 }

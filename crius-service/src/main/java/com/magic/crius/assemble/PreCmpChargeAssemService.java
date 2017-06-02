@@ -15,7 +15,7 @@ public interface PreCmpChargeAssemService {
      * 处理在kafka中获取的对象
      * @param req
      */
-    void  procPreCmpCharge(PreCmpChargeReq req);
+    void  procKafkaData(PreCmpChargeReq req);
 
     /**
      * 在redis中获取数据，然后进行清洗

@@ -24,7 +24,7 @@ public class CapitalConsumer {
     @Resource
     private PreCmpChargeAssemService preCmpChargeAssembleService;
 
-    @KafkaListener(topics = "test", group = "group_1")
+    @KafkaListener(topics = "cruis_capital", group = "group_1")
     public void listen(ConsumerRecord<?, ?> record) {
         try {
             Optional<?> kafkaMessage = Optional.ofNullable(record.value());
@@ -41,42 +41,44 @@ public class CapitalConsumer {
      * @param record
      */
     private void transData(ConsumerRecord<?, ?> record) {
+        System.out.println("get kafka data :>>>  "+ record.toString());
         JSONObject object = JSON.parseObject(record.value().toString());
-        KafkaConf.DataType type = KafkaConf.DataType.parse(object.getString("DataType"));
+        KafkaConf.DataType type = KafkaConf.DataType.parse(object.getInteger("DataType"));
         switch (type) {
             case PLUTUS_ONL_CHARGE:
-                OnlChargeReq onlChargeReq = JSON.parseObject(object.getString("data"), OnlChargeReq.class);
+                OnlChargeReq onlChargeReq = JSON.parseObject(object.getString("Data"), OnlChargeReq.class);
                 break;
             case PLUTUS_CMP_CHARGE:
-                PreCmpChargeReq preCmpChargeReq = JSON.parseObject(object.getString("data"), PreCmpChargeReq.class);
-                preCmpChargeAssembleService.procPreCmpCharge(preCmpChargeReq);
+                PreCmpChargeReq preCmpChargeReq = JSON.parseObject(object.getString("Data"), PreCmpChargeReq.class);
+                preCmpChargeAssembleService.procKafkaData(preCmpChargeReq);
                 break;
             case PLUTUS_DISCOUNT:
-                DiscountReq discountReq = JSON.parseObject(object.getString("data"), DiscountReq.class);
+                DiscountReq discountReq = JSON.parseObject(object.getString("Data"), DiscountReq.class);
                 break;
             case PLUTUS_USER_WITHDRAW:
-                PreWithdrawReq preWithdrawReq = JSON.parseObject(object.getString("data"), PreWithdrawReq.class);
+                PreWithdrawReq preWithdrawReq = JSON.parseObject(object.getString("Data"), PreWithdrawReq.class);
                 break;
             case PLUTUS_OPR_WITHDRAW:
-                OperateChargeReq operateChargeReq = JSON.parseObject(object.getString("data"), OperateChargeReq.class);
+                OperateWithDrawReq operateChargeReq = JSON.parseObject(object.getString("Data"), OperateWithDrawReq.class);
                 break;
             case PLUTUS_OPR_CHARGE:
-                OperateWithDrawReq operateWithDrawReq = JSON.parseObject(object.getString("data"), OperateWithDrawReq.class);
+                OperateChargeReq operateWithDrawReq = JSON.parseObject(object.getString("Data"), OperateChargeReq.class);
                 break;
             case PLUTUS_CAHSBACK:
-                PayoffReq payoffReq = JSON.parseObject(object.getString("data"), PayoffReq.class);
+                CashbackReq payoffReq = JSON.parseObject(object.getString("Data"), CashbackReq.class);
                 break;
             case PLUTUS_PAYOFF:
-                CashbackReq cashbackReq = JSON.parseObject(object.getString("data"), CashbackReq.class);
+                PayoffReq cashbackReq = JSON.parseObject(object.getString("Data"), PayoffReq.class);
                 break;
             case PLUTUS_JP:
-                JpReq jpReq = JSON.parseObject(object.getString("data"), JpReq.class);
+                JpReq jpReq = JSON.parseObject(object.getString("Data"), JpReq.class);
                 break;
             case PLUTUS_DS:
-                DealerRewardReq dealerRewardReq = JSON.parseObject(object.getString("data"), DealerRewardReq.class);
+                DealerRewardReq dealerRewardReq = JSON.parseObject(object.getString("Data"), DealerRewardReq.class);
                 break;
             default:
                 break;
+
         }
     }
 

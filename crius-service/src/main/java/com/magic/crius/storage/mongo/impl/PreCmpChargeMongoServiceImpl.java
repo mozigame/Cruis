@@ -52,7 +52,7 @@ public class PreCmpChargeMongoServiceImpl implements PreCmpChargeMongoService {
     public PreCmpChargeReq getByReqId(Long reqId) {
         try {
             Query query = new Query();
-            query.addCriteria(new Criteria("ReqId").is(String.valueOf(reqId)));
+            query.addCriteria(new Criteria("reqId").is(reqId));
             return preCmpChargeMongoDao.findOne(query);
         } catch (Exception e) {
             e.printStackTrace();
