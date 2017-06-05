@@ -42,19 +42,21 @@
 
 
     <!--追加金额和数量-->
-    <update id="updateSummer" parameterType="com.magic.crius.po.OwnerCompanyFlowSummmary">
+    <update id="updateSummary" parameterType="com.magic.crius.po.OwnerCompanyFlowSummmary">
         UPDATE owner_company_flow_summmary
-        set company_flow_money_count=company_flow_money_count+#{companyFlowMoneyCount},
-        company_flow_num = company_flow_num + #{companyFlowNum}
-        WHERE owner_id = #{ownerId}
-        and account_num =#{accountNum}
-        and pdate = #{pdate}
+        set company_flow_money_count=company_flow_money_count + #{companyFlowMoneyCount,jdbcType=BIGINT},
+        company_flow_num = company_flow_num + #{companyFlowNum,jdbcType=INTEGER}
+        WHERE owner_id = #{ownerId,jdbcType=BIGINT}
+        and account_num =#{accountNum,jdbcType=BIGINT}
+        and pdate = #{pdate,jdbcType=INTEGER}
     </update>
 
 
     <!--检查是否有数据-->
     <select id="checkExist" resultType="java.lang.Integer">
         SELECT count(id) from owner_company_flow_summmary
-        WHERE owner_id=#{ownerId} AND account_num=#{accountNum} AND pdate=#{pdate}
+        WHERE owner_id = #{ownerId,jdbcType=BIGINT}
+        and account_num =#{accountNum,jdbcType=BIGINT}
+        and pdate = #{pdate,jdbcType=INTEGER}
     </select>
 </mapper>

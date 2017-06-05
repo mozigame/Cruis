@@ -2,7 +2,9 @@ package com.magic.crius.kafka.listener;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.magic.crius.assemble.PreCmpChargeAssemService;
+import com.magic.crius.assemble.OnlChargeReqAssemService;
+import com.magic.crius.assemble.OperateChargeReqAssemService;
+import com.magic.crius.assemble.PreCmpChargeReqAssemService;
 import com.magic.crius.enums.KafkaConf;
 import com.magic.crius.vo.*;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -22,7 +24,11 @@ import java.util.Optional;
 public class CapitalConsumer {
 
     @Resource
-    private PreCmpChargeAssemService preCmpChargeAssembleService;
+    private PreCmpChargeReqAssemService preCmpChargeAssembleService;
+    @Resource
+    private OnlChargeReqAssemService onlChargeAssemService;
+    @Resource
+    private OperateChargeReqAssemService operateChargeAssemService;
 
     @KafkaListener(topics = "cruis_capital", group = "group_1")
     public void listen(ConsumerRecord<?, ?> record) {
@@ -47,6 +53,7 @@ public class CapitalConsumer {
         switch (type) {
             case PLUTUS_ONL_CHARGE:
                 OnlChargeReq onlChargeReq = JSON.parseObject(object.getString("Data"), OnlChargeReq.class);
+                onlChargeAssemService.procKafkaData(onlChargeReq);
                 break;
             case PLUTUS_CMP_CHARGE:
                 PreCmpChargeReq preCmpChargeReq = JSON.parseObject(object.getString("Data"), PreCmpChargeReq.class);
@@ -59,10 +66,11 @@ public class CapitalConsumer {
                 PreWithdrawReq preWithdrawReq = JSON.parseObject(object.getString("Data"), PreWithdrawReq.class);
                 break;
             case PLUTUS_OPR_WITHDRAW:
-                OperateWithDrawReq operateChargeReq = JSON.parseObject(object.getString("Data"), OperateWithDrawReq.class);
+                OperateWithDrawReq operateWithDrawReq = JSON.parseObject(object.getString("Data"), OperateWithDrawReq.class);
                 break;
             case PLUTUS_OPR_CHARGE:
-                OperateChargeReq operateWithDrawReq = JSON.parseObject(object.getString("Data"), OperateChargeReq.class);
+                OperateChargeReq operateChargeReq = JSON.parseObject(object.getString("Data"), OperateChargeReq.class);
+                operateChargeAssemService.procKafkaData(operateChargeReq);
                 break;
             case PLUTUS_CAHSBACK:
                 CashbackReq payoffReq = JSON.parseObject(object.getString("Data"), CashbackReq.class);

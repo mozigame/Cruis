@@ -32,11 +32,11 @@ public class KafkaProducerTest {
     public void testTemplate() {
 
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 1; i < 8; i++) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("DataType", KafkaConf.DataType.PLUTUS_CMP_CHARGE.type());
             PreCmpChargeReq req = new PreCmpChargeReq();
-            req.setReqId((long) i);
+            req.setReqId(System.currentTimeMillis() + i);
             req.setUserId((long) i);
             req.setAgentId((long) i);
             req.setOwnerId((long) i);
@@ -52,8 +52,31 @@ public class KafkaProducerTest {
             req.setInTime(System.currentTimeMillis());
             req.setProduceTime(System.currentTimeMillis());
             jsonObject.put("Data", req);
-//            template.send("cruis_capital", JSON.toJSONString(jsonObject));
-            System.out.println(JSON.toJSONString(jsonObject));
+            template.send("cruis_capital", JSON.toJSONString(jsonObject));
+            System.out.println(JSON.toJSONString(req));
         }
+    }
+
+    @Test
+    public void testJson() {
+        String str = " {\n" +
+                "        \"agentId\": 2,\n" +
+                "        \"amount\": 1000,\n" +
+                "        \"bankCode\": \"ICBC\",\n" +
+                "        \"bankHolder\": \"充值人\",\n" +
+                "        \"bankNum\": 13358820111029090,\n" +
+                "        \"currency\": \"人民币\",\n" +
+                "        \"inBankCode\": \"CBC\",\n" +
+                "        \"inBankHolder\": \"李磊\",\n" +
+                "        \"inBankNum\": 95588201110329090,\n" +
+                "        \"inTime\": 1496384328817,\n" +
+                "        \"ownerId\": 2,\n" +
+                "        \"produceTime\": 1496384328817,\n" +
+                "        \"rate\": 75,\n" +
+                "        \"reqId\": 2,\n" +
+                "        \"userId\": 2\n" +
+                "    }";
+        PreCmpChargeReq req = JSON.parseObject(str, PreCmpChargeReq.class);
+        System.out.println(JSONObject.toJSONString(req));
     }
 }

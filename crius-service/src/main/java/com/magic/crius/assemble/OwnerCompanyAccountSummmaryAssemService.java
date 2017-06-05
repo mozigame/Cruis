@@ -5,6 +5,9 @@ import com.magic.crius.po.OwnerCompanyFlowSummmary;
 
 import java.util.Collection;
 
+/**
+ * 公司账目汇总
+ */
 public interface OwnerCompanyAccountSummmaryAssemService {
 
 

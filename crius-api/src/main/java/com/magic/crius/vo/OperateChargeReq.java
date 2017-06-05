@@ -1,5 +1,7 @@
 package com.magic.crius.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * User: joey
  * Date: 2017/5/29
@@ -8,132 +10,144 @@ package com.magic.crius.vo;
  */
 public class OperateChargeReq {
 
-    private Long ReqId;
-    private Long UserIds[];//用户Ids，数组
-    private Long OwnerId;
-    private Long AgentId;
-    private Long Amount;//人工充值金额
-    private String Currency;
-    private Integer Rate;
-    // 存款优惠
-    private Long DepositOffer;
-    // 汇款优惠
-    private Long RemittanceOffer;
-    private Long HandlerId;//财务操作人员Id
-    private String HandlerName;//财务操作人员名字
-    private Integer Type;
-    private String Remark;
-    private Long ProduceTime;//注入kafka的ms时间
-
-    public Long getProduceTime() {
-        return ProduceTime;
-    }
-
-    public void setProduceTime(Long produceTime) {
-        ProduceTime = produceTime;
-    }
+    @JSONField(name = "ReqId")
+    private Long reqId;
+    @JSONField(name = "UserIds")
+    private Long userIds[];//用户Ids，数组
+    @JSONField(name = "OwnerId")
+    private Long ownerId;
+    @JSONField(name = "AgentId")
+    private Long agentId;
+    @JSONField(name = "Amount")
+    private Long amount;//人工充值金额
+    @JSONField(name = "Currency")
+    private String currency;
+    @JSONField(name = "Rate")
+    private Integer rate;
+    @JSONField(name = "DepositOffer")
+    private Long depositOffer;// 存款优惠
+    @JSONField(name = "RemittanceOffer")
+    private Long remittanceOffer;// 汇款优惠
+    @JSONField(name = "HandlerId")
+    private Long handlerId;//财务操作人员Id
+    @JSONField(name = "HandlerName")
+    private String handlerName;//财务操作人员名字
+    @JSONField(name = "Type")
+    private Integer type;
+    @JSONField(name = "Remark")
+    private String remark;
+    @JSONField(name = "ProduceTime")
+    private Long produceTime;//注入kafka的ms时间
 
     public Long getReqId() {
-        return ReqId;
+        return reqId;
     }
 
     public void setReqId(Long reqId) {
-        ReqId = reqId;
+        this.reqId = reqId;
     }
 
     public Long[] getUserIds() {
-        return UserIds;
+        return userIds;
     }
 
     public void setUserIds(Long[] userIds) {
-        UserIds = userIds;
+        this.userIds = userIds;
     }
 
     public Long getOwnerId() {
-        return OwnerId;
+        return ownerId;
     }
 
     public void setOwnerId(Long ownerId) {
-        OwnerId = ownerId;
+        this.ownerId = ownerId;
     }
 
     public Long getAgentId() {
-        return AgentId;
+        return agentId;
     }
 
     public void setAgentId(Long agentId) {
-        AgentId = agentId;
+        this.agentId = agentId;
     }
 
     public Long getAmount() {
-        return Amount;
+        return amount;
     }
 
     public void setAmount(Long amount) {
-        Amount = amount;
+        this.amount = amount;
     }
 
     public String getCurrency() {
-        return Currency;
+        return currency;
     }
 
     public void setCurrency(String currency) {
-        Currency = currency;
+        this.currency = currency;
     }
 
     public Integer getRate() {
-        return Rate;
+        return rate;
     }
 
     public void setRate(Integer rate) {
-        Rate = rate;
+        this.rate = rate;
     }
 
     public Long getDepositOffer() {
-        return DepositOffer;
+        return depositOffer;
     }
 
     public void setDepositOffer(Long depositOffer) {
-        DepositOffer = depositOffer;
+        this.depositOffer = depositOffer;
     }
 
     public Long getRemittanceOffer() {
-        return RemittanceOffer;
+        return remittanceOffer;
     }
 
     public void setRemittanceOffer(Long remittanceOffer) {
-        RemittanceOffer = remittanceOffer;
+        this.remittanceOffer = remittanceOffer;
     }
 
     public Long getHandlerId() {
-        return HandlerId;
+        return handlerId;
     }
 
     public void setHandlerId(Long handlerId) {
-        HandlerId = handlerId;
+        this.handlerId = handlerId;
     }
 
     public String getHandlerName() {
-        return HandlerName;
+        return handlerName;
     }
 
     public void setHandlerName(String handlerName) {
-        HandlerName = handlerName;
+        this.handlerName = handlerName;
     }
 
     public Integer getType() {
-        return Type;
+        return type;
     }
 
     public void setType(Integer type) {
-        Type = type;
+        this.type = type;
     }
 
     public String getRemark() {
-        return Remark;
+        return remark;
     }
 
     public void setRemark(String remark) {
-        Remark = remark;
+        this.remark = remark;
+    }
+
+    public Long getProduceTime() {
+        return produceTime;
+    }
+
+    public void setProduceTime(Long produceTime) {
+        this.produceTime = produceTime;
     }
 }

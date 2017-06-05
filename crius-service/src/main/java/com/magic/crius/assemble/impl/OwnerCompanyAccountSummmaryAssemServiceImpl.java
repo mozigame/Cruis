@@ -13,6 +13,7 @@ import java.util.Collection;
  * User: joey
  * Date: 2017/5/31
  * Time: 13:52
+ * 公司账目汇总
  */
 @Service("ownerCompanyAccountSummmaryAssemService")
 public class OwnerCompanyAccountSummmaryAssemServiceImpl implements OwnerCompanyAccountSummmaryAssemService {
@@ -23,7 +24,7 @@ public class OwnerCompanyAccountSummmaryAssemServiceImpl implements OwnerCompany
     @Override
     public void batchSave(Collection<OwnerCompanyAccountSummmary> ownerCompanyAccountSummmaries) {
         for (OwnerCompanyAccountSummmary accountSummmary: ownerCompanyAccountSummmaries) {
-            if (ownerCompanyAccountSummmaryService.checkExist(accountSummmary.getOwnerId(), accountSummmary.getSummaryUserNum(), accountSummmary.getPdate())) {
+            if (ownerCompanyAccountSummmaryService.checkExist(accountSummmary.getOwnerId(), accountSummmary.getSummaryType(), accountSummmary.getPdate())) {
                 if (!ownerCompanyAccountSummmaryService.updateSummary(accountSummmary)) {
                     //TODO
                 }

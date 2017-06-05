@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.magic.crius.dao.db.UserOutMoneySummaryMapper">
+    <resultMap id="BaseResultMap" type="com.magic.crius.po.UserOutMoneySummary">
+        <id column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="owner_id" jdbcType="BIGINT" property="ownerId"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="order_count" jdbcType="BIGINT" property="orderCount"/>
+        <result column="out_num" jdbcType="INTEGER" property="outNum"/>
+        <result column="pdate" jdbcType="INTEGER" property="pdate"/>
+    </resultMap>
+
+    <!--添加-->
+    <insert id="insert" parameterType="com.magic.crius.po.UserOutMoneySummary">
+        insert into user_out_money_summary (owner_id, user_id,
+          order_count, out_num, pdate
+          )
+        values ( #{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
+          #{orderCount,jdbcType=BIGINT}, #{outNum,jdbcType=INTEGER}, #{pdate,jdbcType=INTEGER}
+          )
+     </insert>
+
+    <!--追加金额和数量-->
+    <update id="updateSummary" parameterType="com.magic.crius.po.UserOutMoneySummary">
+        update user_out_money_summary
+        set owner_id = #{ownerId,jdbcType=BIGINT},
+          user_id = #{userId,jdbcType=BIGINT},
+          order_count = #{orderCount,jdbcType=BIGINT},
+          out_num = #{outNum,jdbcType=INTEGER},
+          pdate = #{pdate,jdbcType=INTEGER}
+        where Id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--检查是否存在-->
+    <select id="checkExist" resultType="java.lang.Integer">
+        SELECT COUNT(id) FROM user_out_money_summary
+        WHERE owner_id = #{ownerId,jdbcType=BIGINT}
+        AND user_id = #{userId,jdbcType=BIGINT}
+        AND pdate = #{pdate,jdbcType=INTEGER}
+    </select>
+</mapper>

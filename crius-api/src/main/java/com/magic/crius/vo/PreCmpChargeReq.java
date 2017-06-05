@@ -1,5 +1,7 @@
 package com.magic.crius.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * User: joey
  * Date: 2017/5/29
@@ -9,156 +11,174 @@ package com.magic.crius.vo;
 public class PreCmpChargeReq {
 
 
-    private Long ReqId;
-    private Long UserId;
-    private Long AgentId;
-    private Long OwnerId;
-    private Long Amount;    //公司充值金额
-    private String Currency;
-    private Integer Rate;
-    private String BankCode;    //用户银行代号
-    private Long BankNum;   //用户银行卡号
-    private String BankHolder;  //用户银行卡持有者名字
-    private String InBankCode;//转入公司账号的银行代号
-    private Long InBankNum;//转入公司账号的银行卡号
-    private String InBankHolder;//转入公司账号的银行卡持有者
-    private String InBankBranch;//转入公司账号的银行卡分支
-    private String Remark;//备注
-    private Long InTime;//转入时间
-    private Long ProduceTime;//注入kafka的ms时间
+    @JSONField(name = "ReqId")
+    private Long reqId;
+    @JSONField(name = "UserId")
+    private Long userId;
+    @JSONField(name = "AgentId")
+    private Long agentId;
+    @JSONField(name = "OwnerId")
+    private Long ownerId;
+    @JSONField(name = "Amount")
+    private Long amount;    //公司充值金额
+    @JSONField(name = "Currency")
+    private String currency;
+    @JSONField(name = "Rate")
+    private Integer rate;
+    @JSONField(name = "BankCode")
+    private String bankCode;    //用户银行代号
+    @JSONField(name = "BankNum")
+    private Long bankNum;   //用户银行卡号
+    @JSONField(name = "BankHolder")
+    private String bankHolder;  //用户银行卡持有者名字
+    @JSONField(name = "InBankCode")
+    private String inBankCode;//转入公司账号的银行代号
+    @JSONField(name = "InBankNum")
+    private Long inBankNum;//转入公司账号的银行卡号
+    @JSONField(name = "InBankHolder")
+    private String inBankHolder;//转入公司账号的银行卡持有者
+    @JSONField(name = "InBankBranch")
+    private String inBankBranch;//转入公司账号的银行卡分支
+    @JSONField(name = "Remark")
+    private String remark;//备注
+    @JSONField(name = "InTime")
+    private Long inTime;//转入时间
+    @JSONField(name = "ProduceTime")
+    private Long produceTime;//注入kafka的ms时间
 
-    public Long getProduceTime() {
-        return ProduceTime;
-    }
-
-    public void setProduceTime(Long produceTime) {
-        ProduceTime = produceTime;
-    }
     public Long getReqId() {
-        return ReqId;
+        return reqId;
     }
 
     public void setReqId(Long reqId) {
-        ReqId = reqId;
+        this.reqId = reqId;
     }
 
     public Long getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(Long userId) {
-        UserId = userId;
+        this.userId = userId;
     }
 
     public Long getAgentId() {
-        return AgentId;
+        return agentId;
     }
 
     public void setAgentId(Long agentId) {
-        AgentId = agentId;
+        this.agentId = agentId;
     }
 
     public Long getOwnerId() {
-        return OwnerId;
+        return ownerId;
     }
 
     public void setOwnerId(Long ownerId) {
-        OwnerId = ownerId;
+        this.ownerId = ownerId;
     }
 
     public Long getAmount() {
-        return Amount;
+        return amount;
     }
 
     public void setAmount(Long amount) {
-        Amount = amount;
+        this.amount = amount;
     }
 
     public String getCurrency() {
-        return Currency;
+        return currency;
     }
 
     public void setCurrency(String currency) {
-        Currency = currency;
+        this.currency = currency;
     }
 
     public Integer getRate() {
-        return Rate;
+        return rate;
     }
 
     public void setRate(Integer rate) {
-        Rate = rate;
+        this.rate = rate;
     }
 
     public String getBankCode() {
-        return BankCode;
+        return bankCode;
     }
 
     public void setBankCode(String bankCode) {
-        BankCode = bankCode;
+        this.bankCode = bankCode;
     }
 
     public Long getBankNum() {
-        return BankNum;
+        return bankNum;
     }
 
     public void setBankNum(Long bankNum) {
-        BankNum = bankNum;
+        this.bankNum = bankNum;
     }
 
     public String getBankHolder() {
-        return BankHolder;
+        return bankHolder;
     }
 
     public void setBankHolder(String bankHolder) {
-        BankHolder = bankHolder;
+        this.bankHolder = bankHolder;
     }
 
     public String getInBankCode() {
-        return InBankCode;
+        return inBankCode;
     }
 
     public void setInBankCode(String inBankCode) {
-        InBankCode = inBankCode;
+        this.inBankCode = inBankCode;
     }
 
     public Long getInBankNum() {
-        return InBankNum;
+        return inBankNum;
     }
 
     public void setInBankNum(Long inBankNum) {
-        InBankNum = inBankNum;
+        this.inBankNum = inBankNum;
     }
 
     public String getInBankHolder() {
-        return InBankHolder;
+        return inBankHolder;
     }
 
     public void setInBankHolder(String inBankHolder) {
-        InBankHolder = inBankHolder;
+        this.inBankHolder = inBankHolder;
     }
 
     public String getInBankBranch() {
-        return InBankBranch;
+        return inBankBranch;
     }
 
     public void setInBankBranch(String inBankBranch) {
-        InBankBranch = inBankBranch;
+        this.inBankBranch = inBankBranch;
     }
 
     public String getRemark() {
-        return Remark;
+        return remark;
     }
 
     public void setRemark(String remark) {
-        Remark = remark;
+        this.remark = remark;
     }
 
     public Long getInTime() {
-        return InTime;
+        return inTime;
     }
 
     public void setInTime(Long inTime) {
-        InTime = inTime;
+        this.inTime = inTime;
+    }
+
+    public Long getProduceTime() {
+        return produceTime;
+    }
+
+    public void setProduceTime(Long produceTime) {
+        this.produceTime = produceTime;
     }
 }

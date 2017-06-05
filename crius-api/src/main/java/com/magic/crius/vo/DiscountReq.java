@@ -1,5 +1,7 @@
 package com.magic.crius.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * User: joey
  * Date: 2017/5/29
@@ -8,93 +10,104 @@ package com.magic.crius.vo;
  */
 public class DiscountReq {
 
-    private Long ReqId;
-    private Long UserId;
-    private Long AgentId;
-    private Long OwnerId;
-    private Long Amount;//优惠赠送额度
-    private String Currency;//币种
-    private Integer Rate;
-    private Integer NeedBettAmount;//待打码量
-    private Integer Status; //优惠类型
-    private Long ProduceTime;//注入kafka的ms时间
+    @JSONField(name = "ReqId")
+    private Long reqId;
+    @JSONField(name = "UserId")
+    private Long userId;
+    @JSONField(name = "AgentId")
+    private Long agentId;
+    @JSONField(name = "OwnerId")
+    private Long ownerId;
+    @JSONField(name = "Amount")
+    private Long amount;//优惠赠送额度
+    @JSONField(name = "Currency")
+    private String currency;//币种
+    @JSONField(name = "Rate")
+    private Integer rate;
+    @JSONField(name = "NeedBettAmount")
+    private Integer needBettAmount;//待打码量
+    @JSONField(name = "Status")
+    private Integer status; //优惠类型
+    @JSONField(name = "ProduceTime")
+    private Long produceTime;//注入kafka的ms时间
 
-    public Long getProduceTime() {
-        return ProduceTime;
-    }
-
-    public void setProduceTime(Long produceTime) {
-        ProduceTime = produceTime;
-    }
     public Long getReqId() {
-        return ReqId;
+        return reqId;
     }
 
     public void setReqId(Long reqId) {
-        ReqId = reqId;
+        this.reqId = reqId;
     }
 
     public Long getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(Long userId) {
-        UserId = userId;
+        this.userId = userId;
     }
 
     public Long getAgentId() {
-        return AgentId;
+        return agentId;
     }
 
     public void setAgentId(Long agentId) {
-        AgentId = agentId;
+        this.agentId = agentId;
     }
 
     public Long getOwnerId() {
-        return OwnerId;
+        return ownerId;
     }
 
     public void setOwnerId(Long ownerId) {
-        OwnerId = ownerId;
+        this.ownerId = ownerId;
     }
 
     public Long getAmount() {
-        return Amount;
+        return amount;
     }
 
     public void setAmount(Long amount) {
-        Amount = amount;
+        this.amount = amount;
     }
 
     public String getCurrency() {
-        return Currency;
+        return currency;
     }
 
     public void setCurrency(String currency) {
-        Currency = currency;
+        this.currency = currency;
     }
 
     public Integer getRate() {
-        return Rate;
+        return rate;
     }
 
     public void setRate(Integer rate) {
-        Rate = rate;
+        this.rate = rate;
     }
 
     public Integer getNeedBettAmount() {
-        return NeedBettAmount;
+        return needBettAmount;
     }
 
     public void setNeedBettAmount(Integer needBettAmount) {
-        NeedBettAmount = needBettAmount;
+        this.needBettAmount = needBettAmount;
     }
 
     public Integer getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(Integer status) {
-        Status = status;
+        this.status = status;
+    }
+
+    public Long getProduceTime() {
+        return produceTime;
+    }
+
+    public void setProduceTime(Long produceTime) {
+        this.produceTime = produceTime;
     }
 }

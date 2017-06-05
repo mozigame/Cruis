@@ -15,14 +15,14 @@ public interface OwnerCompanyFlowSummmaryMapper {
      * @param flowSummmary
      * @return
      */
-    int save(OwnerCompanyFlowSummmary flowSummmary);
+    int insert(OwnerCompanyFlowSummmary flowSummmary);
 
     /**
      * 修改
      * @param flowSummmary
      * @return
      */
-    boolean updateSummary(OwnerCompanyFlowSummmary flowSummmary);
+    int updateSummary(OwnerCompanyFlowSummmary flowSummmary);
 
     /**
      * 判断是否存在数据

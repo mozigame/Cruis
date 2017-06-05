@@ -21,7 +21,7 @@ public class OwnerCompanyAccountSummmaryDbServiceImpl implements OwnerCompanyAcc
 
     @Override
     public boolean save(OwnerCompanyAccountSummmary accountSummmary) {
-        return ownerCompanyAccountSummmaryMapper.save(accountSummmary) > 0;
+        return ownerCompanyAccountSummmaryMapper.insert(accountSummmary) > 0;
     }
 
     @Override

@@ -11,20 +11,7 @@
         <result column="summary_kind" jdbcType="INTEGER" property="summaryKind"/>
         <result column="pdate" jdbcType="INTEGER" property="pdate"/>
     </resultMap>
-    <sql id="Base_Column_List">
-    Id, owner_id, summary_money_count, summary_user_num, summary_type, summary_type_name, 
-    summary_kind, pdate
-  </sql>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from owner_company_account_summmary
-        where Id = #{id,jdbcType=INTEGER}
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from owner_company_account_summmary
-    where Id = #{id,jdbcType=INTEGER}
-  </delete>
+
 
     <!--添加公司账目汇总-->
     <insert id="insert" parameterType="com.magic.crius.po.OwnerCompanyAccountSummmary">
@@ -37,114 +24,22 @@
   </insert>
 
     <!--检查当天是否有数据-->
-    <select id="checkExit" resultType="java.lang.Integer">
+    <select id="checkExist" resultType="java.lang.Integer">
         SELECT COUNT(id) from owner_company_account_summmary
-        WHERE owner_id=#{ownerId}
-        and summary_type=#{summaryType}
-        and pdate=#{pdate}
+        WHERE owner_id = #{ownerId,jdbcType=BIGINT}
+        AND summary_type = #{summaryType,jdbcType=INTEGER}
+        AND pdate = #{pdate,jdbcType=INTEGER}
     </select>
 
     <!--追加汇总数量-->
     <update id="updateSummary" parameterType="com.magic.crius.po.OwnerCompanyAccountSummmary">
         update owner_company_account_summmary
-        SET summary_money_count = summary_money_count +#{summaryMoneyCount},
-        summary_user_num = summary_user_num + #{summaryUserNum},
-        WHERE owner_id = #{ownerId}
-        AND summary_type = #{summaryType}
-        AND pdate = #{pdate}
+        SET summary_money_count = summary_money_count + #{summaryMoneyCount,jdbcType=BIGINT},
+        summary_user_num = summary_user_num + #{summaryUserNum,jdbcType=INTEGER}
+        WHERE owner_id = #{ownerId,jdbcType=BIGINT}
+        AND summary_type = #{summaryType,jdbcType=INTEGER}
+        AND pdate = #{pdate,jdbcType=INTEGER}
     </update>
 
-    <insert id="insertSelective" parameterType="com.magic.crius.po.OwnerCompanyAccountSummmary">
-        insert into owner_company_account_summmary
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                Id,
-            </if>
-            <if test="ownerId != null">
-                owner_id,
-            </if>
-            <if test="summaryMoneyCount != null">
-                summary_money_count,
-            </if>
-            <if test="summaryUserNum != null">
-                summary_user_num,
-            </if>
-            <if test="summaryType != null">
-                summary_type,
-            </if>
-            <if test="summaryTypeName != null">
-                summary_type_name,
-            </if>
-            <if test="summaryKind != null">
-                summary_kind,
-            </if>
-            <if test="pdate != null">
-                pdate,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=INTEGER},
-            </if>
-            <if test="ownerId != null">
-                #{ownerId,jdbcType=BIGINT},
-            </if>
-            <if test="summaryMoneyCount != null">
-                #{summaryMoneyCount,jdbcType=BIGINT},
-            </if>
-            <if test="summaryUserNum != null">
-                #{summaryUserNum,jdbcType=INTEGER},
-            </if>
-            <if test="summaryType != null">
-                #{summaryType,jdbcType=INTEGER},
-            </if>
-            <if test="summaryTypeName != null">
-                #{summaryTypeName,jdbcType=VARCHAR},
-            </if>
-            <if test="summaryKind != null">
-                #{summaryKind,jdbcType=INTEGER},
-            </if>
-            <if test="pdate != null">
-                #{pdate,jdbcType=INTEGER},
-            </if>
-        </trim>
-    </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.magic.crius.po.OwnerCompanyAccountSummmary">
-        update owner_company_account_summmary
-        <set>
-            <if test="ownerId != null">
-                owner_id = #{ownerId,jdbcType=BIGINT},
-            </if>
-            <if test="summaryMoneyCount != null">
-                summary_money_count = #{summaryMoneyCount,jdbcType=BIGINT},
-            </if>
-            <if test="summaryUserNum != null">
-                summary_user_num = #{summaryUserNum,jdbcType=INTEGER},
-            </if>
-            <if test="summaryType != null">
-                summary_type = #{summaryType,jdbcType=INTEGER},
-            </if>
-            <if test="summaryTypeName != null">
-                summary_type_name = #{summaryTypeName,jdbcType=VARCHAR},
-            </if>
-            <if test="summaryKind != null">
-                summary_kind = #{summaryKind,jdbcType=INTEGER},
-            </if>
-            <if test="pdate != null">
-                pdate = #{pdate,jdbcType=INTEGER},
-            </if>
-        </set>
-        where Id = #{id,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.magic.crius.po.OwnerCompanyAccountSummmary">
-    update owner_company_account_summmary
-    set owner_id = #{ownerId,jdbcType=BIGINT},
-      summary_money_count = #{summaryMoneyCount,jdbcType=BIGINT},
-      summary_user_num = #{summaryUserNum,jdbcType=INTEGER},
-      summary_type = #{summaryType,jdbcType=INTEGER},
-      summary_type_name = #{summaryTypeName,jdbcType=VARCHAR},
-      summary_kind = #{summaryKind,jdbcType=INTEGER},
-      pdate = #{pdate,jdbcType=INTEGER}
-    where Id = #{id,jdbcType=INTEGER}
-  </update>
+
 </mapper>

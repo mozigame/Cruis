@@ -11,6 +11,13 @@
 
     <artifactId>crius-api</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+    </dependencies>
+
     <build>
         <finalName>crius-api</finalName>
     </build>

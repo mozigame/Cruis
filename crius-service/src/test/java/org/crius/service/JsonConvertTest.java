@@ -1,8 +1,13 @@
 package org.crius.service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.magic.crius.vo.CashbackReq;
 import org.junit.Test;
+import org.w3c.dom.ls.LSInput;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: joey
@@ -45,5 +50,13 @@ public class JsonConvertTest {
         }
         long end = System.currentTimeMillis();
         System.out.println(end - medium);
+    }
+
+    @Test
+    public void listJson() {
+        List<String> list = new ArrayList<>();
+        list.add("bbb");
+        list.add("ccc");
+        System.out.println(JSONObject.toJSONString(list));
     }
 }

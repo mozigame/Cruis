@@ -14,7 +14,7 @@ public interface OwnerCompanyAccountSummmaryMapper {
      * @param flowSummmary
      * @return
      */
-    int save(OwnerCompanyAccountSummmary flowSummmary);
+    int insert(OwnerCompanyAccountSummmary flowSummmary);
 
     /**
      * 修改

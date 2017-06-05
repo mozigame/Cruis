@@ -19,12 +19,12 @@ public class OwnerCompanyFlowSummmaryDbServiceImpl implements OwnerCompanyFlowSu
 
     @Override
     public boolean save(OwnerCompanyFlowSummmary flowSummmary) {
-        return ownerCompanyFlowSummmaryMapper.save(flowSummmary) > 0;
+        return ownerCompanyFlowSummmaryMapper.insert(flowSummmary) > 0;
     }
 
     @Override
     public boolean updateSummary(OwnerCompanyFlowSummmary flowSummmary) {
-        return ownerCompanyFlowSummmaryMapper.updateSummary(flowSummmary);
+        return ownerCompanyFlowSummmaryMapper.updateSummary(flowSummmary) > 0;
     }
 
     @Override

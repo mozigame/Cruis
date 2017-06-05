@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Collection;
 
+/**
+ * 公司入款明细
+ */
 @Service("ownerCompanyFlowSummmaryAssemService")
 public class OwnerCompanyFlowSummmaryAssemServiceImpl implements OwnerCompanyFlowSummmaryAssemService{
 

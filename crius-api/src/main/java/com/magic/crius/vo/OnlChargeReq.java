@@ -1,5 +1,7 @@
 package com.magic.crius.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * User: joey
  * Date: 2017/5/29
@@ -8,133 +10,134 @@ package com.magic.crius.vo;
  */
 public class OnlChargeReq {
 
-    private Long ReqId;
-
-    private Long OrderId;
-
-    private Long UserId;
-
-    private Long AgentId;
-
-    private Long OwnerId;
-
-    private Long Amount;
-
-    private String Currency;
-
-    private Integer Rate;
-
-    private Long MerchantCode;
-
-    private String MerchantName;
-
-    private Long PaySystemCode;
-
-    private String PaySystemName;
-
-    private Long ProduceTime;
-
-    public Long getProduceTime() {
-        return ProduceTime;
-    }
-
-    public void setProduceTime(Long produceTime) {
-        ProduceTime = produceTime;
-    }
+    @JSONField(name = "ReqId")
+    private Long reqId;
+    @JSONField(name = "OrderId")
+    private Long orderId;
+    @JSONField(name = "UserId")
+    private Long userId;
+    @JSONField(name = "AgentId")
+    private Long agentId;
+    @JSONField(name = "OwnerId")
+    private Long ownerId;
+    @JSONField(name = "Amount")
+    private Long amount;
+    @JSONField(name = "Currency")
+    private String currency;
+    @JSONField(name = "Rate")
+    private Integer rate;
+    @JSONField(name = "MerchantCode")
+    private Long merchantCode;
+    @JSONField(name = "MerchantName")
+    private String merchantName;
+    @JSONField(name = "PaySystemCode")
+    private Integer paySystemCode;
+    @JSONField(name = "PaySystemName")
+    private String paySystemName;
+    @JSONField(name = "ProduceTime")
+    private Long produceTime;
 
     public Long getReqId() {
-        return ReqId;
+        return reqId;
     }
 
     public void setReqId(Long reqId) {
-        ReqId = reqId;
+        this.reqId = reqId;
     }
 
     public Long getOrderId() {
-        return OrderId;
+        return orderId;
     }
 
     public void setOrderId(Long orderId) {
-        OrderId = orderId;
+        this.orderId = orderId;
     }
 
     public Long getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(Long userId) {
-        UserId = userId;
+        this.userId = userId;
     }
 
     public Long getAgentId() {
-        return AgentId;
+        return agentId;
     }
 
     public void setAgentId(Long agentId) {
-        AgentId = agentId;
+        this.agentId = agentId;
     }
 
     public Long getOwnerId() {
-        return OwnerId;
+        return ownerId;
     }
 
     public void setOwnerId(Long ownerId) {
-        OwnerId = ownerId;
+        this.ownerId = ownerId;
     }
 
     public Long getAmount() {
-        return Amount;
+        return amount;
     }
 
     public void setAmount(Long amount) {
-        Amount = amount;
+        this.amount = amount;
     }
 
     public String getCurrency() {
-        return Currency;
+        return currency;
     }
 
     public void setCurrency(String currency) {
-        Currency = currency;
+        this.currency = currency;
     }
 
     public Integer getRate() {
-        return Rate;
+        return rate;
     }
 
     public void setRate(Integer rate) {
-        Rate = rate;
+        this.rate = rate;
     }
 
     public Long getMerchantCode() {
-        return MerchantCode;
+        return merchantCode;
     }
 
     public void setMerchantCode(Long merchantCode) {
-        MerchantCode = merchantCode;
+        this.merchantCode = merchantCode;
     }
 
     public String getMerchantName() {
-        return MerchantName;
+        return merchantName;
     }
 
     public void setMerchantName(String merchantName) {
-        MerchantName = merchantName;
-    }
-
-    public Long getPaySystemCode() {
-        return PaySystemCode;
-    }
-
-    public void setPaySystemCode(Long paySystemCode) {
-        PaySystemCode = paySystemCode;
+        this.merchantName = merchantName;
     }
 
     public String getPaySystemName() {
-        return PaySystemName;
+        return paySystemName;
     }
 
     public void setPaySystemName(String paySystemName) {
-        PaySystemName = paySystemName;
+        this.paySystemName = paySystemName;
+    }
+
+    public Long getProduceTime() {
+        return produceTime;
+    }
+
+    public void setProduceTime(Long produceTime) {
+        this.produceTime = produceTime;
+    }
+
+    public Integer getPaySystemCode() {
+        return paySystemCode;
+    }
+
+    public void setPaySystemCode(Integer paySystemCode) {
+        this.paySystemCode = paySystemCode;
     }
 }

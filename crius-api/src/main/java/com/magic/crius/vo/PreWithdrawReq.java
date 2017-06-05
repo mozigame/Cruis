@@ -1,5 +1,7 @@
 package com.magic.crius.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * User: joey
  * Date: 2017/5/29
@@ -8,75 +10,84 @@ package com.magic.crius.vo;
  */
 public class PreWithdrawReq {
 
-    private Long ReqId;
-    private Long UserId;
-    private Long AgentId;
-    private Long OwnerId;
-    private Long Amount;
-    private Long UserLevel;
-    private String Remark;
-    private Long ProduceTime;//注入kafka的ms时间
+    @JSONField(name = "ReqId")
+    private Long reqId;
+    @JSONField(name = "UserId")
+    private Long userId;
+    @JSONField(name = "AgentId")
+    private Long agentId;
+    @JSONField(name = "OwnerId")
+    private Long ownerId;
+    @JSONField(name = "Amount")
+    private Long amount;
+    @JSONField(name = "UserLevel")
+    private Long userLevel;
+    @JSONField(name = "Remark")
+    private String remark;
+    @JSONField(name = "ProduceTime")
+    private Long produceTime;//注入kafka的ms时间
 
-    public Long getProduceTime() {
-        return ProduceTime;
-    }
-
-    public void setProduceTime(Long produceTime) {
-        ProduceTime = produceTime;
-    }
     public Long getReqId() {
-        return ReqId;
+        return reqId;
     }
 
     public void setReqId(Long reqId) {
-        ReqId = reqId;
+        this.reqId = reqId;
     }
 
     public Long getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(Long userId) {
-        UserId = userId;
+        this.userId = userId;
     }
 
     public Long getAgentId() {
-        return AgentId;
+        return agentId;
     }
 
     public void setAgentId(Long agentId) {
-        AgentId = agentId;
+        this.agentId = agentId;
     }
 
     public Long getOwnerId() {
-        return OwnerId;
+        return ownerId;
     }
 
     public void setOwnerId(Long ownerId) {
-        OwnerId = ownerId;
+        this.ownerId = ownerId;
     }
 
     public Long getAmount() {
-        return Amount;
+        return amount;
     }
 
     public void setAmount(Long amount) {
-        Amount = amount;
+        this.amount = amount;
     }
 
     public Long getUserLevel() {
-        return UserLevel;
+        return userLevel;
     }
 
     public void setUserLevel(Long userLevel) {
-        UserLevel = userLevel;
+        this.userLevel = userLevel;
     }
 
     public String getRemark() {
-        return Remark;
+        return remark;
     }
 
     public void setRemark(String remark) {
-        Remark = remark;
+        this.remark = remark;
+    }
+
+    public Long getProduceTime() {
+        return produceTime;
+    }
+
+    public void setProduceTime(Long produceTime) {
+        this.produceTime = produceTime;
     }
 }

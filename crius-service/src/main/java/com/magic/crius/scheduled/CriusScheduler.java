@@ -1,10 +1,9 @@
 package com.magic.crius.scheduled;
 
 import com.magic.api.commons.tools.DateUtil;
-import com.magic.crius.assemble.PreCmpChargeAssemService;
+import com.magic.crius.assemble.PreCmpChargeReqAssemService;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
-import org.springframework.messaging.Message;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
@@ -12,7 +11,6 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import javax.annotation.Resource;
 import java.util.Date;
-import java.util.concurrent.*;
 
 /**
  * User: joey
@@ -26,7 +24,7 @@ public class CriusScheduler {
     private static final int fixRate = 1000 * 60;
 
     @Resource
-    private PreCmpChargeAssemService preCmpChargeAssemService;
+    private PreCmpChargeReqAssemService preCmpChargeAssemService;
 
     @Resource
     private KafkaTemplate<Integer, String> template;
@@ -36,9 +34,10 @@ public class CriusScheduler {
      */
     @Scheduled(fixedRate = fixRate)
     public void demoSchedule() {
-        while (preCmpChargeAssemService.convertData(new Date())) {
+        //公司入款
+        preCmpChargeAssemService.convertData(new Date());
 
-        }
+
     }
 
 //    @Scheduled(fixedRate = 1000 * 10)
