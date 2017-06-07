@@ -1,27 +1,33 @@
 package com.magic.crius.dao.db;
 
+import com.magic.crius.po.OwnerCompanyFlowSummmary;
 import com.magic.crius.po.OwnerOnlineFlowSummmary;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.List;
+
+/**
+ * 线上入款汇总
+ */
 @Component
 public interface OwnerOnlineFlowSummmaryMapper {
 
     /**
-     * 新增
-     * @param record
+     * 添加
+     * @param summmary
      * @return
      */
-    int insert(OwnerOnlineFlowSummmary record);
+    int insert(OwnerOnlineFlowSummmary summmary);
 
     /**
-     * 判断是否存在数据
-     * @param ownerId
-     * @param merchantCode
-     * @param pdate
+     * 批量添加
+     * @param summmaries
      * @return
      */
-    int checkExist(@Param("ownerId") Long ownerId, @Param("merchantCode") Long merchantCode, @Param("pdate") Integer pdate);
+    int batchInsert(@Param("list") Collection<OwnerOnlineFlowSummmary> summmaries);
+
 
     /**
      * 修改
@@ -29,5 +35,11 @@ public interface OwnerOnlineFlowSummmaryMapper {
      * @return
      */
     int updateSummary(OwnerOnlineFlowSummmary summmary);
+
+    /**
+     * 查询当天内多个业主下的数据
+     * @return
+     */
+    List<OwnerOnlineFlowSummmary> findByOwnerIds(@Param("list") Collection<Long> ownerIds, @Param("pdate") Integer pdate);
 
 }

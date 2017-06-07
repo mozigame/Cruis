@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.magic.crius.dao.db.PrizeDetailMapper">
+    <resultMap id="BaseResultMap" type="com.magic.crius.po.PrizeDetail">
+        <id column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="owner_id" jdbcType="BIGINT" property="ownerId"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="order_id" jdbcType="BIGINT" property="orderId"/>
+        <result column="prize_type" jdbcType="VARCHAR" property="prizeType"/>
+        <result column="prize_type_name" jdbcType="VARCHAR" property="prizeTypeName"/>
+        <result column="game_id" jdbcType="VARCHAR" property="gameId"/>
+        <result column="order_count" jdbcType="BIGINT" property="orderCount"/>
+        <result column="pdate" jdbcType="INTEGER" property="pdate"/>
+        <result column="create_time" jdbcType="BIGINT" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    Id, owner_id, user_id, order_id, prize_type, prize_type_name, game_id, order_count, 
+    pdate, create_time
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from prize_detail
+        where Id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from prize_detail
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.magic.crius.po.PrizeDetail">
+    insert into prize_detail (Id, owner_id, user_id, 
+      order_id, prize_type, prize_type_name, 
+      game_id, order_count, pdate, 
+      create_time)
+    values (#{id,jdbcType=INTEGER}, #{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, 
+      #{orderId,jdbcType=BIGINT}, #{prizeType,jdbcType=VARCHAR}, #{prizeTypeName,jdbcType=VARCHAR}, 
+      #{gameId,jdbcType=VARCHAR}, #{orderCount,jdbcType=BIGINT}, #{pdate,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=BIGINT})
+  </insert>
+    <insert id="insertSelective" parameterType="com.magic.crius.po.PrizeDetail">
+        insert into prize_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                Id,
+            </if>
+            <if test="ownerId != null">
+                owner_id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="prizeType != null">
+                prize_type,
+            </if>
+            <if test="prizeTypeName != null">
+                prize_type_name,
+            </if>
+            <if test="gameId != null">
+                game_id,
+            </if>
+            <if test="orderCount != null">
+                order_count,
+            </if>
+            <if test="pdate != null">
+                pdate,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="ownerId != null">
+                #{ownerId,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="orderId != null">
+                #{orderId,jdbcType=BIGINT},
+            </if>
+            <if test="prizeType != null">
+                #{prizeType,jdbcType=VARCHAR},
+            </if>
+            <if test="prizeTypeName != null">
+                #{prizeTypeName,jdbcType=VARCHAR},
+            </if>
+            <if test="gameId != null">
+                #{gameId,jdbcType=VARCHAR},
+            </if>
+            <if test="orderCount != null">
+                #{orderCount,jdbcType=BIGINT},
+            </if>
+            <if test="pdate != null">
+                #{pdate,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=BIGINT},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.magic.crius.po.PrizeDetail">
+        update prize_detail
+        <set>
+            <if test="ownerId != null">
+                owner_id = #{ownerId,jdbcType=BIGINT},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="orderId != null">
+                order_id = #{orderId,jdbcType=BIGINT},
+            </if>
+            <if test="prizeType != null">
+                prize_type = #{prizeType,jdbcType=VARCHAR},
+            </if>
+            <if test="prizeTypeName != null">
+                prize_type_name = #{prizeTypeName,jdbcType=VARCHAR},
+            </if>
+            <if test="gameId != null">
+                game_id = #{gameId,jdbcType=VARCHAR},
+            </if>
+            <if test="orderCount != null">
+                order_count = #{orderCount,jdbcType=BIGINT},
+            </if>
+            <if test="pdate != null">
+                pdate = #{pdate,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=BIGINT},
+            </if>
+        </set>
+        where Id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.magic.crius.po.PrizeDetail">
+    update prize_detail
+    set owner_id = #{ownerId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      order_id = #{orderId,jdbcType=BIGINT},
+      prize_type = #{prizeType,jdbcType=VARCHAR},
+      prize_type_name = #{prizeTypeName,jdbcType=VARCHAR},
+      game_id = #{gameId,jdbcType=VARCHAR},
+      order_count = #{orderCount,jdbcType=BIGINT},
+      pdate = #{pdate,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=BIGINT}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

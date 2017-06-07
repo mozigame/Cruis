@@ -3,6 +3,7 @@ package com.magic.crius.assemble;
 import com.magic.crius.po.UserOutMoneySummary;
 
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * User: joey
@@ -16,5 +17,5 @@ public interface UserOutMoneySummaryAssemService {
      * 批量添加会员出款明细
      * @param userOutMoneySummaries
      */
-    void batchSave(Collection<UserOutMoneySummary> userOutMoneySummaries);
+    void batchSave(Map<Long, UserOutMoneySummary> userOutMoneySummaries);
 }

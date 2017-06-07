@@ -22,5 +22,5 @@ public interface OnlChargeReqAssemService {
     /**
      * 在redis中获取数据，然后进行清洗
      */
-    boolean convertData(Date date);
+    void convertData(Date date);
 }

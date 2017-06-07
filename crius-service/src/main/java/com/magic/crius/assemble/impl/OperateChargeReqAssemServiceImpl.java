@@ -3,8 +3,10 @@ package com.magic.crius.assemble.impl;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.OperateChargeReqAssemService;
 import com.magic.crius.assemble.OwnerOperateFlowSummmaryAssemService;
+import com.magic.crius.assemble.UserAccountSummaryAssemService;
 import com.magic.crius.constants.RedisConstants;
 import com.magic.crius.po.OwnerOperateFlowSummmary;
+import com.magic.crius.po.UserAccountSummary;
 import com.magic.crius.service.OperateChargeReqService;
 import com.magic.crius.util.CriusLog;
 import com.magic.crius.vo.OperateChargeReq;
@@ -27,8 +29,12 @@ public class OperateChargeReqAssemServiceImpl implements OperateChargeReqAssemSe
 
     @Resource
     private OperateChargeReqService operateChargeService;
+    /*人工入款汇总*/
     @Resource
     private OwnerOperateFlowSummmaryAssemService ownerOperateFlowSummmaryAssemService;
+    /*会员账号汇总*/
+    @Resource
+    private UserAccountSummaryAssemService userAccountSummaryAssemService;
 
     @Override
     public void procKafkaData(OperateChargeReq req) {
@@ -44,6 +50,7 @@ public class OperateChargeReqAssemServiceImpl implements OperateChargeReqAssemSe
         List<OperateChargeReq> list = operateChargeService.batchPopRedis(date);
         if (list != null && list.size() > 0) {
             Map<String, OwnerOperateFlowSummmary> ownerOperateFlowSummmaryMap = new HashMap<>();
+            Map<Long, UserAccountSummary> userAccountSummaryMap = new HashMap<>();
             for (OperateChargeReq req : list) {
                 if (ownerOperateFlowSummmaryMap.get(req.getOwnerId() + "_" + req.getType()) == null) {
                     OwnerOperateFlowSummmary summmary = new OwnerOperateFlowSummmary();
@@ -59,9 +66,29 @@ public class OperateChargeReqAssemServiceImpl implements OperateChargeReqAssemSe
                     summmary.setOperateFlowNum(summmary.getOperateFlowNum() + 1);
                     summmary.setOperateFlowMoneyCount(summmary.getOperateFlowMoneyCount() + req.getAmount());
                 }
+                if (req.getUserIds() != null && req.getUserIds().length > 0) {
+                    for (Long userId : req.getUserIds()) {
+                        if (userAccountSummaryMap.get(userId) != null) {
+                            UserAccountSummary summary = new UserAccountSummary();
+                            summary.setUserId(userId);
+                            summary.setFlowNum(1L);
+                            summary.setFlowCount(req.getAmount());
+                            summary.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
+                            userAccountSummaryMap.put(userId, summary);
+                        } else {
+                            UserAccountSummary summary = userAccountSummaryMap.get(userId);
+                            summary.setFlowNum(summary.getFlowNum() + 1);
+                            summary.setFlowCount(summary.getFlowCount() + req.getAmount());
+                        }
+                    }
+
+                }
             }
             if (ownerOperateFlowSummmaryMap.size() > 0) {
-                ownerOperateFlowSummmaryAssemService.batchSave(ownerOperateFlowSummmaryMap.values());
+                ownerOperateFlowSummmaryAssemService.batchSave(ownerOperateFlowSummmaryMap);
+            }
+            if (userAccountSummaryMap.size() > 0) {
+                userAccountSummaryAssemService.updateRecharge(userAccountSummaryMap);
             }
             return list.size() >= RedisConstants.BATCH_POP_NUM;
         }

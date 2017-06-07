@@ -13,7 +13,7 @@ public class OwnerPreferentialSummary {
 
     private Integer preferentialNum;    //优惠次数
 
-    private Integer preferentialType;   //优惠类型
+    private Integer preferentialType;   //优惠类型  --条件
 
     private String preferentialTypeName;    //优惠类型名称
 

@@ -1,30 +1,42 @@
 package com.magic.crius.storage.db;
 
-import com.magic.crius.po.OwnerOperateFlowSummmary;
 import com.magic.crius.po.UserOutMoneySummary;
-import org.apache.ibatis.annotations.Param;
 
+import java.util.Collection;
+import java.util.List;
+
+/**
+ * 会员出款汇总
+ */
 public interface UserOutMoneySummaryDbService {
     /**
-     * 添加会员出款汇总
-     * @param record
+     * 添加
+     *
+     * @param summmary
      * @return
      */
-    boolean save(UserOutMoneySummary record);
+    boolean insert(UserOutMoneySummary summmary);
 
     /**
-     * 判断是否存在数据
-     * @param ownerId
-     * @param userId
-     * @param pdate
+     * 批量添加
+     *
+     * @param summmaries
      * @return
      */
-    boolean checkExist(Long ownerId, Long userId, Integer pdate);
+    boolean batchInsert(Collection<UserOutMoneySummary> summmaries);
+
 
     /**
      * 修改
+     *
      * @param summmary
      * @return
      */
     boolean updateSummary(UserOutMoneySummary summmary);
+
+    /**
+     *
+     * @return
+     */
+    List<UserOutMoneySummary> findByOwnerIds(Collection<Long> userIds, Integer pdate);
 }

@@ -3,6 +3,9 @@ package com.magic.crius.storage.db;
 import com.magic.crius.po.OwnerCompanyAccountSummmary;
 import com.magic.crius.po.OwnerCompanyFlowSummmary;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * User: joey
  * Date: 2017/5/31
@@ -12,25 +15,30 @@ public interface OwnerCompanyAccountSummmaryDbService {
 
     /**
      * 添加
-     * @param accountSummmary
+     * @param summmary
      * @return
      */
-    boolean save(OwnerCompanyAccountSummmary accountSummmary);
+    boolean insert(OwnerCompanyAccountSummmary summmary);
+
+    /**
+     * 添加
+     * @param summmaries
+     * @return
+     */
+    boolean batchInsert(Collection<OwnerCompanyAccountSummmary> summmaries);
+
 
     /**
      * 修改
-     * @param accountSummmary
+     * @param summmary
      * @return
      */
-    boolean updateSummary(OwnerCompanyAccountSummmary accountSummmary);
+    boolean updateSummary(OwnerCompanyAccountSummmary summmary);
 
     /**
-     * 判断是否存在数据
-     * @param ownerId
-     * @param summaryType
-     * @param pdate
+     * 查询多个业主下的数据
      * @return
      */
-    boolean checkExist(Long ownerId, Integer summaryType, Integer pdate);
+    List<OwnerCompanyAccountSummmary> findByOwnerIds(Collection<Long> ownerIds, Integer pdate);
 
 }

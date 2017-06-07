@@ -20,6 +20,24 @@
           )
      </insert>
 
+
+    <!--批量添加-->
+    <insert id="batchInsert" >
+        insert into user_out_money_summary (owner_id, user_id,
+        order_count, out_num, pdate
+        )
+        values
+        <foreach collection="list" item="param" separator="," >
+          ( #{param.ownerId,jdbcType=BIGINT},
+            #{param.userId,jdbcType=BIGINT},
+            #{param.orderCount,jdbcType=BIGINT},
+            #{param.outNum,jdbcType=INTEGER},
+            #{param.pdate,jdbcType=INTEGER}
+            )
+        </foreach>
+
+    </insert>
+
     <!--追加金额和数量-->
     <update id="updateSummary" parameterType="com.magic.crius.po.UserOutMoneySummary">
         update user_out_money_summary
@@ -32,10 +50,13 @@
     </update>
 
     <!--检查是否存在-->
-    <select id="checkExist" resultType="java.lang.Integer">
-        SELECT COUNT(id) FROM user_out_money_summary
-        WHERE owner_id = #{ownerId,jdbcType=BIGINT}
-        AND user_id = #{userId,jdbcType=BIGINT}
-        AND pdate = #{pdate,jdbcType=INTEGER}
+    <select id="findByUserIds" resultMap="BaseResultMap">
+        SELECT user_id FROM user_out_money_summary
+        WHERE pdate = #{pdate,jdbcType=INTEGER}
+        AND user_id IN
+        <foreach collection="list" item="userId" separator="," open="(" close=")">
+            #{userId,jdbcType=BIGINT}
+        </foreach>
+        AND
     </select>
 </mapper>

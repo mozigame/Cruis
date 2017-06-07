@@ -9,7 +9,7 @@ public class UserOutMoneySummary {
 
     private Long ownerId;
 
-    private Long userId;
+    private Long userId;    //--条件
 
     private Long orderCount;    //出款金额
 

@@ -86,10 +86,10 @@ public class PreCmpChargeReqAssemServiceImpl implements PreCmpChargeReqAssemServ
                 }
             }
             if (ownerCompanyFlowSummmaryMap.size() > 0) {
-                ownerCompanyFlowSummmaryAssemService.batchSave(ownerCompanyFlowSummmaryMap.values());
+                ownerCompanyFlowSummmaryAssemService.batchSave(ownerCompanyFlowSummmaryMap);
             }
             if (ownerCompanyAccountSummmaryMap.size() > 0) {
-                ownerCompanyAccountSummmaryAssemService.batchSave(ownerCompanyAccountSummmaryMap.values());
+                ownerCompanyAccountSummmaryAssemService.batchSave(ownerCompanyAccountSummmaryMap);
             }
             return list.size() >= RedisConstants.BATCH_POP_NUM;
         }

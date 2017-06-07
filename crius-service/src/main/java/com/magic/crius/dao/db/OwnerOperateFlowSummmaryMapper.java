@@ -4,24 +4,21 @@ import com.magic.crius.po.OwnerOperateFlowSummmary;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.List;
+
+/**
+ * 人工入款汇总
+ */
 @Component
 public interface OwnerOperateFlowSummmaryMapper {
 
     /**
      * 添加人工入款汇总
-     * @param record
+     * @param summmary
      * @return
      */
-    int insert(OwnerOperateFlowSummmary record);
-
-    /**
-     * 判断是否存在数据
-     * @param ownerId
-     * @param operateFlowType
-     * @param pdate
-     * @return
-     */
-    int checkExist(@Param("ownerId") Long ownerId, @Param("operateFlowType") Integer operateFlowType, @Param("pdate") Integer pdate);
+    int insert(OwnerOperateFlowSummmary summmary);
 
     /**
      * 修改
@@ -29,4 +26,18 @@ public interface OwnerOperateFlowSummmaryMapper {
      * @return
      */
     int updateSummary(OwnerOperateFlowSummmary summmary);
+
+    /**
+     * 批量添加
+     * @param summmaries
+     * @return
+     */
+    int batchInsert(@Param("list") Collection<OwnerOperateFlowSummmary> summmaries);
+
+
+    /**
+     * 查询当天内多个业主下的数据
+     * @return
+     */
+    List<OwnerOperateFlowSummmary> findByOwnerIds(@Param("list") Collection<Long> ownerIds, @Param("pdate") Integer pdate);
 }

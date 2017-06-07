@@ -1,5 +1,7 @@
 package com.magic.crius.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * User: joey
  * Date: 2017/5/29
@@ -8,129 +10,154 @@ package com.magic.crius.vo;
  */
 public class JpReq {
 
-    private Long BillId; //彩金编号
-    private Long UserId; //中奖UserId
-    private Long AgentId;
-    private Long OwnerId;
-    private String JpType; //彩金类型  //todo 确定类型
-    private Long JpAmount; //彩金金额
-    private Long CreateTime; //中奖时间
-    private Long GameId; //游戏Id （百家乐）
-    private String GameName;
-    private Long GameHallId; //游戏厅别Id
-    private String GameHallName;
-    private Long GamePlatformId; //游戏厂商Id
-    private String GamePlatformName;
-    private Long ProduceTime;
+    @JSONField(name = "ReqId")
+    private Long reqId;
+    @JSONField(name = "BillId")
+    private Long billId; //彩金编号
+    @JSONField(name = "UserId")
+    private Long userId; //中奖UserId
+    @JSONField(name = "AgentId")
+    private Long agentId;
+    @JSONField(name = "OwnerId")
+    private Long ownerId;
+    @JSONField(name = "JpType")
+    private String jpType; //彩金类型  //todo 确定类型
+    @JSONField(name = "JpAmount")
+    private Long jpAmount; //彩金金额
+    @JSONField(name = "CreateTime")
+    private Long createTime; //中奖时间
+    @JSONField(name = "GameId")
+    private Long gameId; //游戏Id （百家乐）
+    @JSONField(name = "GameName")
+    private String gameName;
+    @JSONField(name = "GameHallId")
+    private Long gameHallId; //游戏厅别Id
+    @JSONField(name = "GameHallName")
+    private String gameHallName;
+    @JSONField(name = "GamePlatformId")
+    private Long gamePlatformId; //游戏厂商Id
+    @JSONField(name = "GamePlatformName")
+    private String gamePlatformName;
+    @JSONField(name = "ProduceTime")
+    private Long produceTime;
 
-    public Long getProduceTime() {
-        return ProduceTime;
-    }
-
-    public void setProduceTime(Long produceTime) {
-        ProduceTime = produceTime;
-    }
     public Long getBillId() {
-        return BillId;
+        return billId;
     }
 
     public void setBillId(Long billId) {
-        BillId = billId;
+        this.billId = billId;
     }
 
     public Long getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(Long userId) {
-        UserId = userId;
+        this.userId = userId;
     }
 
     public Long getAgentId() {
-        return AgentId;
+        return agentId;
     }
 
     public void setAgentId(Long agentId) {
-        AgentId = agentId;
+        this.agentId = agentId;
     }
 
     public Long getOwnerId() {
-        return OwnerId;
+        return ownerId;
     }
 
     public void setOwnerId(Long ownerId) {
-        OwnerId = ownerId;
+        this.ownerId = ownerId;
     }
 
     public String getJpType() {
-        return JpType;
+        return jpType;
     }
 
     public void setJpType(String jpType) {
-        JpType = jpType;
+        this.jpType = jpType;
     }
 
     public Long getJpAmount() {
-        return JpAmount;
+        return jpAmount;
     }
 
     public void setJpAmount(Long jpAmount) {
-        JpAmount = jpAmount;
+        this.jpAmount = jpAmount;
     }
 
     public Long getCreateTime() {
-        return CreateTime;
+        return createTime;
     }
 
     public void setCreateTime(Long createTime) {
-        CreateTime = createTime;
+        this.createTime = createTime;
     }
 
     public Long getGameId() {
-        return GameId;
+        return gameId;
     }
 
     public void setGameId(Long gameId) {
-        GameId = gameId;
+        this.gameId = gameId;
     }
 
     public String getGameName() {
-        return GameName;
+        return gameName;
     }
 
     public void setGameName(String gameName) {
-        GameName = gameName;
+        this.gameName = gameName;
     }
 
     public Long getGameHallId() {
-        return GameHallId;
+        return gameHallId;
     }
 
     public void setGameHallId(Long gameHallId) {
-        GameHallId = gameHallId;
+        this.gameHallId = gameHallId;
     }
 
     public String getGameHallName() {
-        return GameHallName;
+        return gameHallName;
     }
 
     public void setGameHallName(String gameHallName) {
-        GameHallName = gameHallName;
+        this.gameHallName = gameHallName;
     }
 
     public Long getGamePlatformId() {
-        return GamePlatformId;
+        return gamePlatformId;
     }
 
     public void setGamePlatformId(Long gamePlatformId) {
-        GamePlatformId = gamePlatformId;
+        this.gamePlatformId = gamePlatformId;
     }
 
     public String getGamePlatformName() {
-        return GamePlatformName;
+        return gamePlatformName;
     }
 
     public void setGamePlatformName(String gamePlatformName) {
-        GamePlatformName = gamePlatformName;
+        this.gamePlatformName = gamePlatformName;
+    }
+
+    public Long getProduceTime() {
+        return produceTime;
+    }
+
+    public void setProduceTime(Long produceTime) {
+        this.produceTime = produceTime;
+    }
+
+    public Long getReqId() {
+        return reqId;
+    }
+
+    public void setReqId(Long reqId) {
+        this.reqId = reqId;
     }
 }

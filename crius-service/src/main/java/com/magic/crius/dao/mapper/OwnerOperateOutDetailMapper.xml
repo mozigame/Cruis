@@ -20,6 +20,24 @@
           #{pdate,jdbcType=INTEGER})
      </insert>
 
+    <!--批量添加-->
+    <insert id="batchInsert">
+        insert into owner_operate_out_detail (Id, owner_id, operate_out_money_count,
+        operate_out_num, operate_out_type, operate_out_type_name,
+        pdate)
+        values
+        <foreach collection="list" item="param" separator=",">
+          ( #{param.ownerId,jdbcType=BIGINT},
+            #{param.operateOutMoneyCount,jdbcType=BIGINT},
+            #{param.operateOutNum,jdbcType=INTEGER},
+            #{param.operateOutType,jdbcType=INTEGER},
+            #{param.operateOutTypeName,jdbcType=VARCHAR},
+            #{param.pdate,jdbcType=INTEGER})
+        </foreach>
+
+    </insert>
+
+
     <!--追加数量-->
     <update id="updateSummary" parameterType="com.magic.crius.po.OwnerOperateOutDetail">
         update owner_operate_out_detail
@@ -31,11 +49,15 @@
             AND pdate = #{pdate,jdbcType=INTEGER}
      </update>
 
-    <!--检查是否存在数据-->
+    <!--根据多个业主ID获取数据-->
     <select id="checkExist" resultType="java.lang.Integer">
-      SELECT count(id) from owner_operate_out_detail
-        where owner_id = #{ownerId,jdbcType=BIGINT}
-            AND operate_out_type = #{operateOutType,jdbcType=INTEGER}
-            AND pdate = #{pdate,jdbcType=INTEGER}
+        select owner_id,operate_out_type from owner_operate_out_detail
+        WHERE pdate = #{pdate,jdbcType=INTEGER}
+        AND owner_id IN
+        <foreach collection="list" item="ownerId" separator="," open="(" close=")">
+            #{ownerId,jdbcType=BIGINT}
+        </foreach>
     </select>
+
+
 </mapper>

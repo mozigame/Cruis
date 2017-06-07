@@ -1,7 +1,11 @@
 package com.magic.crius.dao.db;
 
+import com.magic.crius.po.OwnerOperateFlowSummmary;
 import com.magic.crius.po.OwnerOperateOutDetail;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 人工出款详情
@@ -9,19 +13,10 @@ import org.apache.ibatis.annotations.Param;
 public interface OwnerOperateOutDetailMapper {
 
     /**
-     * @param record
+     * @param summmary
      * @return
      */
-    int insert(OwnerOperateOutDetail record);
-
-    /**
-     * 判断是否存在数据
-     * @param ownerId
-     * @param operateOutType
-     * @param pdate
-     * @return
-     */
-    int checkExist(@Param("ownerId") Long ownerId, @Param("operateOutType") Integer operateOutType, @Param("pdate") Integer pdate);
+    int insert(OwnerOperateOutDetail summmary);
 
     /**
      * 修改
@@ -29,4 +24,18 @@ public interface OwnerOperateOutDetailMapper {
      * @return
      */
     int updateSummary(OwnerOperateOutDetail summmary);
+
+    /**
+     * 批量添加
+     * @param summmaries
+     * @return
+     */
+    int batchInsert(@Param("list") Collection<OwnerOperateOutDetail> summmaries);
+
+
+    /**
+     * 查询当天内多个业主下的数据
+     * @return
+     */
+    List<OwnerOperateOutDetail> findByOwnerIds(@Param("list") Collection<Long> ownerIds, @Param("pdate") Integer pdate);
 }

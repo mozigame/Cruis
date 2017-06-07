@@ -7,6 +7,7 @@ import com.magic.api.commons.utils.StringUtils;
 import com.magic.crius.constants.RedisConstants;
 import com.magic.crius.storage.redis.OperateChargeReqRedisService;
 import com.magic.crius.vo.OperateChargeReq;
+import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
@@ -19,6 +20,7 @@ import java.util.List;
  * Date: 2017/6/2
  * Time: 18:27
  */
+@Service
 public class OperateChargeReqRedisServiceImpl implements OperateChargeReqRedisService {
 
     @Resource(name = "criusJedisFactory")

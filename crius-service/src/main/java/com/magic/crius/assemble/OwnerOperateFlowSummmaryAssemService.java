@@ -3,6 +3,7 @@ package com.magic.crius.assemble;
 import com.magic.crius.po.OwnerOperateFlowSummmary;
 
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * User: joey
@@ -16,5 +17,5 @@ public interface OwnerOperateFlowSummmaryAssemService {
      * 批量添加人工入款汇总
      * @param ownerOnlineFlowSummmaries
      */
-    void batchSave(Collection<OwnerOperateFlowSummmary> ownerOnlineFlowSummmaries);
+    void batchSave(Map<String, OwnerOperateFlowSummmary> ownerOnlineFlowSummmaries);
 }

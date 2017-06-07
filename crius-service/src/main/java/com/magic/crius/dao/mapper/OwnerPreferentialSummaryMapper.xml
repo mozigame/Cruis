@@ -21,6 +21,23 @@
           #{pdate,jdbcType=INTEGER})
     </insert>
 
+    <!--批量添加-->
+    <insert id="batchInsert" parameterType="com.magic.crius.po.OwnerPreferentialSummary">
+        insert into owner_preferential_summary ( owner_id, preferential_money_count,
+        preferential_num, preferential_type, preferential_type_name,
+        pdate)
+        values
+        <foreach collection="list" item="param" separator=",">
+          ( #{param.ownerId,jdbcType=BIGINT},
+            #{param.preferentialMoneyCount,jdbcType=BIGINT},
+            #{param.preferentialNum,jdbcType=INTEGER},
+            #{param.preferentialType,jdbcType=INTEGER},
+            #{param.preferentialTypeName,jdbcType=VARCHAR},
+            #{param.pdate,jdbcType=INTEGER})
+        </foreach>
+
+    </insert>
+
     <!--追加数量-->
     <update id="updateSummary" parameterType="com.magic.crius.po.OwnerPreferentialSummary">
         update owner_preferential_summary
@@ -32,11 +49,13 @@
           AND pdate = #{pdate,jdbcType=INTEGER}
     </update>
 
-    <!--检查是否存在-->
-    <select id="checkExist" resultType="java.lang.Integer">
-        SELECT count(id) FROM owner_preferential_summary
-        WHERE owner_id = #{ownerId,jdbcType=BIGINT}
-          AND preferential_type = #{preferentialType,jdbcType=INTEGER}
-          AND pdate = #{pdate,jdbcType=INTEGER}
+    <!--查询多个业主的数据-->
+    <select id="findByOwnerIds" resultMap="BaseResultMap">
+        SELECT owner_id,preferential_type FROM owner_preferential_summary
+        WHERE pdate = #{pdate,jdbcType=INTEGER}
+          AND owner_id IN
+          <foreach collection="list" item="ownerId" separator="," open="(" close=")">
+              #{ownerId,jdbcType=BIGINT}
+          </foreach>
     </select>
 </mapper>

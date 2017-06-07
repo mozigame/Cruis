@@ -6,7 +6,7 @@ import com.magic.crius.service.OwnerPreferentialSummaryService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Collection;
+import java.util.*;
 
 /**
  * User: joey
@@ -20,17 +20,29 @@ public class OwnerPreferentialSummaryAssemServiceImpl implements OwnerPreferenti
     private OwnerPreferentialSummaryService ownerPreferentialSummaryService;
 
     @Override
-    public void batchSave(Collection<OwnerPreferentialSummary> ownerPreferentialSummaries) {
-        for (OwnerPreferentialSummary summmary : ownerPreferentialSummaries) {
-            if (!ownerPreferentialSummaryService.checkExist(summmary.getOwnerId(), summmary.getPreferentialType(), summmary.getPdate())) {
-                if (!ownerPreferentialSummaryService.save(summmary)) {
-                    //TODO
-                }
+    public void batchSave(Map<String, OwnerPreferentialSummary> ownerPreferentialSummaries) {
+
+        Set<Long> ownerIds = new HashSet<>();
+        for (OwnerPreferentialSummary summmary : ownerPreferentialSummaries.values()) {
+            ownerIds.add(summmary.getOwnerId());
+        }
+        int pdate = ownerPreferentialSummaries.values().iterator().next().getPdate();
+        List<OwnerPreferentialSummary> flowSummmaries = ownerPreferentialSummaryService.findByOwnerIds(ownerIds, pdate);
+        List<OwnerPreferentialSummary> saves = new ArrayList<>();
+        List<OwnerPreferentialSummary> updates = new ArrayList<>();
+
+        Set<String> keys = ownerPreferentialSummaries.keySet();
+        for (OwnerPreferentialSummary summmary : flowSummmaries) {
+            if (!keys.contains(summmary.getOwnerId() + "_" + summmary.getPreferentialType())) {
+                saves.add(summmary);
             } else {
-                if (!ownerPreferentialSummaryService.updateSummary(summmary)) {
-                    //TODO
-                }
+                updates.add(summmary);
             }
+        }
+        //todo 错误处理
+        boolean saveResult = ownerPreferentialSummaryService.batchInsert(saves);
+        for (OwnerPreferentialSummary summmary : updates) {
+            ownerPreferentialSummaryService.updateSummary(summmary);
         }
     }
 }

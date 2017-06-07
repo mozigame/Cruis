@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * User: joey
@@ -19,18 +21,26 @@ public class OwnerOperateFlowSummmaryDbServiceImpl implements OwnerOperateFlowSu
     @Resource
     private OwnerOperateFlowSummmaryMapper ownerOperateFlowSummmaryMapper;
 
+
     @Override
-    public boolean save(OwnerOperateFlowSummmary record) {
-        return ownerOperateFlowSummmaryMapper.insert(record) > 0;
+    public boolean insert(OwnerOperateFlowSummmary summmary) {
+        return ownerOperateFlowSummmaryMapper.insert(summmary) > 0;
     }
 
     @Override
-    public boolean checkExist(Long ownerId, Integer operateFlowType, Integer pdate) {
-        return ownerOperateFlowSummmaryMapper.checkExist(ownerId, operateFlowType, pdate) > 0;
+    public boolean batchInsert(Collection<OwnerOperateFlowSummmary> summmaries) {
+        return ownerOperateFlowSummmaryMapper.batchInsert(summmaries) > 0;
     }
 
     @Override
     public boolean updateSummary(OwnerOperateFlowSummmary summmary) {
         return ownerOperateFlowSummmaryMapper.updateSummary(summmary) > 0;
     }
+
+    @Override
+    public List<OwnerOperateFlowSummmary> findByOwnerIds(Collection<Long> ownerIds, Integer pdate) {
+        return ownerOperateFlowSummmaryMapper.findByOwnerIds(ownerIds, pdate);
+    }
 }
+
+

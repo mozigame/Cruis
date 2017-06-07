@@ -26,12 +26,34 @@
       #{pdate,jdbcType=INTEGER})
   </insert>
 
-    <!--检查当天数据是否存在-->
-    <select id="checkExist" resultType="java.lang.Integer">
-        select count(id) from owner_online_flow_summmary
-        WHERE owner_id = #{ownerId,jdbcType=BIGINT}
-        AND merchant_code = #{merchantCode,jdbcType=BIGINT}
-        and pdate = #{pdate,jdbcType=INTEGER}
+    <!--批量添加-->
+    <insert id="batchInsert" parameterType="com.magic.crius.po.OwnerOnlineFlowSummmary">
+        insert into owner_online_flow_summmary (owner_id, operate_flow_money_count,
+        operate_flow_num, merchant_code, merchant_name,
+        pay_system_code, pay_system_name, state,
+        pdate)
+        values
+        <foreach collection="list" item="param" separator=",">
+          ( #{param.ownerId,jdbcType=BIGINT},
+            #{param.operateFlowMoneyCount,jdbcType=BIGINT},
+            #{param.operateFlowNum,jdbcType=INTEGER},
+            #{param.merchantCode,jdbcType=BIGINT},
+            #{param.merchantName,jdbcType=VARCHAR},
+            #{param.paySystemCode,jdbcType=INTEGER},
+            #{param.paySystemName,jdbcType=VARCHAR},
+            #{param.state,jdbcType=INTEGER},
+            #{param.pdate,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+
+    <!--获取多个业主的数据-->
+    <select id="findByOwnerIds" resultMap="BaseResultMap">
+        select owner_id,merchant_code from owner_online_flow_summmary
+        WHERE pdate = #{pdate,jdbcType=INTEGER}
+        AND owner_id IN
+        <foreach collection="list" item="ownerId" separator="," open="(" close=")">
+            #{ownerId,jdbcType=BIGINT}
+        </foreach>
     </select>
 
     <!--追加金额和数量-->

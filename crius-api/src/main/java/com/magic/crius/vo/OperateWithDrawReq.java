@@ -1,5 +1,7 @@
 package com.magic.crius.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * User: joey
  * Date: 2017/5/29
@@ -8,96 +10,114 @@ package com.magic.crius.vo;
  */
 public class OperateWithDrawReq {
 
-    private Long ReqId;
-    private Long UserIds[];
-    private Long Amount;
-    private String Currency;
-    private Integer Rate;
-    private Long HandlerId;
-    private String HandlerName;
-    //提现类型
-    private Integer WithdrawType;
-    //备注
-    private String Remark;
-    private Long ProduceTime;
-
-    public Long getProduceTime() {
-        return ProduceTime;
-    }
-
-    public void setProduceTime(Long produceTime) {
-        ProduceTime = produceTime;
-    }
+    @JSONField(name = "ReqId")
+    private Long reqId;
+    @JSONField(name = "OwnerId")
+    private Long ownerId;
+    @JSONField(name = "UserIds")
+    private Long userIds[];
+    @JSONField(name = "Amount")
+    private Long amount;
+    @JSONField(name = "Currency")
+    private String currency;
+    @JSONField(name = "Rate")
+    private Integer rate;
+    @JSONField(name = "HandlerId")
+    private Long handlerId;
+    @JSONField(name = "HandlerName")
+    private String handlerName;
+    @JSONField(name = "WithdrawType")
+    private Integer withdrawType;   //提现类型
+    @JSONField(name = "Remark")
+    private String remark;  //备注
+    @JSONField(name = "ProduceTime")
+    private Long produceTime;
 
     public Long getReqId() {
-        return ReqId;
+        return reqId;
     }
 
     public void setReqId(Long reqId) {
-        ReqId = reqId;
+        this.reqId = reqId;
     }
 
     public Long[] getUserIds() {
-        return UserIds;
+        return userIds;
     }
 
     public void setUserIds(Long[] userIds) {
-        UserIds = userIds;
+        this.userIds = userIds;
     }
 
     public Long getAmount() {
-        return Amount;
+        return amount;
     }
 
     public void setAmount(Long amount) {
-        Amount = amount;
+        this.amount = amount;
     }
 
     public String getCurrency() {
-        return Currency;
+        return currency;
     }
 
     public void setCurrency(String currency) {
-        Currency = currency;
+        this.currency = currency;
     }
 
     public Integer getRate() {
-        return Rate;
+        return rate;
     }
 
     public void setRate(Integer rate) {
-        Rate = rate;
+        this.rate = rate;
     }
 
     public Long getHandlerId() {
-        return HandlerId;
+        return handlerId;
     }
 
     public void setHandlerId(Long handlerId) {
-        HandlerId = handlerId;
+        this.handlerId = handlerId;
     }
 
     public String getHandlerName() {
-        return HandlerName;
+        return handlerName;
     }
 
     public void setHandlerName(String handlerName) {
-        HandlerName = handlerName;
+        this.handlerName = handlerName;
     }
 
     public Integer getWithdrawType() {
-        return WithdrawType;
+        return withdrawType;
     }
 
     public void setWithdrawType(Integer withdrawType) {
-        WithdrawType = withdrawType;
+        this.withdrawType = withdrawType;
     }
 
     public String getRemark() {
-        return Remark;
+        return remark;
     }
 
     public void setRemark(String remark) {
-        Remark = remark;
+        this.remark = remark;
+    }
+
+    public Long getProduceTime() {
+        return produceTime;
+    }
+
+    public void setProduceTime(Long produceTime) {
+        this.produceTime = produceTime;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
     }
 }

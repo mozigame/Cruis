@@ -2,29 +2,36 @@ package com.magic.crius.service;
 
 import com.magic.crius.po.OwnerCompanyFlowSummmary;
 
-public interface OwnerCompanyFlowSummmaryService {
+import java.util.Collection;
+import java.util.List;
 
+public interface OwnerCompanyFlowSummmaryService {
     /**
      * 添加
-     * @param flowSummmary
+     * @param summmary
      * @return
      */
-    boolean save(OwnerCompanyFlowSummmary flowSummmary);
+    boolean insert(OwnerCompanyFlowSummmary summmary);
+
+    /**
+     * 批量添加
+     * @param summmaries
+     * @return
+     */
+    boolean batchInsert(Collection<OwnerCompanyFlowSummmary> summmaries);
+
 
     /**
      * 修改
-     * @param flowSummmary
+     * @param summmary
      * @return
      */
-    boolean updateSummary(OwnerCompanyFlowSummmary flowSummmary);
+    boolean updateSummary(OwnerCompanyFlowSummmary summmary);
 
     /**
-     * 判断是否存在数据
-     * @param ownerId
-     * @param accountNum
-     * @param pdate
+     * 查询当天内多个业主下的数据
      * @return
      */
-    boolean checkExist(Long ownerId, Long accountNum, Integer pdate);
+    List<OwnerCompanyFlowSummmary> findByOwnerIds(Collection<Long> ownerIds, Integer pdate);
 
 }

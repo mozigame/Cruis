@@ -16,5 +16,5 @@ public interface OwnerCompanyFlowSummmaryAssemService {
      * 批量添加公司入款明细
      * @param ownerCompanyFlowSummmaries
      */
-    void batchSave(Collection<OwnerCompanyFlowSummmary> ownerCompanyFlowSummmaries);
+    void batchSave(Map<String, OwnerCompanyFlowSummmary> ownerCompanyFlowSummmaries);
 }

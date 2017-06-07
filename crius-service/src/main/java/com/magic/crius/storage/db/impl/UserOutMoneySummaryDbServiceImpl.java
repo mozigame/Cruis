@@ -1,12 +1,13 @@
 package com.magic.crius.storage.db.impl;
 
 import com.magic.crius.dao.db.UserOutMoneySummaryMapper;
-import com.magic.crius.po.OwnerOperateFlowSummmary;
 import com.magic.crius.po.UserOutMoneySummary;
 import com.magic.crius.storage.db.UserOutMoneySummaryDbService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * User: joey
@@ -19,18 +20,24 @@ public class UserOutMoneySummaryDbServiceImpl implements UserOutMoneySummaryDbSe
     @Resource
     private UserOutMoneySummaryMapper userOutMoneySummaryMapper;
 
+
     @Override
-    public boolean save(UserOutMoneySummary record) {
-        return userOutMoneySummaryMapper.insert(record) > 0;
+    public boolean insert(UserOutMoneySummary summmary) {
+        return userOutMoneySummaryMapper.insert(summmary) > 0;
     }
 
     @Override
-    public boolean checkExist(Long ownerId, Long userId, Integer pdate) {
-        return userOutMoneySummaryMapper.checkExist(ownerId, userId, pdate) > 0;
+    public boolean batchInsert(Collection<UserOutMoneySummary> summmaries) {
+        return userOutMoneySummaryMapper.batchInsert(summmaries) > 0;
     }
 
     @Override
     public boolean updateSummary(UserOutMoneySummary summmary) {
         return userOutMoneySummaryMapper.updateSummary(summmary) > 0;
+    }
+
+    @Override
+    public List<UserOutMoneySummary> findByOwnerIds(Collection<Long> userIds, Integer pdate) {
+        return userOutMoneySummaryMapper.findByUserIds(userIds, pdate);
     }
 }

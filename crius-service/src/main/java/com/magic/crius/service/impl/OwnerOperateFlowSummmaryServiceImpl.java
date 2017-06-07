@@ -6,6 +6,8 @@ import com.magic.crius.storage.db.OwnerOperateFlowSummmaryDbService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * User: joey
@@ -18,18 +20,24 @@ public class OwnerOperateFlowSummmaryServiceImpl implements OwnerOperateFlowSumm
     @Resource
     private OwnerOperateFlowSummmaryDbService ownerOperateFlowSummmaryDbService;
 
+
     @Override
-    public boolean save(OwnerOperateFlowSummmary record) {
-        return ownerOperateFlowSummmaryDbService.save(record);
+    public boolean insert(OwnerOperateFlowSummmary summmary) {
+        return ownerOperateFlowSummmaryDbService.insert(summmary);
     }
 
     @Override
-    public boolean checkExist(Long ownerId, Integer operateFlowType, Integer pdate) {
-        return ownerOperateFlowSummmaryDbService.checkExist(ownerId, operateFlowType, pdate);
+    public boolean batchInsert(Collection<OwnerOperateFlowSummmary> summmaries) {
+        return ownerOperateFlowSummmaryDbService.batchInsert(summmaries);
     }
 
     @Override
     public boolean updateSummary(OwnerOperateFlowSummmary summmary) {
         return ownerOperateFlowSummmaryDbService.updateSummary(summmary);
+    }
+
+    @Override
+    public List<OwnerOperateFlowSummmary> findByOwnerIds(Collection<Long> ownerIds, Integer pdate) {
+        return ownerOperateFlowSummmaryDbService.findByOwnerIds(ownerIds, pdate);
     }
 }

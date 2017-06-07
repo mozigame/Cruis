@@ -1,35 +1,47 @@
 package com.magic.crius.dao.db;
 
+import com.magic.crius.po.OwnerCompanyAccountSummmary;
 import com.magic.crius.po.OwnerCompanyFlowSummmary;
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-@Repository
-@Transactional
+import java.util.Collection;
+import java.util.List;
+
+/**
+ * 公司入款明细
+ */
+@Component
 public interface OwnerCompanyFlowSummmaryMapper {
 
     /**
      * 添加
-     * @param flowSummmary
+     * @param summmary
      * @return
      */
-    int insert(OwnerCompanyFlowSummmary flowSummmary);
+    int insert(OwnerCompanyFlowSummmary summmary);
+
+    /**
+     * 批量添加
+     * @param summmaries
+     * @return
+     */
+    int batchInsert(@Param("list") Collection<OwnerCompanyFlowSummmary> summmaries);
+
 
     /**
      * 修改
-     * @param flowSummmary
+     * @param summmary
      * @return
      */
-    int updateSummary(OwnerCompanyFlowSummmary flowSummmary);
+    int updateSummary(OwnerCompanyFlowSummmary summmary);
 
     /**
-     * 判断是否存在数据
-     * @param ownerId
-     * @param accountNum
-     * @param pdate
+     * 查询当天内多个业主下的数据
      * @return
      */
-    int checkExist(@Param("ownerId") Long ownerId, @Param("accountNum") Long accountNum, @Param("pdate") Integer pdate);
+    List<OwnerCompanyFlowSummmary> findByOwnerIds(@Param("list") Collection<Long> ownerIds, @Param("pdate") Integer pdate);
 }

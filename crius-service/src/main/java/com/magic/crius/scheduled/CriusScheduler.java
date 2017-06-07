@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
+import com.magic.crius.assemble.*;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -12,7 +13,6 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import com.magic.api.commons.tools.DateUtil;
-import com.magic.crius.assemble.PreCmpChargeReqAssemService;
 import com.magic.crius.consumer.OperateWithDrawReqConsumer;
 
 /**
@@ -28,12 +28,31 @@ public class CriusScheduler {
 
     @Resource
     private PreCmpChargeReqAssemService preCmpChargeAssemService;
-    
     @Resource
-    private OperateWithDrawReqConsumer operateWithDrawReqConsumer;
+    private PreCmpChargeReqAssemService preCmpChargeAssembleService;
+    @Resource
+    private OnlChargeReqAssemService onlChargeAssemService;
+    @Resource
+    private OperateChargeReqAssemService operateChargeAssemService;
+    @Resource
+    private DiscountReqAssemService discountReqAssemService;
+    @Resource
+    private PreWithdrawReqAssemService preWithdrawReqAssemService;
+    @Resource
+    private OperateWithDrawReqAssemService operateWithDrawReqAssemService;
+    @Resource
+    private OperateChargeReqAssemService operateChargeReqAssemService;
+    @Resource
+    private CashbackReqAssemService cashbackReqAssemService;
+    @Resource
+    private JpReqAssemService jpReqAssemService;
+    @Resource
+    private DealerRewardReqAssemService dealerRewardReqAssemService;
+
+
 
     @Resource
-    private KafkaTemplate<Integer, String> template;
+    private KafkaTemplate<Integer, String> kafkaTemplate;
 
     /**
      *
@@ -48,10 +67,7 @@ public class CriusScheduler {
     
     @Scheduled(fixedRate = fixRate)
     public void consumerUserOutMoney() {
-        //人工
-        //preCmpChargeAssemService.convertData(new Date());
-    	operateWithDrawReqConsumer.init();
-
+        preCmpChargeAssemService.convertData(new Date());
     }
     
     
@@ -59,7 +75,7 @@ public class CriusScheduler {
 //    @Scheduled(fixedRate = 1000 * 10)
     public void sendKafkaMessage() {
 
-        ListenableFuture<SendResult<Integer, String>> future = template.send("cruis_capital", DateUtil.formatDateTime(new Date(), DateUtil.formatDefaultTimestamp));
+        ListenableFuture<SendResult<Integer, String>> future = kafkaTemplate.send("cruis_capital", DateUtil.formatDateTime(new Date(), DateUtil.formatDefaultTimestamp));
         future.addCallback(new ListenableFutureCallback<SendResult<Integer, String>>() {
 
             @Override

@@ -2,23 +2,22 @@ package com.magic.crius.dao.db;
 
 import com.magic.crius.po.UserOutMoneySummary;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 
+import java.util.Collection;
+import java.util.List;
+
+/**
+ * 会员出款明细
+ */
+@Component
 public interface UserOutMoneySummaryMapper {
-    /**
-     * 添加会员出款汇总
-     * @param record
-     * @return
-     */
-    int insert(UserOutMoneySummary record);
 
     /**
-     * 判断是否存在数据
-     * @param ownerId
-     * @param userId
-     * @param pdate
+     * @param summmary
      * @return
      */
-    int checkExist(@Param("ownerId") Long ownerId, @Param("userId") Long userId, @Param("pdate") Integer pdate);
+    int insert(UserOutMoneySummary summmary);
 
     /**
      * 修改
@@ -26,4 +25,16 @@ public interface UserOutMoneySummaryMapper {
      * @return
      */
     int updateSummary(UserOutMoneySummary summmary);
+
+    /**
+     * 批量添加
+     * @param summmaries
+     * @return
+     */
+    int batchInsert(@Param("list") Collection<UserOutMoneySummary> summmaries);
+
+    /**
+     * @return
+     */
+    List<UserOutMoneySummary> findByUserIds(@Param("list") Collection<Long> userIds, @Param("pdate") Integer pdate);
 }

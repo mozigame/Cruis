@@ -6,6 +6,8 @@ import com.magic.crius.storage.db.OwnerOnlineFlowSummmaryDbService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * User: joey
@@ -20,8 +22,13 @@ public class OwnerOnlineFlowSummmaryDbServiceImpl implements OwnerOnlineFlowSumm
     private OwnerOnlineFlowSummmaryMapper ownerOnlineFlowSummmaryMapper;
 
     @Override
-    public boolean save(OwnerOnlineFlowSummmary summmary) {
+    public boolean insert(OwnerOnlineFlowSummmary summmary) {
         return ownerOnlineFlowSummmaryMapper.insert(summmary) > 0;
+    }
+
+    @Override
+    public boolean batchInsert(Collection<OwnerOnlineFlowSummmary> summmaries) {
+        return ownerOnlineFlowSummmaryMapper.batchInsert(summmaries) > 0;
     }
 
     @Override
@@ -30,7 +37,7 @@ public class OwnerOnlineFlowSummmaryDbServiceImpl implements OwnerOnlineFlowSumm
     }
 
     @Override
-    public boolean checkExist(Long ownerId, Long merchantCode, Integer pdate) {
-        return ownerOnlineFlowSummmaryMapper.checkExist(ownerId, merchantCode, pdate) > 0;
+    public List<OwnerOnlineFlowSummmary> findByOwnerIds(Collection<Long> ownerIds, Integer pdate) {
+        return ownerOnlineFlowSummmaryMapper.findByOwnerIds(ownerIds, pdate);
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * User: joey
@@ -19,18 +21,24 @@ public class OwnerCompanyAccountSummmaryDbServiceImpl implements OwnerCompanyAcc
     @Autowired
     private OwnerCompanyAccountSummmaryMapper ownerCompanyAccountSummmaryMapper;
 
+
     @Override
-    public boolean save(OwnerCompanyAccountSummmary accountSummmary) {
-        return ownerCompanyAccountSummmaryMapper.insert(accountSummmary) > 0;
+    public boolean insert(OwnerCompanyAccountSummmary flowSummmary) {
+        return ownerCompanyAccountSummmaryMapper.insert(flowSummmary) > 0;
     }
 
     @Override
-    public boolean updateSummary(OwnerCompanyAccountSummmary accountSummmary) {
-        return ownerCompanyAccountSummmaryMapper.updateSummary(accountSummmary);
+    public boolean batchInsert(Collection<OwnerCompanyAccountSummmary> flowSummmaries) {
+        return ownerCompanyAccountSummmaryMapper.batchInsert(flowSummmaries) > 0;
     }
 
     @Override
-    public boolean checkExist(Long ownerId, Integer summaryType, Integer pdate) {
-        return ownerCompanyAccountSummmaryMapper.checkExist(ownerId, summaryType, pdate) > 0;
+    public boolean updateSummary(OwnerCompanyAccountSummmary flowSummmary) {
+        return ownerCompanyAccountSummmaryMapper.updateSummary(flowSummmary) > 0;
+    }
+
+    @Override
+    public List<OwnerCompanyAccountSummmary> findByOwnerIds(Collection<Long> ownerIds, Integer pdate) {
+        return ownerCompanyAccountSummmaryMapper.findByOwnerIds(ownerIds, pdate);
     }
 }

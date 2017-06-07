@@ -21,6 +21,35 @@
       #{pdate,jdbcType=INTEGER})
   </insert>
 
+
+  <!--批量添加-->
+  <insert id="batchInsert">
+    insert into owner_operate_flow_summary (owner_id, operate_flow_money_count,
+    operate_flow_num, operate_flow_type, operate_flow_type_name,
+    pdate)
+    values
+    <foreach collection="list" item="param" separator=",">
+      (#{param.ownerId,jdbcType=BIGINT},
+      #{param.operateFlowMoneyCount,jdbcType=BIGINT},
+      #{param.operateFlowNum,jdbcType=INTEGER},
+      #{param.operateFlowType,jdbcType=INTEGER},
+      #{param.operateFlowTypeName,jdbcType=VARCHAR},
+      #{param.pdate,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+
+
+
+  <!--获取多个业主的数据-->
+  <select id="findByOwnerIds" resultMap="BaseResultMap">
+    select owner_id,operate_flow_type from owner_operate_flow_summary
+    WHERE pdate = #{pdate,jdbcType=INTEGER}
+    AND owner_id IN
+    <foreach collection="list" item="ownerId" separator="," open="(" close=")">
+      #{ownerId,jdbcType=BIGINT}
+    </foreach>
+  </select>
+
   <!--追加金额和数量-->
   <update id="updateSummary" parameterType="com.magic.crius.po.OwnerOperateFlowSummmary">
     update owner_operate_flow_summary
@@ -32,11 +61,5 @@
     AND pdate = #{pdate,jdbcType=INTEGER}
   </update>
 
-  <!--检查是否存在-->
-  <select id="checkExist" resultType="java.lang.Integer">
-    SELECT count(id) from owner_operate_flow_summary
-    WHERE owner_id = #{ownerId,jdbcType=BIGINT}
-    AND operate_flow_type = #{operateFlowType,jdbcType=INTEGER}
-    AND pdate = #{pdate,jdbcType=INTEGER}
-  </select>
+
 </mapper>

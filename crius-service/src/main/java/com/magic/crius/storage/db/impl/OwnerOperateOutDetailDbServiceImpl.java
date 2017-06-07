@@ -6,6 +6,8 @@ import com.magic.crius.storage.db.OwnerOperateOutDetailDbService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * User: joey
@@ -19,18 +21,24 @@ public class OwnerOperateOutDetailDbServiceImpl implements OwnerOperateOutDetail
     @Resource
     private OwnerOperateOutDetailMapper ownerOperateOutDetailMapper;
 
+
     @Override
-    public boolean save(OwnerOperateOutDetail detail) {
-        return ownerOperateOutDetailMapper.insert(detail) > 0;
+    public boolean insert(OwnerOperateOutDetail summmary) {
+        return ownerOperateOutDetailMapper.insert(summmary) > 0;
     }
 
     @Override
-    public boolean checkExist(Long ownerId, Integer operateOutType, Integer pdate) {
-        return ownerOperateOutDetailMapper.checkExist(ownerId, operateOutType, pdate) > 0;
+    public boolean batchInsert(Collection<OwnerOperateOutDetail> summmaries) {
+        return ownerOperateOutDetailMapper.batchInsert(summmaries) > 0;
     }
 
     @Override
-    public boolean updateSummary(OwnerOperateOutDetail detail) {
-        return ownerOperateOutDetailMapper.updateSummary(detail) > 0;
+    public boolean updateSummary(OwnerOperateOutDetail summmary) {
+        return ownerOperateOutDetailMapper.updateSummary(summmary) > 0;
+    }
+
+    @Override
+    public List<OwnerOperateOutDetail> findByOwnerIds(Collection<Long> ownerIds, Integer pdate) {
+        return ownerOperateOutDetailMapper.findByOwnerIds(ownerIds, pdate);
     }
 }

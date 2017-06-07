@@ -5,7 +5,10 @@ import com.magic.crius.service.UserOutMoneySummaryService;
 import com.magic.crius.storage.db.UserOutMoneySummaryDbService;
 import org.springframework.stereotype.Service;
 
+
 import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * User: joey
@@ -18,9 +21,15 @@ public class UserOutMoneySummaryServiceImpl implements UserOutMoneySummaryServic
     @Resource
     private UserOutMoneySummaryDbService userOutMoneySummaryDbService;
 
+
     @Override
-    public boolean save(UserOutMoneySummary summmary) {
-        return userOutMoneySummaryDbService.save(summmary);
+    public boolean insert(UserOutMoneySummary summmary) {
+        return userOutMoneySummaryDbService.insert(summmary);
+    }
+
+    @Override
+    public boolean batchInsert(Collection<UserOutMoneySummary> summmaries) {
+        return userOutMoneySummaryDbService.batchInsert(summmaries);
     }
 
     @Override
@@ -29,7 +38,7 @@ public class UserOutMoneySummaryServiceImpl implements UserOutMoneySummaryServic
     }
 
     @Override
-    public boolean checkExist(Long ownerId, Long userId, Integer pdate) {
-        return userOutMoneySummaryDbService.checkExist(ownerId, userId, pdate);
+    public List<UserOutMoneySummary> findByOwnerIds(Collection<Long> userIds, Integer pdate) {
+        return userOutMoneySummaryDbService.findByOwnerIds(userIds, pdate);
     }
 }

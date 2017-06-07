@@ -26,7 +26,7 @@ public class CustomerProducerConfig {
     @Value("${kafka.broker.host}")
     private String broker_host;
 
-    @Bean
+    @Bean(name = "kafkaTemplate")
     public KafkaTemplate<Integer, String> kafkaTemplate() {
         return new KafkaTemplate<Integer, String>(producerFactory());
     }

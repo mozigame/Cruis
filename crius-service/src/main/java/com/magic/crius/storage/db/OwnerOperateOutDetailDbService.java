@@ -2,6 +2,9 @@ package com.magic.crius.storage.db;
 
 import com.magic.crius.po.OwnerOperateOutDetail;
 
+import java.util.Collection;
+import java.util.List;
+
 /**
  * User: joey
  * Date: 2017/6/5
@@ -9,26 +12,37 @@ import com.magic.crius.po.OwnerOperateOutDetail;
  * 人工出款详情
  */
 public interface OwnerOperateOutDetailDbService {
-    /**
-     * @param detail
-     * @return
-     */
-    boolean save(OwnerOperateOutDetail detail);
 
     /**
-     * 判断是否存在数据
-     * @param ownerId
-     * @param operateOutType
-     * @param pdate
+     * 添加
+     *
+     * @param summmary
      * @return
      */
-    boolean checkExist(Long ownerId, Integer operateOutType, Integer pdate);
+    boolean insert(OwnerOperateOutDetail summmary);
+
+    /**
+     * 批量添加
+     *
+     * @param summmaries
+     * @return
+     */
+    boolean batchInsert(Collection<OwnerOperateOutDetail> summmaries);
+
 
     /**
      * 修改
-     * @param detail
+     *
+     * @param summmary
      * @return
      */
-    boolean updateSummary(OwnerOperateOutDetail detail);
+    boolean updateSummary(OwnerOperateOutDetail summmary);
+
+    /**
+     * 查询当天内多个业主下的数据
+     *
+     * @return
+     */
+    List<OwnerOperateOutDetail> findByOwnerIds(Collection<Long> ownerIds, Integer pdate);
 
 }

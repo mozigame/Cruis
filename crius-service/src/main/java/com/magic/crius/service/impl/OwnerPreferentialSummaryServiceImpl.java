@@ -6,6 +6,8 @@ import com.magic.crius.storage.db.OwnerPreferentialSummaryDbService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * User: joey
@@ -18,18 +20,24 @@ public class OwnerPreferentialSummaryServiceImpl implements OwnerPreferentialSum
     @Resource
     private OwnerPreferentialSummaryDbService ownerPreferentialSummaryDbService;
 
+
     @Override
-    public boolean save(OwnerPreferentialSummary record) {
-        return ownerPreferentialSummaryDbService.save(record);
+    public boolean insert(OwnerPreferentialSummary summmary) {
+        return ownerPreferentialSummaryDbService.insert(summmary);
     }
 
     @Override
-    public boolean checkExist(Long ownerId, Integer preferentialType, Integer pdate) {
-        return ownerPreferentialSummaryDbService.checkExist(ownerId, preferentialType, pdate);
+    public boolean batchInsert(Collection<OwnerPreferentialSummary> summmaries) {
+        return ownerPreferentialSummaryDbService.batchInsert(summmaries);
     }
 
     @Override
     public boolean updateSummary(OwnerPreferentialSummary summmary) {
         return ownerPreferentialSummaryDbService.updateSummary(summmary);
+    }
+
+    @Override
+    public List<OwnerPreferentialSummary> findByOwnerIds(Collection<Long> ownerIds, Integer pdate) {
+        return ownerPreferentialSummaryDbService.findByOwnerIds(ownerIds, pdate);
     }
 }

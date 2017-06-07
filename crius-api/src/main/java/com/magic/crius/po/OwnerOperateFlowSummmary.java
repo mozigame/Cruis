@@ -12,7 +12,7 @@ public class OwnerOperateFlowSummmary {
 
     private Integer operateFlowNum; //入款次数
 
-    private Integer operateFlowType;    //入款类型
+    private Integer operateFlowType;    //入款类型  --条件
 
     private String operateFlowTypeName; //入款类型名称
 

@@ -1,8 +1,12 @@
 package com.magic.crius.dao.db;
 
+import com.magic.crius.po.OwnerOperateOutDetail;
 import com.magic.crius.po.OwnerPreferentialSummary;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 优惠汇总
@@ -11,20 +15,10 @@ import org.springframework.stereotype.Component;
 public interface OwnerPreferentialSummaryMapper {
 
     /**
-     * 添加优惠汇总
-     * @param summary
+     * @param summmary
      * @return
      */
-    int insert(OwnerPreferentialSummary summary);
-
-    /**
-     * 判断是否存在数据
-     * @param ownerId
-     * @param preferentialType
-     * @param pdate
-     * @return
-     */
-    int checkExist(@Param("ownerId") Long ownerId, @Param("preferentialType") Integer preferentialType, @Param("pdate") Integer pdate);
+    int insert(OwnerPreferentialSummary summmary);
 
     /**
      * 修改
@@ -32,4 +26,19 @@ public interface OwnerPreferentialSummaryMapper {
      * @return
      */
     int updateSummary(OwnerPreferentialSummary summmary);
+
+    /**
+     * 批量添加
+     * @param summmaries
+     * @return
+     */
+    int batchInsert(@Param("list") Collection<OwnerPreferentialSummary> summmaries);
+
+
+    /**
+     * 查询当天内多个业主下的数据
+     * @return
+     */
+    List<OwnerPreferentialSummary> findByOwnerIds(@Param("list") Collection<Long> ownerIds, @Param("pdate") Integer pdate);
+
 }

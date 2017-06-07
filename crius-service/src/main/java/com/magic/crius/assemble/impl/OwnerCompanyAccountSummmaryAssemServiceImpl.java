@@ -7,7 +7,7 @@ import com.magic.crius.service.OwnerCompanyAccountSummmaryService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Collection;
+import java.util.*;
 
 /**
  * User: joey
@@ -22,17 +22,24 @@ public class OwnerCompanyAccountSummmaryAssemServiceImpl implements OwnerCompany
     private OwnerCompanyAccountSummmaryService ownerCompanyAccountSummmaryService;
 
     @Override
-    public void batchSave(Collection<OwnerCompanyAccountSummmary> ownerCompanyAccountSummmaries) {
-        for (OwnerCompanyAccountSummmary accountSummmary: ownerCompanyAccountSummmaries) {
-            if (ownerCompanyAccountSummmaryService.checkExist(accountSummmary.getOwnerId(), accountSummmary.getSummaryType(), accountSummmary.getPdate())) {
-                if (!ownerCompanyAccountSummmaryService.updateSummary(accountSummmary)) {
-                    //TODO
-                }
+    public void batchSave(Map<Long, OwnerCompanyAccountSummmary> ownerCompanyAccountSummmaries) {
+        Set<Long> ownerIds = ownerCompanyAccountSummmaries.keySet();
+
+        int pdate = ownerCompanyAccountSummmaries.values().iterator().next().getPdate();
+        List<OwnerCompanyAccountSummmary> summmaries = ownerCompanyAccountSummmaryService.findByOwnerIds(ownerIds, pdate);
+        List<OwnerCompanyAccountSummmary> saves = new ArrayList<>();
+        List<OwnerCompanyAccountSummmary> updates = new ArrayList<>();
+        for (OwnerCompanyAccountSummmary summary : summmaries) {
+            if (!ownerIds.contains(summary.getOwnerId())) {
+                saves.add(summary);
             } else {
-                if (!ownerCompanyAccountSummmaryService.save(accountSummmary)) {
-                    //TODO
-                }
+                updates.add(summary);
             }
+        }
+        //todo 错误处理
+        boolean saveResult = ownerCompanyAccountSummmaryService.batchInsert(saves);
+        for (OwnerCompanyAccountSummmary summmary : updates) {
+            ownerCompanyAccountSummmaryService.updateSummary(summmary);
         }
     }
 }

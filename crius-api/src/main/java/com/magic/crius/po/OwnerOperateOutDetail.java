@@ -13,7 +13,7 @@ public class OwnerOperateOutDetail {
 
     private Integer operateOutNum;  //出款次数
 
-    private Integer operateOutType; //出款类型
+    private Integer operateOutType; //出款类型  --条件
 
     private String operateOutTypeName;  //出款类型
 

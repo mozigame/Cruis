@@ -2,29 +2,37 @@ package com.magic.crius.service;
 
 import com.magic.crius.po.OwnerCompanyAccountSummmary;
 
+import java.util.Collection;
+import java.util.List;
+
 public interface OwnerCompanyAccountSummmaryService {
 
     /**
      * 添加
-     * @param accountSummmary
+     * @param Summmary
      * @return
      */
-    boolean save(OwnerCompanyAccountSummmary accountSummmary);
+    boolean insert(OwnerCompanyAccountSummmary Summmary);
+
+    /**
+     * 批量添加
+     * @param Summmaries
+     * @return
+     */
+    boolean batchInsert(Collection<OwnerCompanyAccountSummmary> Summmaries);
+
 
     /**
      * 修改
-     * @param accountSummmary
+     * @param Summmary
      * @return
      */
-    boolean updateSummary(OwnerCompanyAccountSummmary accountSummmary);
+    boolean updateSummary(OwnerCompanyAccountSummmary Summmary);
 
     /**
-     * 判断是否存在数据
-     * @param ownerId
-     * @param summaryType
-     * @param pdate
+     * 查询多个业主下的数据
      * @return
      */
-    boolean checkExist(Long ownerId, Integer summaryType, Integer pdate);
+    List<OwnerCompanyAccountSummmary> findByOwnerIds(Collection<Long> ownerIds, Integer pdate);
 
 }

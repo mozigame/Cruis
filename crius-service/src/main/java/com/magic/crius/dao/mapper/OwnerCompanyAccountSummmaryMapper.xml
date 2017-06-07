@@ -15,20 +15,47 @@
 
     <!--添加公司账目汇总-->
     <insert id="insert" parameterType="com.magic.crius.po.OwnerCompanyAccountSummmary">
+        insert into owner_company_account_summmary (owner_id, summary_money_count,
+        summary_user_num, summary_type, summary_type_name,
+        summary_kind, pdate)
+        values
+            ( #{ownerId,jdbcType=BIGINT},
+            #{summaryMoneyCount,jdbcType=BIGINT},
+            #{summaryUserNum,jdbcType=INTEGER},
+            #{summaryType,jdbcType=INTEGER},
+            #{summaryTypeName,jdbcType=VARCHAR},
+            #{summaryKind,jdbcType=INTEGER},
+            #{pdate,jdbcType=INTEGER})
+
+    </insert>
+
+    <!--添加公司账目汇总-->
+    <insert id="batchInsert" >
     insert into owner_company_account_summmary (owner_id, summary_money_count,
       summary_user_num, summary_type, summary_type_name, 
       summary_kind, pdate)
-    values ( #{ownerId,jdbcType=BIGINT}, #{summaryMoneyCount,jdbcType=BIGINT},
-      #{summaryUserNum,jdbcType=INTEGER}, #{summaryType,jdbcType=INTEGER}, #{summaryTypeName,jdbcType=VARCHAR}, 
-      #{summaryKind,jdbcType=INTEGER}, #{pdate,jdbcType=INTEGER})
+    values
+    <foreach collection="list" item="param" separator="," >
+      ( #{param.ownerId,jdbcType=BIGINT},
+        #{param.summaryMoneyCount,jdbcType=BIGINT},
+        #{param.summaryUserNum,jdbcType=INTEGER},
+        #{param.summaryType,jdbcType=INTEGER},
+        #{param.summaryTypeName,jdbcType=VARCHAR},
+        #{param.summaryKind,jdbcType=INTEGER},
+        #{param.pdate,jdbcType=INTEGER})
+    </foreach>
+
   </insert>
 
-    <!--检查当天是否有数据-->
-    <select id="checkExist" resultType="java.lang.Integer">
-        SELECT COUNT(id) from owner_company_account_summmary
-        WHERE owner_id = #{ownerId,jdbcType=BIGINT}
-        AND summary_type = #{summaryType,jdbcType=INTEGER}
-        AND pdate = #{pdate,jdbcType=INTEGER}
+    <!--根据多个ownerId获取数据-->
+    <select id="findByOwnerIds" resultMap="BaseResultMap">
+        SELECT owner_id,summary_type from owner_company_account_summmary
+        WHERE pdate = #{pdate,jdbcType=INTEGER}
+        AND owner_id IN
+        <foreach collection="list" item="ownerId" separator="," open="(" close=")">
+            #{ownerId,jdbcType=BIGINT}
+        </foreach>
+
     </select>
 
     <!--追加汇总数量-->
