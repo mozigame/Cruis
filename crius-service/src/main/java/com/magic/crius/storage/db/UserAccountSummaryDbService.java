@@ -42,5 +42,5 @@ public interface UserAccountSummaryDbService {
      *
      * @return
      */
-    List<UserAccountSummary> findByOwnerIds(Collection<Long> userIds, Integer pdate);
+    List<UserAccountSummary> findByUserIds(Collection<Long> userIds, Integer pdate);
 }

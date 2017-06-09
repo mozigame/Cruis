@@ -1,7 +1,7 @@
 package com.magic.crius.storage.mongo.impl;
 
 import com.magic.crius.dao.mongo.DiscountReqMongoDao;
-import com.magic.crius.enums.FailedFlag;
+import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.storage.mongo.DiscountReqMongoService;
 import com.magic.crius.vo.DiscountReq;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -29,7 +29,7 @@ public class DiscountReqMongoServiceImpl implements DiscountReqMongoService {
     @Override
     public boolean saveFailedData(DiscountReq discountReq) {
         try {
-            return discountReqMongoDao.save(discountReq, FailedFlag.MONGO_FAILED.failedCollName("discountReq")) != null;
+            return discountReqMongoDao.save(discountReq, MongoCollectionFlag.MONGO_FAILED.collName("discountReq")) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,7 +1,7 @@
 package com.magic.crius.storage.mongo.impl;
 
 import com.magic.crius.dao.mongo.PreWithdrawReqMongoDao;
-import com.magic.crius.enums.FailedFlag;
+import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.storage.mongo.PreWithdrawReqMongoService;
 import com.magic.crius.vo.PreWithdrawReq;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -34,7 +34,7 @@ public class PreWithdrawReqMongoServiceImpl implements PreWithdrawReqMongoServic
     @Override
     public boolean saveFailedData(PreWithdrawReq preWithdrawReq) {
         try {
-            return preWithdrawMongoDao.save(preWithdrawReq, FailedFlag.MONGO_FAILED.failedCollName("preWithdrawReq")) != null;
+            return preWithdrawMongoDao.save(preWithdrawReq, MongoCollectionFlag.MONGO_FAILED.collName("preWithdrawReq")) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }

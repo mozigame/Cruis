@@ -31,7 +31,14 @@ public class RedisConstants {
         PLUTUS_CAHSBACK("p_cahsback_"),  // 返水
         PLUTUS_PAYOFF("p_payoff_"),    // 派彩
         PLUTUS_JP("p_jp_"),    // 彩金
-        PLUTUS_DS("p_ds_");    //打赏
+        PLUTUS_DS("p_ds_"),    //打赏
+        PLUTUS_LOTTERY("p_lottery"), //彩票
+        PLUTUS_SPORT("p_sport"), //体育
+        PLUTUS_VGAME("p_vgame"), //视讯
+        PLUTUS_EGAME("p_egame"), //电子
+        PLUTUS_BASE_GAME("p_base_game"); //注单
+
+
 
         private String prefix;
 

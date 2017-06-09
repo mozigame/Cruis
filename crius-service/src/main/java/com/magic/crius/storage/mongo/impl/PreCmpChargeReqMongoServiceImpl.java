@@ -1,7 +1,7 @@
 package com.magic.crius.storage.mongo.impl;
 
 import com.magic.crius.dao.mongo.PreCmpChargeReqMongoDao;
-import com.magic.crius.enums.FailedFlag;
+import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.storage.mongo.PreCmpChargeReqMongoService;
 import com.magic.crius.vo.PreCmpChargeReq;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -41,7 +41,7 @@ public class PreCmpChargeReqMongoServiceImpl implements PreCmpChargeReqMongoServ
     @Override
     public boolean saveFailedData(PreCmpChargeReq preCmpChargeReq) {
         try {
-            return preCmpChargeMongoDao.save(preCmpChargeReq, FailedFlag.MONGO_FAILED.failedCollName("preCmpChargeReq")) != null;
+            return preCmpChargeMongoDao.save(preCmpChargeReq, MongoCollectionFlag.MONGO_FAILED.collName("preCmpChargeReq")) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }

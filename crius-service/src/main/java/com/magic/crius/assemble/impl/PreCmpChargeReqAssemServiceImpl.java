@@ -62,9 +62,9 @@ public class PreCmpChargeReqAssemServiceImpl implements PreCmpChargeReqAssemServ
                     //TODO 暂时为空
                     flow.setAccountCode(0L);
                     flow.setBankSystemName("");
-                    ownerCompanyFlowSummmaryMap.put(req.getOwnerId() + "" + req.getInBankNum(), flow);
+                    ownerCompanyFlowSummmaryMap.put(req.getOwnerId() + "_" + req.getInBankNum(), flow);
                 } else {
-                    OwnerCompanyFlowSummmary flow = ownerCompanyFlowSummmaryMap.get(req.getOwnerId() + "" + req.getInBankNum());
+                    OwnerCompanyFlowSummmary flow = ownerCompanyFlowSummmaryMap.get(req.getOwnerId() + "_" + req.getInBankNum());
                     flow.setCompanyFlowMoneyCount(flow.getCompanyFlowMoneyCount() + req.getAmount());
                     flow.setCompanyFlowNum(flow.getCompanyFlowNum() + 1);
                 }

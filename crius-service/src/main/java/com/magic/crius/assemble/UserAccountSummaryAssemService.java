@@ -26,7 +26,7 @@ public interface UserAccountSummaryAssemService {
      * @param summaries
      * @return
      */
-    boolean updateWithdraw(Map<Long, UserAccountSummary> summaries);
+    boolean updateWithdraw(List<UserAccountSummary> summaries);
 
 
 

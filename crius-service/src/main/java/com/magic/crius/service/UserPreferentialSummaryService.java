@@ -39,9 +39,8 @@ public interface UserPreferentialSummaryService {
     boolean updateSummary(UserPreferentialSummary summmary);
 
     /**
-     * 查询当天内多个业主下的数据
      *
      * @return
      */
-    List<UserPreferentialSummary> findByOwnerIds(Collection<Long> userIds, Integer pdate);
+    List<UserPreferentialSummary> findByUserIds(Collection<Long> userIds, Integer pdate);
 }

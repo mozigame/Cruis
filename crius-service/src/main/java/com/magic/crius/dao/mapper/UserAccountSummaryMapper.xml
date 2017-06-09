@@ -15,7 +15,7 @@
 
     <!--插入数据-->
     <insert id="insert" parameterType="com.magic.crius.po.UserAccountSummary">
-    insert into user_account_summary (wner_id, user_id,
+    insert into user_account_summary (owner_id, user_id,
       flow_num, flow_count, out_num, 
       out_count, pdate)
     values ( #{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
@@ -25,7 +25,7 @@
 
     <!--批量插入数据-->
     <insert id="batchInsert" parameterType="com.magic.crius.po.UserAccountSummary">
-        insert into user_account_summary (wner_id, user_id,
+        insert into user_account_summary (owner_id, user_id,
         flow_num, flow_count, out_num,
         out_count, pdate)
         values
@@ -42,7 +42,7 @@
     </insert>
 
     <!--修改数据-->
-    <update id="update" parameterType="com.magic.crius.po.UserAccountSummary">
+    <update id="updateSummary" parameterType="com.magic.crius.po.UserAccountSummary">
     update user_account_summary
       <set>
           <if test="flowNum != null and flowNum > 0">

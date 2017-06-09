@@ -11,20 +11,29 @@ import java.util.Map;
  */
 public class KafkaConf {
 
+
+    public static final String DATA = "Data";
+
+    public static final String DATA_TYPE="DataType";
+
     /**
      * kafka消费的数据类型
      */
     public enum DataType {
-        PLUTUS_ONL_CHARGE(0x3001),    // 在线充值
-        PLUTUS_CMP_CHARGE(0x3002),    // 公司入款
-        PLUTUS_DISCOUNT(0x3003),  // 优惠赠送
-        PLUTUS_USER_WITHDRAW(0x3004), // 用户提现
-        PLUTUS_OPR_WITHDRAW(0x3005),  // 人工提现
-        PLUTUS_OPR_CHARGE(0x3006),    // 人工入款
-        PLUTUS_CAHSBACK(0x3007),  // 返水
-        PLUTUS_PAYOFF(0x3008),    // 派彩
-        PLUTUS_JP(0x3009),    // 彩金
-        PLUTUS_DS(0x300A);    //打赏
+        PLUTUS_ONL_CHARGE(0x3001),    // 在线充值 12289
+        PLUTUS_CMP_CHARGE(0x3002),    // 公司入款 12290
+        PLUTUS_DISCOUNT(0x3003),  // 优惠赠送   12291
+        PLUTUS_USER_WITHDRAW(0x3004), // 用户提现   12292
+        PLUTUS_OPR_WITHDRAW(0x3005),  // 人工提现   12293
+        PLUTUS_OPR_CHARGE(0x3006),    // 人工入款   12294
+        PLUTUS_CAHSBACK(0x3007),  // 返水 12295
+        PLUTUS_PAYOFF(0x3008),    // 派彩 12296
+        PLUTUS_JP(0x3009),    // 彩金 12297
+        PLUTUS_DS(0x300A),    //打赏  12298
+        PLUTUS_LOTTERY(0x300A),    //彩票  12299
+        PLUTUS_SPORT(0x300B),    //体育  12300
+        PLUTUS_VGAME(0x300C),    //视讯  12301
+        PLUTUS_EGAME(0x300D);    //电子  12302
 
         private static Map<Integer, DataType> map = new HashMap<>();
 

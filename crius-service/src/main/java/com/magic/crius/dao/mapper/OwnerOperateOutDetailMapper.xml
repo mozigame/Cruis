@@ -12,7 +12,7 @@
     </resultMap>
     <!--添加-->
     <insert id="insert" parameterType="com.magic.crius.po.OwnerOperateOutDetail">
-        insert into owner_operate_out_detail (Id, owner_id, operate_out_money_count,
+        insert into owner_operate_out_detail (owner_id, operate_out_money_count,
           operate_out_num, operate_out_type, operate_out_type_name,
           pdate)
         values ( #{ownerId,jdbcType=BIGINT}, #{operateOutMoneyCount,jdbcType=BIGINT},
@@ -22,7 +22,7 @@
 
     <!--批量添加-->
     <insert id="batchInsert">
-        insert into owner_operate_out_detail (Id, owner_id, operate_out_money_count,
+        insert into owner_operate_out_detail (owner_id, operate_out_money_count,
         operate_out_num, operate_out_type, operate_out_type_name,
         pdate)
         values
@@ -50,7 +50,7 @@
      </update>
 
     <!--根据多个业主ID获取数据-->
-    <select id="checkExist" resultType="java.lang.Integer">
+    <select id="findByOwnerIds" resultMap="BaseResultMap">
         select owner_id,operate_out_type from owner_operate_out_detail
         WHERE pdate = #{pdate,jdbcType=INTEGER}
         AND owner_id IN

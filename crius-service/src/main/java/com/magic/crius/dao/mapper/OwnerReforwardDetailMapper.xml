@@ -69,20 +69,29 @@
         </foreach>
     </insert>
 
+    <!--修改-->
+    <update id="updateSummary" parameterType="com.magic.crius.po.OwnerReforwardDetail">
+        update owner_reforward_detail
+        set
+            order_num = order_num + #{orderNum,jdbcType=INTEGER},
+            order_count = order_count + #{orderCount,jdbcType=BIGINT},
+            effect_order_count = effect_order_count + #{effectOrderCount,jdbcType=BIGINT},
+            reforward_money_count = reforward_money_count + #{reforwardMoneyCount,jdbcType=BIGINT}
+        where pdate = #{pdate,jdbcType=INTEGER}
+          AND owner_id = #{ownerId,jdbcType=BIGINT}
+          AND game_type = #{gameType,jdbcType=VARCHAR}
 
-    <update id="updateByPrimaryKey" parameterType="com.magic.crius.po.OwnerReforwardDetail">
-    update owner_reforward_detail
-    set owner_id = #{ownerId,jdbcType=BIGINT},
-      user_id = #{userId,jdbcType=BIGINT},
-      game_type = #{gameType,jdbcType=VARCHAR},
-      order_num = #{orderNum,jdbcType=INTEGER},
-      order_count = #{orderCount,jdbcType=BIGINT},
-      effect_order_count = #{effectOrderCount,jdbcType=BIGINT},
-      reforward_money_count = #{reforwardMoneyCount,jdbcType=BIGINT},
-      order_id = #{orderId,jdbcType=BIGINT},
-      pdate = #{pdate,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=BIGINT},
-      update_time = #{updateTime,jdbcType=BIGINT}
-    where Id = #{id,jdbcType=INTEGER}
-  </update>
+
+    </update>
+
+    <!--查询多个业主下的数据-->
+    <select id="findByOwnerIds" resultMap="BaseResultMap">
+        SELECT owner_id,game_type FROM owner_reforward_detail
+        where pdate = #{pdate,jdbcType=INTEGER}
+        AND owner_id IN
+        <foreach collection="list" item="ownerId" separator="," open="(" close=")">
+            #{ownerId,jdbcType=BIGINT}
+        </foreach>
+
+    </select>
 </mapper>

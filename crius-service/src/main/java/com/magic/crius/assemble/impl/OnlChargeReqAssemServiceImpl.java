@@ -94,12 +94,16 @@ public class OnlChargeReqAssemServiceImpl implements OnlChargeReqAssemService {
                 userFlowMoneyDetails.add(detail);
 
                 /*会员账号汇总*/
-                if (userAccountSummaryMap.get(req.getUserId()) != null) {
+                if (userAccountSummaryMap.get(req.getUserId()) == null) {
                     UserAccountSummary summary = new UserAccountSummary();
                     summary.setOwnerId(req.getOwnerId());
                     summary.setUserId(req.getUserId());
+                    //todo 充值次数次数
                     summary.setFlowNum(1L);
                     summary.setFlowCount(req.getAmount());
+
+                    summary.setOutNum(0L);
+                    summary.setOutCount(0L);
                     summary.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
                     userAccountSummaryMap.put(req.getUserId(), summary);
                 } else {

@@ -45,7 +45,8 @@
         update_time)
         values
         <foreach collection="list" item="param" separator=",">
-          (#{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
+          (#{param.ownerId,jdbcType=BIGINT},
+            #{param.userId,jdbcType=BIGINT},
             #{param.merchantCode,jdbcType=INTEGER},
             #{param.merchantName,jdbcType=VARCHAR},
             #{param.orderCount,jdbcType=BIGINT},

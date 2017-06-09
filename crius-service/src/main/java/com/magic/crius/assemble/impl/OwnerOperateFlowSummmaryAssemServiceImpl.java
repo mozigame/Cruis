@@ -29,19 +29,34 @@ public class OwnerOperateFlowSummmaryAssemServiceImpl implements OwnerOperateFlo
         }
         int pdate = ownerOnlineFlowSummmaries.values().iterator().next().getPdate();
         List<OwnerOperateFlowSummmary> flowSummmaries = ownerOperateFlowSummmaryService.findByOwnerIds(ownerIds, pdate);
-        List<OwnerOperateFlowSummmary> saves = new ArrayList<>();
+        Collection<OwnerOperateFlowSummmary> saves = new ArrayList<>();
         List<OwnerOperateFlowSummmary> updates = new ArrayList<>();
 
-        Set<String> keys = ownerOnlineFlowSummmaries.keySet();
-        for (OwnerOperateFlowSummmary summmary : flowSummmaries) {
-            if (!keys.contains(summmary.getOwnerId() + "_" + summmary.getOperateFlowType())) {
-                saves.add(summmary);
-            } else {
-                updates.add(summmary);
+        if (flowSummmaries != null && flowSummmaries.size() > 0) {
+            Set<String> keys = ownerOnlineFlowSummmaries.keySet();
+            for (String key : keys) {
+                boolean flag = false;
+                for (OwnerOperateFlowSummmary summmary : flowSummmaries) {
+                    if (key.equals(summmary.getOwnerId() + "_" + summmary.getOperateFlowType())) {
+                        flag = true;
+                        flowSummmaries.remove(summmary);
+                        break;
+                    }
+                }
+                if (flag) {
+                    updates.add(ownerOnlineFlowSummmaries.get(key));
+                } else {
+                    saves.add(ownerOnlineFlowSummmaries.get(key));
+                }
+
             }
+        } else {
+            saves = ownerOnlineFlowSummmaries.values();
         }
         //todo 错误处理
-        boolean saveResult = ownerOperateFlowSummmaryService.batchInsert(saves);
+        if (saves.size() > 0) {
+            boolean saveResult = ownerOperateFlowSummmaryService.batchInsert(saves);
+        }
         for (OwnerOperateFlowSummmary summmary : updates) {
             ownerOperateFlowSummmaryService.updateSummary(summmary);
         }

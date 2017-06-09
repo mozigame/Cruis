@@ -28,19 +28,36 @@ public class OwnerOnlineFlowSummmaryAssemServiceImpl implements OwnerOnlineFlowS
         }
         int pdate = ownerOnlineFlowSummmaries.values().iterator().next().getPdate();
         List<OwnerOnlineFlowSummmary> flowSummmaries = ownerOnlineFlowSummmaryService.findByOwnerIds(ownerIds, pdate);
-        List<OwnerOnlineFlowSummmary> saves = new ArrayList<>();
+        Collection<OwnerOnlineFlowSummmary> saves = new ArrayList<>();
         List<OwnerOnlineFlowSummmary> updates = new ArrayList<>();
 
-        Set<String> keys = ownerOnlineFlowSummmaries.keySet();
-        for (OwnerOnlineFlowSummmary summmary : flowSummmaries) {
-            if (!keys.contains(summmary.getOwnerId() + "_" + summmary.getMerchantCode())) {
-                saves.add(summmary);
-            } else {
-                updates.add(summmary);
+        if (flowSummmaries != null && flowSummmaries.size() > 0) {
+            Set<String> keys = ownerOnlineFlowSummmaries.keySet();
+            for (String key : keys) {
+                boolean flag = false;
+                for (OwnerOnlineFlowSummmary summmary : flowSummmaries) {
+                    if (key.equals(summmary.getOwnerId() + "_" + summmary.getMerchantCode())) {
+                        flag  = true;
+                        flowSummmaries.remove(summmary);
+                        break;
+                    }
+                }
+                if (flag) {
+                    updates.add(ownerOnlineFlowSummmaries.get(key));
+                } else {
+                    saves.add(ownerOnlineFlowSummmaries.get(key));
+                }
             }
+        } else {
+            saves = ownerOnlineFlowSummmaries.values();
         }
+
+
+
         //todo 错误处理
-        boolean saveResult = ownerOnlineFlowSummmaryService.batchInsert(saves);
+        if (saves.size() > 0) {
+            boolean saveResult = ownerOnlineFlowSummmaryService.batchInsert(saves);
+        }
         for (OwnerOnlineFlowSummmary summmary : updates) {
             ownerOnlineFlowSummmaryService.updateSummary(summmary);
         }

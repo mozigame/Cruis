@@ -1,7 +1,7 @@
 package com.magic.crius.dao.db;
 
 import com.magic.crius.po.UserPreferentialSummary;
-import org.springframework.data.repository.query.Param;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;

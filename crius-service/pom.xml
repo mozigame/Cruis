@@ -23,6 +23,17 @@
             <artifactId>crius-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <artifactId>magic-user-api</artifactId>
+            <groupId>com.magic</groupId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <!-- mq -->
+        <dependency>
+            <groupId>com.magic.commons</groupId>
+            <artifactId>mq</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
 
         <!--logging-->
         <dependency>

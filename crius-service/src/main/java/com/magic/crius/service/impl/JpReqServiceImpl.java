@@ -20,7 +20,7 @@ public class JpReqServiceImpl implements JpReqService {
 
     @Resource
     private JpReqMongoService jpReqMongoService;
-
+    @Resource
     private JpReqRedisService jpReqRedisService;
 
     @Override

@@ -57,6 +57,5 @@
         <foreach collection="list" item="userId" separator="," open="(" close=")">
             #{userId,jdbcType=BIGINT}
         </foreach>
-        AND
     </select>
 </mapper>

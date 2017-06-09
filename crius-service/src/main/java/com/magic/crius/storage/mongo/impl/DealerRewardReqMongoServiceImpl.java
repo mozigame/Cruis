@@ -1,10 +1,9 @@
 package com.magic.crius.storage.mongo.impl;
 
 import com.magic.crius.dao.mongo.DealerRewardReqMongoDao;
-import com.magic.crius.enums.FailedFlag;
+import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.storage.mongo.DealerRewardReqMongoService;
 import com.magic.crius.vo.DealerRewardReq;
-import com.magic.crius.vo.JpReq;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,7 @@ public class DealerRewardReqMongoServiceImpl implements DealerRewardReqMongoServ
     @Override
     public boolean saveFailedData(DealerRewardReq req) {
         try {
-            return dealerRewardReqMongoDao.save(req, FailedFlag.MONGO_FAILED.failedCollName("dealerRewardReq")) != null;
+            return dealerRewardReqMongoDao.save(req, MongoCollectionFlag.MONGO_FAILED.collName("dealerRewardReq")) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }

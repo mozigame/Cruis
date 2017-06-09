@@ -7,6 +7,7 @@ import com.magic.crius.vo.OperateWithDrawReq;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +36,11 @@ public class OperateWithDrawReqServiceImpl implements OperateWithDrawReqService 
     }
 
     @Override
+    public boolean saveSuc(List<OperateWithDrawReq> reqs) {
+        return operateWithDrawReqMongoService.saveSuc(reqs);
+    }
+
+    @Override
     public OperateWithDrawReq getByReqId(Long reqId) {
         return operateWithDrawReqMongoService.getByReqId(reqId);
     }
@@ -42,5 +48,20 @@ public class OperateWithDrawReqServiceImpl implements OperateWithDrawReqService 
     @Override
     public List<OperateWithDrawReq> batchPopRedis(Date date) {
         return operateWithDrawReqRedisService.batchPop(date);
+    }
+
+    @Override
+    public List<Long> getSucIds(Long startTime, Long endTime) {
+        return operateWithDrawReqMongoService.getSucIds(startTime, endTime);
+    }
+
+    @Override
+    public List<OperateWithDrawReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
+        return operateWithDrawReqMongoService.getNotProc(startTime, endTime, reqIds);
+    }
+
+    @Override
+    public List<OperateWithDrawReq> getSaveFailed(Long startTime, Long endTime) {
+        return operateWithDrawReqMongoService.getSaveFailed(startTime, endTime);
     }
 }

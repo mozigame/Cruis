@@ -1,7 +1,7 @@
 package com.magic.crius.storage.mongo.impl;
 
 import com.magic.crius.dao.mongo.JpReqMongoDao;
-import com.magic.crius.enums.FailedFlag;
+import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.storage.mongo.JpReqMongoService;
 import com.magic.crius.vo.JpReq;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -34,7 +34,7 @@ public class JpReqMongoServiceImpl implements JpReqMongoService {
     @Override
     public boolean saveFailedData(JpReq req) {
         try {
-            return jpReqMongoDao.save(req, FailedFlag.MONGO_FAILED.failedCollName("jpReq")) != null;
+            return jpReqMongoDao.save(req, MongoCollectionFlag.MONGO_FAILED.collName("jpReq")) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }

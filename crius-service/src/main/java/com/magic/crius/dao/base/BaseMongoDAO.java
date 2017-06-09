@@ -3,6 +3,7 @@ package com.magic.crius.dao.base;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
+import java.util.Collection;
 import java.util.List;
 
 
@@ -14,6 +15,13 @@ public interface BaseMongoDAO<T> {
      * @param query
      */
     public List<T> find(Query query);
+
+    /**
+     * 通过条件查询实体(集合)
+     *
+     * @param query
+     */
+    List<T> find(Query query,String collectionName);
 
     /**
      * 通过一定的条件查询一个实体
@@ -39,6 +47,13 @@ public interface BaseMongoDAO<T> {
      * @return
      */
     public T save(T entity);
+
+    /**
+     * 批量插入数据
+     * @param objects
+     * @return
+     */
+    <X> boolean save(Collection<X> objects, String collectionName);
 
     /**
      * 保存一个对象到mongodb

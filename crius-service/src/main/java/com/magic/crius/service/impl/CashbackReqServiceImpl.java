@@ -7,6 +7,7 @@ import com.magic.crius.vo.CashbackReq;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -32,6 +33,11 @@ public class CashbackReqServiceImpl implements CashbackReqService {
             //TODO 缓存保存失败如何处理
         }
         return true;
+    }
+
+    @Override
+    public boolean saveSuc(Collection<CashbackReq> reqs) {
+        return cashbackReqMongoService.saveSuc(reqs);
     }
 
     @Override

@@ -68,11 +68,16 @@ public class OperateChargeReqAssemServiceImpl implements OperateChargeReqAssemSe
                 }
                 if (req.getUserIds() != null && req.getUserIds().length > 0) {
                     for (Long userId : req.getUserIds()) {
-                        if (userAccountSummaryMap.get(userId) != null) {
+                        if (userAccountSummaryMap.get(userId) == null) {
                             UserAccountSummary summary = new UserAccountSummary();
+                            summary.setOwnerId(req.getOwnerId());
                             summary.setUserId(userId);
+                            //todo 充值次数
                             summary.setFlowNum(1L);
                             summary.setFlowCount(req.getAmount());
+
+                            summary.setOutNum(0L);
+                            summary.setOutCount(0L);
                             summary.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
                             userAccountSummaryMap.put(userId, summary);
                         } else {

@@ -1,7 +1,7 @@
 package com.magic.crius.po;
 
 /**
- * 返水详情
+ * 返水详情，直接插入数据，不汇总
  */
 public class OwnerReforwardDetail {
 

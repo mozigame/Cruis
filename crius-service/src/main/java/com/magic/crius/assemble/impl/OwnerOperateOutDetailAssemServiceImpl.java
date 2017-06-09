@@ -29,19 +29,34 @@ public class OwnerOperateOutDetailAssemServiceImpl implements OwnerOperateOutDet
         }
         int pdate = ownerOperateOutDetails.values().iterator().next().getPdate();
         List<OwnerOperateOutDetail> flowSummmaries = ownerOperateOutDetailService.findByOwnerIds(ownerIds, pdate);
-        List<OwnerOperateOutDetail> saves = new ArrayList<>();
+        Collection<OwnerOperateOutDetail> saves = new ArrayList<>();
         List<OwnerOperateOutDetail> updates = new ArrayList<>();
 
-        Set<String> keys = ownerOperateOutDetails.keySet();
-        for (OwnerOperateOutDetail summmary : flowSummmaries) {
-            if (!keys.contains(summmary.getOwnerId() + "_" + summmary.getOperateOutType())) {
-                saves.add(summmary);
-            } else {
-                updates.add(summmary);
+
+        if (flowSummmaries != null && flowSummmaries.size() > 0) {
+            Set<String> keys = ownerOperateOutDetails.keySet();
+            for (String key : keys) {
+                boolean flag = false;
+                for (OwnerOperateOutDetail summmary : flowSummmaries) {
+                    if (key.equals(summmary.getOwnerId() + "_" + summmary.getOperateOutType())) {
+                        flag = true;
+                        flowSummmaries.remove(summmary);
+                        break;
+                    }
+                }
+                if (flag) {
+                    updates.add(ownerOperateOutDetails.get(key));
+                } else {
+                    saves.add(ownerOperateOutDetails.get(key));
+                }
             }
+        } else {
+            saves = ownerOperateOutDetails.values();
         }
         //todo 错误处理
-        boolean saveResult = ownerOperateOutDetailService.batchInsert(saves);
+        if (saves.size() > 0) {
+            boolean saveResult = ownerOperateOutDetailService.batchInsert(saves);
+        }
         for (OwnerOperateOutDetail summmary : updates) {
             ownerOperateOutDetailService.updateSummary(summmary);
         }

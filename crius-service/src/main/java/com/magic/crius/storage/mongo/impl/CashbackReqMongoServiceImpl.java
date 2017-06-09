@@ -1,15 +1,15 @@
 package com.magic.crius.storage.mongo.impl;
 
 import com.magic.crius.dao.mongo.CashbackReqMongoDao;
-import com.magic.crius.enums.FailedFlag;
+import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.storage.mongo.CashbackReqMongoService;
 import com.magic.crius.vo.CashbackReq;
-import com.magic.crius.vo.DiscountReq;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 
 /**
  * User: joey
@@ -24,13 +24,18 @@ public class CashbackReqMongoServiceImpl implements CashbackReqMongoService {
 
     @Override
     public boolean save(CashbackReq req) {
-        return cashbackReqMongoDao.save(req) != null;
+        try {
+            return cashbackReqMongoDao.save(req) != null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override
     public boolean saveFailedData(CashbackReq req) {
         try {
-            return cashbackReqMongoDao.save(req, FailedFlag.MONGO_FAILED.failedCollName("cashbackReq")) != null;
+            return cashbackReqMongoDao.save(req, MongoCollectionFlag.MONGO_FAILED.collName("cashbackReq")) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,5 +52,15 @@ public class CashbackReqMongoServiceImpl implements CashbackReqMongoService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public boolean saveSuc(Collection<CashbackReq> reqs) {
+        try {
+            return cashbackReqMongoDao.save(reqs, MongoCollectionFlag.SAVE_SUC.collName("cashbackReq"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

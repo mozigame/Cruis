@@ -1,7 +1,7 @@
 package com.magic.crius.storage.mongo.impl;
 
 import com.magic.crius.dao.mongo.OnlChargeReqMongoDao;
-import com.magic.crius.enums.FailedFlag;
+import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.storage.mongo.OnlChargeReqMongoService;
 import com.magic.crius.vo.OnlChargeReq;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -34,7 +34,7 @@ public class OnlChargeReqMongoServiceImpl implements OnlChargeReqMongoService {
     @Override
     public boolean saveFailedData(OnlChargeReq onlChargeReq) {
         try {
-            return onlChargeMongoDao.save(onlChargeReq, FailedFlag.MONGO_FAILED.failedCollName("onlChargeReq")) != null;
+            return onlChargeMongoDao.save(onlChargeReq, MongoCollectionFlag.MONGO_FAILED.collName("onlChargeReq")) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }

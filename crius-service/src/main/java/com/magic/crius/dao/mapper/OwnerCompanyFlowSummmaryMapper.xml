@@ -66,8 +66,8 @@
         SELECT owner_id,account_num from owner_company_flow_summmary
         WHERE pdate = #{pdate,jdbcType=INTEGER}
         AND owner_id IN
-          <foreach collection="list" item="id" separator="," open="(" close=")">
-              #{id.ownerId,jdbcType=BIGINT}
+          <foreach collection="list" item="ownerId" separator="," open="(" close=")">
+              #{ownerId,jdbcType=BIGINT}
           </foreach>
     </select>
 </mapper>

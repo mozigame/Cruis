@@ -1,7 +1,7 @@
 package com.magic.crius.storage.mongo.impl;
 
 import com.magic.crius.dao.mongo.OperateChargeReqMongoDao;
-import com.magic.crius.enums.FailedFlag;
+import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.storage.mongo.OperateChargeReqMongoService;
 import com.magic.crius.vo.OperateChargeReq;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -34,7 +34,7 @@ public class OperateChargeReqMongoServiceImpl implements OperateChargeReqMongoSe
     @Override
     public boolean saveFailedData(OperateChargeReq operateChargeReq) {
         try {
-            return operateChargeMongoDao.save(operateChargeReq, FailedFlag.MONGO_FAILED.failedCollName("operateChargeReq")) != null;
+            return operateChargeMongoDao.save(operateChargeReq, MongoCollectionFlag.MONGO_FAILED.collName("operateChargeReq")) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }

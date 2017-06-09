@@ -3,7 +3,7 @@ package org.crius.service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.magic.crius.enums.KafkaConf;
-import com.magic.crius.vo.PreCmpChargeReq;
+import com.magic.crius.vo.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * User: joey
@@ -28,30 +29,240 @@ public class KafkaProducerTest {
     @Resource(name = "kafkaTemplate")
     private KafkaTemplate<Integer, String> template;
 
+    private static final String TOPIC = "cruis_capital";
+
+    private static final String DATA = "Data";
+    private static final String DATA_TYPE = "DataType";
+
     @Test
-    public void testTemplate() {
+    public void testCashback() {
+        for (int i = 0 ; i < 2;i ++) {
+            CashbackReq req = new CashbackReq();
+            req.setReqId(System.currentTimeMillis() + i);
+            req.setUserId(2000001L + i);
+            req.setAgentId(105094L);
+            req.setOwnerId(10001L);
+            req.setAmount((long) new Random().nextInt(100));
+            req.setCurrency("人民币");
+            req.setRate(95);
+            req.setBettAmount((long) new Random().nextInt(562));
+            req.setVaildBettAmount((long) new Random().nextInt(200));
+            req.setGameHallId(1000L);
+            req.setGameHallName("视讯"+i);
+            req.setGamePlatformId(100004L);
+            req.setGamePlatformName("BBIN"+i);
+            req.setProduceTime(System.currentTimeMillis());
 
 
-        for (int i = 1; i < 8; i++) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(DATA_TYPE, KafkaConf.DataType.PLUTUS_CAHSBACK.type());
+            jsonObject.put(DATA, req);
+            template.send(TOPIC, jsonObject.toJSONString());
+
+        }
+    }
+
+    @Test
+    public void testDealerReward() {
+        for (int i = 0 ; i < 2;i ++) {
+            DealerRewardReq  dealer = new DealerRewardReq();
+            dealer.setReqId(System.currentTimeMillis() + i);
+            dealer.setBillId(System.currentTimeMillis() + i);
+            dealer.setDealerId(1000L);
+            dealer.setDealerName("荷官" + i);
+            dealer.setUserId(2000001L + i);
+            dealer.setAgentId(105094L);
+            dealer.setOwnerId(10001L);
+            dealer.setRewardAmount((long)(new Random().nextInt(599)));
+            dealer.setCreateTime(System.currentTimeMillis());
+            dealer.setGameDeskNum(1000L);
+            dealer.setGameId(1000L);
+            dealer.setGameName("捕鱼达人");
+            dealer.setGameHallId(1000L);
+            dealer.setGameHallName("视讯");
+            dealer.setGamePlatformId(1000L);
+            dealer.setGamePlatformName("BBIN");
+            dealer.setProduceTime(System.currentTimeMillis());
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(DATA_TYPE, KafkaConf.DataType.PLUTUS_DS.type());
+            jsonObject.put(DATA, dealer);
+            template.send(TOPIC, jsonObject.toJSONString());
+
+        }
+    }
+
+    @Test
+    public void testDiscount() {
+        for (int i = 0 ; i < 2;i ++) {
+            DiscountReq discount = new DiscountReq();
+            discount.setOwnerId(10001L);
+            discount.setReqId(System.currentTimeMillis() + i);
+            discount.setUserId(2000001L + i);
+            discount.setAgentId(105094L);
+            discount.setAmount((long)(new Random().nextInt(500)));
+            discount.setCurrency("人民币");
+            discount.setRate(87);
+            discount.setNeedBettAmount(new Random().nextInt(300));
+            discount.setStatus(200);
+            discount.setProduceTime(System.currentTimeMillis());
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(DATA_TYPE, KafkaConf.DataType.PLUTUS_DISCOUNT.type());
+            jsonObject.put(DATA, discount);
+            template.send(TOPIC, jsonObject.toJSONString());
+
+        }
+    }
+
+    @Test
+    public void testJp() {
+        for (int i = 0 ; i < 2;i ++) {
+            JpReq jp = new JpReq();
+            jp.setReqId(System.currentTimeMillis() + i);
+            jp.setBillId(System.currentTimeMillis() + i);
+            jp.setUserId(2000001L + i);
+            jp.setAgentId(105094L);
+            jp.setOwnerId(10001L);
+            jp.setJpType("300");
+            jp.setJpAmount((long)(new Random().nextInt(4000)));
+            jp.setCreateTime(System.currentTimeMillis());
+            jp.setGameId(1000L);
+            jp.setGameName("捕鱼达人");
+            jp.setGameHallId(1000L);
+            jp.setGameHallName("视讯");
+            jp.setGamePlatformId(1000L);
+            jp.setGamePlatformName("BBIN");
+            jp.setProduceTime(System.currentTimeMillis());
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(DATA_TYPE, KafkaConf.DataType.PLUTUS_JP.type());
+            jsonObject.put(DATA, jp);
+            template.send(TOPIC, jsonObject.toJSONString());
+        }
+    }
+
+    @Test
+    public void testOnlCharge() {
+        for (int i = 0 ; i < 2;i ++) {
+            OnlChargeReq onl = new OnlChargeReq();
+            onl.setReqId(System.currentTimeMillis() + i);
+            onl.setOrderId(System.currentTimeMillis() + i);
+            onl.setBillId(System.currentTimeMillis() + i);
+            onl.setUserId(2000001L + i);
+            onl.setAgentId(105094L);
+            onl.setOwnerId(10001L);
+            onl.setAmount((long)(new Random().nextInt(5000)));
+            onl.setCurrency("人民币");
+            onl.setRate(45);
+            onl.setMerchantCode(1000L);
+            onl.setMerchantName("银联");
+            onl.setPaySystemCode(50000);
+            onl.setPaySystemName("小军");
+            onl.setProduceTime(System.currentTimeMillis());
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(DATA_TYPE, KafkaConf.DataType.PLUTUS_ONL_CHARGE.type());
+            jsonObject.put(DATA, onl);
+            template.send(TOPIC, jsonObject.toJSONString());
+        }
+    }
+
+    @Test
+    public void testOperateCharge() {
+        for (int i = 0 ; i < 2;i ++) {
+            long currentTime = System.currentTimeMillis();
+            OperateChargeReq operateCharge = new OperateChargeReq();
+            operateCharge.setReqId(currentTime + i);
+            operateCharge.setUserIds(new Long[]{2000001L + 1, 2000001L + 2, 2000001L + 3});
+            operateCharge.setAgentId(105094L);
+            operateCharge.setOwnerId(10001L);
+            operateCharge.setAmount((long)(new Random().nextInt(99999)));
+            operateCharge.setRate(45);
+            operateCharge.setDepositOffer(100L);
+            operateCharge.setRemittanceOffer(1000L);
+            operateCharge.setHandlerId(20000L);
+            operateCharge.setHandlerName("junit");
+            operateCharge.setType(200);
+            operateCharge.setRemark("remark");
+            operateCharge.setProduceTime(currentTime);
+
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(DATA_TYPE, KafkaConf.DataType.PLUTUS_OPR_CHARGE.type());
+            jsonObject.put(DATA, operateCharge);
+            template.send(TOPIC, jsonObject.toJSONString());
+
+        }
+    }
+
+    @Test
+    public void testOperateWithDraw() {
+        for (int i = 0 ; i < 20;i ++) {
+            long currentTime = System.currentTimeMillis();
+            OperateWithDrawReq operateWithDraw = new OperateWithDrawReq();
+            operateWithDraw.setReqId(currentTime + i);
+            operateWithDraw.setOwnerId(10001L);
+            operateWithDraw.setUserIds(new Long[]{2000001L + 1, 2000001L + 2, 2000001L  + 3});
+            operateWithDraw.setAmount(1L);
+            operateWithDraw.setCurrency("人民币");
+            operateWithDraw.setRate(45);
+            operateWithDraw.setHandlerId(20000L);
+            operateWithDraw.setHandlerName("jee");
+            operateWithDraw.setWithdrawType(1);
+            operateWithDraw.setRemark("remark");
+            operateWithDraw.setProduceTime(System.currentTimeMillis());
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(DATA_TYPE, KafkaConf.DataType.PLUTUS_OPR_WITHDRAW.type());
+            jsonObject.put(DATA, operateWithDraw);
+            template.send(TOPIC, jsonObject.toJSONString());
+        }
+    }
+
+    @Test
+    public void testPreWithdraw() {
+        for (int i = 0 ; i < 2;i ++) {
+            PreWithdrawReq preWithdraw = new PreWithdrawReq();
+            preWithdraw.setReqId(System.currentTimeMillis() + i);
+            preWithdraw.setUserId(2000001L + i);
+            preWithdraw.setAgentId(105094L);
+            preWithdraw.setOwnerId(10001L);
+            preWithdraw.setAmount((long)(new Random().nextInt(99999)));
+            preWithdraw.setUserLevel(100L);
+            preWithdraw.setRemark("remark");
+            preWithdraw.setProduceTime(System.currentTimeMillis());
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("DataType", KafkaConf.DataType.PLUTUS_USER_WITHDRAW.type());
+            jsonObject.put(DATA, preWithdraw);
+            template.send(TOPIC, jsonObject.toJSONString());
+
+        }
+    }
+
+    @Test
+    public void testPreCmpCharge() {
+        for (int i = 1; i < 3; i++) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("DataType", KafkaConf.DataType.PLUTUS_CMP_CHARGE.type());
             PreCmpChargeReq req = new PreCmpChargeReq();
             req.setReqId(System.currentTimeMillis() + i);
-            req.setUserId((long) i);
+            req.setUserId(2000001L + i);
             req.setAgentId((long) i);
-            req.setOwnerId((long) i);
+            req.setOwnerId(10001L);
             req.setAmount(1000L);
             req.setCurrency("人民币");
             req.setRate(75);
             req.setBankCode("ICBC");
             req.setBankNum(13358820111029090L);
-            req.setBankHolder("充值人");
+            req.setBankHolder("莉莉");
             req.setInBankCode("CBC");
             req.setInBankNum(95588201110329090L);
             req.setInBankHolder("李磊");
             req.setInTime(System.currentTimeMillis());
             req.setProduceTime(System.currentTimeMillis());
-            jsonObject.put("Data", req);
+            jsonObject.put(DATA, req);
             template.send("cruis_capital", JSON.toJSONString(jsonObject));
             System.out.println(JSON.toJSONString(req));
         }
@@ -79,4 +290,6 @@ public class KafkaProducerTest {
         PreCmpChargeReq req = JSON.parseObject(str, PreCmpChargeReq.class);
         System.out.println(JSONObject.toJSONString(req));
     }
+
+
 }

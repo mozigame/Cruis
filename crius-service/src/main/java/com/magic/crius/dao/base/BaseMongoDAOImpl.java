@@ -6,23 +6,28 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.List;
 
 
-public abstract class BaseMongoDAOImpl<T> implements BaseMongoDAO<T>{
+public abstract class BaseMongoDAOImpl<T> implements BaseMongoDAO<T> {
 
     private static final int DEFAULT_SKIP = 0;
     private static final int DEFAULT_LIMIT = 200;
 
     /**
-     * spring mongodb　集成操作类　
+     * spring mongodb　集成操作类
      */
     @Resource
-    protected MongoTemplate mongoTemplate;
+    private MongoTemplate mongoTemplate;
 
     @Override
     public List<T> find(Query query) {
         return mongoTemplate.find(query, this.getEntityClass());
+    }
+
+    public List<T> find(Query query, String collectionName) {
+        return mongoTemplate.find(query, this.getEntityClass(), collectionName);
     }
 
     @Override
@@ -39,6 +44,17 @@ public abstract class BaseMongoDAOImpl<T> implements BaseMongoDAO<T>{
     public T save(T entity) {
         mongoTemplate.insert(entity);
         return entity;
+    }
+
+    @Override
+    public <X> boolean save(Collection<X> objects, String collectionName) {
+        try {
+            mongoTemplate.insert(objects, collectionName);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override
@@ -59,7 +75,7 @@ public abstract class BaseMongoDAOImpl<T> implements BaseMongoDAO<T>{
     }
 
     @Override
-    public long count(Query query){
+    public long count(Query query) {
         return mongoTemplate.count(query, this.getEntityClass());
     }
 
@@ -69,7 +85,11 @@ public abstract class BaseMongoDAOImpl<T> implements BaseMongoDAO<T>{
      *
      * @return
      */
-    private Class<T> getEntityClass(){
+    private Class<T> getEntityClass() {
         return ReflectionUtils.getSuperClassGenricType(getClass());
+    }
+
+    public MongoTemplate getMongoTemplate() {
+        return this.mongoTemplate;
     }
 }

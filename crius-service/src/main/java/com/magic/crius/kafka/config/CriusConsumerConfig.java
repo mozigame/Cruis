@@ -21,7 +21,7 @@ import java.util.Map;
  * Time: 18:57
  */
 @Configuration
-public class CustomerConsumerConfig {
+public class CriusConsumerConfig {
 
     @Value("${kafka.broker.host}")
     private String broker_host;

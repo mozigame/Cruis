@@ -42,7 +42,7 @@ public interface UserPreferentialSummaryDbService {
      *
      * @return
      */
-    List<UserPreferentialSummary> findByOwnerIds(Collection<Long> userIds, Integer pdate);
+    List<UserPreferentialSummary> findByUserIds(Collection<Long> userIds, Integer pdate);
 
 
 }

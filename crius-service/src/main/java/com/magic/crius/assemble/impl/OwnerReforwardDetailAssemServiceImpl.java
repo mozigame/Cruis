@@ -20,28 +20,7 @@ public class OwnerReforwardDetailAssemServiceImpl implements OwnerReforwardDetai
     private OwnerReforwardDetailService ownerReforwardDetailService;
 
     @Override
-    public void batchSave(Map<String, OwnerReforwardDetail> userOutMoneySummaries) {
-        Set<Long> ownerIds = new HashSet<>();
-        for (OwnerReforwardDetail summmary : userOutMoneySummaries.values()) {
-            ownerIds.add(summmary.getOwnerId());
-        }
-        int pdate = userOutMoneySummaries.values().iterator().next().getPdate();
-        List<OwnerReforwardDetail> flowSummmaries = ownerReforwardDetailService.findByOwnerIds(ownerIds, pdate);
-        List<OwnerReforwardDetail> saves = new ArrayList<>();
-        List<OwnerReforwardDetail> updates = new ArrayList<>();
-
-        Set<String> keys = userOutMoneySummaries.keySet();
-        for (OwnerReforwardDetail summmary : flowSummmaries) {
-            if (!keys.contains(summmary.getOwnerId() + "_" + summmary.getGameType())) {
-                saves.add(summmary);
-            } else {
-                updates.add(summmary);
-            }
-        }
-        //todo 错误处理
-        boolean saveResult = ownerReforwardDetailService.batchInsert(saves);
-        for (OwnerReforwardDetail summmary : updates) {
-            ownerReforwardDetailService.updateSummary(summmary);
-        }
+    public boolean batchSave(Collection<OwnerReforwardDetail> reforwardDetails) {
+        return ownerReforwardDetailService.batchInsert(reforwardDetails);
     }
 }

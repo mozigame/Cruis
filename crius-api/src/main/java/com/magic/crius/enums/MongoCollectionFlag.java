@@ -6,17 +6,18 @@ package com.magic.crius.enums;
  * Time: 15:57
  * 数据插入失败的标识
  */
-public enum FailedFlag {
+public enum MongoCollectionFlag {
 
-    MONGO_FAILED("failed");
+    MONGO_FAILED("failed"),
+    SAVE_SUC("suc");
 
     private String value;
 
-    FailedFlag(String value) {
+    MongoCollectionFlag(String value) {
         this.value = value;
     }
 
-    public String failedCollName(String collection) {
+    public String collName(String collection) {
         return collection+ "_" + value;
     }
 }

@@ -27,31 +27,44 @@ public class UserAccountSummaryAssemServiceImpl implements UserAccountSummaryAss
     }
 
     @Override
-    public boolean updateWithdraw(Map<Long, UserAccountSummary> summaries) {
+    public boolean updateWithdraw(List<UserAccountSummary> summaries) {
         batchSave(summaries);
         return true;
     }
 
     private void batchSave(Map<Long, UserAccountSummary> summaries) {
-        Set<Long> ownerIds = new HashSet<>();
-        for (UserAccountSummary summmary : summaries.values()) {
-            ownerIds.add(summmary.getOwnerId());
-        }
+        Set<Long> userIds = summaries.keySet();
+
         int pdate = summaries.values().iterator().next().getPdate();
-        List<UserAccountSummary> flowSummmaries = userAccountSummaryService.findByOwnerIds(ownerIds, pdate);
-        List<UserAccountSummary> saves = new ArrayList<>();
+        List<UserAccountSummary> flowSummmaries = userAccountSummaryService.findByUserIds(userIds, pdate);
+        Collection<UserAccountSummary> saves = new ArrayList<>();
         List<UserAccountSummary> updates = new ArrayList<>();
 
-        Set<Long> keys = summaries.keySet();
-        for (UserAccountSummary summmary : flowSummmaries) {
-            if (!keys.contains(summmary.getUserId())) {
-                saves.add(summmary);
-            } else {
-                updates.add(summmary);
+        if (flowSummmaries != null && flowSummmaries.size() > 0) {
+            for (Long key : userIds) {
+                boolean flag = false;
+                for (UserAccountSummary summmary : flowSummmaries) {
+                    if (key.longValue() == summmary.getUserId().longValue()) {
+                        flowSummmaries.remove(summmary);
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag) {
+                    updates.add(summaries.get(key));
+                } else {
+                    saves.add(summaries.get(key));
+                }
             }
+        } else {
+            saves = summaries.values();
         }
+
+
         //todo 错误处理
-        boolean saveResult = userAccountSummaryService.batchInsert(saves);
+        if (saves.size() > 0) {
+            boolean saveResult = userAccountSummaryService.batchInsert(saves);
+        }
         for (UserAccountSummary summmary : updates) {
             userAccountSummaryService.updateSummary(summmary);
         }

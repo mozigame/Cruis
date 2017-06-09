@@ -41,6 +41,6 @@ public interface OwnerCompanyAccountSummmaryMapper {
      * 查询当天内多个业主下的数据
      * @return
      */
-    List<OwnerCompanyAccountSummmary> findByOwnerIds(Collection<Long> ownerIds, @Param("pdate") Integer pdate);
+    List<OwnerCompanyAccountSummmary> findByOwnerIds(@Param("list") Collection<Long> ownerIds, @Param("pdate") Integer pdate);
 
 }

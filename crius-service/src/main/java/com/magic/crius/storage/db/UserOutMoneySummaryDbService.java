@@ -38,5 +38,5 @@ public interface UserOutMoneySummaryDbService {
      *
      * @return
      */
-    List<UserOutMoneySummary> findByOwnerIds(Collection<Long> userIds, Integer pdate);
+    List<UserOutMoneySummary> findByUserIds(Collection<Long> userIds, Integer pdate);
 }

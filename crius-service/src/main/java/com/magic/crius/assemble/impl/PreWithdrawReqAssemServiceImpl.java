@@ -66,6 +66,7 @@ public class PreWithdrawReqAssemServiceImpl implements PreWithdrawReqAssemServic
                     summary.setOwnerId(req.getOwnerId());
                     summary.setUserId(req.getUserId());
                     summary.setOrderCount(req.getAmount());
+                    //todo 提现次数
                     summary.setOutNum(1);
                     summary.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
                     userOutMoneySummaryMap.put(req.getUserId(), summary);
@@ -96,10 +97,15 @@ public class PreWithdrawReqAssemServiceImpl implements PreWithdrawReqAssemServic
                 details.add(detail);
 
                 /*会员账号汇总*/
-                if (userAccountSummaryMap.get(req.getUserId()) != null) {
+                if (userAccountSummaryMap.get(req.getUserId()) == null) {
                     UserAccountSummary summary = new UserAccountSummary();
                     summary.setUserId(req.getUserId());
+                    //todo 提现次数
+                    summary.setOutNum(1L);
                     summary.setOutCount(req.getAmount());
+
+                    summary.setFlowNum(0L);
+                    summary.setFlowCount(0L);
                     summary.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
                     userAccountSummaryMap.put(req.getUserId(), summary);
                 } else {

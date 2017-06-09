@@ -83,7 +83,7 @@ public class DiscountReqAssemServiceImpl implements DiscountReqAssemService {
                     summary.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
                     userPreferentialSummaryHashMap.put(req.getUserId() + "_" + req.getStatus(), summary);
                 } else {
-                    UserPreferentialSummary summary = new UserPreferentialSummary();
+                    UserPreferentialSummary summary = userPreferentialSummaryHashMap.get(req.getUserId() + "_" + req.getStatus());
                     summary.setPreferentialMoneyCount(summary.getPreferentialMoneyCount() + req.getAmount());
                     //todo 优惠次数
                     summary.setPreferentialNum(summary.getPreferentialNum() + 1);

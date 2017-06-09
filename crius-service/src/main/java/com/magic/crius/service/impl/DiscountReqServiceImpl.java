@@ -6,6 +6,7 @@ import com.magic.crius.storage.redis.DiscountReqRedisService;
 import com.magic.crius.vo.DiscountReq;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
@@ -17,8 +18,9 @@ import java.util.List;
 @Service
 public class DiscountReqServiceImpl implements DiscountReqService {
 
+    @Resource
     private DiscountReqRedisService discountReqRedisService;
-
+    @Resource
     private DiscountReqMongoService discountReqMongoService;
 
     @Override

@@ -25,19 +25,32 @@ public class OwnerCompanyFlowSummmaryAssemServiceImpl implements OwnerCompanyFlo
         }
         int pdate = ownerCompanyFlowSummmaries.values().iterator().next().getPdate();
         List<OwnerCompanyFlowSummmary> flowSummmaries = ownerCompanyFlowSummmaryService.findByOwnerIds(ownerIds, pdate);
-        List<OwnerCompanyFlowSummmary> saves = new ArrayList<>();
+        Collection<OwnerCompanyFlowSummmary> saves = new ArrayList<>();
         List<OwnerCompanyFlowSummmary> updates = new ArrayList<>();
-
-        Set<String> keys = ownerCompanyFlowSummmaries.keySet();
-        for (OwnerCompanyFlowSummmary summmary : flowSummmaries) {
-            if (!keys.contains(summmary.getOwnerId() + "_" + summmary.getAccountNum())) {
-                saves.add(summmary);
-            } else {
-                updates.add(summmary);
+        if (flowSummmaries != null && flowSummmaries.size() > 0) {
+            Set<String> keys = ownerCompanyFlowSummmaries.keySet();
+            for (String key : keys) {
+                boolean flag = false;
+                for (OwnerCompanyFlowSummmary summmary : flowSummmaries) {
+                    if (key.equals(summmary.getOwnerId() + "_" + summmary.getAccountNum())) {
+                        flag = true;
+                        flowSummmaries.remove(summmary);
+                        break;
+                    }
+                }
+                if (flag) {
+                    updates.add(ownerCompanyFlowSummmaries.get(key));
+                } else {
+                    saves.add(ownerCompanyFlowSummmaries.get(key));
+                }
             }
+        } else {
+            saves = ownerCompanyFlowSummmaries.values();
         }
         //todo 错误处理
-        boolean saveResult = ownerCompanyFlowSummmaryService.batchInsert(saves);
+        if (saves.size() > 0) {
+            boolean saveResult = ownerCompanyFlowSummmaryService.batchInsert(saves);
+        }
         for (OwnerCompanyFlowSummmary summmary : updates) {
             ownerCompanyFlowSummmaryService.updateSummary(summmary);
         }

@@ -12,6 +12,16 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="crius-api" />
+    <orderEntry type="library" name="Maven: com.magic:magic-user-api:1.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.magic.commons:model:1.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.magic.commons:log:1.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.2" level="project" />
+    <orderEntry type="library" name="Maven: com.magic.commons:mq:1.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.alibaba.rocketmq:rocketmq-client:3.2.6" level="project" />
+    <orderEntry type="library" name="Maven: com.alibaba.rocketmq:rocketmq-common:3.2.6" level="project" />
+    <orderEntry type="library" name="Maven: com.alibaba.rocketmq:rocketmq-remoting:3.2.6" level="project" />
+    <orderEntry type="library" name="Maven: io.netty:netty-all:4.0.25.Final" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.5" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-classic:1.0.13" level="project" />
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.0.13" level="project" />
@@ -110,13 +120,9 @@
     <orderEntry type="library" name="Maven: org.apache.curator:curator-recipes:2.9.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.curator:curator-framework:2.9.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.curator:curator-client:2.9.1" level="project" />
-    <orderEntry type="library" name="Maven: com.magic.commons:log:1.0.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.2" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.2" level="project" />
     <orderEntry type="library" name="Maven: com.magic.commons:tools:1.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.magic.commons:http:1.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.ehcache:ehcache:3.0.0" level="project" />
-    <orderEntry type="library" name="Maven: com.magic.commons:model:1.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.apache.poi:poi:3.9" level="project" />
     <orderEntry type="library" name="Maven: org.apache.poi:poi-ooxml:3.9" level="project" />
     <orderEntry type="library" name="Maven: org.apache.poi:poi-ooxml-schemas:3.9" level="project" />
@@ -128,5 +134,8 @@
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-log4j12:1.6.1" level="project" />
     <orderEntry type="library" name="Maven: jline:jline:0.9.94" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty:3.7.0.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib:1.1.2-4" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains:annotations:13.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jetbrains.kotlin:kotlin-test:1.1.2-4" level="project" />
   </component>
 </module>

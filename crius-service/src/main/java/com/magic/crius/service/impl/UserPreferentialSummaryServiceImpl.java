@@ -37,7 +37,7 @@ public class UserPreferentialSummaryServiceImpl implements UserPreferentialSumma
     }
 
     @Override
-    public List<UserPreferentialSummary> findByOwnerIds(Collection<Long> userIds, Integer pdate) {
-        return userPreferentialSummaryDbService.findByOwnerIds(userIds, pdate);
+    public List<UserPreferentialSummary> findByUserIds(Collection<Long> userIds, Integer pdate) {
+        return userPreferentialSummaryDbService.findByUserIds(userIds, pdate);
     }
 }

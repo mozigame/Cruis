@@ -36,7 +36,7 @@ public class UserAccountSummaryDbServiceImpl implements UserAccountSummaryDbServ
     }
 
     @Override
-    public List<UserAccountSummary> findByOwnerIds(Collection<Long> userIds, Integer pdate) {
+    public List<UserAccountSummary> findByUserIds(Collection<Long> userIds, Integer pdate) {
         return userAccountSummaryMapper.findByUserIds(userIds, pdate);
     }
 }

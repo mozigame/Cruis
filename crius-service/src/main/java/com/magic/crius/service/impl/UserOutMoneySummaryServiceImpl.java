@@ -38,7 +38,7 @@ public class UserOutMoneySummaryServiceImpl implements UserOutMoneySummaryServic
     }
 
     @Override
-    public List<UserOutMoneySummary> findByOwnerIds(Collection<Long> userIds, Integer pdate) {
-        return userOutMoneySummaryDbService.findByOwnerIds(userIds, pdate);
+    public List<UserOutMoneySummary> findByUserIds(Collection<Long> userIds, Integer pdate) {
+        return userOutMoneySummaryDbService.findByUserIds(userIds, pdate);
     }
 }

@@ -22,25 +22,41 @@ public class UserPreferentialSummaryAssemServiceImpl implements UserPreferential
 
     @Override
     public void batchSave(Map<String, UserPreferentialSummary> summaries) {
-        Set<Long> ownerIds = new HashSet<>();
+        Set<Long> userIds = new HashSet<>();
         for (UserPreferentialSummary summmary : summaries.values()) {
-            ownerIds.add(summmary.getOwnerId());
+            userIds.add(summmary.getUserId());
         }
         int pdate = summaries.values().iterator().next().getPdate();
-        List<UserPreferentialSummary> flowSummmaries = userPreferentialSummaryService.findByOwnerIds(ownerIds, pdate);
-        List<UserPreferentialSummary> saves = new ArrayList<>();
+        List<UserPreferentialSummary> flowSummmaries = userPreferentialSummaryService.findByUserIds(userIds, pdate);
+        Collection<UserPreferentialSummary> saves = new ArrayList<>();
         List<UserPreferentialSummary> updates = new ArrayList<>();
 
-        Set<String> keys = summaries.keySet();
-        for (UserPreferentialSummary summmary : flowSummmaries) {
-            if (!keys.contains(summmary.getUserId() + "_" +summmary.getPreferentialType())) {
-                saves.add(summmary);
-            } else {
-                updates.add(summmary);
+        if (flowSummmaries != null && flowSummmaries.size() > 0) {
+            Set<String> keys = summaries.keySet();
+            for (String key : keys) {
+                boolean flag = false;
+                for (UserPreferentialSummary detail : flowSummmaries) {
+                    if (key.equals(detail.getUserId() + "_" + detail.getPreferentialType())) {
+                        flowSummmaries.remove(detail);
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag) {
+                    updates.add(summaries.get(key));
+                } else {
+                    saves.add(summaries.get(key));
+                }
             }
+        } else {
+            saves = summaries.values();
         }
+
+
         //todo 错误处理
-        boolean saveResult = userPreferentialSummaryService.batchInsert(saves);
+        if (saves.size() > 0) {
+            boolean saveResult = userPreferentialSummaryService.batchInsert(saves);
+        }
         for (UserPreferentialSummary summmary : updates) {
             userPreferentialSummaryService.updateSummary(summmary);
         }

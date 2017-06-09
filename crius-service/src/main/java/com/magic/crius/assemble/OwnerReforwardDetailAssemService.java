@@ -17,6 +17,6 @@ public interface OwnerReforwardDetailAssemService {
      * 批量添加返水详情
      * @param userOutMoneySummaries
      */
-    void batchSave(Map<String, OwnerReforwardDetail> userOutMoneySummaries);
+    boolean batchSave(Collection<OwnerReforwardDetail> userOutMoneySummaries);
 
 }

@@ -46,7 +46,7 @@
     </insert>
 
     <!--修改-->
-    <update id="update" parameterType="com.magic.crius.po.UserPreferentialSummary">
+    <update id="updateSummary" parameterType="com.magic.crius.po.UserPreferentialSummary">
         update user_preferential_summary
         set  preferential_money_count = preferential_money_count + #{preferentialMoneyCount,jdbcType=BIGINT},
             preferential_num = preferential_num + #{preferentialNum,jdbcType=INTEGER}

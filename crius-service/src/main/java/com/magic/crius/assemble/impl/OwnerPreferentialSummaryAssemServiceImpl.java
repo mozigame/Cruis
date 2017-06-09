@@ -28,19 +28,32 @@ public class OwnerPreferentialSummaryAssemServiceImpl implements OwnerPreferenti
         }
         int pdate = ownerPreferentialSummaries.values().iterator().next().getPdate();
         List<OwnerPreferentialSummary> flowSummmaries = ownerPreferentialSummaryService.findByOwnerIds(ownerIds, pdate);
-        List<OwnerPreferentialSummary> saves = new ArrayList<>();
+        Collection<OwnerPreferentialSummary> saves = new ArrayList<>();
         List<OwnerPreferentialSummary> updates = new ArrayList<>();
-
-        Set<String> keys = ownerPreferentialSummaries.keySet();
-        for (OwnerPreferentialSummary summmary : flowSummmaries) {
-            if (!keys.contains(summmary.getOwnerId() + "_" + summmary.getPreferentialType())) {
-                saves.add(summmary);
-            } else {
-                updates.add(summmary);
+        if (flowSummmaries != null && flowSummmaries.size() > 0) {
+            Set<String> keys = ownerPreferentialSummaries.keySet();
+            for (String key : keys) {
+                boolean flag = false;
+                for (OwnerPreferentialSummary summmary : flowSummmaries) {
+                    if (key.equals(summmary.getOwnerId() + "_" + summmary.getPreferentialType())) {
+                        flag = true;
+                        flowSummmaries.remove(summmary);
+                        break;
+                    }
+                }
+                if (flag) {
+                    updates.add(ownerPreferentialSummaries.get(key));
+                } else {
+                    saves.add(ownerPreferentialSummaries.get(key));
+                }
             }
+        } else {
+            saves = ownerPreferentialSummaries.values();
         }
         //todo 错误处理
-        boolean saveResult = ownerPreferentialSummaryService.batchInsert(saves);
+        if (saves.size() > 0) {
+            boolean saveResult = ownerPreferentialSummaryService.batchInsert(saves);
+        }
         for (OwnerPreferentialSummary summmary : updates) {
             ownerPreferentialSummaryService.updateSummary(summmary);
         }

@@ -3,6 +3,8 @@ package com.magic.crius.storage.mongo;
 import com.magic.crius.vo.CashbackReq;
 import com.magic.crius.vo.DiscountReq;
 
+import java.util.Collection;
+
 /**
  * User: joey
  * Date: 2017/6/5
@@ -30,4 +32,11 @@ public interface CashbackReqMongoService {
      * @return
      */
     CashbackReq getByReqId(Long id);
+
+    /**
+     * 保存添加成功的数据的reqId
+     * @param reqIds
+     * @return
+     */
+    boolean saveSuc(Collection<CashbackReq> reqIds);
 }
