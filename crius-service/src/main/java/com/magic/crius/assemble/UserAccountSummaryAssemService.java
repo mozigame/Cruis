@@ -19,7 +19,7 @@ public interface UserAccountSummaryAssemService {
      * @param summaries
      * @return
      */
-    boolean updateRecharge(Map<Long, UserAccountSummary> summaries);
+    boolean updateRecharge(List<UserAccountSummary> summaries);
 
     /**
      * 修改取款信息

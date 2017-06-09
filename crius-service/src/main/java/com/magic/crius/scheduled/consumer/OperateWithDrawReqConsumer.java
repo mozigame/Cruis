@@ -103,7 +103,7 @@ public class OperateWithDrawReqConsumer {
      */
     private void flushData(Collection<OperateWithDrawReq> list) {
         if (list != null && list.size() > 0) {
-            Map<String, OwnerOperateOutDetail> ownerOperateOutDetailMap = new HashMap<>();
+            List<OwnerOperateOutDetail> ownerOperateOutDetails = new ArrayList<>();
             List<UserAccountSummary> userAccountSummaries = new ArrayList<>();
             List<OperateWithDrawReq> sucReqs = new ArrayList<>();
             for (OperateWithDrawReq req : list) {
@@ -116,7 +116,7 @@ public class OperateWithDrawReqConsumer {
                 detail.setOperateOutType(req.getWithdrawType());
                 detail.setOperateOutTypeName(req.getRemark());
                 detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
-                ownerOperateOutDetailMap.put(req.getOwnerId() + "_" + req.getWithdrawType(), detail);
+                ownerOperateOutDetails.add(detail);
 
                 /*会员账号汇总*/
                 if (req.getUserIds() != null && req.getUserIds().length > 0) {
@@ -140,8 +140,8 @@ public class OperateWithDrawReqConsumer {
                 sucReq.setProduceTime(req.getProduceTime());
                 sucReqs.add(sucReq);
             }
-            if (ownerOperateOutDetailMap.size() > 0) {
-                ownerOperateOutDetailAssemService.batchSave(ownerOperateOutDetailMap);
+            if (ownerOperateOutDetails.size() > 0) {
+                ownerOperateOutDetailAssemService.batchSave(ownerOperateOutDetails);
             }
             if (userAccountSummaries.size() > 0) {
                 userAccountSummaryAssemService.updateWithdraw(userAccountSummaries);

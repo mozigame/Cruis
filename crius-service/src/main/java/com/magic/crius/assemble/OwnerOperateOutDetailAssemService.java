@@ -3,6 +3,7 @@ package com.magic.crius.assemble;
 import com.magic.crius.po.OwnerOperateOutDetail;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,5 +18,5 @@ public interface OwnerOperateOutDetailAssemService {
      * 批量人工出款详情
      * @param ownerOperateOutDetails
      */
-    void batchSave(Map<String, OwnerOperateOutDetail> ownerOperateOutDetails);
+    void batchSave(List<OwnerOperateOutDetail> ownerOperateOutDetails);
 }
