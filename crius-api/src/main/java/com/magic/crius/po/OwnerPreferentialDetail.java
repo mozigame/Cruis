@@ -3,7 +3,7 @@ package com.magic.crius.po;
 /**
  * 优惠汇总
  */
-public class OwnerPreferentialSummary {
+public class OwnerPreferentialDetail {
 
     private Integer id;
 

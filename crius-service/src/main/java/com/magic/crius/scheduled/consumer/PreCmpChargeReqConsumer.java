@@ -7,8 +7,8 @@ import com.magic.crius.assemble.UserTradeAssemService;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.enums.SummaryKind;
-import com.magic.crius.po.OwnerCompanyAccountSummmary;
-import com.magic.crius.po.OwnerCompanyFlowSummmary;
+import com.magic.crius.po.OwnerCompanyAccountDetail;
+import com.magic.crius.po.OwnerCompanyFlowDetail;
 import com.magic.crius.po.RepairLock;
 import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.PreCmpChargeReqService;
@@ -106,8 +106,8 @@ public class PreCmpChargeReqConsumer {
     private void flushData(Collection<PreCmpChargeReq> list) {
         if (list != null && list.size() > 0) {
 
-            List<OwnerCompanyFlowSummmary> ownerCompanyFlowSummmaryMap = new ArrayList<>();
-            List<OwnerCompanyAccountSummmary> ownerCompanyAccountSummmaryMap = new ArrayList<>();
+            List<OwnerCompanyFlowDetail> ownerCompanyFlowSummmaryMap = new ArrayList<>();
+            List<OwnerCompanyAccountDetail> ownerCompanyAccountSummmaryMap = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
             for (PreCmpChargeReq req : list) {
                 /*公司入款明细*/
@@ -190,8 +190,8 @@ public class PreCmpChargeReqConsumer {
     }
 
 
-    private OwnerCompanyFlowSummmary assembleOwnerCompanyFlowSummmary(PreCmpChargeReq req) {
-        OwnerCompanyFlowSummmary flow = new OwnerCompanyFlowSummmary();
+    private OwnerCompanyFlowDetail assembleOwnerCompanyFlowSummmary(PreCmpChargeReq req) {
+        OwnerCompanyFlowDetail flow = new OwnerCompanyFlowDetail();
         flow.setOwnerId(req.getOwnerId());
         flow.setCompanyFlowMoneyCount(req.getAmount());
         flow.setCompanyFlowNum(1);
@@ -207,8 +207,8 @@ public class PreCmpChargeReqConsumer {
         return flow;
     }
 
-    private OwnerCompanyAccountSummmary assembleOwnerCompanyAccountSummmary(PreCmpChargeReq req) {
-        OwnerCompanyAccountSummmary account = new OwnerCompanyAccountSummmary();
+    private OwnerCompanyAccountDetail assembleOwnerCompanyAccountSummmary(PreCmpChargeReq req) {
+        OwnerCompanyAccountDetail account = new OwnerCompanyAccountDetail();
         account.setOwnerId(req.getOwnerId());
         account.setSummaryMoneyCount(req.getAmount());
         account.setSummaryUserNum(1);

@@ -1,7 +1,6 @@
 package com.magic.crius.storage.db;
 
-import com.magic.crius.po.OwnerOnlineFlowSummmary;
-import org.apache.ibatis.annotations.Param;
+import com.magic.crius.po.OwnerOnlineFlowDetail;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,7 +18,7 @@ public interface OwnerOnlineFlowSummmaryDbService {
      * @param summmary
      * @return
      */
-    boolean insert(OwnerOnlineFlowSummmary summmary);
+    boolean insert(OwnerOnlineFlowDetail summmary);
 
     /**
      * 批量添加
@@ -27,7 +26,7 @@ public interface OwnerOnlineFlowSummmaryDbService {
      * @param summmaries
      * @return
      */
-    boolean batchInsert(Collection<OwnerOnlineFlowSummmary> summmaries);
+    boolean batchInsert(Collection<OwnerOnlineFlowDetail> summmaries);
 
 
     /**
@@ -36,12 +35,12 @@ public interface OwnerOnlineFlowSummmaryDbService {
      * @param summmary
      * @return
      */
-    boolean updateSummary(OwnerOnlineFlowSummmary summmary);
+    boolean updateSummary(OwnerOnlineFlowDetail summmary);
 
     /**
      * 查询当天内多个业主下的数据
      *
      * @return
      */
-    List<OwnerOnlineFlowSummmary> findByOwnerIds(Collection<Long> ownerIds, Integer pdate);
+    List<OwnerOnlineFlowDetail> findByOwnerIds(Collection<Long> ownerIds, Integer pdate);
 }

@@ -1,7 +1,6 @@
 package com.magic.crius.service;
 
-import com.magic.crius.po.OwnerOnlineFlowSummmary;
-import com.magic.crius.po.OwnerOperateFlowSummmary;
+import com.magic.crius.po.OwnerOperateFlowDetail;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,7 +18,7 @@ public interface OwnerOperateFlowSummmaryService {
      * @param summmary
      * @return
      */
-    boolean insert(OwnerOperateFlowSummmary summmary);
+    boolean insert(OwnerOperateFlowDetail summmary);
 
     /**
      * 批量添加
@@ -27,7 +26,7 @@ public interface OwnerOperateFlowSummmaryService {
      * @param summmaries
      * @return
      */
-    boolean batchInsert(Collection<OwnerOperateFlowSummmary> summmaries);
+    boolean batchInsert(Collection<OwnerOperateFlowDetail> summmaries);
 
 
     /**
@@ -36,12 +35,12 @@ public interface OwnerOperateFlowSummmaryService {
      * @param summmary
      * @return
      */
-    boolean updateSummary(OwnerOperateFlowSummmary summmary);
+    boolean updateSummary(OwnerOperateFlowDetail summmary);
 
     /**
      * 查询当天内多个业主下的数据
      *
      * @return
      */
-    List<OwnerOperateFlowSummmary> findByOwnerIds(Collection<Long> ownerIds, Integer pdate);
+    List<OwnerOperateFlowDetail> findByOwnerIds(Collection<Long> ownerIds, Integer pdate);
 }

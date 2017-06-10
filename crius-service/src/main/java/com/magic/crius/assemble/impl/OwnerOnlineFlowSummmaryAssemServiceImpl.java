@@ -1,8 +1,7 @@
 package com.magic.crius.assemble.impl;
 
 import com.magic.crius.assemble.OwnerOnlineFlowSummmaryAssemService;
-import com.magic.crius.po.OwnerCompanyFlowSummmary;
-import com.magic.crius.po.OwnerOnlineFlowSummmary;
+import com.magic.crius.po.OwnerOnlineFlowDetail;
 import com.magic.crius.service.OwnerOnlineFlowSummmaryService;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +20,7 @@ public class OwnerOnlineFlowSummmaryAssemServiceImpl implements OwnerOnlineFlowS
     private OwnerOnlineFlowSummmaryService ownerOnlineFlowSummmaryService;
 
     @Override
-    public void batchSave(List<OwnerOnlineFlowSummmary> ownerOnlineFlowSummmaries) {
+    public void batchSave(List<OwnerOnlineFlowDetail> ownerOnlineFlowSummmaries) {
 
         //todo 错误处理
         if (ownerOnlineFlowSummmaries.size() > 0) {

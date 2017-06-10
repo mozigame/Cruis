@@ -1,6 +1,6 @@
 package com.magic.crius.service.impl;
 
-import com.magic.crius.po.OwnerOperateFlowSummmary;
+import com.magic.crius.po.OwnerOperateFlowDetail;
 import com.magic.crius.service.OwnerOperateFlowSummmaryService;
 import com.magic.crius.storage.db.OwnerOperateFlowSummmaryDbService;
 import org.springframework.stereotype.Service;
@@ -22,22 +22,22 @@ public class OwnerOperateFlowSummmaryServiceImpl implements OwnerOperateFlowSumm
 
 
     @Override
-    public boolean insert(OwnerOperateFlowSummmary summmary) {
+    public boolean insert(OwnerOperateFlowDetail summmary) {
         return ownerOperateFlowSummmaryDbService.insert(summmary);
     }
 
     @Override
-    public boolean batchInsert(Collection<OwnerOperateFlowSummmary> summmaries) {
+    public boolean batchInsert(Collection<OwnerOperateFlowDetail> summmaries) {
         return ownerOperateFlowSummmaryDbService.batchInsert(summmaries);
     }
 
     @Override
-    public boolean updateSummary(OwnerOperateFlowSummmary summmary) {
+    public boolean updateSummary(OwnerOperateFlowDetail summmary) {
         return ownerOperateFlowSummmaryDbService.updateSummary(summmary);
     }
 
     @Override
-    public List<OwnerOperateFlowSummmary> findByOwnerIds(Collection<Long> ownerIds, Integer pdate) {
+    public List<OwnerOperateFlowDetail> findByOwnerIds(Collection<Long> ownerIds, Integer pdate) {
         return ownerOperateFlowSummmaryDbService.findByOwnerIds(ownerIds, pdate);
     }
 }

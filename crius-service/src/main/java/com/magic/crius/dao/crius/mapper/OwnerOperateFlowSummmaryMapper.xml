@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.magic.crius.dao.crius.db.OwnerOperateFlowSummmaryMapper">
-  <resultMap id="BaseResultMap" type="com.magic.crius.po.OwnerOperateFlowSummmary">
+  <resultMap id="BaseResultMap" type="com.magic.crius.po.OwnerOperateFlowDetail">
     <id column="Id" jdbcType="INTEGER" property="id" />
     <result column="owner_id" jdbcType="BIGINT" property="ownerId" />
     <result column="operate_flow_money_count" jdbcType="BIGINT" property="operateFlowMoneyCount" />
@@ -12,7 +12,7 @@
   </resultMap>
 
   <!--添加-->
-  <insert id="insert" parameterType="com.magic.crius.po.OwnerOperateFlowSummmary">
+  <insert id="insert" parameterType="com.magic.crius.po.OwnerOperateFlowDetail">
     insert into owner_operate_flow_summary (owner_id, operate_flow_money_count,
       operate_flow_num, operate_flow_type, operate_flow_type_name, 
       pdate)
@@ -51,7 +51,7 @@
   </select>
 
   <!--追加金额和数量-->
-  <update id="updateSummary" parameterType="com.magic.crius.po.OwnerOperateFlowSummmary">
+  <update id="updateSummary" parameterType="com.magic.crius.po.OwnerOperateFlowDetail">
     update owner_operate_flow_summary
     set
       operate_flow_money_count = operate_flow_money_count + #{operateFlowMoneyCount,jdbcType=BIGINT},

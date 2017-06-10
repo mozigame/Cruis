@@ -1,7 +1,7 @@
 package com.magic.crius.assemble.impl;
 
 import com.magic.crius.assemble.OwnerCompanyFlowSummmaryAssemService;
-import com.magic.crius.po.OwnerCompanyFlowSummmary;
+import com.magic.crius.po.OwnerCompanyFlowDetail;
 import com.magic.crius.service.OwnerCompanyFlowSummmaryService;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ public class OwnerCompanyFlowSummmaryAssemServiceImpl implements OwnerCompanyFlo
     private OwnerCompanyFlowSummmaryService ownerCompanyFlowSummmaryService;
 
     @Override
-    public void batchSave(List<OwnerCompanyFlowSummmary> ownerCompanyFlowSummmaries) {
+    public void batchSave(List<OwnerCompanyFlowDetail> ownerCompanyFlowSummmaries) {
 
         //todo 错误处理
         if (ownerCompanyFlowSummmaries.size() > 0) {

@@ -1,7 +1,6 @@
 package com.magic.crius.service;
 
-import com.magic.crius.po.OwnerOperateOutDetail;
-import com.magic.crius.po.OwnerPreferentialSummary;
+import com.magic.crius.po.OwnerPreferentialDetail;
 
 import java.util.Collection;
 import java.util.List;
@@ -20,7 +19,7 @@ public interface OwnerPreferentialSummaryService {
      * @param summmary
      * @return
      */
-    boolean insert(OwnerPreferentialSummary summmary);
+    boolean insert(OwnerPreferentialDetail summmary);
 
     /**
      * 批量添加
@@ -28,7 +27,7 @@ public interface OwnerPreferentialSummaryService {
      * @param summmaries
      * @return
      */
-    boolean batchInsert(Collection<OwnerPreferentialSummary> summmaries);
+    boolean batchInsert(Collection<OwnerPreferentialDetail> summmaries);
 
 
     /**
@@ -37,12 +36,12 @@ public interface OwnerPreferentialSummaryService {
      * @param summmary
      * @return
      */
-    boolean updateSummary(OwnerPreferentialSummary summmary);
+    boolean updateSummary(OwnerPreferentialDetail summmary);
 
     /**
      * 查询当天内多个业主下的数据
      *
      * @return
      */
-    List<OwnerPreferentialSummary> findByOwnerIds(Collection<Long> ownerIds, Integer pdate);
+    List<OwnerPreferentialDetail> findByOwnerIds(Collection<Long> ownerIds, Integer pdate);
 }

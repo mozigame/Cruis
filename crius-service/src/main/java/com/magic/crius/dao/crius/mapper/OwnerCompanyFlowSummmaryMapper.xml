@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.magic.crius.dao.crius.db.OwnerCompanyFlowSummmaryMapper">
-    <resultMap id="BaseResultMap" type="com.magic.crius.po.OwnerCompanyFlowSummmary">
+    <resultMap id="BaseResultMap" type="com.magic.crius.po.OwnerCompanyFlowDetail">
         <id column="Id" jdbcType="INTEGER" property="id"/>
         <result column="owner_id" jdbcType="BIGINT" property="ownerId"/>
         <result column="company_flow_money_count" jdbcType="BIGINT" property="companyFlowMoneyCount"/>
@@ -16,7 +16,7 @@
     </resultMap>
 
     <!--保存公司入款详情-->
-    <insert id="insert" parameterType="com.magic.crius.po.OwnerCompanyFlowSummmary">
+    <insert id="insert" parameterType="com.magic.crius.po.OwnerCompanyFlowDetail">
         insert into owner_company_flow_summmary (owner_id, company_flow_money_count,
           company_flow_num, account_code, account_num,
           account_name, bank_system_code, bank_system_name,
@@ -51,7 +51,7 @@
 
 
     <!--追加金额和数量-->
-    <update id="updateSummary" parameterType="com.magic.crius.po.OwnerCompanyFlowSummmary">
+    <update id="updateSummary" parameterType="com.magic.crius.po.OwnerCompanyFlowDetail">
         UPDATE owner_company_flow_summmary
         set company_flow_money_count=company_flow_money_count + #{companyFlowMoneyCount,jdbcType=BIGINT},
         company_flow_num = company_flow_num + #{companyFlowNum,jdbcType=INTEGER}

@@ -1,11 +1,8 @@
 package com.magic.crius.service.impl;
 
-import com.magic.crius.po.OwnerCompanyAccountSummmary;
-import com.magic.crius.po.OwnerCompanyFlowSummmary;
+import com.magic.crius.po.OwnerCompanyAccountDetail;
 import com.magic.crius.service.OwnerCompanyAccountSummmaryService;
-import com.magic.crius.service.OwnerCompanyFlowSummmaryService;
 import com.magic.crius.storage.db.OwnerCompanyAccountSummmaryDbService;
-import com.magic.crius.storage.db.OwnerCompanyFlowSummmaryDbService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,22 +16,22 @@ public class OwnerCompanyAccountSummmaryServiceImpl implements OwnerCompanyAccou
     private OwnerCompanyAccountSummmaryDbService ownerCompanyAccountSummmaryDbService;
 
     @Override
-    public boolean insert(OwnerCompanyAccountSummmary summmary) {
+    public boolean insert(OwnerCompanyAccountDetail summmary) {
         return ownerCompanyAccountSummmaryDbService.insert(summmary);
     }
 
     @Override
-    public boolean batchInsert(Collection<OwnerCompanyAccountSummmary> summmaries) {
+    public boolean batchInsert(Collection<OwnerCompanyAccountDetail> summmaries) {
         return ownerCompanyAccountSummmaryDbService.batchInsert(summmaries);
     }
 
     @Override
-    public boolean updateSummary(OwnerCompanyAccountSummmary summmary) {
+    public boolean updateSummary(OwnerCompanyAccountDetail summmary) {
         return ownerCompanyAccountSummmaryDbService.updateSummary(summmary);
     }
 
     @Override
-    public List<OwnerCompanyAccountSummmary> findByOwnerIds(Collection<Long> ownerIds, Integer pdate) {
+    public List<OwnerCompanyAccountDetail> findByOwnerIds(Collection<Long> ownerIds, Integer pdate) {
         return ownerCompanyAccountSummmaryDbService.findByOwnerIds(ownerIds, pdate);
     }
 }

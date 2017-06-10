@@ -2,7 +2,7 @@ package com.magic.crius.assemble.impl;
 
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.*;
-import com.magic.crius.po.OwnerOnlineFlowSummmary;
+import com.magic.crius.po.OwnerOnlineFlowDetail;
 import com.magic.crius.po.UserAccountSummary;
 import com.magic.crius.po.UserFlowMoneyDetail;
 import com.magic.crius.po.UserTrade;
@@ -51,7 +51,7 @@ public class OnlChargeReqAssemServiceImpl implements OnlChargeReqAssemService {
     public void convertData(Date date) {
         List<OnlChargeReq> list = onlChargeService.batchPopRedis(date);
         if (list != null && list.size() > 0) {
-            List<OwnerOnlineFlowSummmary> ownerOnlineFlowSummmaries = new ArrayList<>();
+            List<OwnerOnlineFlowDetail> ownerOnlineFlowSummmaries = new ArrayList<>();
             List<UserFlowMoneyDetail> userFlowMoneyDetails = new ArrayList<>();
             List<UserAccountSummary> userAccountSummaries = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
@@ -72,8 +72,8 @@ public class OnlChargeReqAssemServiceImpl implements OnlChargeReqAssemService {
         }
     }
 
-    private OwnerOnlineFlowSummmary assembleOwnerOnlineFlowSummmary(OnlChargeReq req) {
-        OwnerOnlineFlowSummmary flow = new OwnerOnlineFlowSummmary();
+    private OwnerOnlineFlowDetail assembleOwnerOnlineFlowSummmary(OnlChargeReq req) {
+        OwnerOnlineFlowDetail flow = new OwnerOnlineFlowDetail();
         flow.setOwnerId(req.getOwnerId());
         flow.setOperateFlowMoneyCount(req.getAmount());
         //todo

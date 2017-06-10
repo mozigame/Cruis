@@ -3,7 +3,7 @@ package com.magic.crius.po;
 /**
  * 公司入款明细
  */
-public class OwnerCompanyFlowSummmary {
+public class OwnerCompanyFlowDetail {
 
     private Integer id;
 

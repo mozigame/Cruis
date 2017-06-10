@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.magic.crius.dao.crius.db.OwnerCompanyAccountSummmaryMapper">
-    <resultMap id="BaseResultMap" type="com.magic.crius.po.OwnerCompanyAccountSummmary">
+    <resultMap id="BaseResultMap" type="com.magic.crius.po.OwnerCompanyAccountDetail">
         <id column="Id" jdbcType="INTEGER" property="id"/>
         <result column="owner_id" jdbcType="BIGINT" property="ownerId"/>
         <result column="summary_money_count" jdbcType="BIGINT" property="summaryMoneyCount"/>
@@ -14,7 +14,7 @@
 
 
     <!--添加公司账目汇总-->
-    <insert id="insert" parameterType="com.magic.crius.po.OwnerCompanyAccountSummmary">
+    <insert id="insert" parameterType="com.magic.crius.po.OwnerCompanyAccountDetail">
         insert into owner_company_account_summmary (owner_id, summary_money_count,
         summary_user_num, summary_type, summary_type_name,
         summary_kind, pdate)
@@ -59,7 +59,7 @@
     </select>
 
     <!--追加汇总数量-->
-    <update id="updateSummary" parameterType="com.magic.crius.po.OwnerCompanyAccountSummmary">
+    <update id="updateSummary" parameterType="com.magic.crius.po.OwnerCompanyAccountDetail">
         update owner_company_account_summmary
         SET summary_money_count = summary_money_count + #{summaryMoneyCount,jdbcType=BIGINT},
         summary_user_num = summary_user_num + #{summaryUserNum,jdbcType=INTEGER}

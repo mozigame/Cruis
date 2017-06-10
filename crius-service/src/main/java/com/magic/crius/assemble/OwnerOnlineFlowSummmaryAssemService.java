@@ -1,11 +1,8 @@
 package com.magic.crius.assemble;
 
-import com.magic.crius.po.OwnerCompanyFlowSummmary;
-import com.magic.crius.po.OwnerOnlineFlowSummmary;
+import com.magic.crius.po.OwnerOnlineFlowDetail;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * User: joey
@@ -19,5 +16,5 @@ public interface OwnerOnlineFlowSummmaryAssemService {
      * 批量添加线上入款汇总
      * @param ownerOnlineFlowSummmaries
      */
-    void batchSave(List<OwnerOnlineFlowSummmary> ownerOnlineFlowSummmaries);
+    void batchSave(List<OwnerOnlineFlowDetail> ownerOnlineFlowSummmaries);
 }

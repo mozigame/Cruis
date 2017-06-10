@@ -1,6 +1,6 @@
 package com.magic.crius.service.impl;
 
-import com.magic.crius.po.OwnerPreferentialSummary;
+import com.magic.crius.po.OwnerPreferentialDetail;
 import com.magic.crius.service.OwnerPreferentialSummaryService;
 import com.magic.crius.storage.db.OwnerPreferentialSummaryDbService;
 import org.springframework.stereotype.Service;
@@ -22,22 +22,22 @@ public class OwnerPreferentialSummaryServiceImpl implements OwnerPreferentialSum
 
 
     @Override
-    public boolean insert(OwnerPreferentialSummary summmary) {
+    public boolean insert(OwnerPreferentialDetail summmary) {
         return ownerPreferentialSummaryDbService.insert(summmary);
     }
 
     @Override
-    public boolean batchInsert(Collection<OwnerPreferentialSummary> summmaries) {
+    public boolean batchInsert(Collection<OwnerPreferentialDetail> summmaries) {
         return ownerPreferentialSummaryDbService.batchInsert(summmaries);
     }
 
     @Override
-    public boolean updateSummary(OwnerPreferentialSummary summmary) {
+    public boolean updateSummary(OwnerPreferentialDetail summmary) {
         return ownerPreferentialSummaryDbService.updateSummary(summmary);
     }
 
     @Override
-    public List<OwnerPreferentialSummary> findByOwnerIds(Collection<Long> ownerIds, Integer pdate) {
+    public List<OwnerPreferentialDetail> findByOwnerIds(Collection<Long> ownerIds, Integer pdate) {
         return ownerPreferentialSummaryDbService.findByOwnerIds(ownerIds, pdate);
     }
 }

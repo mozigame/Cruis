@@ -3,7 +3,7 @@ package com.magic.crius.po;
 /**
  * 线上入款汇总
  */
-public class OwnerOnlineFlowSummmary {
+public class OwnerOnlineFlowDetail {
 
     private Integer id;
 

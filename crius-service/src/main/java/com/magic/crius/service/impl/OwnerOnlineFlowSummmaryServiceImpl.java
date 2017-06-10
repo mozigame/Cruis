@@ -1,7 +1,6 @@
 package com.magic.crius.service.impl;
 
-import com.magic.crius.dao.crius.db.OwnerOnlineFlowSummmaryMapper;
-import com.magic.crius.po.OwnerOnlineFlowSummmary;
+import com.magic.crius.po.OwnerOnlineFlowDetail;
 import com.magic.crius.service.OwnerOnlineFlowSummmaryService;
 import com.magic.crius.storage.db.OwnerOnlineFlowSummmaryDbService;
 import org.springframework.stereotype.Service;
@@ -22,22 +21,22 @@ public class OwnerOnlineFlowSummmaryServiceImpl implements OwnerOnlineFlowSummma
     private OwnerOnlineFlowSummmaryDbService ownerOnlineFlowSummmaryDbService;
 
     @Override
-    public boolean insert(OwnerOnlineFlowSummmary summmary) {
+    public boolean insert(OwnerOnlineFlowDetail summmary) {
         return ownerOnlineFlowSummmaryDbService.insert(summmary);
     }
 
     @Override
-    public boolean batchInsert(Collection<OwnerOnlineFlowSummmary> summmaries) {
+    public boolean batchInsert(Collection<OwnerOnlineFlowDetail> summmaries) {
         return ownerOnlineFlowSummmaryDbService.batchInsert(summmaries);
     }
 
     @Override
-    public boolean updateSummary(OwnerOnlineFlowSummmary summmary) {
+    public boolean updateSummary(OwnerOnlineFlowDetail summmary) {
         return ownerOnlineFlowSummmaryDbService.updateSummary(summmary);
     }
 
     @Override
-    public List<OwnerOnlineFlowSummmary> findByOwnerIds(Collection<Long> ownerIds, Integer pdate) {
+    public List<OwnerOnlineFlowDetail> findByOwnerIds(Collection<Long> ownerIds, Integer pdate) {
         return ownerOnlineFlowSummmaryDbService.findByOwnerIds(ownerIds, pdate);
     }
 }

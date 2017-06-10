@@ -1,6 +1,6 @@
 package com.magic.crius.dao.crius.db;
 
-import com.magic.crius.po.OwnerOnlineFlowSummmary;
+import com.magic.crius.po.OwnerOnlineFlowDetail;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -18,14 +18,14 @@ public interface OwnerOnlineFlowSummmaryMapper {
      * @param summmary
      * @return
      */
-    int insert(OwnerOnlineFlowSummmary summmary);
+    int insert(OwnerOnlineFlowDetail summmary);
 
     /**
      * 批量添加
      * @param summmaries
      * @return
      */
-    int batchInsert(@Param("list") Collection<OwnerOnlineFlowSummmary> summmaries);
+    int batchInsert(@Param("list") Collection<OwnerOnlineFlowDetail> summmaries);
 
 
     /**
@@ -33,12 +33,12 @@ public interface OwnerOnlineFlowSummmaryMapper {
      * @param summmary
      * @return
      */
-    int updateSummary(OwnerOnlineFlowSummmary summmary);
+    int updateSummary(OwnerOnlineFlowDetail summmary);
 
     /**
      * 查询当天内多个业主下的数据
      * @return
      */
-    List<OwnerOnlineFlowSummmary> findByOwnerIds(@Param("list") Collection<Long> ownerIds, @Param("pdate") Integer pdate);
+    List<OwnerOnlineFlowDetail> findByOwnerIds(@Param("list") Collection<Long> ownerIds, @Param("pdate") Integer pdate);
 
 }

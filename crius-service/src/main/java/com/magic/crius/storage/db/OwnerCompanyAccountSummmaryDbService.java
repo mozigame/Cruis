@@ -1,7 +1,6 @@
 package com.magic.crius.storage.db;
 
-import com.magic.crius.po.OwnerCompanyAccountSummmary;
-import com.magic.crius.po.OwnerCompanyFlowSummmary;
+import com.magic.crius.po.OwnerCompanyAccountDetail;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,14 +17,14 @@ public interface OwnerCompanyAccountSummmaryDbService {
      * @param summmary
      * @return
      */
-    boolean insert(OwnerCompanyAccountSummmary summmary);
+    boolean insert(OwnerCompanyAccountDetail summmary);
 
     /**
      * 添加
      * @param summmaries
      * @return
      */
-    boolean batchInsert(Collection<OwnerCompanyAccountSummmary> summmaries);
+    boolean batchInsert(Collection<OwnerCompanyAccountDetail> summmaries);
 
 
     /**
@@ -33,12 +32,12 @@ public interface OwnerCompanyAccountSummmaryDbService {
      * @param summmary
      * @return
      */
-    boolean updateSummary(OwnerCompanyAccountSummmary summmary);
+    boolean updateSummary(OwnerCompanyAccountDetail summmary);
 
     /**
      * 查询多个业主下的数据
      * @return
      */
-    List<OwnerCompanyAccountSummmary> findByOwnerIds(Collection<Long> ownerIds, Integer pdate);
+    List<OwnerCompanyAccountDetail> findByOwnerIds(Collection<Long> ownerIds, Integer pdate);
 
 }

@@ -1,7 +1,7 @@
 package com.magic.crius.storage.db.impl;
 
 import com.magic.crius.dao.crius.db.OwnerPreferentialSummaryMapper;
-import com.magic.crius.po.OwnerPreferentialSummary;
+import com.magic.crius.po.OwnerPreferentialDetail;
 import com.magic.crius.storage.db.OwnerPreferentialSummaryDbService;
 import org.springframework.stereotype.Service;
 
@@ -21,22 +21,22 @@ public class OwnerPreferentialSummaryDbServiceImpl implements OwnerPreferentialS
     private OwnerPreferentialSummaryMapper ownerPreferentialSummaryMapper;
 
     @Override
-    public boolean insert(OwnerPreferentialSummary summmary) {
+    public boolean insert(OwnerPreferentialDetail summmary) {
         return ownerPreferentialSummaryMapper.insert(summmary) > 0;
     }
 
     @Override
-    public boolean batchInsert(Collection<OwnerPreferentialSummary> summmaries) {
+    public boolean batchInsert(Collection<OwnerPreferentialDetail> summmaries) {
         return ownerPreferentialSummaryMapper.batchInsert(summmaries) > 0;
     }
 
     @Override
-    public boolean updateSummary(OwnerPreferentialSummary summmary) {
+    public boolean updateSummary(OwnerPreferentialDetail summmary) {
         return ownerPreferentialSummaryMapper.updateSummary(summmary) > 0;
     }
 
     @Override
-    public List<OwnerPreferentialSummary> findByOwnerIds(Collection<Long> ownerIds, Integer pdate) {
+    public List<OwnerPreferentialDetail> findByOwnerIds(Collection<Long> ownerIds, Integer pdate) {
         return ownerPreferentialSummaryMapper.findByOwnerIds(ownerIds, pdate);
     }
 }

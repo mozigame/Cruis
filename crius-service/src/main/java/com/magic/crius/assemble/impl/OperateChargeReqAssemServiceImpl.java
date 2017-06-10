@@ -5,8 +5,7 @@ import com.magic.crius.assemble.OperateChargeReqAssemService;
 import com.magic.crius.assemble.OwnerOperateFlowSummmaryAssemService;
 import com.magic.crius.assemble.UserAccountSummaryAssemService;
 import com.magic.crius.assemble.UserTradeAssemService;
-import com.magic.crius.constants.RedisConstants;
-import com.magic.crius.po.OwnerOperateFlowSummmary;
+import com.magic.crius.po.OwnerOperateFlowDetail;
 import com.magic.crius.po.UserAccountSummary;
 import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.OperateChargeReqService;
@@ -50,7 +49,7 @@ public class OperateChargeReqAssemServiceImpl implements OperateChargeReqAssemSe
     public boolean convertData(Date date) {
         List<OperateChargeReq> list = operateChargeService.batchPopRedis(date);
         if (list != null && list.size() > 0) {
-            List<OwnerOperateFlowSummmary> ownerOperateFlowSummmaries = new ArrayList<>();
+            List<OwnerOperateFlowDetail> ownerOperateFlowSummmaries = new ArrayList<>();
             List<UserAccountSummary> userAccountSummaries = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
             for (OperateChargeReq req : list) {
@@ -73,8 +72,8 @@ public class OperateChargeReqAssemServiceImpl implements OperateChargeReqAssemSe
         return false;
     }
 
-    private OwnerOperateFlowSummmary assembleOwnerOperateFlowSummmary(OperateChargeReq req) {
-        OwnerOperateFlowSummmary summmary = new OwnerOperateFlowSummmary();
+    private OwnerOperateFlowDetail assembleOwnerOperateFlowSummmary(OperateChargeReq req) {
+        OwnerOperateFlowDetail summmary = new OwnerOperateFlowDetail();
         summmary.setOwnerId(req.getOwnerId());
         //todo
         summmary.setOperateFlowNum(1);

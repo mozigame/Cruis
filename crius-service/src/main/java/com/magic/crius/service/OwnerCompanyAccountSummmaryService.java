@@ -1,6 +1,6 @@
 package com.magic.crius.service;
 
-import com.magic.crius.po.OwnerCompanyAccountSummmary;
+import com.magic.crius.po.OwnerCompanyAccountDetail;
 
 import java.util.Collection;
 import java.util.List;
@@ -12,14 +12,14 @@ public interface OwnerCompanyAccountSummmaryService {
      * @param Summmary
      * @return
      */
-    boolean insert(OwnerCompanyAccountSummmary Summmary);
+    boolean insert(OwnerCompanyAccountDetail Summmary);
 
     /**
      * 批量添加
      * @param Summmaries
      * @return
      */
-    boolean batchInsert(Collection<OwnerCompanyAccountSummmary> Summmaries);
+    boolean batchInsert(Collection<OwnerCompanyAccountDetail> Summmaries);
 
 
     /**
@@ -27,12 +27,12 @@ public interface OwnerCompanyAccountSummmaryService {
      * @param Summmary
      * @return
      */
-    boolean updateSummary(OwnerCompanyAccountSummmary Summmary);
+    boolean updateSummary(OwnerCompanyAccountDetail Summmary);
 
     /**
      * 查询多个业主下的数据
      * @return
      */
-    List<OwnerCompanyAccountSummmary> findByOwnerIds(Collection<Long> ownerIds, Integer pdate);
+    List<OwnerCompanyAccountDetail> findByOwnerIds(Collection<Long> ownerIds, Integer pdate);
 
 }

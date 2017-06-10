@@ -3,7 +3,6 @@ package com.magic.crius.assemble.impl;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.JpReqAssemService;
 import com.magic.crius.assemble.PrizeDetailAssemService;
-import com.magic.crius.po.OwnerOnlineFlowSummmary;
 import com.magic.crius.po.PrizeDetail;
 import com.magic.crius.service.JpReqService;
 import com.magic.crius.util.CriusLog;

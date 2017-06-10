@@ -5,9 +5,8 @@ import com.magic.crius.assemble.DiscountReqAssemService;
 import com.magic.crius.assemble.OwnerPreferentialSummaryAssemService;
 import com.magic.crius.assemble.UserPreferentialSummaryAssemService;
 import com.magic.crius.assemble.UserTradeAssemService;
-import com.magic.crius.constants.RedisConstants;
-import com.magic.crius.po.OwnerPreferentialSummary;
-import com.magic.crius.po.UserPreferentialSummary;
+import com.magic.crius.po.OwnerPreferentialDetail;
+import com.magic.crius.po.UserPreferentialDetail;
 import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.DiscountReqService;
 import com.magic.crius.util.CriusLog;
@@ -50,8 +49,8 @@ public class DiscountReqAssemServiceImpl implements DiscountReqAssemService {
     public boolean convertData(Date date) {
         List<DiscountReq> list = discountReqService.batchPopRedis(date);
         if (list != null && list.size() > 0) {
-            List<OwnerPreferentialSummary> ownerOnlineFlowSummmaryMap = new ArrayList<>();
-            List<UserPreferentialSummary> userPreferentialSummaryHashMap = new ArrayList<>();
+            List<OwnerPreferentialDetail> ownerOnlineFlowSummmaryMap = new ArrayList<>();
+            List<UserPreferentialDetail> userPreferentialSummaryHashMap = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
             for (DiscountReq req : list) {
                 /*会员优惠汇总*/
@@ -69,8 +68,8 @@ public class DiscountReqAssemServiceImpl implements DiscountReqAssemService {
         return false;
     }
 
-    private OwnerPreferentialSummary assembleOwnerPreferentialSummary(DiscountReq req) {
-        OwnerPreferentialSummary ownerPreferentialSummary = new OwnerPreferentialSummary();
+    private OwnerPreferentialDetail assembleOwnerPreferentialSummary(DiscountReq req) {
+        OwnerPreferentialDetail ownerPreferentialSummary = new OwnerPreferentialDetail();
         ownerPreferentialSummary.setOwnerId(req.getOwnerId());
         ownerPreferentialSummary.setPreferentialMoneyCount(req.getAmount());
         ownerPreferentialSummary.setPreferentialNum(1);
@@ -81,8 +80,8 @@ public class DiscountReqAssemServiceImpl implements DiscountReqAssemService {
         return ownerPreferentialSummary;
     }
 
-    private UserPreferentialSummary assembleUserPreferentialSummary(DiscountReq req) {
-        UserPreferentialSummary summary = new UserPreferentialSummary();
+    private UserPreferentialDetail assembleUserPreferentialSummary(DiscountReq req) {
+        UserPreferentialDetail summary = new UserPreferentialDetail();
         summary.setOwnerId(req.getOwnerId());
         summary.setUserId(req.getUserId());
         summary.setPreferentialMoneyCount(req.getAmount());

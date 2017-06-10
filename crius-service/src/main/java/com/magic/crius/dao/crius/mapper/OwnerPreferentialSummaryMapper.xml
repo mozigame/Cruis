@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.magic.crius.dao.crius.db.OwnerPreferentialSummaryMapper">
-    <resultMap id="BaseResultMap" type="com.magic.crius.po.OwnerPreferentialSummary">
+    <resultMap id="BaseResultMap" type="com.magic.crius.po.OwnerPreferentialDetail">
         <id column="Id" jdbcType="INTEGER" property="id"/>
         <result column="owner_id" jdbcType="BIGINT" property="ownerId"/>
         <result column="preferential_money_count" jdbcType="BIGINT" property="preferentialMoneyCount"/>
@@ -12,7 +12,7 @@
     </resultMap>
 
     <!--添加-->
-    <insert id="insert" parameterType="com.magic.crius.po.OwnerPreferentialSummary">
+    <insert id="insert" parameterType="com.magic.crius.po.OwnerPreferentialDetail">
         insert into owner_preferential_summary ( owner_id, preferential_money_count,
           preferential_num, preferential_type, preferential_type_name,
           pdate)
@@ -22,7 +22,7 @@
     </insert>
 
     <!--批量添加-->
-    <insert id="batchInsert" parameterType="com.magic.crius.po.OwnerPreferentialSummary">
+    <insert id="batchInsert" parameterType="com.magic.crius.po.OwnerPreferentialDetail">
         insert into owner_preferential_summary ( owner_id, preferential_money_count,
         preferential_num, preferential_type, preferential_type_name,
         pdate)
@@ -39,7 +39,7 @@
     </insert>
 
     <!--追加数量-->
-    <update id="updateSummary" parameterType="com.magic.crius.po.OwnerPreferentialSummary">
+    <update id="updateSummary" parameterType="com.magic.crius.po.OwnerPreferentialDetail">
         update owner_preferential_summary
         set
           preferential_money_count = preferential_money_count + #{preferentialMoneyCount,jdbcType=BIGINT},

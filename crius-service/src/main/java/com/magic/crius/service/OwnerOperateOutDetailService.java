@@ -1,6 +1,5 @@
 package com.magic.crius.service;
 
-import com.magic.crius.po.OwnerOperateFlowSummmary;
 import com.magic.crius.po.OwnerOperateOutDetail;
 
 import java.util.Collection;

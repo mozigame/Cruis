@@ -1,7 +1,6 @@
 package com.magic.crius.service.impl;
 
-import com.magic.crius.dao.crius.db.OwnerCompanyFlowSummmaryMapper;
-import com.magic.crius.po.OwnerCompanyFlowSummmary;
+import com.magic.crius.po.OwnerCompanyFlowDetail;
 import com.magic.crius.service.OwnerCompanyFlowSummmaryService;
 import com.magic.crius.storage.db.OwnerCompanyFlowSummmaryDbService;
 import org.springframework.stereotype.Service;
@@ -17,22 +16,22 @@ public class OwnerCompanyFlowSummmaryServiceImpl implements OwnerCompanyFlowSumm
     private OwnerCompanyFlowSummmaryDbService ownerCompanyFlowSummmaryDbService;
 
     @Override
-    public boolean insert(OwnerCompanyFlowSummmary summmary) {
+    public boolean insert(OwnerCompanyFlowDetail summmary) {
         return ownerCompanyFlowSummmaryDbService.insert(summmary);
     }
 
     @Override
-    public boolean batchInsert(Collection<OwnerCompanyFlowSummmary> summmaries) {
+    public boolean batchInsert(Collection<OwnerCompanyFlowDetail> summmaries) {
         return ownerCompanyFlowSummmaryDbService.batchInsert(summmaries);
     }
 
     @Override
-    public boolean updateSummary(OwnerCompanyFlowSummmary summmary) {
+    public boolean updateSummary(OwnerCompanyFlowDetail summmary) {
         return ownerCompanyFlowSummmaryDbService.updateSummary(summmary);
     }
 
     @Override
-    public List<OwnerCompanyFlowSummmary> findByOwnerIds(Collection<Long> ownerIds, Integer pdate) {
+    public List<OwnerCompanyFlowDetail> findByOwnerIds(Collection<Long> ownerIds, Integer pdate) {
         return ownerCompanyFlowSummmaryDbService.findByOwnerIds(ownerIds, pdate);
     }
 }

@@ -1,6 +1,6 @@
 package com.magic.crius.dao.crius.db;
 
-import com.magic.crius.po.OwnerCompanyAccountSummmary;
+import com.magic.crius.po.OwnerCompanyAccountDetail;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -18,14 +18,14 @@ public interface OwnerCompanyAccountSummmaryMapper {
      * @param summmary
      * @return
      */
-    int insert(OwnerCompanyAccountSummmary summmary);
+    int insert(OwnerCompanyAccountDetail summmary);
 
     /**
      * 添加
      * @param summmaries
      * @return
      */
-    int batchInsert(@Param("list") Collection<OwnerCompanyAccountSummmary> summmaries);
+    int batchInsert(@Param("list") Collection<OwnerCompanyAccountDetail> summmaries);
 
 
     /**
@@ -33,12 +33,12 @@ public interface OwnerCompanyAccountSummmaryMapper {
      * @param summmary
      * @return
      */
-    int updateSummary(OwnerCompanyAccountSummmary summmary);
+    int updateSummary(OwnerCompanyAccountDetail summmary);
 
     /**
      * 查询当天内多个业主下的数据
      * @return
      */
-    List<OwnerCompanyAccountSummmary> findByOwnerIds(@Param("list") Collection<Long> ownerIds, @Param("pdate") Integer pdate);
+    List<OwnerCompanyAccountDetail> findByOwnerIds(@Param("list") Collection<Long> ownerIds, @Param("pdate") Integer pdate);
 
 }
