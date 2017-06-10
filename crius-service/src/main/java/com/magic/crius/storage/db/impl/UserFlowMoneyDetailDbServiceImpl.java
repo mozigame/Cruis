@@ -1,6 +1,6 @@
 package com.magic.crius.storage.db.impl;
 
-import com.magic.crius.dao.db.UserFlowMoneyDetailMapper;
+import com.magic.crius.dao.crius.db.UserFlowMoneyDetailMapper;
 import com.magic.crius.po.UserFlowMoneyDetail;
 import com.magic.crius.storage.db.UserFlowMoneyDetailDbService;
 import org.springframework.stereotype.Service;

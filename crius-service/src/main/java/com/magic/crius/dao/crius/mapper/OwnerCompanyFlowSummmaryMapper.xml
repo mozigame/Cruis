@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.magic.crius.dao.crius.db.OwnerCompanyFlowSummmaryMapper">
+    <resultMap id="BaseResultMap" type="com.magic.crius.po.OwnerCompanyFlowSummmary">
+        <id column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="owner_id" jdbcType="BIGINT" property="ownerId"/>
+        <result column="company_flow_money_count" jdbcType="BIGINT" property="companyFlowMoneyCount"/>
+        <result column="company_flow_num" jdbcType="INTEGER" property="companyFlowNum"/>
+        <result column="account_code" jdbcType="BIGINT" property="accountCode"/>
+        <result column="account_num" jdbcType="BIGINT" property="accountNum"/>
+        <result column="account_name" jdbcType="VARCHAR" property="accountName"/>
+        <result column="bank_system_code" jdbcType="VARCHAR" property="bankSystemCode"/>
+        <result column="bank_system_name" jdbcType="VARCHAR" property="bankSystemName"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="pdate" jdbcType="INTEGER" property="pdate"/>
+    </resultMap>
+
+    <!--保存公司入款详情-->
+    <insert id="insert" parameterType="com.magic.crius.po.OwnerCompanyFlowSummmary">
+        insert into owner_company_flow_summmary (owner_id, company_flow_money_count,
+          company_flow_num, account_code, account_num,
+          account_name, bank_system_code, bank_system_name,
+          state, pdate)
+        values (#{ownerId,jdbcType=BIGINT}, #{companyFlowMoneyCount,jdbcType=BIGINT},
+          #{companyFlowNum,jdbcType=INTEGER}, #{accountCode,jdbcType=BIGINT}, #{accountNum,jdbcType=BIGINT},
+          #{accountName,jdbcType=VARCHAR}, #{bankSystemCode,jdbcType=VARCHAR}, #{bankSystemName,jdbcType=VARCHAR},
+          #{state,jdbcType=INTEGER}, #{pdate,jdbcType=INTEGER})
+     </insert>
+
+    <!--保存公司入款详情-->
+    <insert id="batchInsert">
+        insert into owner_company_flow_summmary (owner_id, company_flow_money_count,
+        company_flow_num, account_code, account_num,
+        account_name, bank_system_code, bank_system_name,
+        state, pdate)
+        values
+        <foreach collection="list" item="param" separator=",">
+          (#{param.ownerId,jdbcType=BIGINT},
+            #{param.companyFlowMoneyCount,jdbcType=BIGINT},
+            #{param.companyFlowNum,jdbcType=INTEGER},
+            #{param.accountCode,jdbcType=BIGINT},
+            #{param.accountNum,jdbcType=BIGINT},
+            #{param.accountName,jdbcType=VARCHAR},
+            #{param.bankSystemCode,jdbcType=VARCHAR},
+            #{param.bankSystemName,jdbcType=VARCHAR},
+            #{param.state,jdbcType=INTEGER},
+            #{param.pdate,jdbcType=INTEGER})
+        </foreach>
+
+    </insert>
+
+
+    <!--追加金额和数量-->
+    <update id="updateSummary" parameterType="com.magic.crius.po.OwnerCompanyFlowSummmary">
+        UPDATE owner_company_flow_summmary
+        set company_flow_money_count=company_flow_money_count + #{companyFlowMoneyCount,jdbcType=BIGINT},
+        company_flow_num = company_flow_num + #{companyFlowNum,jdbcType=INTEGER}
+        WHERE owner_id = #{ownerId,jdbcType=BIGINT}
+        and account_num =#{accountNum,jdbcType=BIGINT}
+        and pdate = #{pdate,jdbcType=INTEGER}
+    </update>
+
+
+    <!--检查是否有数据-->
+    <select id="findByOwnerIds" resultMap="BaseResultMap">
+        SELECT owner_id,account_num from owner_company_flow_summmary
+        WHERE pdate = #{pdate,jdbcType=INTEGER}
+        AND owner_id IN
+          <foreach collection="list" item="ownerId" separator="," open="(" close=")">
+              #{ownerId,jdbcType=BIGINT}
+          </foreach>
+    </select>
+</mapper>

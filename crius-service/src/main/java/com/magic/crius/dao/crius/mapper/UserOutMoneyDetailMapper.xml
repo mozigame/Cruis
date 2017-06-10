@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.magic.crius.dao.crius.db.UserOutMoneyDetailMapper">
+    <resultMap id="BaseResultMap" type="com.magic.crius.po.UserOutMoneyDetail">
+        <id column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="owner_id" jdbcType="BIGINT" property="ownerId"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="order_count" jdbcType="BIGINT" property="orderCount"/>
+        <result column="tax_count" jdbcType="BIGINT" property="taxCount"/>
+        <result column="state" jdbcType="INTEGER" property="state"/>
+        <result column="order_id" jdbcType="BIGINT" property="orderId"/>
+        <result column="pdate" jdbcType="INTEGER" property="pdate"/>
+        <result column="handler_id" jdbcType="BIGINT" property="handlerId"/>
+        <result column="handler_name" jdbcType="VARCHAR" property="handlerName"/>
+        <result column="create_time" jdbcType="BIGINT" property="createTime"/>
+        <result column="update_time" jdbcType="BIGINT" property="updateTime"/>
+    </resultMap>
+
+
+    <insert id="insert" parameterType="com.magic.crius.po.UserOutMoneyDetail">
+        insert into user_out_money_detail (owner_id, user_id,
+          order_count, tax_count, state,
+          order_id, pdate, handler_id,
+          handler_name, create_time, update_time
+          )
+        values (#{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
+          #{orderCount,jdbcType=BIGINT}, #{taxCount,jdbcType=BIGINT}, #{state,jdbcType=INTEGER},
+          #{orderId,jdbcType=BIGINT}, #{pdate,jdbcType=INTEGER}, #{handlerId,jdbcType=BIGINT},
+          #{handlerName,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}
+          )
+    </insert>
+
+    <!--批量添加-->
+    <insert id="batchInsert" parameterType="com.magic.crius.po.UserOutMoneyDetail">
+        insert into user_out_money_detail (owner_id, user_id,
+        order_count, tax_count, state,
+        order_id, pdate, handler_id,
+        handler_name, create_time, update_time
+        )
+        values
+        <foreach collection="list" item="param" separator=",">
+          (#{param.ownerId,jdbcType=BIGINT},
+            #{param.userId,jdbcType=BIGINT},
+            #{param.orderCount,jdbcType=BIGINT},
+            #{param.taxCount,jdbcType=BIGINT},
+            #{param.state,jdbcType=INTEGER},
+            #{param.orderId,jdbcType=BIGINT},
+            #{param.pdate,jdbcType=INTEGER},
+            #{param.handlerId,jdbcType=BIGINT},
+            #{param.handlerName,jdbcType=VARCHAR},
+            #{param.createTime,jdbcType=BIGINT},
+            #{param.updateTime,jdbcType=BIGINT}
+            )
+        </foreach>
+
+    </insert>
+
+
+</mapper>

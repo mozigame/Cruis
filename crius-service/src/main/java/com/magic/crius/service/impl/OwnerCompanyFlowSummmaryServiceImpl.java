@@ -1,6 +1,6 @@
 package com.magic.crius.service.impl;
 
-import com.magic.crius.dao.db.OwnerCompanyFlowSummmaryMapper;
+import com.magic.crius.dao.crius.db.OwnerCompanyFlowSummmaryMapper;
 import com.magic.crius.po.OwnerCompanyFlowSummmary;
 import com.magic.crius.service.OwnerCompanyFlowSummmaryService;
 import com.magic.crius.storage.db.OwnerCompanyFlowSummmaryDbService;

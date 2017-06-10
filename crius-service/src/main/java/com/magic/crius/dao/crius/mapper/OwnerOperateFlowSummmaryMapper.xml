@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.magic.crius.dao.crius.db.OwnerOperateFlowSummmaryMapper">
+  <resultMap id="BaseResultMap" type="com.magic.crius.po.OwnerOperateFlowSummmary">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="owner_id" jdbcType="BIGINT" property="ownerId" />
+    <result column="operate_flow_money_count" jdbcType="BIGINT" property="operateFlowMoneyCount" />
+    <result column="operate_flow_num" jdbcType="INTEGER" property="operateFlowNum" />
+    <result column="operate_flow_type" jdbcType="INTEGER" property="operateFlowType" />
+    <result column="operate_flow_type_name" jdbcType="VARCHAR" property="operateFlowTypeName" />
+    <result column="pdate" jdbcType="INTEGER" property="pdate" />
+  </resultMap>
+
+  <!--添加-->
+  <insert id="insert" parameterType="com.magic.crius.po.OwnerOperateFlowSummmary">
+    insert into owner_operate_flow_summary (owner_id, operate_flow_money_count,
+      operate_flow_num, operate_flow_type, operate_flow_type_name, 
+      pdate)
+    values (#{ownerId,jdbcType=BIGINT}, #{operateFlowMoneyCount,jdbcType=BIGINT},
+      #{operateFlowNum,jdbcType=INTEGER}, #{operateFlowType,jdbcType=INTEGER}, #{operateFlowTypeName,jdbcType=VARCHAR}, 
+      #{pdate,jdbcType=INTEGER})
+  </insert>
+
+
+  <!--批量添加-->
+  <insert id="batchInsert">
+    insert into owner_operate_flow_summary (owner_id, operate_flow_money_count,
+    operate_flow_num, operate_flow_type, operate_flow_type_name,
+    pdate)
+    values
+    <foreach collection="list" item="param" separator=",">
+      (#{param.ownerId,jdbcType=BIGINT},
+      #{param.operateFlowMoneyCount,jdbcType=BIGINT},
+      #{param.operateFlowNum,jdbcType=INTEGER},
+      #{param.operateFlowType,jdbcType=INTEGER},
+      #{param.operateFlowTypeName,jdbcType=VARCHAR},
+      #{param.pdate,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+
+
+
+  <!--获取多个业主的数据-->
+  <select id="findByOwnerIds" resultMap="BaseResultMap">
+    select owner_id,operate_flow_type from owner_operate_flow_summary
+    WHERE pdate = #{pdate,jdbcType=INTEGER}
+    AND owner_id IN
+    <foreach collection="list" item="ownerId" separator="," open="(" close=")">
+      #{ownerId,jdbcType=BIGINT}
+    </foreach>
+  </select>
+
+  <!--追加金额和数量-->
+  <update id="updateSummary" parameterType="com.magic.crius.po.OwnerOperateFlowSummmary">
+    update owner_operate_flow_summary
+    set
+      operate_flow_money_count = operate_flow_money_count + #{operateFlowMoneyCount,jdbcType=BIGINT},
+      operate_flow_num = operate_flow_num + #{operateFlowNum,jdbcType=INTEGER}
+    WHERE owner_id = #{ownerId,jdbcType=BIGINT}
+    AND operate_flow_type = #{operateFlowType,jdbcType=INTEGER}
+    AND pdate = #{pdate,jdbcType=INTEGER}
+  </update>
+
+
+</mapper>

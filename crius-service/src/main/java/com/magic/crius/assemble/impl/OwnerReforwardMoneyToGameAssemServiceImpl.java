@@ -20,44 +20,11 @@ public class OwnerReforwardMoneyToGameAssemServiceImpl implements OwnerReforward
     private OwnerReforwardMoneyToGameService ownerReforwardMoneyToGameService;
 
     @Override
-    public boolean batchSave(Map<String, OwnerReforwardMoneyToGame> moneyToGameMap) {
-        Set<Long> ownerIds = new HashSet<>();
-        for (OwnerReforwardMoneyToGame summmary : moneyToGameMap.values()) {
-            ownerIds.add(summmary.getOwnerId());
-        }
-        int pdate = moneyToGameMap.values().iterator().next().getPdate();
-        List<OwnerReforwardMoneyToGame> flowSummmaries = ownerReforwardMoneyToGameService.findByOwnerIds(ownerIds, pdate);
-        Collection<OwnerReforwardMoneyToGame> saves = new HashSet<>();
-        List<OwnerReforwardMoneyToGame> updates = new ArrayList<>();
+    public boolean batchSave(List<OwnerReforwardMoneyToGame> moneyToGameMap) {
 
-        if (flowSummmaries != null && flowSummmaries.size() > 0) {
-            Set<String> keys = moneyToGameMap.keySet();
-            for (String key : keys) {
-                boolean flag = false;
-                for (OwnerReforwardMoneyToGame detail : flowSummmaries) {
-                    if (key.equals(detail.getOwnerId() + "_" + detail.getGameType())) {
-                        flowSummmaries.remove(detail);
-                        flag = true;
-                        break;
-                    }
-                }
-                if (flag) {
-                    updates.add(moneyToGameMap.get(key));
-                } else {
-                    saves.add(moneyToGameMap.get(key));
-                }
-            }
-        } else {
-            saves = moneyToGameMap.values();
-        }
-
-        boolean flag = false;
         //todo 错误处理
-        if (saves.size() > 0) {
-            ownerReforwardMoneyToGameService.batchInsert(saves);
-        }
-        for (OwnerReforwardMoneyToGame summmary : updates) {
-            ownerReforwardMoneyToGameService.updateSummary(summmary);
+        if (moneyToGameMap.size() > 0) {
+            ownerReforwardMoneyToGameService.batchInsert(moneyToGameMap);
         }
         return true;
     }

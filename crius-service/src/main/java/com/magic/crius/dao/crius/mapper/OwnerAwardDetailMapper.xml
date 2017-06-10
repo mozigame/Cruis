@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.magic.crius.dao.crius.db.OwnerAwardDetailMapper">
+    <resultMap id="BaseResultMap" type="com.magic.crius.po.OwnerAwardDetail">
+        <id column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="owner_id" jdbcType="BIGINT" property="ownerId"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="game_id" jdbcType="VARCHAR" property="gameId"/>
+        <result column="order_id" jdbcType="BIGINT" property="orderId"/>
+        <result column="currency_code" jdbcType="VARCHAR" property="currencyCode"/>
+        <result column="currency_name" jdbcType="VARCHAR" property="currencyName"/>
+        <result column="office_num" jdbcType="INTEGER" property="officeNum"/>
+        <result column="order_count" jdbcType="BIGINT" property="orderCount"/>
+        <result column="dealer_code" jdbcType="VARCHAR" property="dealerCode"/>
+        <result column="dealer_name" jdbcType="VARCHAR" property="dealerName"/>
+        <result column="pdate" jdbcType="INTEGER" property="pdate"/>
+        <result column="create_time" jdbcType="BIGINT" property="createTime"/>
+    </resultMap>
+
+
+    <!--添加-->
+    <insert id="insert" parameterType="com.magic.crius.po.OwnerAwardDetail">
+        insert into owner_award_detail (owner_id, user_id,
+          game_id, order_id, currency_code,
+          currency_name, office_num, order_count,
+          dealer_code, dealer_name, pdate,
+          create_time)
+        values (#{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
+          #{gameId,jdbcType=VARCHAR}, #{orderId,jdbcType=BIGINT}, #{currencyCode,jdbcType=VARCHAR},
+          #{currencyName,jdbcType=VARCHAR}, #{officeNum,jdbcType=INTEGER}, #{orderCount,jdbcType=BIGINT},
+          #{dealerCode,jdbcType=VARCHAR}, #{dealerName,jdbcType=VARCHAR}, #{pdate,jdbcType=INTEGER},
+          #{createTime,jdbcType=BIGINT})
+    </insert>
+
+
+    <!--批量添加-->
+    <insert id="batchInsert">
+        insert into owner_award_detail (owner_id, user_id,
+        game_id, order_id, currency_code,
+        currency_name, office_num, order_count,
+        dealer_code, dealer_name, pdate,
+        create_time)
+        values
+        <foreach collection="list" item="param" separator="," >
+          (#{param.ownerId,jdbcType=BIGINT},
+            #{param.userId,jdbcType=BIGINT},
+            #{param.gameId,jdbcType=VARCHAR},
+            #{param.orderId,jdbcType=BIGINT},
+            #{param.currencyCode,jdbcType=VARCHAR},
+            #{param.currencyName,jdbcType=VARCHAR},
+            #{param.officeNum,jdbcType=INTEGER},
+            #{param.orderCount,jdbcType=BIGINT},
+            #{param.dealerCode,jdbcType=VARCHAR},
+            #{param.dealerName,jdbcType=VARCHAR},
+            #{param.pdate,jdbcType=INTEGER},
+            #{param.createTime,jdbcType=BIGINT})
+        </foreach>
+    </insert>
+
+
+    <update id="updateByPrimaryKey" parameterType="com.magic.crius.po.OwnerAwardDetail">
+        update owner_award_detail
+        set owner_id = #{ownerId,jdbcType=BIGINT},
+          user_id = #{userId,jdbcType=BIGINT},
+          game_id = #{gameId,jdbcType=VARCHAR},
+          order_id = #{orderId,jdbcType=BIGINT},
+          currency_code = #{currencyCode,jdbcType=VARCHAR},
+          currency_name = #{currencyName,jdbcType=VARCHAR},
+          office_num = #{officeNum,jdbcType=INTEGER},
+          order_count = #{orderCount,jdbcType=BIGINT},
+          dealer_code = #{dealerCode,jdbcType=VARCHAR},
+          dealer_name = #{dealerName,jdbcType=VARCHAR},
+          pdate = #{pdate,jdbcType=INTEGER},
+          create_time = #{createTime,jdbcType=BIGINT}
+        where Id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

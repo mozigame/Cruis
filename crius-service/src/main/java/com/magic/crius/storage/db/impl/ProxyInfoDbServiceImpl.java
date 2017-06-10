@@ -1,6 +1,6 @@
 package com.magic.crius.storage.db.impl;
 
-import com.magic.crius.dao.db.ProxyInfoMapper;
+import com.magic.crius.dao.crius.db.ProxyInfoMapper;
 import com.magic.crius.po.ProxyInfo;
 import com.magic.crius.storage.db.ProxyInfoDbService;
 import org.springframework.stereotype.Service;

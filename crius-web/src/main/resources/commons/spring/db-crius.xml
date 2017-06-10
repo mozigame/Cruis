@@ -35,8 +35,8 @@
     </bean>
 
 
-    <!-- dataSource-->
-    <bean id="userDataSource_0" parent="baseDataSource">
+    <!-- crius dataSource-->
+    <bean id="userDataSource_crius" parent="baseDataSource">
         <property name="url">
             <value>jdbc:mysql://${mysql.crius.db.serverport}/${mysql.crius.db.database}?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true</value>
         </property>
@@ -49,26 +49,51 @@
     </bean>
     <!-- dataSource-->
 
-
+    <!-- tethys dataSource-->
+    <bean id="userDataSource_tethys" parent="baseDataSource">
+        <property name="url">
+            <value>jdbc:mysql://${mysql.tethys.db.serverport}/${mysql.tethys.db.database}?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true</value>
+        </property>
+        <property name="username">
+            <value>${mysql.tethys.db.user}</value>
+        </property>
+        <property name="password">
+            <value>${mysql.tethys.db.password}</value>
+        </property>
+    </bean>
+    <!-- dataSource-->
 
     <!-- sql sessionTemplate -->
-    <bean id="mySqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="userDataSource_0"/>
+    <bean id="mySqlSessionFactory_crius" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="multipleDataSource"/>
         <property name="configLocation" value="classpath:spring/sqlMapConfig.xml"/>
-        <property name="mapperLocations" value="classpath*:com/magic/crius/dao/mapper/*.xml"/>
+        <property name="mapperLocations">
+            <array>
+                <value>${crius.mapper.path}</value>
+                <value>${tethys.mapper.path}</value>
+            </array>
+        </property>
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.magic.crius.dao.db"/>
-        <property name="sqlSessionFactoryBeanName" value="mySqlSessionFactory"/>
+        <property name="basePackage" value="com.magic.crius.dao.crius.db,com.magic.crius.dao.tethys.db"/>
+        <property name="sqlSessionFactoryBeanName" value="mySqlSessionFactory_crius"/>
     </bean>
 
     <bean id="mySqlSessionTemplate_0" class="org.mybatis.spring.SqlSessionTemplate">
-        <constructor-arg index="0" ref="mySqlSessionFactory"/>
+        <constructor-arg index="0" ref="mySqlSessionFactory_crius"/>
     </bean>
     <!-- sql sessionTemplate -->
 
 
-
+    <bean id="multipleDataSource" class="com.magic.crius.dt.core.MultipleDataSource">
+        <property name="defaultTargetDataSource" ref="userDataSource_crius"/>
+        <property name="targetDataSources">
+            <map>
+                <entry key="criusDataSource" value-ref="userDataSource_crius"/>
+                <entry key="tethysDataSource" value-ref="userDataSource_tethys"/>
+            </map>
+        </property>
+    </bean>
 
 </beans>

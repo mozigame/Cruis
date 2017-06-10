@@ -21,45 +21,11 @@ public class OwnerOnlineFlowSummmaryAssemServiceImpl implements OwnerOnlineFlowS
     private OwnerOnlineFlowSummmaryService ownerOnlineFlowSummmaryService;
 
     @Override
-    public void batchSave(Map<String, OwnerOnlineFlowSummmary> ownerOnlineFlowSummmaries) {
-        Set<Long> ownerIds = new HashSet<>();
-        for (OwnerOnlineFlowSummmary summmary : ownerOnlineFlowSummmaries.values()) {
-            ownerIds.add(summmary.getOwnerId());
-        }
-        int pdate = ownerOnlineFlowSummmaries.values().iterator().next().getPdate();
-        List<OwnerOnlineFlowSummmary> flowSummmaries = ownerOnlineFlowSummmaryService.findByOwnerIds(ownerIds, pdate);
-        Collection<OwnerOnlineFlowSummmary> saves = new ArrayList<>();
-        List<OwnerOnlineFlowSummmary> updates = new ArrayList<>();
-
-        if (flowSummmaries != null && flowSummmaries.size() > 0) {
-            Set<String> keys = ownerOnlineFlowSummmaries.keySet();
-            for (String key : keys) {
-                boolean flag = false;
-                for (OwnerOnlineFlowSummmary summmary : flowSummmaries) {
-                    if (key.equals(summmary.getOwnerId() + "_" + summmary.getMerchantCode())) {
-                        flag  = true;
-                        flowSummmaries.remove(summmary);
-                        break;
-                    }
-                }
-                if (flag) {
-                    updates.add(ownerOnlineFlowSummmaries.get(key));
-                } else {
-                    saves.add(ownerOnlineFlowSummmaries.get(key));
-                }
-            }
-        } else {
-            saves = ownerOnlineFlowSummmaries.values();
-        }
-
-
+    public void batchSave(List<OwnerOnlineFlowSummmary> ownerOnlineFlowSummmaries) {
 
         //todo 错误处理
-        if (saves.size() > 0) {
-            boolean saveResult = ownerOnlineFlowSummmaryService.batchInsert(saves);
-        }
-        for (OwnerOnlineFlowSummmary summmary : updates) {
-            ownerOnlineFlowSummmaryService.updateSummary(summmary);
+        if (ownerOnlineFlowSummmaries.size() > 0) {
+            boolean saveResult = ownerOnlineFlowSummmaryService.batchInsert(ownerOnlineFlowSummmaries);
         }
     }
 }

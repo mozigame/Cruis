@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.magic.crius.dao.crius.db.OwnerCompanyAccountSummmaryMapper">
+    <resultMap id="BaseResultMap" type="com.magic.crius.po.OwnerCompanyAccountSummmary">
+        <id column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="owner_id" jdbcType="BIGINT" property="ownerId"/>
+        <result column="summary_money_count" jdbcType="BIGINT" property="summaryMoneyCount"/>
+        <result column="summary_user_num" jdbcType="INTEGER" property="summaryUserNum"/>
+        <result column="summary_type" jdbcType="INTEGER" property="summaryType"/>
+        <result column="summary_type_name" jdbcType="VARCHAR" property="summaryTypeName"/>
+        <result column="summary_kind" jdbcType="INTEGER" property="summaryKind"/>
+        <result column="pdate" jdbcType="INTEGER" property="pdate"/>
+    </resultMap>
+
+
+    <!--添加公司账目汇总-->
+    <insert id="insert" parameterType="com.magic.crius.po.OwnerCompanyAccountSummmary">
+        insert into owner_company_account_summmary (owner_id, summary_money_count,
+        summary_user_num, summary_type, summary_type_name,
+        summary_kind, pdate)
+        values
+            ( #{ownerId,jdbcType=BIGINT},
+            #{summaryMoneyCount,jdbcType=BIGINT},
+            #{summaryUserNum,jdbcType=INTEGER},
+            #{summaryType,jdbcType=INTEGER},
+            #{summaryTypeName,jdbcType=VARCHAR},
+            #{summaryKind,jdbcType=INTEGER},
+            #{pdate,jdbcType=INTEGER})
+
+    </insert>
+
+    <!--添加公司账目汇总-->
+    <insert id="batchInsert" >
+    insert into owner_company_account_summmary (owner_id, summary_money_count,
+      summary_user_num, summary_type, summary_type_name, 
+      summary_kind, pdate)
+    values
+    <foreach collection="list" item="param" separator="," >
+      ( #{param.ownerId,jdbcType=BIGINT},
+        #{param.summaryMoneyCount,jdbcType=BIGINT},
+        #{param.summaryUserNum,jdbcType=INTEGER},
+        #{param.summaryType,jdbcType=INTEGER},
+        #{param.summaryTypeName,jdbcType=VARCHAR},
+        #{param.summaryKind,jdbcType=INTEGER},
+        #{param.pdate,jdbcType=INTEGER})
+    </foreach>
+
+  </insert>
+
+    <!--根据多个ownerId获取数据-->
+    <select id="findByOwnerIds" resultMap="BaseResultMap">
+        SELECT owner_id,summary_type from owner_company_account_summmary
+        WHERE pdate = #{pdate,jdbcType=INTEGER}
+        AND owner_id IN
+        <foreach collection="list" item="ownerId" separator="," open="(" close=")">
+            #{ownerId,jdbcType=BIGINT}
+        </foreach>
+
+    </select>
+
+    <!--追加汇总数量-->
+    <update id="updateSummary" parameterType="com.magic.crius.po.OwnerCompanyAccountSummmary">
+        update owner_company_account_summmary
+        SET summary_money_count = summary_money_count + #{summaryMoneyCount,jdbcType=BIGINT},
+        summary_user_num = summary_user_num + #{summaryUserNum,jdbcType=INTEGER}
+        WHERE owner_id = #{ownerId,jdbcType=BIGINT}
+        AND summary_type = #{summaryType,jdbcType=INTEGER}
+        AND pdate = #{pdate,jdbcType=INTEGER}
+    </update>
+
+
+</mapper>

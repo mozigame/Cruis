@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.magic.crius.dao.crius.db.OwnerOperateOutDetailMapper">
+    <resultMap id="BaseResultMap" type="com.magic.crius.po.OwnerOperateOutDetail">
+        <id column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="owner_id" jdbcType="BIGINT" property="ownerId"/>
+        <result column="operate_out_money_count" jdbcType="BIGINT" property="operateOutMoneyCount"/>
+        <result column="operate_out_num" jdbcType="INTEGER" property="operateOutNum"/>
+        <result column="operate_out_type" jdbcType="INTEGER" property="operateOutType"/>
+        <result column="operate_out_type_name" jdbcType="VARCHAR" property="operateOutTypeName"/>
+        <result column="pdate" jdbcType="INTEGER" property="pdate"/>
+    </resultMap>
+    <!--添加-->
+    <insert id="insert" parameterType="com.magic.crius.po.OwnerOperateOutDetail">
+        insert into owner_operate_out_detail (owner_id, operate_out_money_count,
+          operate_out_num, operate_out_type, operate_out_type_name,
+          pdate)
+        values ( #{ownerId,jdbcType=BIGINT}, #{operateOutMoneyCount,jdbcType=BIGINT},
+          #{operateOutNum,jdbcType=INTEGER}, #{operateOutType,jdbcType=INTEGER}, #{operateOutTypeName,jdbcType=VARCHAR},
+          #{pdate,jdbcType=INTEGER})
+     </insert>
+
+    <!--批量添加-->
+    <insert id="batchInsert">
+        insert into owner_operate_out_detail (owner_id, operate_out_money_count,
+        operate_out_num, operate_out_type, operate_out_type_name,
+        pdate)
+        values
+        <foreach collection="list" item="param" separator=",">
+          ( #{param.ownerId,jdbcType=BIGINT},
+            #{param.operateOutMoneyCount,jdbcType=BIGINT},
+            #{param.operateOutNum,jdbcType=INTEGER},
+            #{param.operateOutType,jdbcType=INTEGER},
+            #{param.operateOutTypeName,jdbcType=VARCHAR},
+            #{param.pdate,jdbcType=INTEGER})
+        </foreach>
+
+    </insert>
+
+
+    <!--追加数量-->
+    <update id="updateSummary" parameterType="com.magic.crius.po.OwnerOperateOutDetail">
+        update owner_operate_out_detail
+        set
+          operate_out_money_count = operate_out_money_count + #{operateOutMoneyCount,jdbcType=BIGINT},
+          operate_out_num = operate_out_num + #{operateOutNum,jdbcType=INTEGER}
+        where owner_id = #{ownerId,jdbcType=BIGINT}
+            AND operate_out_type = #{operateOutType,jdbcType=INTEGER}
+            AND pdate = #{pdate,jdbcType=INTEGER}
+     </update>
+
+    <!--根据多个业主ID获取数据-->
+    <select id="findByOwnerIds" resultMap="BaseResultMap">
+        select owner_id,operate_out_type from owner_operate_out_detail
+        WHERE pdate = #{pdate,jdbcType=INTEGER}
+        AND owner_id IN
+        <foreach collection="list" item="ownerId" separator="," open="(" close=")">
+            #{ownerId,jdbcType=BIGINT}
+        </foreach>
+    </select>
+
+
+</mapper>

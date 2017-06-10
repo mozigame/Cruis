@@ -1,6 +1,6 @@
 package com.magic.crius.storage.db.impl;
 
-import com.magic.crius.dao.db.UserAccountSummaryMapper;
+import com.magic.crius.dao.crius.db.UserAccountSummaryMapper;
 import com.magic.crius.po.UserAccountSummary;
 import com.magic.crius.storage.db.UserAccountSummaryDbService;
 import org.springframework.stereotype.Service;

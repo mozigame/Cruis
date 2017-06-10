@@ -18,8 +18,4 @@ public interface OperateWithDrawReqAssemService {
      */
     void  procKafkaData(OperateWithDrawReq req);
 
-    /**
-     * 在redis中获取数据，然后进行清洗
-     */
-    boolean convertData(Date date);
 }

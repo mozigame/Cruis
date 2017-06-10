@@ -1,10 +1,8 @@
 package com.magic.crius.assemble;
 
-import com.magic.crius.po.ProxyPreferentialSummary;
 import com.magic.crius.po.UserPreferentialSummary;
 
-import java.util.Collection;
-import java.util.Map;
+import java.util.List;
 
 /**
  * User: joey
@@ -18,5 +16,5 @@ public interface UserPreferentialSummaryAssemService {
      * @param summaries
      * @return
      */
-    void batchSave(Map<String, UserPreferentialSummary> summaries);
+    void batchSave(List<UserPreferentialSummary> summaries);
 }

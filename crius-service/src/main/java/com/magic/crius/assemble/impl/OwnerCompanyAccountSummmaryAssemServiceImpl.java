@@ -22,38 +22,12 @@ public class OwnerCompanyAccountSummmaryAssemServiceImpl implements OwnerCompany
     private OwnerCompanyAccountSummmaryService ownerCompanyAccountSummmaryService;
 
     @Override
-    public void batchSave(Map<Long, OwnerCompanyAccountSummmary> ownerCompanyAccountSummmaries) {
-        Set<Long> ownerIds = ownerCompanyAccountSummmaries.keySet();
+    public void batchSave(List<OwnerCompanyAccountSummmary> ownerCompanyAccountSummmaries) {
 
-        int pdate = ownerCompanyAccountSummmaries.values().iterator().next().getPdate();
-        List<OwnerCompanyAccountSummmary> summmaries = ownerCompanyAccountSummmaryService.findByOwnerIds(ownerIds, pdate);
-        Collection<OwnerCompanyAccountSummmary> saves = new ArrayList<>();
-        List<OwnerCompanyAccountSummmary> updates = new ArrayList<>();
-        if (summmaries != null && summmaries.size() > 0) {
-            for (Long key : ownerIds) {
-                boolean flag = false;
-                for (OwnerCompanyAccountSummmary summmary : summmaries) {
-                    if (key.longValue() == summmary.getOwnerId().longValue()) {
-                        flag = true;
-                        summmaries.remove(summmary);
-                        break;
-                    }
-                }
-                if (flag) {
-                    updates.add(ownerCompanyAccountSummmaries.get(key));
-                } else {
-                    saves.add(ownerCompanyAccountSummmaries.get(key));
-                }
-            }
-        } else {
-            saves = ownerCompanyAccountSummmaries.values();
-        }
         //todo 错误处理
-        if (saves.size() > 0) {
-            boolean saveResult = ownerCompanyAccountSummmaryService.batchInsert(saves);
+        if (ownerCompanyAccountSummmaries.size() > 0) {
+            boolean saveResult = ownerCompanyAccountSummmaryService.batchInsert(ownerCompanyAccountSummmaries);
         }
-        for (OwnerCompanyAccountSummmary summmary : updates) {
-            ownerCompanyAccountSummmaryService.updateSummary(summmary);
-        }
+
     }
 }

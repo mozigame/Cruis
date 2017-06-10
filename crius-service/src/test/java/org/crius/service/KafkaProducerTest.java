@@ -209,7 +209,7 @@ public class KafkaProducerTest {
             operateWithDraw.setRate(45);
             operateWithDraw.setHandlerId(20000L);
             operateWithDraw.setHandlerName("jee");
-            operateWithDraw.setWithdrawType(1);
+            operateWithDraw.setWithdrawType(i % 5);
             operateWithDraw.setRemark("remark");
             operateWithDraw.setProduceTime(System.currentTimeMillis());
 
@@ -222,7 +222,7 @@ public class KafkaProducerTest {
 
     @Test
     public void testPreWithdraw() {
-        for (int i = 0 ; i < 2;i ++) {
+        for (int i = 0 ; i <= 20;i ++) {
             PreWithdrawReq preWithdraw = new PreWithdrawReq();
             preWithdraw.setReqId(System.currentTimeMillis() + i);
             preWithdraw.setUserId(2000001L + i);
@@ -243,7 +243,7 @@ public class KafkaProducerTest {
 
     @Test
     public void testPreCmpCharge() {
-        for (int i = 1; i < 3; i++) {
+        for (int i = 1; i < 40; i++) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("DataType", KafkaConf.DataType.PLUTUS_CMP_CHARGE.type());
             PreCmpChargeReq req = new PreCmpChargeReq();

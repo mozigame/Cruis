@@ -79,7 +79,6 @@ public abstract class BaseMongoDAOImpl<T> implements BaseMongoDAO<T> {
         return mongoTemplate.count(query, this.getEntityClass());
     }
 
-
     /**
      * 获取需要操作的实体类class
      *

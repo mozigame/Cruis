@@ -1,6 +1,6 @@
 package com.magic.crius.storage.db.impl;
 
-import com.magic.crius.dao.db.OwnerCompanyFlowSummmaryMapper;
+import com.magic.crius.dao.crius.db.OwnerCompanyFlowSummmaryMapper;
 import com.magic.crius.po.OwnerCompanyFlowSummmary;
 import com.magic.crius.storage.db.OwnerCompanyFlowSummmaryDbService;
 import org.springframework.beans.factory.annotation.Autowired;

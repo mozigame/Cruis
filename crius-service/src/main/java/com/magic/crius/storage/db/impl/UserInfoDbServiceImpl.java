@@ -1,6 +1,6 @@
 package com.magic.crius.storage.db.impl;
 
-import com.magic.crius.dao.db.UserInfoMapper;
+import com.magic.crius.dao.crius.db.UserInfoMapper;
 import com.magic.crius.po.UserInfo;
 import com.magic.crius.storage.db.UserInfoDbService;
 import org.springframework.stereotype.Service;

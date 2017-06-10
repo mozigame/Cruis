@@ -2,7 +2,6 @@ package com.magic.crius.dao.mongo;
 
 import com.magic.crius.dao.base.BaseMongoDAOImpl;
 import com.magic.crius.vo.OnlChargeReq;
-import com.magic.crius.vo.PreCmpChargeReq;
 import org.springframework.stereotype.Component;
 
 /**

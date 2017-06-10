@@ -1,6 +1,6 @@
 package com.magic.crius.storage.db.impl;
 
-import com.magic.crius.dao.db.OwnerReforwardDetailMapper;
+import com.magic.crius.dao.crius.db.OwnerReforwardDetailMapper;
 import com.magic.crius.po.OwnerReforwardDetail;
 import com.magic.crius.storage.db.OwnerReforwardDetailDbService;
 import org.springframework.stereotype.Service;

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.magic.crius.dao.crius.db.OwnerPreferentialSummaryMapper">
+    <resultMap id="BaseResultMap" type="com.magic.crius.po.OwnerPreferentialSummary">
+        <id column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="owner_id" jdbcType="BIGINT" property="ownerId"/>
+        <result column="preferential_money_count" jdbcType="BIGINT" property="preferentialMoneyCount"/>
+        <result column="preferential_num" jdbcType="INTEGER" property="preferentialNum"/>
+        <result column="preferential_type" jdbcType="INTEGER" property="preferentialType"/>
+        <result column="preferential_type_name" jdbcType="VARCHAR" property="preferentialTypeName"/>
+        <result column="pdate" jdbcType="INTEGER" property="pdate"/>
+    </resultMap>
+
+    <!--添加-->
+    <insert id="insert" parameterType="com.magic.crius.po.OwnerPreferentialSummary">
+        insert into owner_preferential_summary ( owner_id, preferential_money_count,
+          preferential_num, preferential_type, preferential_type_name,
+          pdate)
+        values ( #{ownerId,jdbcType=BIGINT}, #{preferentialMoneyCount,jdbcType=BIGINT},
+          #{preferentialNum,jdbcType=INTEGER}, #{preferentialType,jdbcType=INTEGER}, #{preferentialTypeName,jdbcType=VARCHAR},
+          #{pdate,jdbcType=INTEGER})
+    </insert>
+
+    <!--批量添加-->
+    <insert id="batchInsert" parameterType="com.magic.crius.po.OwnerPreferentialSummary">
+        insert into owner_preferential_summary ( owner_id, preferential_money_count,
+        preferential_num, preferential_type, preferential_type_name,
+        pdate)
+        values
+        <foreach collection="list" item="param" separator=",">
+          ( #{param.ownerId,jdbcType=BIGINT},
+            #{param.preferentialMoneyCount,jdbcType=BIGINT},
+            #{param.preferentialNum,jdbcType=INTEGER},
+            #{param.preferentialType,jdbcType=INTEGER},
+            #{param.preferentialTypeName,jdbcType=VARCHAR},
+            #{param.pdate,jdbcType=INTEGER})
+        </foreach>
+
+    </insert>
+
+    <!--追加数量-->
+    <update id="updateSummary" parameterType="com.magic.crius.po.OwnerPreferentialSummary">
+        update owner_preferential_summary
+        set
+          preferential_money_count = preferential_money_count + #{preferentialMoneyCount,jdbcType=BIGINT},
+          preferential_num = preferential_num + #{preferentialNum,jdbcType=INTEGER}
+        where owner_id = #{ownerId,jdbcType=BIGINT}
+          AND preferential_type = #{preferentialType,jdbcType=INTEGER}
+          AND pdate = #{pdate,jdbcType=INTEGER}
+    </update>
+
+    <!--查询多个业主的数据-->
+    <select id="findByOwnerIds" resultMap="BaseResultMap">
+        SELECT owner_id,preferential_type FROM owner_preferential_summary
+        WHERE pdate = #{pdate,jdbcType=INTEGER}
+          AND owner_id IN
+          <foreach collection="list" item="ownerId" separator="," open="(" close=")">
+              #{ownerId,jdbcType=BIGINT}
+          </foreach>
+    </select>
+</mapper>

@@ -4,6 +4,7 @@ import com.magic.crius.po.OwnerCompanyAccountSummmary;
 import com.magic.crius.po.OwnerCompanyFlowSummmary;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,8 +14,7 @@ public interface OwnerCompanyAccountSummmaryAssemService {
 
 
     /**
-     * 批量添加公司入款明细
      * @param ownerCompanyAccountSummmaries
      */
-    void batchSave(Map<Long, OwnerCompanyAccountSummmary> ownerCompanyAccountSummmaries);
+    void batchSave(List<OwnerCompanyAccountSummmary> ownerCompanyAccountSummmaries);
 }

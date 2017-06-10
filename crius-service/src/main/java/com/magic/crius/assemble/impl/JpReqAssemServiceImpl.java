@@ -40,7 +40,6 @@ public class JpReqAssemServiceImpl implements JpReqAssemService {
     public boolean convertData(Date date) {
         List<JpReq> list = jpReqService.batchPopRedis(date);
         if (list != null && list.size() > 0) {
-            Map<String, OwnerOnlineFlowSummmary> ownerOnlineFlowSummmaryMap = new HashMap<>();
             List<PrizeDetail> prizeDetails = new ArrayList<>();
             for (JpReq req : list) {
                 /*彩金明细*/

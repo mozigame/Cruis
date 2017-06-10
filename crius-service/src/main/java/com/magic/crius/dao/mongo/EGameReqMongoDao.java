@@ -2,7 +2,6 @@ package com.magic.crius.dao.mongo;
 
 import com.magic.crius.dao.base.BaseMongoDAOImpl;
 import com.magic.crius.vo.EGameReq;
-import com.magic.crius.vo.LotteryReq;
 import org.springframework.stereotype.Component;
 
 /**

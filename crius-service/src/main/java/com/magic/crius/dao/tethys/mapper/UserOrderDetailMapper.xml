@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.magic.crius.dao.tethys.db.UserOrderDetailMapper">
+    <resultMap id="BaseResultMap" type="com.magic.crius.po.UserOrderDetail">
+        <id column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="owner_id" jdbcType="BIGINT" property="ownerId"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="game_id" jdbcType="VARCHAR" property="gameId"/>
+        <result column="order_id" jdbcType="INTEGER" property="orderId"/>
+        <result column="order_count" jdbcType="BIGINT" property="orderCount"/>
+        <result column="effect_order_count" jdbcType="BIGINT" property="effectOrderCount"/>
+        <result column="pay_off_count" jdbcType="BIGINT" property="payOffCount"/>
+        <result column="order_state" jdbcType="INTEGER" property="orderState"/>
+        <result column="pdate" jdbcType="INTEGER" property="pdate"/>
+        <result column="create_time" jdbcType="BIGINT" property="createTime"/>
+        <result column="update_time" jdbcType="BIGINT" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    Id, owner_id, user_id, game_id, order_id, order_count, effect_order_count, pay_off_count, 
+    order_state, pdate, create_time, update_time
+  </sql>
+
+
+
+    <insert id="insert" parameterType="com.magic.crius.po.UserOrderDetail">
+        insert into user_order_detail ( owner_id, user_id,
+          game_id, order_id, order_count,
+          effect_order_count, pay_off_count, order_state,
+          pdate, create_time, update_time
+          )
+        values (#{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
+          #{gameId,jdbcType=VARCHAR}, #{orderId,jdbcType=INTEGER}, #{orderCount,jdbcType=BIGINT},
+          #{effectOrderCount,jdbcType=BIGINT}, #{payOffCount,jdbcType=BIGINT}, #{orderState,jdbcType=INTEGER},
+          #{pdate,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}
+          )
+    </insert>
+
+    <!--批量添加-->
+    <insert id="batchInsert" >
+        insert into user_order_detail ( owner_id, user_id,
+        game_id, order_id, order_count,
+        effect_order_count, pay_off_count, order_state,
+        pdate, create_time, update_time
+        )
+        values
+        <foreach collection="list" item="param" separator=",">
+          (#{param.ownerId,jdbcType=BIGINT},
+            #{param.userId,jdbcType=BIGINT},
+            #{param.gameId,jdbcType=VARCHAR},
+            #{param.orderId,jdbcType=INTEGER},
+            #{param.orderCount,jdbcType=BIGINT},
+            #{param.effectOrderCount,jdbcType=BIGINT},
+            #{param.payOffCount,jdbcType=BIGINT},
+            #{param.orderState,jdbcType=INTEGER},
+            #{param.pdate,jdbcType=INTEGER},
+            #{param.createTime,jdbcType=BIGINT},
+            #{param.updateTime,jdbcType=BIGINT}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

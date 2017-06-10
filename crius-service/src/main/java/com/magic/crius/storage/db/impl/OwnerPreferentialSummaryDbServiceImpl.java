@@ -1,6 +1,6 @@
 package com.magic.crius.storage.db.impl;
 
-import com.magic.crius.dao.db.OwnerPreferentialSummaryMapper;
+import com.magic.crius.dao.crius.db.OwnerPreferentialSummaryMapper;
 import com.magic.crius.po.OwnerPreferentialSummary;
 import com.magic.crius.storage.db.OwnerPreferentialSummaryDbService;
 import org.springframework.stereotype.Service;

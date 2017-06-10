@@ -1,6 +1,6 @@
 package com.magic.crius.storage.db.impl;
 
-import com.magic.crius.dao.db.PrizeDetailMapper;
+import com.magic.crius.dao.crius.db.PrizeDetailMapper;
 import com.magic.crius.po.PrizeDetail;
 import com.magic.crius.storage.db.PrizeDetailDbService;
 import org.springframework.stereotype.Service;

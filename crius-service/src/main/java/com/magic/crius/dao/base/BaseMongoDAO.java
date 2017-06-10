@@ -88,4 +88,8 @@ public interface BaseMongoDAO<T> {
      */
     public long count(Query query);
 
+
+
+
+
 }

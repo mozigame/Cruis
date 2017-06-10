@@ -3,6 +3,7 @@ package com.magic.crius.scheduled.core;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.*;
 import com.magic.crius.scheduled.consumer.OperateWithDrawReqConsumer;
+import com.magic.crius.scheduled.consumer.PreCmpChargeReqConsumer;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -11,6 +12,7 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import javax.annotation.Resource;
+import java.security.PrivateKey;
 import java.util.Date;
 
 /**
@@ -59,9 +61,21 @@ public class CriusScheduler {
     @Resource
     private DealerRewardReqAssemService dealerRewardReqAssemService;
 
+
+
+
+
+
+
     /*人工提现多线程处理*/
     @Resource
     private OperateWithDrawReqConsumer operateWithDrawReqConsumer;
+    /*公司入款*/
+    @Resource
+    private PreCmpChargeReqConsumer preCmpChargeReqConsumer;
+
+
+
 
     /*代理详情*/
     @Resource
@@ -79,7 +93,7 @@ public class CriusScheduler {
     @Scheduled(fixedRate = cacheFlushRate)
     public void preCmpChargeSchedule() {
         try {
-            preCmpChargeReqAssemService.convertData(new Date());
+            preCmpChargeReqConsumer.init(new Date());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -128,18 +142,6 @@ public class CriusScheduler {
     public void preWithdrawSchedule() {
         try {
             preWithdrawReqAssemService.convertData(new Date());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 人工提现
-     */
-//    @Scheduled(fixedRate = cacheFlushRate)
-    public void operateWithDrawSchedule() {
-        try {
-            operateWithDrawReqAssemService.convertData(new Date());
         } catch (Exception e) {
             e.printStackTrace();
         }

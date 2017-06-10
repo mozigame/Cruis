@@ -1,6 +1,6 @@
 package com.magic.crius.storage.db.impl;
 
-import com.magic.crius.dao.db.OwnerReforwardMoneyToGameMapper;
+import com.magic.crius.dao.crius.db.OwnerReforwardMoneyToGameMapper;
 import com.magic.crius.po.OwnerReforwardMoneyToGame;
 import com.magic.crius.storage.db.OwnerReforwardMoneyToGameDbService;
 import org.springframework.stereotype.Service;

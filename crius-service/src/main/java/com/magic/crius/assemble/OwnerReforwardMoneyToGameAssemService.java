@@ -2,6 +2,7 @@ package com.magic.crius.assemble;
 
 import com.magic.crius.po.OwnerReforwardMoneyToGame;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,5 +16,5 @@ public interface OwnerReforwardMoneyToGameAssemService {
      * 批量添加返水详情
      * @param userOutMoneySummaries
      */
-    boolean batchSave(Map<String, OwnerReforwardMoneyToGame> userOutMoneySummaries);
+    boolean batchSave(List<OwnerReforwardMoneyToGame> userOutMoneySummaries);
 }

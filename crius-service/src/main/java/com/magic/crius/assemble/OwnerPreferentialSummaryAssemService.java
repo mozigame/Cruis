@@ -3,6 +3,7 @@ package com.magic.crius.assemble;
 import com.magic.crius.po.OwnerPreferentialSummary;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,5 +18,5 @@ public interface OwnerPreferentialSummaryAssemService {
      * 批量添加优惠汇总
      * @param ownerPreferentialSummaries
      */
-    void batchSave(Map<String, OwnerPreferentialSummary> ownerPreferentialSummaries);
+    void batchSave(List<OwnerPreferentialSummary> ownerPreferentialSummaries);
 }

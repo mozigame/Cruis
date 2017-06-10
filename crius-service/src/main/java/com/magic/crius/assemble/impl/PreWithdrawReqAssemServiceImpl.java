@@ -1,14 +1,12 @@
 package com.magic.crius.assemble.impl;
 
 import com.magic.api.commons.tools.DateUtil;
-import com.magic.crius.assemble.PreWithdrawReqAssemService;
-import com.magic.crius.assemble.UserAccountSummaryAssemService;
-import com.magic.crius.assemble.UserOutMoneyDetailAssemService;
-import com.magic.crius.assemble.UserOutMoneySummaryAssemService;
+import com.magic.crius.assemble.*;
 import com.magic.crius.constants.RedisConstants;
 import com.magic.crius.po.UserAccountSummary;
 import com.magic.crius.po.UserOutMoneyDetail;
 import com.magic.crius.po.UserOutMoneySummary;
+import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.PreWithdrawReqService;
 import com.magic.crius.util.CriusLog;
 import com.magic.crius.vo.PreWithdrawReq;
@@ -41,6 +39,8 @@ public class PreWithdrawReqAssemServiceImpl implements PreWithdrawReqAssemServic
     /*会员账号汇总*/
     @Resource
     private UserAccountSummaryAssemService userAccountSummaryAssemService;
+    @Resource
+    private UserTradeAssemService userTradeAssemService;
 
     @Override
     public void procKafkaData(PreWithdrawReq req) {
@@ -55,77 +55,91 @@ public class PreWithdrawReqAssemServiceImpl implements PreWithdrawReqAssemServic
     public boolean convertData(Date date) {
         List<PreWithdrawReq> list = preWithdrawService.batchPopRedis(date);
         if (list != null && list.size() > 0) {
-            Map<Long, UserOutMoneySummary> userOutMoneySummaryMap = new HashMap<>();
+            List<UserOutMoneySummary> userOutMoneySummaries = new ArrayList<>();
             List<UserOutMoneyDetail> details = new ArrayList<>();
-            Map<Long, UserAccountSummary> userAccountSummaryMap = new HashMap<>();
+            List<UserAccountSummary> userAccountSummaries = new ArrayList<>();
+            List<UserTrade> userTrades = new ArrayList<>();
 
             for (PreWithdrawReq req : list) {
                 /*会员出款汇总*/
-                if (userOutMoneySummaryMap.get(req.getUserId()) == null) {
-                    UserOutMoneySummary summary = new UserOutMoneySummary();
-                    summary.setOwnerId(req.getOwnerId());
-                    summary.setUserId(req.getUserId());
-                    summary.setOrderCount(req.getAmount());
-                    //todo 提现次数
-                    summary.setOutNum(1);
-                    summary.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
-                    userOutMoneySummaryMap.put(req.getUserId(), summary);
-                } else {
-                    UserOutMoneySummary summary = userOutMoneySummaryMap.get(req.getUserId());
-                    summary.setOrderCount(summary.getOrderCount() + req.getAmount());
-                    summary.setOutNum(summary.getOutNum() + 1);
-                }
-
+                userOutMoneySummaries.add(assembleUserOutMoneySummary(req));
                 /*会员出款明细*/
-                UserOutMoneyDetail detail = new UserOutMoneyDetail();
-                detail.setOwnerId(req.getOwnerId());
-                detail.setUserId(req.getUserId());
-                detail.setOrderCount(req.getAmount());
-                //TODO 待定
-                detail.setTaxCount(0L);
-                //TODO 待定
-                detail.setState(0);
-                //TODO 待定
-                detail.setOrderId(0L);
-                detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
-                //TODO 待定
-                detail.setHandlerId(0L);
-                //TODO 待定
-                detail.setHandlerName("");
-                detail.setCreateTime(req.getProduceTime());
-                detail.setUpdateTime(req.getProduceTime());
-                details.add(detail);
-
+                details.add(assembleUserOutMoneyDetail(req));
                 /*会员账号汇总*/
-                if (userAccountSummaryMap.get(req.getUserId()) == null) {
-                    UserAccountSummary summary = new UserAccountSummary();
-                    summary.setUserId(req.getUserId());
-                    //todo 提现次数
-                    summary.setOutNum(1L);
-                    summary.setOutCount(req.getAmount());
-
-                    summary.setFlowNum(0L);
-                    summary.setFlowCount(0L);
-                    summary.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
-                    userAccountSummaryMap.put(req.getUserId(), summary);
-                } else {
-                    UserAccountSummary summary = userAccountSummaryMap.get(req.getUserId());
-                    summary.setOutNum(summary.getOutNum() + 1);
-                    summary.setOutCount(summary.getOutCount() + req.getAmount());
-                }
+                userAccountSummaries.add(assembleUserAccountSummary(req));
+                userTrades.add(assembleUserTrade(req));
 
             }
-            if (userOutMoneySummaryMap.size() > 0) {
-                userOutMoneySummaryAssemService.batchSave(userOutMoneySummaryMap);
-            }
-            if (details.size() > 0) {
-                userOutMoneyDetailAssemService.batchSave(details);
-            }
-            if (userAccountSummaryMap.size() > 0) {
-                userAccountSummaryAssemService.updateWithdraw(userAccountSummaryMap);
-            }
-            return list.size() >= RedisConstants.BATCH_POP_NUM;
+            userOutMoneySummaryAssemService.batchSave(userOutMoneySummaries);
+            userOutMoneyDetailAssemService.batchSave(details);
+            userAccountSummaryAssemService.updateWithdraw(userAccountSummaries);
+            userTradeAssemService.batchSave(userTrades);
+
+            //todo  添加成功id
+
         }
         return false;
+    }
+
+    private UserOutMoneySummary assembleUserOutMoneySummary(PreWithdrawReq req) {
+        UserOutMoneySummary userOutMoneySummary = new UserOutMoneySummary();
+        userOutMoneySummary.setOwnerId(req.getOwnerId());
+        userOutMoneySummary.setUserId(req.getUserId());
+        userOutMoneySummary.setOrderCount(req.getAmount());
+        //todo 提现次数
+        userOutMoneySummary.setOutNum(1);
+        userOutMoneySummary.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
+        return userOutMoneySummary;
+    }
+
+    private UserOutMoneyDetail assembleUserOutMoneyDetail(PreWithdrawReq req) {
+        UserOutMoneyDetail detail = new UserOutMoneyDetail();
+        detail.setOwnerId(req.getOwnerId());
+        detail.setUserId(req.getUserId());
+        detail.setOrderCount(req.getAmount());
+        //TODO 待定
+        detail.setTaxCount(0L);
+        //TODO 待定
+        detail.setState(0);
+        //TODO 待定
+        detail.setOrderId(0L);
+        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
+        //TODO 待定
+        detail.setHandlerId(0L);
+        //TODO 待定
+        detail.setHandlerName("");
+        detail.setCreateTime(req.getProduceTime());
+        detail.setUpdateTime(req.getProduceTime());
+        return detail;
+    }
+
+    private UserAccountSummary assembleUserAccountSummary(PreWithdrawReq req) {
+        UserAccountSummary userAccountSummary = new UserAccountSummary();
+        userAccountSummary.setUserId(req.getUserId());
+        //todo 提现次数
+        userAccountSummary.setOutNum(1L);
+        userAccountSummary.setOutCount(req.getAmount());
+        //默认0
+        userAccountSummary.setFlowNum(0L);
+        userAccountSummary.setFlowCount(0L);
+        userAccountSummary.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
+        return userAccountSummary;
+    }
+
+
+    private UserTrade assembleUserTrade(PreWithdrawReq req) {
+        UserTrade userTrade = new UserTrade();
+        userTrade.setOwnerId(req.getOwnerId());
+        userTrade.setUserId(req.getUserId());
+        userTrade.setTradeId(req.getAmount());
+        //todo 账户余额
+        userTrade.setTotalNum(0L);
+        userTrade.setTradeTime(req.getProduceTime());
+        //todo 交易类型
+        userTrade.setTradeType(0);
+        //todo 存取类型
+        userTrade.setActiontype(0);
+        userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
+        return userTrade;
     }
 }

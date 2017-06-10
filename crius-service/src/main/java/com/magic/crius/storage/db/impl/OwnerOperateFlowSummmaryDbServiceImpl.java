@@ -1,9 +1,8 @@
 package com.magic.crius.storage.db.impl;
 
-import com.magic.crius.dao.db.OwnerOperateFlowSummmaryMapper;
+import com.magic.crius.dao.crius.db.OwnerOperateFlowSummmaryMapper;
 import com.magic.crius.po.OwnerOperateFlowSummmary;
 import com.magic.crius.storage.db.OwnerOperateFlowSummmaryDbService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

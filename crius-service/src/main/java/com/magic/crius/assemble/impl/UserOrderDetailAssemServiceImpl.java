@@ -2,6 +2,7 @@ package com.magic.crius.assemble.impl;
 
 import com.magic.crius.assemble.UserOrderDetailAssemService;
 import com.magic.crius.po.UserOrderDetail;
+import com.magic.crius.service.TethysUserOrderDetailService;
 import com.magic.crius.service.UserOrderDetailService;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +19,16 @@ public class UserOrderDetailAssemServiceImpl implements UserOrderDetailAssemServ
 
     @Resource
     private UserOrderDetailService userOrderDetailService;
+    @Resource
+    private TethysUserOrderDetailService tethysUserOrderDetailService;
 
     @Override
     public boolean batchSave(List<UserOrderDetail> details) {
-        return userOrderDetailService.batchSave(details);
+        boolean flag = false;
+        if (userOrderDetailService.batchSave(details)) {
+            tethysUserOrderDetailService.batchSave(details);
+            flag = true;
+        }
+        return flag;
     }
 }

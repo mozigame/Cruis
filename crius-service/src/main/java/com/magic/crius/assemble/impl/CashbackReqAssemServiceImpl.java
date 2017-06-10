@@ -4,9 +4,11 @@ import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.CashbackReqAssemService;
 import com.magic.crius.assemble.OwnerReforwardDetailAssemService;
 import com.magic.crius.assemble.OwnerReforwardMoneyToGameAssemService;
+import com.magic.crius.assemble.UserTradeAssemService;
 import com.magic.crius.constants.RedisConstants;
 import com.magic.crius.po.OwnerReforwardDetail;
 import com.magic.crius.po.OwnerReforwardMoneyToGame;
+import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.CashbackReqService;
 import com.magic.crius.vo.CashbackReq;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,9 @@ public class CashbackReqAssemServiceImpl implements CashbackReqAssemService {
     /*业主返水详情汇总*/
     @Resource
     private OwnerReforwardMoneyToGameAssemService ownerReforwardMoneyToGameAssemService;
+    /*账户交易明细*/
+    @Resource
+    private UserTradeAssemService userTradeAssemService;
 
     @Override
     public void procKafkaData(CashbackReq req) {
@@ -45,44 +50,17 @@ public class CashbackReqAssemServiceImpl implements CashbackReqAssemService {
         List<CashbackReq> list = cashbackReqService.batchPopRedis(date);
         if (list != null && list.size() > 0) {
             List<OwnerReforwardDetail> ownerReforwardDetailHashMap = new ArrayList<>();
-            Map<String, OwnerReforwardMoneyToGame> ownerReforwardMoneyToGameMap = new HashMap<>();
+            List<OwnerReforwardMoneyToGame> ownerReforwardMoneyToGameMap = new ArrayList<>();
+            List<UserTrade> userTrades = new ArrayList<>();
             Set<CashbackReq> successReqs = new HashSet<>();
             for (CashbackReq req : list) {
-                OwnerReforwardDetail summmary = new OwnerReforwardDetail();
-                summmary.setOwnerId(req.getOwnerId());
-                summmary.setUserId(req.getUserId());
-                summmary.setGameType(String.valueOf(req.getGameHallId()));
-                //TODO 等待获取
-                summmary.setOrderNum(0);
-                summmary.setOrderCount(req.getBettAmount());
-                summmary.setEffectOrderCount(req.getVaildBettAmount());
-                summmary.setReforwardMoneyCount(req.getAmount());
-                //TODO 返水编号
-                summmary.setOrderId(0L);
-                summmary.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
-                summmary.setCreateTime(req.getProduceTime());
-                summmary.setUpdateTime(req.getProduceTime());
-                ownerReforwardDetailHashMap.add(summmary);
+                /*反水详情*/
+                ownerReforwardDetailHashMap.add(assembleOwnerReforwardDetail(req));
+                /*业主返水汇总*/
+                ownerReforwardMoneyToGameMap.add(assembleOwnerReforwardMoneyToGame(req));
+                /*账户交易明细*/
+                userTrades.add(assembleUserTrade(req));
 
-                if (ownerReforwardMoneyToGameMap.get(req.getOwnerId() + "_" + req.getGameHallId()) == null) {
-                    OwnerReforwardMoneyToGame moneyToGame = new OwnerReforwardMoneyToGame();
-                    moneyToGame.setOwnerId(req.getOwnerId());
-                    moneyToGame.setGameType(req.getGameHallId() + "");
-                    //todo 等待获取
-                    moneyToGame.setOrderNum(0);
-                    moneyToGame.setOrderCount(req.getBettAmount());
-                    moneyToGame.setEffectOrderCount(req.getVaildBettAmount());
-                    moneyToGame.setReforwardMoneyCount(req.getAmount());
-                    moneyToGame.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
-                    ownerReforwardMoneyToGameMap.put(req.getOwnerId() + "_" + req.getGameHallId(), moneyToGame);
-                } else {
-                    OwnerReforwardMoneyToGame moneyToGame = ownerReforwardMoneyToGameMap.get(req.getOwnerId() + "_" + req.getGameHallId());
-                    //todo 等待获取
-                    moneyToGame.setOrderNum(0);
-                    moneyToGame.setOrderCount(moneyToGame.getOrderCount() + req.getBettAmount());
-                    moneyToGame.setEffectOrderCount(moneyToGame.getEffectOrderCount() + req.getVaildBettAmount());
-                    moneyToGame.setReforwardMoneyCount(moneyToGame.getReforwardMoneyCount() + req.getAmount());
-                }
                 /*成功的数据*/
                 CashbackReq sucReq = new CashbackReq();
                 sucReq.setReqId(req.getReqId());
@@ -90,12 +68,10 @@ public class CashbackReqAssemServiceImpl implements CashbackReqAssemService {
                 successReqs.add(sucReq);
             }
 
-            if (ownerReforwardDetailHashMap.size() > 0) {
-                ownerReforwardDetailAssemService.batchSave(ownerReforwardDetailHashMap);
-            }
-            if (ownerReforwardMoneyToGameMap.size() > 0) {
-                ownerReforwardMoneyToGameAssemService.batchSave(ownerReforwardMoneyToGameMap);
-            }
+            ownerReforwardDetailAssemService.batchSave(ownerReforwardDetailHashMap);
+            ownerReforwardMoneyToGameAssemService.batchSave(ownerReforwardMoneyToGameMap);
+            userTradeAssemService.batchSave(userTrades);
+
             /*mongo添加处理成功的数据*/
             if (!cashbackReqService.saveSuc(successReqs)) {
                 //todo
@@ -103,5 +79,52 @@ public class CashbackReqAssemServiceImpl implements CashbackReqAssemService {
             return true;
         }
         return false;
+    }
+
+    private OwnerReforwardDetail assembleOwnerReforwardDetail(CashbackReq req) {
+        OwnerReforwardDetail summmary = new OwnerReforwardDetail();
+        summmary.setOwnerId(req.getOwnerId());
+        summmary.setUserId(req.getUserId());
+        summmary.setGameType(String.valueOf(req.getGameHallId()));
+        //TODO 等待获取
+        summmary.setOrderNum(0);
+        summmary.setOrderCount(req.getBettAmount());
+        summmary.setEffectOrderCount(req.getVaildBettAmount());
+        summmary.setReforwardMoneyCount(req.getAmount());
+        //TODO 返水编号
+        summmary.setOrderId(0L);
+        summmary.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
+        summmary.setCreateTime(req.getProduceTime());
+        summmary.setUpdateTime(req.getProduceTime());
+        return summmary;
+    }
+
+    private OwnerReforwardMoneyToGame assembleOwnerReforwardMoneyToGame(CashbackReq req) {
+        OwnerReforwardMoneyToGame moneyToGame = new OwnerReforwardMoneyToGame();
+        moneyToGame.setOwnerId(req.getOwnerId());
+        moneyToGame.setGameType(req.getGameHallId() + "");
+        //todo 等待获取
+        moneyToGame.setOrderNum(0);
+        moneyToGame.setOrderCount(req.getBettAmount());
+        moneyToGame.setEffectOrderCount(req.getVaildBettAmount());
+        moneyToGame.setReforwardMoneyCount(req.getAmount());
+        moneyToGame.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
+        return moneyToGame;
+    }
+
+    private UserTrade assembleUserTrade(CashbackReq req) {
+        UserTrade userTrade = new UserTrade();
+        userTrade.setOwnerId(req.getOwnerId());
+        userTrade.setUserId(req.getUserId());
+        userTrade.setTradeId(req.getAmount());
+        //todo 账户余额
+        userTrade.setTotalNum(0L);
+        userTrade.setTradeTime(req.getProduceTime());
+        //todo 交易类型
+        userTrade.setTradeType(0);
+        //todo 存取类型
+        userTrade.setActiontype(0);
+        userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
+        return userTrade;
     }
 }

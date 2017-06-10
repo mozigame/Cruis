@@ -1,6 +1,6 @@
 package com.magic.crius.storage.db.impl;
 
-import com.magic.crius.dao.db.OwnerAwardDetailMapper;
+import com.magic.crius.dao.crius.db.OwnerAwardDetailMapper;
 import com.magic.crius.po.OwnerAwardDetail;
 import com.magic.crius.storage.db.OwnerAwardDetailDbService;
 import org.springframework.stereotype.Service;

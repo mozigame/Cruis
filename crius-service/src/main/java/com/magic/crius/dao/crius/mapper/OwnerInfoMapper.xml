@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.magic.crius.dao.crius.db.OwnerInfoMapper">
+    <resultMap id="BaseResultMap" type="com.magic.crius.po.OwnerInfo">
+        <id column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="owner_id" jdbcType="BIGINT" property="ownerId"/>
+        <result column="site_id" jdbcType="BIGINT" property="siteId"/>
+        <result column="site_name" jdbcType="VARCHAR" property="siteName"/>
+        <result column="owner_name" jdbcType="VARCHAR" property="ownerName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    Id, owner_id, site_id, site_name, owner_name
+  </sql>
+
+    <!--根据业主ID查询基础信息-->
+    <select id="get" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from owner_info
+        where owner_id = #{ownerId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from owner_info
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+
+
+    <insert id="insert" parameterType="com.magic.crius.po.OwnerInfo">
+        insert into owner_info ( owner_id, site_id,
+          site_name, owner_name)
+        values (#{ownerId,jdbcType=BIGINT}, #{siteId,jdbcType=BIGINT},
+          #{siteName,jdbcType=VARCHAR}, #{ownerName,jdbcType=VARCHAR})
+    </insert>
+
+    <!--批量添加-->
+    <insert id="batchInsert" >
+        insert into owner_info (owner_id, site_id,
+        site_name, owner_name)
+        values
+        <foreach collection="list" item="param" separator=",">
+          ( #{param.ownerId,jdbcType=BIGINT},
+            #{param.siteId,jdbcType=BIGINT},
+            #{param.siteName,jdbcType=VARCHAR},
+            #{param.ownerName,jdbcType=VARCHAR})
+        </foreach>
+
+    </insert>
+
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.magic.crius.po.OwnerInfo">
+        update owner_info
+        <set>
+            <if test="ownerId != null">
+                owner_id = #{ownerId,jdbcType=BIGINT},
+            </if>
+            <if test="siteId != null">
+                site_id = #{siteId,jdbcType=BIGINT},
+            </if>
+            <if test="siteName != null">
+                site_name = #{siteName,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerName != null">
+                owner_name = #{ownerName,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where Id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.magic.crius.po.OwnerInfo">
+    update owner_info
+    set owner_id = #{ownerId,jdbcType=BIGINT},
+      site_id = #{siteId,jdbcType=BIGINT},
+      site_name = #{siteName,jdbcType=VARCHAR},
+      owner_name = #{ownerName,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
