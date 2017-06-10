@@ -10,11 +10,13 @@ import java.util.Map;
  * Date: 2017/6/7
  * Time: 19:31
  */
+@Deprecated
 public interface OwnerReforwardMoneyToGameAssemService {
 
     /**
      * 批量添加返水详情
      * @param userOutMoneySummaries
      */
+    @Deprecated
     boolean batchSave(List<OwnerReforwardMoneyToGame> userOutMoneySummaries);
 }

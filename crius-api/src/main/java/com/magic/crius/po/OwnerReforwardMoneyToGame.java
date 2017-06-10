@@ -3,6 +3,7 @@ package com.magic.crius.po;
 /**
  *  业主返水汇总
  */
+@Deprecated
 public class OwnerReforwardMoneyToGame {
 
     private Integer id;

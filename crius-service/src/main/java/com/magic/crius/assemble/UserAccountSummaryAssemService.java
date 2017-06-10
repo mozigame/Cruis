@@ -12,6 +12,7 @@ import java.util.Map;
  * Time: 20:21
  * 会员账号汇总
  */
+@Deprecated
 public interface UserAccountSummaryAssemService {
 
     /**
@@ -19,6 +20,7 @@ public interface UserAccountSummaryAssemService {
      * @param summaries
      * @return
      */
+    @Deprecated
     boolean updateRecharge(List<UserAccountSummary> summaries);
 
     /**
@@ -26,6 +28,7 @@ public interface UserAccountSummaryAssemService {
      * @param summaries
      * @return
      */
+    @Deprecated
     boolean updateWithdraw(List<UserAccountSummary> summaries);
 
 

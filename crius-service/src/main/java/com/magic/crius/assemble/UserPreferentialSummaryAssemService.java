@@ -1,6 +1,6 @@
 package com.magic.crius.assemble;
 
-import com.magic.crius.po.UserPreferentialSummary;
+import com.magic.crius.po.UserPreferentialDetail;
 
 import java.util.List;
 
@@ -16,5 +16,5 @@ public interface UserPreferentialSummaryAssemService {
      * @param summaries
      * @return
      */
-    void batchSave(List<UserPreferentialSummary> summaries);
+    void batchSave(List<UserPreferentialDetail> summaries);
 }

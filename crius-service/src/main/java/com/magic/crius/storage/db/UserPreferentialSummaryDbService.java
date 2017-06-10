@@ -1,6 +1,6 @@
 package com.magic.crius.storage.db;
 
-import com.magic.crius.po.UserPreferentialSummary;
+import com.magic.crius.po.UserPreferentialDetail;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,7 +19,7 @@ public interface UserPreferentialSummaryDbService {
      * @param summmary
      * @return
      */
-    boolean insert(UserPreferentialSummary summmary);
+    boolean insert(UserPreferentialDetail summmary);
 
     /**
      * 批量添加
@@ -27,7 +27,7 @@ public interface UserPreferentialSummaryDbService {
      * @param summmaries
      * @return
      */
-    boolean batchInsert(Collection<UserPreferentialSummary> summmaries);
+    boolean batchInsert(Collection<UserPreferentialDetail> summmaries);
 
 
     /**
@@ -36,13 +36,13 @@ public interface UserPreferentialSummaryDbService {
      * @param summmary
      * @return
      */
-    boolean updateSummary(UserPreferentialSummary summmary);
+    boolean updateSummary(UserPreferentialDetail summmary);
 
     /**
      *
      * @return
      */
-    List<UserPreferentialSummary> findByUserIds(Collection<Long> userIds, Integer pdate);
+    List<UserPreferentialDetail> findByUserIds(Collection<Long> userIds, Integer pdate);
 
 
 }

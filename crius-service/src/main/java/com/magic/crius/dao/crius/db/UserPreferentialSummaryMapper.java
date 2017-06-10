@@ -1,6 +1,6 @@
 package com.magic.crius.dao.crius.db;
 
-import com.magic.crius.po.UserPreferentialSummary;
+import com.magic.crius.po.UserPreferentialDetail;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -18,25 +18,25 @@ public interface UserPreferentialSummaryMapper {
      * @param summmary
      * @return
      */
-    int insert(UserPreferentialSummary summmary);
+    int insert(UserPreferentialDetail summmary);
 
     /**
      * 修改
      * @param summmary
      * @return
      */
-    int updateSummary(UserPreferentialSummary summmary);
+    int updateSummary(UserPreferentialDetail summmary);
 
     /**
      * 批量添加
      * @param summmaries
      * @return
      */
-    int batchInsert(@Param("list") Collection<UserPreferentialSummary> summmaries);
+    int batchInsert(@Param("list") Collection<UserPreferentialDetail> summmaries);
 
     /**
      * @return
      */
-    List<UserPreferentialSummary> findByUserIds(@Param("list") Collection<Long> userIds, @Param("pdate") Integer pdate);
+    List<UserPreferentialDetail> findByUserIds(@Param("list") Collection<Long> userIds, @Param("pdate") Integer pdate);
 
 }

@@ -1,7 +1,7 @@
 package com.magic.crius.assemble.impl;
 
 import com.magic.crius.assemble.UserPreferentialSummaryAssemService;
-import com.magic.crius.po.UserPreferentialSummary;
+import com.magic.crius.po.UserPreferentialDetail;
 import com.magic.crius.service.UserPreferentialSummaryService;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ public class UserPreferentialSummaryAssemServiceImpl implements UserPreferential
     private UserPreferentialSummaryService userPreferentialSummaryService;
 
     @Override
-    public void batchSave(List<UserPreferentialSummary> summaries) {
+    public void batchSave(List<UserPreferentialDetail> summaries) {
 
         //todo 错误处理
         if (summaries.size() > 0) {

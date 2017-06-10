@@ -3,6 +3,7 @@ package com.magic.crius.po;
 /**
  * 会员账号汇总
  */
+@Deprecated
 public class UserAccountSummary {
 
     private Integer id;

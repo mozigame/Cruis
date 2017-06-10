@@ -3,6 +3,7 @@ package com.magic.crius.po;
 /**
  * 会员出款汇总
  */
+@Deprecated
 public class UserOutMoneySummary {
 
     private Integer id;

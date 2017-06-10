@@ -1,6 +1,6 @@
 package com.magic.crius.service.impl;
 
-import com.magic.crius.po.UserPreferentialSummary;
+import com.magic.crius.po.UserPreferentialDetail;
 import com.magic.crius.service.UserPreferentialSummaryService;
 import com.magic.crius.storage.db.UserPreferentialSummaryDbService;
 import org.springframework.stereotype.Service;
@@ -22,22 +22,22 @@ public class UserPreferentialSummaryServiceImpl implements UserPreferentialSumma
 
 
     @Override
-    public boolean insert(UserPreferentialSummary summmary) {
+    public boolean insert(UserPreferentialDetail summmary) {
         return userPreferentialSummaryDbService.insert(summmary);
     }
 
     @Override
-    public boolean batchInsert(Collection<UserPreferentialSummary> summmaries) {
+    public boolean batchInsert(Collection<UserPreferentialDetail> summmaries) {
         return userPreferentialSummaryDbService.batchInsert(summmaries);
     }
 
     @Override
-    public boolean updateSummary(UserPreferentialSummary summmary) {
+    public boolean updateSummary(UserPreferentialDetail summmary) {
         return userPreferentialSummaryDbService.updateSummary(summmary);
     }
 
     @Override
-    public List<UserPreferentialSummary> findByUserIds(Collection<Long> userIds, Integer pdate) {
+    public List<UserPreferentialDetail> findByUserIds(Collection<Long> userIds, Integer pdate) {
         return userPreferentialSummaryDbService.findByUserIds(userIds, pdate);
     }
 }
