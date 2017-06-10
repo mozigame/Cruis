@@ -33,8 +33,8 @@ public class OwnerOperateOutDetailDbServiceImpl implements OwnerOperateOutDetail
     }
 
     @Override
-    public boolean updateSummary(OwnerOperateOutDetail summmary) {
-        return ownerOperateOutDetailMapper.updateSummary(summmary) > 0;
+    public boolean updateDetail(OwnerOperateOutDetail summmary) {
+        return ownerOperateOutDetailMapper.updateDetail(summmary) > 0;
     }
 
     @Override

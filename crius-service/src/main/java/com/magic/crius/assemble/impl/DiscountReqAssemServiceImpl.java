@@ -2,8 +2,8 @@ package com.magic.crius.assemble.impl;
 
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.DiscountReqAssemService;
-import com.magic.crius.assemble.OwnerPreferentialSummaryAssemService;
-import com.magic.crius.assemble.UserPreferentialSummaryAssemService;
+import com.magic.crius.assemble.OwnerPreferentialDetailAssemService;
+import com.magic.crius.assemble.UserPreferentialDetailAssemService;
 import com.magic.crius.assemble.UserTradeAssemService;
 import com.magic.crius.po.OwnerPreferentialDetail;
 import com.magic.crius.po.UserPreferentialDetail;
@@ -29,10 +29,10 @@ public class DiscountReqAssemServiceImpl implements DiscountReqAssemService {
     private DiscountReqService discountReqService;
     /*业主优惠汇总*/
     @Resource
-    private OwnerPreferentialSummaryAssemService ownerPreferentialSummaryAssemService;
+    private OwnerPreferentialDetailAssemService ownerPreferentialDetailAssemService;
     /*会员优惠汇总*/
     @Resource
-    private UserPreferentialSummaryAssemService userPreferentialSummaryAssemService;
+    private UserPreferentialDetailAssemService userPreferentialDetailAssemService;
     @Resource
     private UserTradeAssemService userTradeAssemService;
 
@@ -49,49 +49,49 @@ public class DiscountReqAssemServiceImpl implements DiscountReqAssemService {
     public boolean convertData(Date date) {
         List<DiscountReq> list = discountReqService.batchPopRedis(date);
         if (list != null && list.size() > 0) {
-            List<OwnerPreferentialDetail> ownerOnlineFlowSummmaryMap = new ArrayList<>();
-            List<UserPreferentialDetail> userPreferentialSummaryHashMap = new ArrayList<>();
+            List<OwnerPreferentialDetail> ownerOnlineFlowDetailMap = new ArrayList<>();
+            List<UserPreferentialDetail> userPreferentialDetailHashMap = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
             for (DiscountReq req : list) {
                 /*会员优惠汇总*/
-                ownerOnlineFlowSummmaryMap.add(assembleOwnerPreferentialSummary(req));
+                ownerOnlineFlowDetailMap.add(assembleOwnerPreferentialDetail(req));
                 /*会员优惠汇总*/
-                userPreferentialSummaryHashMap.add(assembleUserPreferentialSummary(req));
+                userPreferentialDetailHashMap.add(assembleUserPreferentialDetail(req));
                 /*账户交易明细*/
                 userTrades.add(assembleUserTrade(req));
             }
-            ownerPreferentialSummaryAssemService.batchSave(ownerOnlineFlowSummmaryMap);
-            userPreferentialSummaryAssemService.batchSave(userPreferentialSummaryHashMap);
+            ownerPreferentialDetailAssemService.batchSave(ownerOnlineFlowDetailMap);
+            userPreferentialDetailAssemService.batchSave(userPreferentialDetailHashMap);
             userTradeAssemService.batchSave(userTrades);
 
         }
         return false;
     }
 
-    private OwnerPreferentialDetail assembleOwnerPreferentialSummary(DiscountReq req) {
-        OwnerPreferentialDetail ownerPreferentialSummary = new OwnerPreferentialDetail();
-        ownerPreferentialSummary.setOwnerId(req.getOwnerId());
-        ownerPreferentialSummary.setPreferentialMoneyCount(req.getAmount());
-        ownerPreferentialSummary.setPreferentialNum(1);
-        ownerPreferentialSummary.setPreferentialType(req.getStatus());
+    private OwnerPreferentialDetail assembleOwnerPreferentialDetail(DiscountReq req) {
+        OwnerPreferentialDetail ownerPreferentialDetail = new OwnerPreferentialDetail();
+        ownerPreferentialDetail.setOwnerId(req.getOwnerId());
+        ownerPreferentialDetail.setPreferentialMoneyCount(req.getAmount());
+        ownerPreferentialDetail.setPreferentialNum(1);
+        ownerPreferentialDetail.setPreferentialType(req.getStatus());
         //TODO name 在何处获取
-        ownerPreferentialSummary.setPreferentialTypeName("");
-        ownerPreferentialSummary.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
-        return ownerPreferentialSummary;
+        ownerPreferentialDetail.setPreferentialTypeName("");
+        ownerPreferentialDetail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
+        return ownerPreferentialDetail;
     }
 
-    private UserPreferentialDetail assembleUserPreferentialSummary(DiscountReq req) {
-        UserPreferentialDetail summary = new UserPreferentialDetail();
-        summary.setOwnerId(req.getOwnerId());
-        summary.setUserId(req.getUserId());
-        summary.setPreferentialMoneyCount(req.getAmount());
+    private UserPreferentialDetail assembleUserPreferentialDetail(DiscountReq req) {
+        UserPreferentialDetail detail = new UserPreferentialDetail();
+        detail.setOwnerId(req.getOwnerId());
+        detail.setUserId(req.getUserId());
+        detail.setPreferentialMoneyCount(req.getAmount());
         //todo 优惠次数
-        summary.setPreferentialNum(1);
-        summary.setPreferentialType(req.getStatus());
+        detail.setPreferentialNum(1);
+        detail.setPreferentialType(req.getStatus());
         //todo 优惠类型名称
-        summary.setPreferentialTypeName("");
-        summary.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
-        return summary;
+        detail.setPreferentialTypeName("");
+        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
+        return detail;
     }
 
     private UserTrade assembleUserTrade(DiscountReq req) {

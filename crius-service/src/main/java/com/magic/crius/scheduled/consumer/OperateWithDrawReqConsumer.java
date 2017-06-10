@@ -2,13 +2,11 @@ package com.magic.crius.scheduled.consumer;
 
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.OwnerOperateOutDetailAssemService;
-import com.magic.crius.assemble.UserAccountSummaryAssemService;
 import com.magic.crius.assemble.UserTradeAssemService;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.po.OwnerOperateOutDetail;
 import com.magic.crius.po.RepairLock;
-import com.magic.crius.po.UserAccountSummary;
 import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.OperateWithDrawReqService;
 import com.magic.crius.service.RepairLockService;
@@ -19,7 +17,8 @@ import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.*;
 
-import static com.magic.crius.constants.ScheduleConsumerConstants.*;
+import static com.magic.crius.constants.ScheduleConsumerConstants.POLL_TIME;
+import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
 
 /**
  * 人工提现
@@ -37,9 +36,6 @@ public class OperateWithDrawReqConsumer {
     /*人工出款详情*/
     @Resource
     private OwnerOperateOutDetailAssemService ownerOperateOutDetailAssemService;
-    /*会员账号汇总*/
-    @Resource
-    private UserAccountSummaryAssemService userAccountSummaryAssemService;
 
     @Resource
     private UserTradeAssemService userTradeAssemService;
@@ -49,11 +45,11 @@ public class OperateWithDrawReqConsumer {
 
 
     public void init(Date date) {
-        summaryCalculate(date);
+        detailCalculate(date);
     }
 
 
-    private void summaryCalculate(Date date) {
+    private void detailCalculate(Date date) {
         for (int i = 0; i < THREAD_SIZE; i++) {
             userOutMoneyTaskPool.execute(new Runnable() {
                 @Override
@@ -94,7 +90,6 @@ public class OperateWithDrawReqConsumer {
     private void flushData(Collection<OperateWithDrawReq> list) {
         if (list != null && list.size() > 0) {
             List<OwnerOperateOutDetail> ownerOperateOutDetails = new ArrayList<>();
-            List<UserAccountSummary> userAccountSummaries = new ArrayList<>();
             List<OperateWithDrawReq> sucReqs = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
             for (OperateWithDrawReq req : list) {
@@ -104,7 +99,6 @@ public class OperateWithDrawReqConsumer {
                 /*会员账号汇总*/
                 if (req.getUserIds() != null && req.getUserIds().length > 0) {
                     for (Long userId : req.getUserIds()) {
-                        userAccountSummaries.add(assembleUserAccountSummary(req, userId));
                         userTrades.add(assembleUserTrade(req, userId));
                     }
                 }
@@ -116,7 +110,6 @@ public class OperateWithDrawReqConsumer {
                 sucReqs.add(sucReq);
             }
             ownerOperateOutDetailAssemService.batchSave(ownerOperateOutDetails);
-            userAccountSummaryAssemService.updateWithdraw(userAccountSummaries);
             userTradeAssemService.batchSave(userTrades);
 
             if (operateWithDrawReqService.saveSuc(sucReqs)) {
@@ -201,20 +194,6 @@ public class OperateWithDrawReqConsumer {
         detail.setOperateOutTypeName(req.getRemark());
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
         return detail;
-    }
-
-    private UserAccountSummary assembleUserAccountSummary(OperateWithDrawReq req, Long userId) {
-        UserAccountSummary summary = new UserAccountSummary();
-        summary.setOwnerId(req.getOwnerId());
-        summary.setUserId(userId);
-        //TODO 出款次数
-        summary.setOutNum(1L);
-        summary.setOutCount(req.getAmount());
-        //此处都默认为0
-        summary.setFlowNum(0L);
-        summary.setFlowCount(0L);
-        summary.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
-        return summary;
     }
 
     private UserTrade assembleUserTrade(OperateWithDrawReq req, Long userId) {

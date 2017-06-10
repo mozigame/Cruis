@@ -1,7 +1,6 @@
 package com.magic.crius.service;
 
 import com.magic.crius.po.UserTrade;
-import netscape.security.UserTarget;
 
 import java.util.Collection;
 

@@ -2,11 +2,9 @@ package com.magic.crius.assemble.impl;
 
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.OperateChargeReqAssemService;
-import com.magic.crius.assemble.OwnerOperateFlowSummmaryAssemService;
-import com.magic.crius.assemble.UserAccountSummaryAssemService;
+import com.magic.crius.assemble.OwnerOperateFlowDetailAssemService;
 import com.magic.crius.assemble.UserTradeAssemService;
 import com.magic.crius.po.OwnerOperateFlowDetail;
-import com.magic.crius.po.UserAccountSummary;
 import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.OperateChargeReqService;
 import com.magic.crius.util.CriusLog;
@@ -14,7 +12,9 @@ import com.magic.crius.vo.OperateChargeReq;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * User: joey
@@ -29,10 +29,7 @@ public class OperateChargeReqAssemServiceImpl implements OperateChargeReqAssemSe
     private OperateChargeReqService operateChargeService;
     /*人工入款汇总*/
     @Resource
-    private OwnerOperateFlowSummmaryAssemService ownerOperateFlowSummmaryAssemService;
-    /*会员账号汇总*/
-    @Resource
-    private UserAccountSummaryAssemService userAccountSummaryAssemService;
+    private OwnerOperateFlowDetailAssemService ownerOperateFlowDetailAssemService;
     @Resource
     private UserTradeAssemService userTradeAssemService;
 
@@ -50,29 +47,26 @@ public class OperateChargeReqAssemServiceImpl implements OperateChargeReqAssemSe
         List<OperateChargeReq> list = operateChargeService.batchPopRedis(date);
         if (list != null && list.size() > 0) {
             List<OwnerOperateFlowDetail> ownerOperateFlowSummmaries = new ArrayList<>();
-            List<UserAccountSummary> userAccountSummaries = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
             for (OperateChargeReq req : list) {
                 /**
                  * 人工入款汇总
                  */
-                ownerOperateFlowSummmaries.add(assembleOwnerOperateFlowSummmary(req));
+                ownerOperateFlowSummmaries.add(assembleOwnerOperateFlowDetail(req));
 
                 if (req.getUserIds() != null && req.getUserIds().length > 0) {
                     for (Long userId : req.getUserIds()) {
-                        userAccountSummaries.add(assembleUserAccountSummary(req, userId));
                         userTrades.add(assembleUserTrade(req, userId));
                     }
                 }
             }
-            ownerOperateFlowSummmaryAssemService.batchSave(ownerOperateFlowSummmaries);
-            userAccountSummaryAssemService.updateRecharge(userAccountSummaries);
+            ownerOperateFlowDetailAssemService.batchSave(ownerOperateFlowSummmaries);
             userTradeAssemService.batchSave(userTrades);
         }
         return false;
     }
 
-    private OwnerOperateFlowDetail assembleOwnerOperateFlowSummmary(OperateChargeReq req) {
+    private OwnerOperateFlowDetail assembleOwnerOperateFlowDetail(OperateChargeReq req) {
         OwnerOperateFlowDetail summmary = new OwnerOperateFlowDetail();
         summmary.setOwnerId(req.getOwnerId());
         //todo
@@ -82,20 +76,6 @@ public class OperateChargeReqAssemServiceImpl implements OperateChargeReqAssemSe
         summmary.setOperateFlowTypeName(req.getRemark());
         summmary.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
         return summmary;
-    }
-
-    private UserAccountSummary assembleUserAccountSummary(OperateChargeReq req, Long userId) {
-        UserAccountSummary summary = new UserAccountSummary();
-        summary.setOwnerId(req.getOwnerId());
-        summary.setUserId(userId);
-        //todo 充值次数
-        summary.setFlowNum(1L);
-        summary.setFlowCount(req.getAmount());
-
-        summary.setOutNum(0L);
-        summary.setOutCount(0L);
-        summary.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
-        return summary;
     }
 
     private UserTrade assembleUserTrade(OperateChargeReq req, Long userId) {

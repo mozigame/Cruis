@@ -1,7 +1,7 @@
 package com.magic.crius.po;
 
 /**
- * 会员优惠汇总
+ * 会员优惠明细
  */
 public class UserPreferentialDetail {
 

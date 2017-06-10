@@ -3,11 +3,8 @@ package com.magic.crius.assemble.impl;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.CashbackReqAssemService;
 import com.magic.crius.assemble.OwnerReforwardDetailAssemService;
-import com.magic.crius.assemble.OwnerReforwardMoneyToGameAssemService;
 import com.magic.crius.assemble.UserTradeAssemService;
-import com.magic.crius.constants.RedisConstants;
 import com.magic.crius.po.OwnerReforwardDetail;
-import com.magic.crius.po.OwnerReforwardMoneyToGame;
 import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.CashbackReqService;
 import com.magic.crius.vo.CashbackReq;
@@ -29,9 +26,6 @@ public class CashbackReqAssemServiceImpl implements CashbackReqAssemService {
     /*会员反水详情*/
     @Resource
     private OwnerReforwardDetailAssemService ownerReforwardDetailAssemService;
-    /*业主返水详情汇总*/
-    @Resource
-    private OwnerReforwardMoneyToGameAssemService ownerReforwardMoneyToGameAssemService;
     /*账户交易明细*/
     @Resource
     private UserTradeAssemService userTradeAssemService;
@@ -50,14 +44,11 @@ public class CashbackReqAssemServiceImpl implements CashbackReqAssemService {
         List<CashbackReq> list = cashbackReqService.batchPopRedis(date);
         if (list != null && list.size() > 0) {
             List<OwnerReforwardDetail> ownerReforwardDetailHashMap = new ArrayList<>();
-            List<OwnerReforwardMoneyToGame> ownerReforwardMoneyToGameMap = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
             Set<CashbackReq> successReqs = new HashSet<>();
             for (CashbackReq req : list) {
                 /*反水详情*/
                 ownerReforwardDetailHashMap.add(assembleOwnerReforwardDetail(req));
-                /*业主返水汇总*/
-                ownerReforwardMoneyToGameMap.add(assembleOwnerReforwardMoneyToGame(req));
                 /*账户交易明细*/
                 userTrades.add(assembleUserTrade(req));
 
@@ -69,7 +60,6 @@ public class CashbackReqAssemServiceImpl implements CashbackReqAssemService {
             }
 
             ownerReforwardDetailAssemService.batchSave(ownerReforwardDetailHashMap);
-            ownerReforwardMoneyToGameAssemService.batchSave(ownerReforwardMoneyToGameMap);
             userTradeAssemService.batchSave(userTrades);
 
             /*mongo添加处理成功的数据*/
@@ -97,19 +87,6 @@ public class CashbackReqAssemServiceImpl implements CashbackReqAssemService {
         summmary.setCreateTime(req.getProduceTime());
         summmary.setUpdateTime(req.getProduceTime());
         return summmary;
-    }
-
-    private OwnerReforwardMoneyToGame assembleOwnerReforwardMoneyToGame(CashbackReq req) {
-        OwnerReforwardMoneyToGame moneyToGame = new OwnerReforwardMoneyToGame();
-        moneyToGame.setOwnerId(req.getOwnerId());
-        moneyToGame.setGameType(req.getGameHallId() + "");
-        //todo 等待获取
-        moneyToGame.setOrderNum(0);
-        moneyToGame.setOrderCount(req.getBettAmount());
-        moneyToGame.setEffectOrderCount(req.getVaildBettAmount());
-        moneyToGame.setReforwardMoneyCount(req.getAmount());
-        moneyToGame.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
-        return moneyToGame;
     }
 
     private UserTrade assembleUserTrade(CashbackReq req) {

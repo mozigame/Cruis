@@ -37,7 +37,7 @@ public interface OwnerReforwardDetailDbService {
      * @param summmary
      * @return
      */
-    boolean updateSummary(OwnerReforwardDetail summmary);
+    boolean updateDetail(OwnerReforwardDetail summmary);
 
     /**
      * 查询当天内多个业主下的数据

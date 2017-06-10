@@ -25,10 +25,10 @@ public interface OwnerOperateOutDetailService {
     /**
      * 批量添加
      *
-     * @param summmaries
+     * @param details
      * @return
      */
-    boolean batchInsert(Collection<OwnerOperateOutDetail> summmaries);
+    boolean batchInsert(Collection<OwnerOperateOutDetail> details);
 
 
     /**
@@ -37,7 +37,7 @@ public interface OwnerOperateOutDetailService {
      * @param summmary
      * @return
      */
-    boolean updateSummary(OwnerOperateOutDetail summmary);
+    boolean updateDetail(OwnerOperateOutDetail summmary);
 
     /**
      * 查询当天内多个业主下的数据

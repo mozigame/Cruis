@@ -21,18 +21,18 @@ public class OwnerReforwardDetailServiceImpl implements OwnerReforwardDetailServ
     private OwnerReforwardDetailDbService ownerReforwardDetailDbService;
 
     @Override
-    public boolean insert(OwnerReforwardDetail summmary) {
-        return ownerReforwardDetailDbService.insert(summmary);
+    public boolean insert(OwnerReforwardDetail detail) {
+        return ownerReforwardDetailDbService.insert(detail);
     }
 
     @Override
-    public boolean batchInsert(Collection<OwnerReforwardDetail> summmaries) {
-        return ownerReforwardDetailDbService.batchInsert(summmaries);
+    public boolean batchInsert(Collection<OwnerReforwardDetail> details) {
+        return ownerReforwardDetailDbService.batchInsert(details);
     }
 
     @Override
-    public boolean updateSummary(OwnerReforwardDetail summmary) {
-        return ownerReforwardDetailDbService.updateSummary(summmary);
+    public boolean updateDetail(OwnerReforwardDetail detail) {
+        return ownerReforwardDetailDbService.updateDetail(detail);
     }
 
     @Override

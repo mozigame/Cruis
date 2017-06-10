@@ -22,7 +22,7 @@ public interface OwnerOperateOutDetailMapper {
      * @param summmary
      * @return
      */
-    int updateSummary(OwnerOperateOutDetail summmary);
+    int updateDetail(OwnerOperateOutDetail summmary);
 
     /**
      * 批量添加

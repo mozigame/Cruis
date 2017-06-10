@@ -39,7 +39,7 @@
 
 
     <!--追加数量-->
-    <update id="updateSummary" parameterType="com.magic.crius.po.OwnerOperateOutDetail">
+    <update id="updateDetail" parameterType="com.magic.crius.po.OwnerOperateOutDetail">
         update owner_operate_out_detail
         set
           operate_out_money_count = operate_out_money_count + #{operateOutMoneyCount,jdbcType=BIGINT},

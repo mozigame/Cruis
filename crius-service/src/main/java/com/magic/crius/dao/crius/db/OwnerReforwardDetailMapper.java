@@ -24,7 +24,7 @@ public interface OwnerReforwardDetailMapper {
      * @param summmary
      * @return
      */
-    int updateSummary(OwnerReforwardDetail summmary);
+    int updateDetail(OwnerReforwardDetail summmary);
 
     /**
      * 批量添加

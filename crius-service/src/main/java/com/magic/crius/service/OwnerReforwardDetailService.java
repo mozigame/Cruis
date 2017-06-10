@@ -25,10 +25,10 @@ public interface OwnerReforwardDetailService {
     /**
      * 批量添加
      *
-     * @param summmaries
+     * @param details
      * @return
      */
-    boolean batchInsert(Collection<OwnerReforwardDetail> summmaries);
+    boolean batchInsert(Collection<OwnerReforwardDetail> details);
 
 
     /**
@@ -37,7 +37,7 @@ public interface OwnerReforwardDetailService {
      * @param summmary
      * @return
      */
-    boolean updateSummary(OwnerReforwardDetail summmary);
+    boolean updateDetail(OwnerReforwardDetail summmary);
 
     /**
      * 查询当天内多个业主下的数据

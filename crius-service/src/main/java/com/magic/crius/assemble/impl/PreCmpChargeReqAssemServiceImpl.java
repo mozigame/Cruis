@@ -1,7 +1,7 @@
 package com.magic.crius.assemble.impl;
 
-import com.magic.crius.assemble.OwnerCompanyAccountSummmaryAssemService;
-import com.magic.crius.assemble.OwnerCompanyFlowSummmaryAssemService;
+import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
+import com.magic.crius.assemble.OwnerCompanyFlowDetailAssemService;
 import com.magic.crius.assemble.PreCmpChargeReqAssemService;
 import com.magic.crius.service.PreCmpChargeReqService;
 import com.magic.crius.util.CriusLog;
@@ -22,10 +22,6 @@ public class PreCmpChargeReqAssemServiceImpl implements PreCmpChargeReqAssemServ
 
     @Resource
     private PreCmpChargeReqService preCmpChargeService;
-    @Resource
-    private OwnerCompanyFlowSummmaryAssemService ownerCompanyFlowSummmaryAssemService;
-    @Resource
-    private OwnerCompanyAccountSummmaryAssemService ownerCompanyAccountSummmaryAssemService;
 
     @Override
     public void procKafkaData(PreCmpChargeReq req) {

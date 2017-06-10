@@ -32,8 +32,8 @@ public class OwnerReforwardDetailDbServiceImpl implements OwnerReforwardDetailDb
     }
 
     @Override
-    public boolean updateSummary(OwnerReforwardDetail summmary) {
-        return ownerReforwardDetailMapper.updateSummary(summmary) > 0;
+    public boolean updateDetail(OwnerReforwardDetail summmary) {
+        return ownerReforwardDetailMapper.updateDetail(summmary) > 0;
     }
 
     @Override

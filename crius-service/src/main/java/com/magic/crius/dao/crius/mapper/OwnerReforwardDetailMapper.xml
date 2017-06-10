@@ -70,7 +70,7 @@
     </insert>
 
     <!--修改-->
-    <update id="updateSummary" parameterType="com.magic.crius.po.OwnerReforwardDetail">
+    <update id="updateDetail" parameterType="com.magic.crius.po.OwnerReforwardDetail">
         update owner_reforward_detail
         set
             order_num = order_num + #{orderNum,jdbcType=INTEGER},

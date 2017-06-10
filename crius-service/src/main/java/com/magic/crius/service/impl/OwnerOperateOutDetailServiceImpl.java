@@ -22,18 +22,18 @@ public class OwnerOperateOutDetailServiceImpl implements OwnerOperateOutDetailSe
     private OwnerOperateOutDetailDbService ownerOperateOutDetailDbService;
 
     @Override
-    public boolean insert(OwnerOperateOutDetail summmary) {
-        return ownerOperateOutDetailDbService.insert(summmary);
+    public boolean insert(OwnerOperateOutDetail detail) {
+        return ownerOperateOutDetailDbService.insert(detail);
     }
 
     @Override
-    public boolean batchInsert(Collection<OwnerOperateOutDetail> summmaries) {
-        return ownerOperateOutDetailDbService.batchInsert(summmaries);
+    public boolean batchInsert(Collection<OwnerOperateOutDetail> details) {
+        return ownerOperateOutDetailDbService.batchInsert(details);
     }
 
     @Override
-    public boolean updateSummary(OwnerOperateOutDetail summmary) {
-        return ownerOperateOutDetailDbService.updateSummary(summmary);
+    public boolean updateDetail(OwnerOperateOutDetail detail) {
+        return ownerOperateOutDetailDbService.updateDetail(detail);
     }
 
     @Override

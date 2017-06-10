@@ -1,8 +1,8 @@
 package com.magic.crius.scheduled.consumer;
 
 import com.magic.api.commons.tools.DateUtil;
-import com.magic.crius.assemble.OwnerCompanyAccountSummmaryAssemService;
-import com.magic.crius.assemble.OwnerCompanyFlowSummmaryAssemService;
+import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
+import com.magic.crius.assemble.OwnerCompanyFlowDetailAssemService;
 import com.magic.crius.assemble.UserTradeAssemService;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
@@ -41,9 +41,9 @@ public class PreCmpChargeReqConsumer {
     @Resource
     private PreCmpChargeReqService preCmpChargeService;
     @Resource
-    private OwnerCompanyFlowSummmaryAssemService ownerCompanyFlowSummmaryAssemService;
+    private OwnerCompanyFlowDetailAssemService ownerCompanyFlowDetailAssemService;
     @Resource
-    private OwnerCompanyAccountSummmaryAssemService ownerCompanyAccountSummmaryAssemService;
+    private OwnerCompanyAccountDetailAssemService ownerCompanyAccountDetailAssemService;
     @Resource
     private UserTradeAssemService userTradeAssemService;
 
@@ -61,11 +61,11 @@ public class PreCmpChargeReqConsumer {
 
 
     public void init(Date date) {
-        summaryCalculate(date);
+        detailCalculate(date);
     }
 
 
-    private void summaryCalculate(Date date) {
+    private void detailCalculate(Date date) {
         for (int i = 0; i < THREAD_SIZE; i++) {
             userOutMoneyTaskPool.execute(new Runnable() {
                 @Override
@@ -106,18 +106,18 @@ public class PreCmpChargeReqConsumer {
     private void flushData(Collection<PreCmpChargeReq> list) {
         if (list != null && list.size() > 0) {
 
-            List<OwnerCompanyFlowDetail> ownerCompanyFlowSummmaryMap = new ArrayList<>();
-            List<OwnerCompanyAccountDetail> ownerCompanyAccountSummmaryMap = new ArrayList<>();
+            List<OwnerCompanyFlowDetail> ownerCompanyFlowDetails = new ArrayList<>();
+            List<OwnerCompanyAccountDetail> ownerCompanyAccountDetails = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
             for (PreCmpChargeReq req : list) {
                 /*公司入款明细*/
-                ownerCompanyFlowSummmaryMap.add(assembleOwnerCompanyFlowSummmary(req));
+                ownerCompanyFlowDetails.add(assembleOwnerCompanyFlowDetail(req));
                 /*公司账目汇总*/
-                ownerCompanyAccountSummmaryMap.add(assembleOwnerCompanyAccountSummmary(req));
+                ownerCompanyAccountDetails.add(assembleOwnerCompanyAccountDetail(req));
                 userTrades.add(assembleUserTrade(req));
             }
-            ownerCompanyFlowSummmaryAssemService.batchSave(ownerCompanyFlowSummmaryMap);
-            ownerCompanyAccountSummmaryAssemService.batchSave(ownerCompanyAccountSummmaryMap);
+            ownerCompanyFlowDetailAssemService.batchSave(ownerCompanyFlowDetails);
+            ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
             userTradeAssemService.batchSave(userTrades);
 
             //todo 成功的id处理
@@ -190,7 +190,7 @@ public class PreCmpChargeReqConsumer {
     }
 
 
-    private OwnerCompanyFlowDetail assembleOwnerCompanyFlowSummmary(PreCmpChargeReq req) {
+    private OwnerCompanyFlowDetail assembleOwnerCompanyFlowDetail(PreCmpChargeReq req) {
         OwnerCompanyFlowDetail flow = new OwnerCompanyFlowDetail();
         flow.setOwnerId(req.getOwnerId());
         flow.setCompanyFlowMoneyCount(req.getAmount());
@@ -207,7 +207,7 @@ public class PreCmpChargeReqConsumer {
         return flow;
     }
 
-    private OwnerCompanyAccountDetail assembleOwnerCompanyAccountSummmary(PreCmpChargeReq req) {
+    private OwnerCompanyAccountDetail assembleOwnerCompanyAccountDetail(PreCmpChargeReq req) {
         OwnerCompanyAccountDetail account = new OwnerCompanyAccountDetail();
         account.setOwnerId(req.getOwnerId());
         account.setSummaryMoneyCount(req.getAmount());

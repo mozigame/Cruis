@@ -1,9 +1,10 @@
 package com.magic.crius.assemble.impl;
 
 import com.magic.api.commons.tools.DateUtil;
-import com.magic.crius.assemble.*;
+import com.magic.crius.assemble.OnlChargeReqAssemService;
+import com.magic.crius.assemble.UserFlowMoneyDetailAssemService;
+import com.magic.crius.assemble.UserTradeAssemService;
 import com.magic.crius.po.OwnerOnlineFlowDetail;
-import com.magic.crius.po.UserAccountSummary;
 import com.magic.crius.po.UserFlowMoneyDetail;
 import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.OnlChargeReqService;
@@ -12,7 +13,9 @@ import com.magic.crius.vo.OnlChargeReq;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * User: joey
@@ -28,13 +31,10 @@ public class OnlChargeReqAssemServiceImpl implements OnlChargeReqAssemService {
     private OnlChargeReqService onlChargeService;
     /*线上入款汇总*/
     @Resource
-    private OwnerOnlineFlowSummmaryAssemService ownerOnlineFlowSummmaryAssemService;
+    private OwnerOnlineFlowDetailAssemServiceImpl ownerOnlineFlowDetailAssemService;
     /*会员入款明细*/
     @Resource
     private UserFlowMoneyDetailAssemService userFlowMoneyDetailAssemService;
-    /*会员账号汇总*/
-    @Resource
-    private UserAccountSummaryAssemService userAccountSummaryAssemService;
     @Resource
     private UserTradeAssemService userTradeAssemService;
 
@@ -53,26 +53,22 @@ public class OnlChargeReqAssemServiceImpl implements OnlChargeReqAssemService {
         if (list != null && list.size() > 0) {
             List<OwnerOnlineFlowDetail> ownerOnlineFlowSummmaries = new ArrayList<>();
             List<UserFlowMoneyDetail> userFlowMoneyDetails = new ArrayList<>();
-            List<UserAccountSummary> userAccountSummaries = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
             for (OnlChargeReq req : list) {
                 /*线上入款汇总*/
-                ownerOnlineFlowSummmaries.add(assembleOwnerOnlineFlowSummmary(req));
+                ownerOnlineFlowSummmaries.add(assembleOwnerOnlineFlowDetail(req));
                 /*会员入款详情*/
                 userFlowMoneyDetails.add(assembleUserFlowMoneyDetail(req));
-                /*会员账号汇总*/
-                userAccountSummaries.add(assembleUserAccountSummary(req));
 
                 userTrades.add(assembleUserTrade(req));
             }
-            ownerOnlineFlowSummmaryAssemService.batchSave(ownerOnlineFlowSummmaries);
+            ownerOnlineFlowDetailAssemService.batchSave(ownerOnlineFlowSummmaries);
             userFlowMoneyDetailAssemService.batchSave(userFlowMoneyDetails);
-            userAccountSummaryAssemService.updateRecharge(userAccountSummaries);
             userTradeAssemService.batchSave(userTrades);
         }
     }
 
-    private OwnerOnlineFlowDetail assembleOwnerOnlineFlowSummmary(OnlChargeReq req) {
+    private OwnerOnlineFlowDetail assembleOwnerOnlineFlowDetail(OnlChargeReq req) {
         OwnerOnlineFlowDetail flow = new OwnerOnlineFlowDetail();
         flow.setOwnerId(req.getOwnerId());
         flow.setOperateFlowMoneyCount(req.getAmount());
@@ -105,20 +101,6 @@ public class OnlChargeReqAssemServiceImpl implements OnlChargeReqAssemService {
         detail.setCreateTime(req.getProduceTime());
         detail.setUpdateTime(req.getProduceTime());
         return detail;
-    }
-
-    private UserAccountSummary assembleUserAccountSummary(OnlChargeReq req) {
-        UserAccountSummary summary = new UserAccountSummary();
-        summary.setOwnerId(req.getOwnerId());
-        summary.setUserId(req.getUserId());
-        //todo 充值次数次数
-        summary.setFlowNum(1L);
-        summary.setFlowCount(req.getAmount());
-
-        summary.setOutNum(0L);
-        summary.setOutCount(0L);
-        summary.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
-        return summary;
     }
 
     private UserTrade assembleUserTrade(OnlChargeReq req) {

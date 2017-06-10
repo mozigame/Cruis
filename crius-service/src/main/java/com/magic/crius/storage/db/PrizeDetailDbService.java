@@ -1,7 +1,6 @@
 package com.magic.crius.storage.db;
 
 import com.magic.crius.po.PrizeDetail;
-import com.magic.crius.po.UserAccountSummary;
 
 import java.util.List;
 
