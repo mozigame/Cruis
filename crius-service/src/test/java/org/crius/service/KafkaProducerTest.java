@@ -222,7 +222,7 @@ public class KafkaProducerTest {
 
     @Test
     public void testPreWithdraw() {
-        for (int i = 0; i <= 2; i++) {
+        for (int i = 0; i <= 500; i++) {
             PreWithdrawReq preWithdraw = new PreWithdrawReq();
             preWithdraw.setReqId(System.currentTimeMillis() + i);
             preWithdraw.setUserId(2000001L + i);
