@@ -16,6 +16,8 @@ public class KafkaConf {
 
     public static final String DATA_TYPE="DataType";
 
+    public static final String CAPITAL_GROUP = "capital_group";
+
     /**
      * kafka消费的数据类型
      */
@@ -58,12 +60,4 @@ public class KafkaConf {
             return map.get(type);
         }
     }
-
-    /**
-     * kafka消费的group
-     */
-    public enum Group {
-        CAPITAL_GROUP;  //资金
-    }
-
 }

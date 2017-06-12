@@ -49,8 +49,7 @@ public class RepairLockMongoServiceImpl implements RepairLockMongoService {
     public boolean delTimeLock(Long startTime, Long endTime) {
         try {
             Query query  = new Query();
-            query.addCriteria(new Criteria("produceTime").gte(startTime));
-            query.addCriteria(new Criteria("produceTime").lt(endTime));
+            query.addCriteria(new Criteria("produceTime").gte(startTime).lt(endTime));
             WriteResult result = repairLockMongoDao.getMongoTemplate().remove(query, RepairLock.class);
             return result.getN() > 0;
         } catch (Exception e) {

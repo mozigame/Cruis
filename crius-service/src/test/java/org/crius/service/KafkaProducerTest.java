@@ -117,7 +117,7 @@ public class KafkaProducerTest {
 
     @Test
     public void testJp() {
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 2; i++) {
             JpReq jp = new JpReq();
             jp.setReqId(System.currentTimeMillis() + i);
             jp.setBillId(System.currentTimeMillis() + i);
@@ -144,7 +144,7 @@ public class KafkaProducerTest {
 
     @Test
     public void testOnlCharge() {
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 2; i++) {
             OnlChargeReq onl = new OnlChargeReq();
             onl.setReqId(System.currentTimeMillis() + i);
             onl.setOrderId(System.currentTimeMillis() + i);
@@ -170,7 +170,7 @@ public class KafkaProducerTest {
 
     @Test
     public void testOperateCharge() {
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 2; i++) {
             long currentTime = System.currentTimeMillis();
             OperateChargeReq operateCharge = new OperateChargeReq();
             operateCharge.setReqId(currentTime + i);
@@ -334,7 +334,7 @@ public class KafkaProducerTest {
 
     @Test
     public void testLotteryReq() {
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 20; i++) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("DataType", KafkaConf.DataType.PLUTUS_SPORT.type());
             LotteryReq req = new LotteryReq();

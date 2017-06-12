@@ -7,6 +7,7 @@ import com.mongodb.WriteResult;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Collection;
@@ -17,6 +18,7 @@ import java.util.Collection;
  * Time: 21:01
  * 会员mongo资金信息
  */
+@Service
 public class MemberConditionVoMongoServiceImpl implements MemberConditionVoMongoService {
 
     @Resource

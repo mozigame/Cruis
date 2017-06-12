@@ -55,7 +55,7 @@ public class CriusConsumerConfig {
         propsMap.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, session_timeout_ms_config);
         propsMap.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         propsMap.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        propsMap.put(ConsumerConfig.GROUP_ID_CONFIG, KafkaConf.Group.CAPITAL_GROUP.name());
+        propsMap.put(ConsumerConfig.GROUP_ID_CONFIG, KafkaConf.CAPITAL_GROUP);
         propsMap.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, auto_offset_reset_config);
         return propsMap;
     }

@@ -55,7 +55,7 @@ public class CapitalConsumer {
     @Resource
     private UserLevelAssemService userLevelAssemService;
 
-    @KafkaListener(topics = "cruis_capital", group = "group_1")
+    @KafkaListener(topics = "cruis_capital", group = KafkaConf.CAPITAL_GROUP)
     public void listen(ConsumerRecord<?, ?> record) {
         try {
             Optional<?> kafkaMessage = Optional.ofNullable(record.value());
