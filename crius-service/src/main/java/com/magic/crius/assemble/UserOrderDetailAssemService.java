@@ -1,16 +1,33 @@
 package com.magic.crius.assemble;
 
+import com.magic.crius.assemble.UserOrderDetailAssemService;
 import com.magic.crius.po.UserOrderDetail;
+import com.magic.crius.service.TethysUserOrderDetailService;
+import com.magic.crius.service.UserOrderDetailService;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * User: joey
  * Date: 2017/6/8
  * Time: 16:31
- * 注单详情
  */
-public interface UserOrderDetailAssemService {
+@Service
+public class UserOrderDetailAssemService {
 
-    boolean batchSave(List<UserOrderDetail> details);
+    @Resource
+    private UserOrderDetailService userOrderDetailService;
+    @Resource
+    private TethysUserOrderDetailService tethysUserOrderDetailService;
+
+    public boolean batchSave(List<UserOrderDetail> details) {
+        boolean flag = false;
+        if (userOrderDetailService.batchSave(details)) {
+            tethysUserOrderDetailService.batchSave(details);
+            flag = true;
+        }
+        return flag;
+    }
 }

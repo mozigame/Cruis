@@ -7,6 +7,7 @@ import com.magic.crius.vo.DealerRewardReq;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -42,5 +43,25 @@ public class DealerRewardReqServiceImpl implements DealerRewardReqService {
     @Override
     public List<DealerRewardReq> batchPopRedis(Date date) {
         return dealerRewardReqRedisService.batchPop(date);
+    }
+
+    @Override
+    public List<Long> getSucIds(Long startTime, Long endTime) {
+        return dealerRewardReqMongoService.getSucIds(startTime, endTime);
+    }
+
+    @Override
+    public List<DealerRewardReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
+        return dealerRewardReqMongoService.getNotProc(startTime, endTime, reqIds);
+    }
+
+    @Override
+    public List<DealerRewardReq> getSaveFailed(Long startTime, Long endTime) {
+        return dealerRewardReqMongoService.getSaveFailed(startTime, endTime);
+    }
+
+    @Override
+    public boolean saveSuc(List<DealerRewardReq> reqs) {
+        return dealerRewardReqMongoService.saveSuc(reqs);
     }
 }

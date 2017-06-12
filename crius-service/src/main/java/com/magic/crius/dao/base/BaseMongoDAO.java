@@ -89,7 +89,30 @@ public interface BaseMongoDAO<T> {
     public long count(Query query);
 
 
+    /**
+     * 查询操作成功的ID列表
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    List<Long> getSucIds(Long startTime, Long endTime, String collectionName);
 
+    /**
+     * 获取固定时间内未处理的数据
+     * @param startTime
+     * @param endTime
+     * @param reqIds
+     * @return
+     */
+    List<T> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, String collectionName);
+
+    /**
+     * 获取固定时间内处理失败的数据
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    List<T> getSaveFailed(Long startTime, Long endTime, String collectionName);
 
 
 }

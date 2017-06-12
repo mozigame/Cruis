@@ -1,26 +1,47 @@
 package com.magic.crius.assemble;
 
+import com.magic.api.commons.tools.DateUtil;
+import com.magic.crius.assemble.DiscountReqAssemService;
+import com.magic.crius.assemble.OwnerPreferentialDetailAssemService;
+import com.magic.crius.assemble.UserPreferentialDetailAssemService;
+import com.magic.crius.assemble.UserTradeAssemService;
+import com.magic.crius.po.OwnerPreferentialDetail;
+import com.magic.crius.po.UserPreferentialDetail;
+import com.magic.crius.po.UserTrade;
+import com.magic.crius.service.DiscountReqService;
+import com.magic.crius.util.CriusLog;
 import com.magic.crius.vo.DiscountReq;
+import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import javax.annotation.Resource;
+import java.util.*;
 
 /**
  * User: joey
  * Date: 2017/6/3
- * Time: 10:39
+ * Time: 10:40
  * 优惠赠送
  */
-public interface DiscountReqAssemService {
+@Service
+public class DiscountReqAssemService  {
 
-    /**
-     * 处理在kafka中获取的对象
-     * @param req
-     */
-    void procKafkaData(DiscountReq req);
+    @Resource
+    private DiscountReqService discountReqService;
+    /*业主优惠汇总*/
+    @Resource
+    private OwnerPreferentialDetailAssemService ownerPreferentialDetailAssemService;
+    /*会员优惠汇总*/
+    @Resource
+    private UserPreferentialDetailAssemService userPreferentialDetailAssemService;
+    @Resource
+    private UserTradeAssemService userTradeAssemService;
 
-    /**
-     * 在redis中获取数据，然后进行清洗
-     */
-    boolean convertData(Date date);
+    public void procKafkaData(DiscountReq req) {
+        if (discountReqService.getByReqId(req.getReqId()) == null) {
+            if (!discountReqService.save(req)) {
+                CriusLog.error("save OnlChargeReq error,reqId : " + req.getReqId());
+            }
+        }
+    }
 
 }

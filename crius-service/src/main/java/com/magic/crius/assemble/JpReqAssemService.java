@@ -1,26 +1,38 @@
 package com.magic.crius.assemble;
 
+import com.magic.api.commons.tools.DateUtil;
+import com.magic.crius.assemble.JpReqAssemService;
+import com.magic.crius.assemble.PrizeDetailAssemService;
+import com.magic.crius.po.PrizeDetail;
+import com.magic.crius.service.JpReqService;
+import com.magic.crius.util.CriusLog;
 import com.magic.crius.vo.JpReq;
-import com.magic.crius.vo.OperateWithDrawReq;
+import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import javax.annotation.Resource;
+import java.util.*;
 
 /**
  * User: joey
  * Date: 2017/6/5
- * Time: 20:49
- * 彩金明细
+ * Time: 20:50
  */
-public interface JpReqAssemService {
+@Service
+public class JpReqAssemService {
 
-    /**
-     * 处理在kafka中获取的对象
-     * @param req
-     */
-    void  procKafkaData(JpReq req);
 
-    /**
-     * 在redis中获取数据，然后进行清洗
-     */
-    boolean convertData(Date date);
+    @Resource
+    private JpReqService jpReqService;
+    @Resource
+    private PrizeDetailAssemService prizeDetailAssemService;
+
+    public void procKafkaData(JpReq req) {
+        if (jpReqService.getByReqId(req.getReqId()) == null) {
+            if (!jpReqService.save(req)) {
+                CriusLog.error("save JpReq error,reqId : " + req.getReqId());
+            }
+        }
+    }
+
+
 }

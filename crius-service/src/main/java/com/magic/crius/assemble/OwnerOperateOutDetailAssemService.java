@@ -1,22 +1,29 @@
 package com.magic.crius.assemble;
 
+import com.magic.crius.assemble.OwnerOperateOutDetailAssemService;
 import com.magic.crius.po.OwnerOperateOutDetail;
+import com.magic.crius.service.OwnerOperateOutDetailService;
+import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import javax.annotation.Resource;
+import java.util.*;
 
 /**
  * User: joey
  * Date: 2017/6/5
- * Time: 15:01
- * 人工出款详情
+ * Time: 15:02
  */
-public interface OwnerOperateOutDetailAssemService {
+@Service
+public class OwnerOperateOutDetailAssemService {
 
-    /**
-     * 批量人工出款详情
-     * @param ownerOperateOutDetails
-     */
-    void batchSave(List<OwnerOperateOutDetail> ownerOperateOutDetails);
+    @Resource
+    private OwnerOperateOutDetailService ownerOperateOutDetailService;
+
+    public void batchSave(List<OwnerOperateOutDetail> ownerOperateOutDetails) {
+        //todo 错误处理
+        if (ownerOperateOutDetails.size() > 0) {
+            boolean saveResult = ownerOperateOutDetailService.batchInsert(ownerOperateOutDetails);
+        }
+
+    }
 }

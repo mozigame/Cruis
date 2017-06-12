@@ -49,4 +49,19 @@ public class CashbackReqServiceImpl implements CashbackReqService {
     public List<CashbackReq> batchPopRedis(Date date) {
         return cashbackReqRedisService.batchPop(date);
     }
+
+    @Override
+    public List<Long> getSucIds(Long startTime, Long endTime) {
+        return cashbackReqMongoService.getSucIds(startTime, endTime);
+    }
+
+    @Override
+    public List<CashbackReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
+        return cashbackReqMongoService.getNotProc(startTime, endTime, reqIds);
+    }
+
+    @Override
+    public List<CashbackReq> getSaveFailed(Long startTime, Long endTime) {
+        return cashbackReqMongoService.getSaveFailed(startTime, endTime);
+    }
 }

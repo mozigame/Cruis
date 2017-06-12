@@ -7,6 +7,7 @@ import com.magic.crius.vo.JpReq;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -43,5 +44,25 @@ public class JpReqServiceImpl implements JpReqService {
     @Override
     public List<JpReq> batchPopRedis(Date date) {
         return jpReqRedisService.batchPop(date);
+    }
+
+    @Override
+    public List<Long> getSucIds(Long startTime, Long endTime) {
+        return jpReqMongoService.getSucIds(startTime, endTime);
+    }
+
+    @Override
+    public List<JpReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
+        return jpReqMongoService.getNotProc(startTime, endTime, reqIds);
+    }
+
+    @Override
+    public List<JpReq> getSaveFailed(Long startTime, Long endTime) {
+        return jpReqMongoService.getSaveFailed(startTime, endTime);
+    }
+
+    @Override
+    public boolean saveSuc(List<JpReq> reqs) {
+        return jpReqMongoService.saveSuc(reqs);
     }
 }

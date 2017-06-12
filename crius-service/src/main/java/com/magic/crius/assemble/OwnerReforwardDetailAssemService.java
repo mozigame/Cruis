@@ -1,22 +1,25 @@
 package com.magic.crius.assemble;
 
+import com.magic.crius.assemble.OwnerReforwardDetailAssemService;
 import com.magic.crius.po.OwnerReforwardDetail;
+import com.magic.crius.service.OwnerReforwardDetailService;
+import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.Map;
+import javax.annotation.Resource;
+import java.util.*;
 
 /**
  * User: joey
  * Date: 2017/6/5
  * Time: 17:27
- * 返水详情
  */
-public interface OwnerReforwardDetailAssemService {
+@Service
+public class OwnerReforwardDetailAssemService {
 
-    /**
-     * 批量添加返水详情
-     * @param userOutMoneySummaries
-     */
-    boolean batchSave(Collection<OwnerReforwardDetail> userOutMoneySummaries);
+    @Resource
+    private OwnerReforwardDetailService ownerReforwardDetailService;
 
+    public boolean batchSave(Collection<OwnerReforwardDetail> reforwardDetails) {
+        return ownerReforwardDetailService.batchInsert(reforwardDetails);
+    }
 }

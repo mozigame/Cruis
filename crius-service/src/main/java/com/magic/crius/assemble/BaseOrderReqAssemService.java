@@ -1,24 +1,36 @@
 package com.magic.crius.assemble;
 
+import com.magic.api.commons.tools.DateUtil;
+import com.magic.crius.assemble.BaseOrderReqAssemService;
+import com.magic.crius.assemble.UserOrderDetailAssemService;
+import com.magic.crius.constants.RedisConstants;
+import com.magic.crius.po.UserOrderDetail;
+import com.magic.crius.service.BaseOrderReqService;
 import com.magic.crius.vo.BaseOrderReq;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * User: joey
  * Date: 2017/6/8
- * Time: 20:16
+ * Time: 20:20
  */
-public interface BaseOrderReqAssemService {
+@Service
+public class BaseOrderReqAssemService {
 
-    /**
-     * 处理在kafka中获取的对象
-     * @param req
-     */
-    void  procKafkaData(BaseOrderReq req);
+    @Resource
+    private BaseOrderReqService baseOrderReqService;
 
-    /**
-     * 在redis中获取数据，然后进行清洗
-     */
-    boolean convertData(Date date);
+    public void procKafkaData(BaseOrderReq req) {
+        if (baseOrderReqService.getByReqId(req.getReqId()) == null) {
+            if (!baseOrderReqService.save(req)) {
+                //todo
+            }
+        }
+    }
+
 }

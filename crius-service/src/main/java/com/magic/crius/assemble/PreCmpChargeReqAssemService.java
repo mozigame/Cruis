@@ -1,8 +1,15 @@
 package com.magic.crius.assemble;
 
+import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
+import com.magic.crius.assemble.OwnerCompanyFlowDetailAssemService;
+import com.magic.crius.assemble.PreCmpChargeReqAssemService;
+import com.magic.crius.service.PreCmpChargeReqService;
+import com.magic.crius.util.CriusLog;
 import com.magic.crius.vo.PreCmpChargeReq;
+import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import javax.annotation.Resource;
+import java.util.*;
 
 /**
  * User: joey
@@ -10,16 +17,18 @@ import java.util.Date;
  * Time: 14:32
  * 公司入款
  */
-public interface PreCmpChargeReqAssemService {
+@Service
+public class PreCmpChargeReqAssemService {
 
-    /**
-     * 处理在kafka中获取的对象
-     * @param req
-     */
-    void  procKafkaData(PreCmpChargeReq req);
+    @Resource
+    private PreCmpChargeReqService preCmpChargeService;
 
-    /**
-     * 在redis中获取数据，然后进行清洗
-     */
-    boolean convertData(Date date);
+    public void procKafkaData(PreCmpChargeReq req) {
+        if (preCmpChargeService.getByReqId(req.getReqId()) == null) {
+            if (!preCmpChargeService.savePreCmpCharge(req)) {
+                CriusLog.error("save PreCmpCharge error,reqId : " + req.getReqId());
+            }
+        }
+    }
+
 }

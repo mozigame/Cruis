@@ -61,4 +61,9 @@ public class PreCmpChargeReqServiceImpl implements PreCmpChargeReqService {
     public List<PreCmpChargeReq> getSaveFailed(Long startTime, Long endTime) {
         return preCmpChargeMongoService.getSaveFailed(startTime, endTime);
     }
+
+    @Override
+    public boolean saveSuc(List<PreCmpChargeReq> reqs) {
+        return preCmpChargeMongoService.saveSuc(reqs);
+    }
 }

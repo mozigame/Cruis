@@ -1,26 +1,47 @@
 package com.magic.crius.assemble;
 
-import com.magic.crius.vo.OnlChargeReq;
+import com.magic.api.commons.tools.DateUtil;
+import com.magic.crius.assemble.PreWithdrawReqAssemService;
+import com.magic.crius.assemble.UserOutMoneyDetailAssemService;
+import com.magic.crius.assemble.UserTradeAssemService;
+import com.magic.crius.po.UserOutMoneyDetail;
+import com.magic.crius.po.UserTrade;
+import com.magic.crius.service.PreWithdrawReqService;
+import com.magic.crius.util.CriusLog;
 import com.magic.crius.vo.PreWithdrawReq;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * User: joey
  * Date: 2017/6/2
- * Time: 19:31
+ * Time: 19:32
  * 用户提现
  */
-public interface PreWithdrawReqAssemService {
-
+@Service
+public class PreWithdrawReqAssemService {
     /**
-     * 处理在kafka中获取的对象
-     * @param req
+     * 用户提现
      */
-    void procKafkaData(PreWithdrawReq req);
+    @Resource
+    private PreWithdrawReqService preWithdrawService;
+    /*会员出款明细*/
+    @Resource
+    private UserOutMoneyDetailAssemService userOutMoneyDetailAssemService;
+    @Resource
+    private UserTradeAssemService userTradeAssemService;
 
-    /**
-     * 在redis中获取数据，然后进行清洗
-     */
-    boolean convertData(Date date);
+    public void procKafkaData(PreWithdrawReq req) {
+        if (preWithdrawService.getByReqId(req.getReqId()) == null) {
+            if (!preWithdrawService.save(req)) {
+                CriusLog.error("save PreWithdrawReq error,reqId : " + req.getReqId());
+            }
+        }
+    }
+
+
 }

@@ -7,6 +7,7 @@ import com.magic.crius.vo.BaseOrderReq;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -19,16 +20,16 @@ import java.util.List;
 public class BaseOrderReqServiceImpl implements BaseOrderReqService {
 
     @Resource
-    private BaseOrderReqRedisService vGameReqRedisService;
+    private BaseOrderReqRedisService baseOrderReqRedisService;
     @Resource
-    private BaseOrderReqMongoService vGameReqMongoService;
+    private BaseOrderReqMongoService baseOrderReqMongoService;
 
     @Override
     public boolean save(BaseOrderReq req) {
-        if (!vGameReqMongoService.save(req)) {
-            vGameReqMongoService.saveFailedData(req);
+        if (!baseOrderReqMongoService.save(req)) {
+            baseOrderReqMongoService.saveFailedData(req);
         }
-        if (!vGameReqRedisService.save(req)) {
+        if (!baseOrderReqRedisService.save(req)) {
             //TODO 缓存保存失败如何处理
         }
         return true;
@@ -36,11 +37,31 @@ public class BaseOrderReqServiceImpl implements BaseOrderReqService {
 
     @Override
     public BaseOrderReq getByReqId(Long reqId) {
-        return vGameReqMongoService.getByReqId(reqId);
+        return baseOrderReqMongoService.getByReqId(reqId);
     }
 
     @Override
     public List<BaseOrderReq> batchPopRedis(Date date) {
-        return vGameReqRedisService.batchPop(date);
+        return baseOrderReqRedisService.batchPop(date);
+    }
+
+    @Override
+    public List<Long> getSucIds(Long startTime, Long endTime) {
+        return baseOrderReqMongoService.getSucIds(startTime, endTime);
+    }
+
+    @Override
+    public List<BaseOrderReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
+        return baseOrderReqMongoService.getNotProc(startTime, endTime, reqIds);
+    }
+
+    @Override
+    public List<BaseOrderReq> getSaveFailed(Long startTime, Long endTime) {
+        return baseOrderReqMongoService.getSaveFailed(startTime, endTime);
+    }
+
+    @Override
+    public boolean saveSuc(Collection<BaseOrderReq> reqs) {
+        return baseOrderReqMongoService.saveSuc(reqs);
     }
 }

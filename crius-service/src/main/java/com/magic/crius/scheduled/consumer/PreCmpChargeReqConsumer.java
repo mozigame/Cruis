@@ -1,6 +1,7 @@
 package com.magic.crius.scheduled.consumer;
 
 import com.magic.api.commons.tools.DateUtil;
+import com.magic.crius.assemble.MemberConditionVoAssemService;
 import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
 import com.magic.crius.assemble.OwnerCompanyFlowDetailAssemService;
 import com.magic.crius.assemble.UserTradeAssemService;
@@ -14,7 +15,9 @@ import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.PreCmpChargeReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.util.CriusLog;
+import com.magic.crius.vo.OperateWithDrawReq;
 import com.magic.crius.vo.PreCmpChargeReq;
+import com.magic.user.vo.MemberConditionVo;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -39,16 +42,19 @@ public class PreCmpChargeReqConsumer {
     private ExecutorService userOutMoneyHistoryTaskPool = Executors.newSingleThreadExecutor();
 
     @Resource
+    private RepairLockService repairLockService;
+
+    @Resource
     private PreCmpChargeReqService preCmpChargeService;
     @Resource
     private OwnerCompanyFlowDetailAssemService ownerCompanyFlowDetailAssemService;
     @Resource
     private OwnerCompanyAccountDetailAssemService ownerCompanyAccountDetailAssemService;
-    @Resource
-    private UserTradeAssemService userTradeAssemService;
 
     @Resource
-    private RepairLockService repairLockService;
+    private UserTradeAssemService userTradeAssemService;
+    @Resource
+    private MemberConditionVoAssemService memberConditionVoAssemService;
 
 
     public void procKafkaData(PreCmpChargeReq req) {
@@ -95,6 +101,11 @@ public class PreCmpChargeReqConsumer {
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
             flushData(reqList);
             reqList = preCmpChargeService.batchPopRedis(date);
+            try {
+                Thread.sleep(CriusConstants.POLL_POP_SLEEP_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -109,18 +120,33 @@ public class PreCmpChargeReqConsumer {
             List<OwnerCompanyFlowDetail> ownerCompanyFlowDetails = new ArrayList<>();
             List<OwnerCompanyAccountDetail> ownerCompanyAccountDetails = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
+            List<PreCmpChargeReq> sucReqs = new ArrayList<>();
+            Map<Long, MemberConditionVo> memberConditionVoMap = new HashMap<>();
             for (PreCmpChargeReq req : list) {
                 /*公司入款明细*/
                 ownerCompanyFlowDetails.add(assembleOwnerCompanyFlowDetail(req));
                 /*公司账目汇总*/
                 ownerCompanyAccountDetails.add(assembleOwnerCompanyAccountDetail(req));
-                userTrades.add(assembleUserTrade(req));
+                userTrades.add(userTradeAssemService.assembleUserTrade(req));
+                /*会员入款*/
+                if (memberConditionVoMap.get(req.getUserId()) == null) {
+                    memberConditionVoMap.put(req.getUserId(), memberConditionVoAssemService.assembleDepositMVo(req));
+                } else {
+                    MemberConditionVo vo  = memberConditionVoMap.get(req.getUserId());
+                    vo.setDepositCount(vo.getDepositCount() + 1);
+                    vo.setDepositMoney(vo.getDepositMoney() + req.getAmount());
+                }
+
+                sucReqs.add(assembleSucReq(req));
             }
             ownerCompanyFlowDetailAssemService.batchSave(ownerCompanyFlowDetails);
             ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
+            memberConditionVoAssemService.batchRecharge(memberConditionVoMap.values());
             userTradeAssemService.batchSave(userTrades);
-
             //todo 成功的id处理
+            if (!preCmpChargeService.saveSuc(sucReqs)) {
+
+            }
         }
     }
 
@@ -155,7 +181,7 @@ public class PreCmpChargeReqConsumer {
         }
         repairLock = new RepairLock();
         repairLock.setProduceTime(date.getTime());
-        repairLock.setCollectionName(MongoCollections.operateWithDrawReq.name());
+        repairLock.setCollectionName(MongoCollections.preCmpChargeReq.name());
         repairLock.setValue(CriusConstants.REPAIR_LOCK_VALUE);
         if (repairLockService.save(repairLock)) {
             mongoFailed(startDate.getTimeInMillis(), endDate.getTime());
@@ -220,20 +246,12 @@ public class PreCmpChargeReqConsumer {
         return account;
     }
 
-    private UserTrade assembleUserTrade(PreCmpChargeReq req) {
-        UserTrade userTrade = new UserTrade();
-        userTrade.setOwnerId(req.getOwnerId());
-        userTrade.setUserId(req.getUserId());
-        userTrade.setTradeId(req.getAmount());
-        //todo 账户余额
-        userTrade.setTotalNum(0L);
-        userTrade.setTradeTime(req.getProduceTime());
-        //todo 交易类型
-        userTrade.setTradeType(0);
-        //todo 存取类型
-        userTrade.setActiontype(0);
-        userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
-        return userTrade;
+    private PreCmpChargeReq assembleSucReq(PreCmpChargeReq req) {
+        /*成功的数据*/
+        PreCmpChargeReq sucReq = new PreCmpChargeReq();
+        sucReq.setReqId(req.getReqId());
+        sucReq.setProduceTime(req.getProduceTime());
+        return sucReq;
     }
 
 }

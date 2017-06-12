@@ -1,20 +1,30 @@
 package com.magic.crius.assemble;
 
+import com.magic.crius.assemble.OwnerPreferentialDetailAssemService;
 import com.magic.crius.po.OwnerPreferentialDetail;
+import com.magic.crius.service.OwnerPreferentialDetailService;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
+import javax.annotation.Resource;
+import java.util.*;
 
 /**
  * User: joey
  * Date: 2017/6/4
- * Time: 23:35
- * 优惠汇总
+ * Time: 23:36
  */
-public interface OwnerPreferentialDetailAssemService {
+@Service
+public class OwnerPreferentialDetailAssemService {
 
-    /**
-     * 批量添加优惠汇总
-     * @param ownerPreferentialSummaries
-     */
-    void batchSave(List<OwnerPreferentialDetail> ownerPreferentialSummaries);
+    @Resource
+    private OwnerPreferentialDetailService ownerPreferentialDetailService;
+
+    public void batchSave(List<OwnerPreferentialDetail> ownerPreferentialSummaries) {
+
+        //todo 错误处理
+        if (ownerPreferentialSummaries.size() > 0) {
+            boolean saveResult = ownerPreferentialDetailService.batchInsert(ownerPreferentialSummaries);
+        }
+
+    }
 }

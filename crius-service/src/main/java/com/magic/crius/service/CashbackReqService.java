@@ -21,18 +21,11 @@ public interface CashbackReqService {
     boolean save(CashbackReq req);
 
     /**
-     * 批量添加处理成功的数据ID
-     * @param reqs
-     * @return
-     */
-    boolean saveSuc(Collection<CashbackReq> reqs);
-
-
-    /**
      * @param reqId
      * @return
      */
     CashbackReq getByReqId(Long reqId);
+
 
     /**
      * 批量获取缓存中固定时间内的返水信息
@@ -40,4 +33,35 @@ public interface CashbackReqService {
      * @return
      */
     List<CashbackReq> batchPopRedis(Date date);
+
+    /**
+     * 批量添加处理成功的数据ID
+     * @param reqs
+     * @return
+     */
+    boolean saveSuc(Collection<CashbackReq> reqs);
+
+    /**
+     * 获取操作成功的ID
+     * @param
+     * @return
+     */
+    List<Long> getSucIds(Long startTime, Long endTime);
+
+    /**
+     * 获取未处理的数据
+     * @param startTime
+     * @param endTime
+     * @param reqIds
+     * @return
+     */
+    List<CashbackReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds);
+
+    /**
+     * 获取一段时间内处理失败的数据
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    List<CashbackReq> getSaveFailed(Long startTime, Long endTime);
 }

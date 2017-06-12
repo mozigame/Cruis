@@ -2,8 +2,8 @@ package com.magic.crius.scheduled.core;
 
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.*;
-import com.magic.crius.scheduled.consumer.OperateWithDrawReqConsumer;
-import com.magic.crius.scheduled.consumer.PreCmpChargeReqConsumer;
+import com.magic.crius.scheduled.consumer.*;
+import com.magic.crius.service.RepairLockService;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -27,46 +27,33 @@ public class CriusScheduler {
     /**
      * 处理redis数据的间隔时间
      */
-    private static final int cacheFlushRate = 1000 * 30;
+    private static final int cacheFlushRate = 1000 * 60;
     /**
      * 拉取代理列表的时间间隔
      */
     private static final int proxyPullRate = 1000 * 60 * 60;
 
-    /*公司入款（成功）*/
-    @Resource
-    private PreCmpChargeReqAssemService preCmpChargeReqAssemService;
     /*用户充值成功*/
     @Resource
-    private OnlChargeReqAssemService onlChargeReqAssemService;
+    private OnlChargeReqConsumer onlChargeReqConsumer;
     /*优惠赠送（成功）*/
     @Resource
-    private DiscountReqAssemService discountReqAssemService;
+    private DiscountReqConsumer discountReqConsumer;
     /*用户提现（成功）*/
     @Resource
-    private PreWithdrawReqAssemService preWithdrawReqAssemService;
-    /*人工提现（成功）*/
-    @Resource
-    private OperateWithDrawReqAssemService operateWithDrawReqAssemService;
+    private PreWithdrawReqConsumer preWithdrawReqConsumer;
     /*人工充值（成功）*/
     @Resource
-    private OperateChargeReqAssemService operateChargeReqAssemService;
+    private OperateChargeReqConsumer operateChargeReqConsumer;
     /*返水（成功）*/
     @Resource
-    private CashbackReqAssemService cashbackReqAssemService;
+    private CashbackReqConsumer cashbackReqConsumer;
     /*彩金（成功）*/
     @Resource
-    private JpReqAssemService jpReqAssemService;
+    private JpReqConsumer jpReqConsumer;
     /*打赏（成功）*/
     @Resource
-    private DealerRewardReqAssemService dealerRewardReqAssemService;
-
-
-
-
-
-
-
+    private DealerRewardReqConsumer dealerRewardReqConsumer;
     /*人工提现多线程处理*/
     @Resource
     private OperateWithDrawReqConsumer operateWithDrawReqConsumer;
@@ -74,15 +61,14 @@ public class CriusScheduler {
     @Resource
     private PreCmpChargeReqConsumer preCmpChargeReqConsumer;
 
-
-
-
     /*代理详情*/
     @Resource
     private ProxyInfoAssemService proxyInfoAssemService;
     /*用户订单*/
     @Resource
-    private BaseOrderReqAssemService baseOrderReqAssemService;
+    private BaseOrderReqConsumer baseOrderReqConsumer;
+    @Resource
+    private RepairLockService repairLockService;
 
     @Resource(name = "kafkaTemplate")
     private KafkaTemplate<Integer, String> kafkaTemplate;
@@ -105,7 +91,7 @@ public class CriusScheduler {
     @Scheduled(fixedRate = cacheFlushRate)
     public void onlChargeSchedule() {
         try {
-            onlChargeReqAssemService.convertData(new Date());
+            onlChargeReqConsumer.init(new Date());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -117,7 +103,7 @@ public class CriusScheduler {
     @Scheduled(fixedRate = cacheFlushRate)
     public void operateChargeSchedule() {
         try {
-            operateChargeReqAssemService.convertData(new Date());
+            operateChargeReqConsumer.init(new Date());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -129,7 +115,7 @@ public class CriusScheduler {
     @Scheduled(fixedRate = cacheFlushRate)
     public void discountSchedule() {
         try {
-            discountReqAssemService.convertData(new Date());
+            discountReqConsumer.init(new Date());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -141,7 +127,7 @@ public class CriusScheduler {
     @Scheduled(fixedRate = cacheFlushRate)
     public void preWithdrawSchedule() {
         try {
-            preWithdrawReqAssemService.convertData(new Date());
+            preWithdrawReqConsumer.init(new Date());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -165,7 +151,7 @@ public class CriusScheduler {
     @Scheduled(fixedRate = cacheFlushRate)
     public void cashbackSchedule() {
         try {
-            cashbackReqAssemService.convertData(new Date());
+            cashbackReqConsumer.init(new Date());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -177,7 +163,7 @@ public class CriusScheduler {
     @Scheduled(fixedRate = cacheFlushRate)
     public void jpSchedule() {
         try {
-            jpReqAssemService.convertData(new Date());
+            jpReqConsumer.init(new Date());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -189,7 +175,7 @@ public class CriusScheduler {
     @Scheduled(fixedRate = cacheFlushRate)
     public void dealerRewardSchedule() {
         try {
-            dealerRewardReqAssemService.convertData(new Date());
+            dealerRewardReqConsumer.init(new Date());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -198,10 +184,10 @@ public class CriusScheduler {
     /**
      * 订单
      */
-    @Scheduled(fixedRate = proxyPullRate)
-    public void baseGameSchedule() {
+    @Scheduled(fixedRate = cacheFlushRate)
+    public void baseOrderSchedule() {
         try {
-            baseOrderReqAssemService.convertData(new Date());
+            baseOrderReqConsumer.init(new Date());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -219,6 +205,18 @@ public class CriusScheduler {
         }
     }
 
+    /**
+     * 定时删除修复数据的锁
+     * 每天的凌晨2点执行
+     */
+    @Scheduled(cron = "0 0 2 * * ?")
+    public void repairLockSchedule() {
+        try {
+            repairLockService.delTimeLock(0L, System.currentTimeMillis());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 

@@ -23,6 +23,8 @@ public class BaseOrderReq {
     private Long betId; //主单号，原始游戏单号
     @JSONField(name = "game_id")
     private Long gameId;    //
+    @JSONField(name = "game_name")
+    private String gameName;    //游戏名称
     @JSONField(name = "insert_datetime")
     private Long insertDatetime; //插入日期
     @JSONField(name = "update_datetime")
@@ -127,6 +129,13 @@ public class BaseOrderReq {
         this.payoff = payoff;
     }
 
+    public String getGameName() {
+        return gameName;
+    }
+
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
+    }
 
     public Long getReqId() {
         return reqId;

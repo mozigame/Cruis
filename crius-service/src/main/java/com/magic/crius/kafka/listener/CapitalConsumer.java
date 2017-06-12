@@ -16,11 +16,9 @@ import java.util.Optional;
  * User: joey
  * Date: 2017/5/29
  * Time: 1:38
- *
  */
 @Component
 public class CapitalConsumer {
-
 
 
     /*公司入款（成功）*/
@@ -53,8 +51,11 @@ public class CapitalConsumer {
     /*注单*/
     @Resource
     private BaseOrderReqAssemService baseGameReqAssemService;
+    /*用户层级修改*/
+    @Resource
+    private UserLevelAssemService userLevelAssemService;
 
-    @KafkaListener(topics = "cruis_capital", group = "group_1" )
+    @KafkaListener(topics = "cruis_capital", group = "group_1")
     public void listen(ConsumerRecord<?, ?> record) {
         try {
             Optional<?> kafkaMessage = Optional.ofNullable(record.value());
@@ -68,10 +69,11 @@ public class CapitalConsumer {
 
     /**
      * 转换kafka数据
+     *
      * @param record
      */
     private void transData(ConsumerRecord<?, ?> record) {
-        System.out.println("get kafka data :>>>  "+ record.toString());
+        System.out.println("get kafka data :>>>  " + record.toString());
         JSONObject object = JSON.parseObject(record.value().toString());
         KafkaConf.DataType type = KafkaConf.DataType.parse(object.getInteger(KafkaConf.DATA_TYPE));
         switch (type) {
@@ -142,6 +144,10 @@ public class CapitalConsumer {
                 sportReq.setOrderExtent(convertSportExt(sportReq));
                 baseGameReqAssemService.procKafkaData(sportReq);
                 break;
+            case UPDATE_USER_LEVEL:
+                UserLevelReq userLevelReq = JSON.parseObject(object.getString(KafkaConf.DATA), UserLevelReq.class);
+                userLevelAssemService.updateLevel(userLevelReq);
+                break;
             default:
                 break;
 
@@ -181,6 +187,7 @@ public class CapitalConsumer {
         jsonObject.put("detail", req.getDetail());
         jsonObject.put("result", req.getResult());
         jsonObject.put("playType", req.getPlayType());
+        jsonObject.put("gameName", req.getGameName());
         return jsonObject;
     }
 

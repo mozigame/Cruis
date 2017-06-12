@@ -3,6 +3,7 @@ package com.magic.crius.service;
 import com.magic.crius.vo.OnlChargeReq;
 import com.magic.crius.vo.OperateChargeReq;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -32,4 +33,36 @@ public interface OperateChargeReqService {
      * @return
      */
     List<OperateChargeReq> batchPopRedis(Date date);
+
+
+    /**
+     * 获取操作成功的ID
+     * @param
+     * @return
+     */
+    List<Long> getSucIds(Long startTime, Long endTime);
+
+    /**
+     * 获取未处理的数据
+     * @param startTime
+     * @param endTime
+     * @param reqIds
+     * @return
+     */
+    List<OperateChargeReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds);
+
+    /**
+     * 获取一段时间内处理失败的数据
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    List<OperateChargeReq> getSaveFailed(Long startTime, Long endTime);
+
+    /**
+     * 批量添加处理成功的数据id
+     * @param reqs
+     * @return
+     */
+    boolean saveSuc(List<OperateChargeReq> reqs);
 }

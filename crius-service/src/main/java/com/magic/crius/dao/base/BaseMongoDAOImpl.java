@@ -1,12 +1,19 @@
 package com.magic.crius.dao.base;
 
+import com.magic.crius.enums.MongoCollectionFlag;
+import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.util.ReflectionUtils;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -77,6 +84,37 @@ public abstract class BaseMongoDAOImpl<T> implements BaseMongoDAO<T> {
     @Override
     public long count(Query query) {
         return mongoTemplate.count(query, this.getEntityClass());
+    }
+
+
+    @Override
+    public List<Long> getSucIds(Long startTime, Long endTime, String collectionName) {
+        List<Long> reqIds = new ArrayList<>();
+        BasicDBObject condition = new BasicDBObject();
+        condition.append("produceTime", new BasicDBObject("$gte", startTime));
+        condition.append("produceTime", new BasicDBObject("$lt", endTime));
+        BasicDBObject keys = new BasicDBObject();
+        Iterator<DBObject> iterator = mongoTemplate.getCollection(MongoCollectionFlag.SAVE_SUC.collName(collectionName)).find(condition, keys);
+        while (iterator.hasNext()) {
+            Long reqId = (Long) iterator.next().get("reqId");
+            reqIds.add(reqId);
+        }
+        return reqIds;
+    }
+
+    @Override
+    public List<T> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, String collectionName) {
+        Query query = new Query();
+        query.addCriteria(new Criteria("reqId").nin(reqIds));
+        query.addCriteria(new Criteria("produceTime").gte(startTime).lt(endTime));
+        return find(query,collectionName);
+    }
+
+    @Override
+    public List<T> getSaveFailed(Long startTime, Long endTime, String collectionName) {
+        Query query = new Query();
+        query.addCriteria(new Criteria("produceTime").gte(startTime).lt(endTime));
+        return find(query, MongoCollectionFlag.MONGO_FAILED.collName(collectionName));
     }
 
     /**

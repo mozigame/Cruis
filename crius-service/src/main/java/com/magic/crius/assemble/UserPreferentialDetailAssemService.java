@@ -1,20 +1,29 @@
 package com.magic.crius.assemble;
 
+import com.magic.crius.assemble.UserPreferentialDetailAssemService;
 import com.magic.crius.po.UserPreferentialDetail;
+import com.magic.crius.service.UserPreferentialDetailService;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * User: joey
  * Date: 2017/6/5
  * Time: 20:37
- * 会员优惠汇总
  */
-public interface UserPreferentialDetailAssemService {
+@Service
+public class UserPreferentialDetailAssemService {
 
-    /**
-     * @param summaries
-     * @return
-     */
-    void batchSave(List<UserPreferentialDetail> summaries);
+    @Resource
+    private UserPreferentialDetailService userPreferentialDetailService;
+
+    public void batchSave(List<UserPreferentialDetail> summaries) {
+
+        //todo 错误处理
+        if (summaries.size() > 0) {
+            boolean saveResult = userPreferentialDetailService.batchInsert(summaries);
+        }
+    }
 }

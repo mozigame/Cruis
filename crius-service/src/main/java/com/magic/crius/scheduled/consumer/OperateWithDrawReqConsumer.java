@@ -11,6 +11,7 @@ import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.OperateWithDrawReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.vo.OperateWithDrawReq;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,7 +24,7 @@ import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
 /**
  * 人工提现
  */
-@Service
+@Component
 public class OperateWithDrawReqConsumer {
 
 
@@ -79,6 +80,11 @@ public class OperateWithDrawReqConsumer {
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
             flushData(reqList);
             reqList = operateWithDrawReqService.batchPopRedis(date);
+            try {
+                Thread.sleep(CriusConstants.POLL_POP_SLEEP_TIME);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -90,8 +96,8 @@ public class OperateWithDrawReqConsumer {
     private void flushData(Collection<OperateWithDrawReq> list) {
         if (list != null && list.size() > 0) {
             List<OwnerOperateOutDetail> ownerOperateOutDetails = new ArrayList<>();
-            List<OperateWithDrawReq> sucReqs = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
+            List<OperateWithDrawReq> sucReqs = new ArrayList<>();
             for (OperateWithDrawReq req : list) {
                 /*人工出款详情*/
                 ownerOperateOutDetails.add(assembleOwnerOperateOutDetail(req));
@@ -99,15 +105,11 @@ public class OperateWithDrawReqConsumer {
                 /*会员账号汇总*/
                 if (req.getUserIds() != null && req.getUserIds().length > 0) {
                     for (Long userId : req.getUserIds()) {
-                        userTrades.add(assembleUserTrade(req, userId));
+                        userTrades.add(userTradeAssemService.assembleUserTrade(req, userId));
                     }
                 }
-
                 /*成功的数据*/
-                OperateWithDrawReq sucReq = new OperateWithDrawReq();
-                sucReq.setReqId(req.getReqId());
-                sucReq.setProduceTime(req.getProduceTime());
-                sucReqs.add(sucReq);
+                sucReqs.add(assembleSucReq(req));
             }
             ownerOperateOutDetailAssemService.batchSave(ownerOperateOutDetails);
             userTradeAssemService.batchSave(userTrades);
@@ -196,20 +198,11 @@ public class OperateWithDrawReqConsumer {
         return detail;
     }
 
-    private UserTrade assembleUserTrade(OperateWithDrawReq req, Long userId) {
-        UserTrade userTrade = new UserTrade();
-        userTrade.setOwnerId(req.getOwnerId());
-        userTrade.setUserId(userId);
-        userTrade.setTradeId(req.getAmount());
-        //todo 账户余额
-        userTrade.setTotalNum(0L);
-        userTrade.setTradeTime(req.getProduceTime());
-        //todo 交易类型
-        userTrade.setTradeType(0);
-        //todo 存取类型
-        userTrade.setActiontype(0);
-        userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
-        return userTrade;
+    private OperateWithDrawReq assembleSucReq(OperateWithDrawReq req) {
+        OperateWithDrawReq sucReq = new OperateWithDrawReq();
+        sucReq.setReqId(req.getReqId());
+        sucReq.setProduceTime(req.getProduceTime());
+        return sucReq;
     }
 
 }

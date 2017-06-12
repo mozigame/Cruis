@@ -30,10 +30,11 @@ public class KafkaConf {
         PLUTUS_PAYOFF(0x3008),    // 派彩 12296
         PLUTUS_JP(0x3009),    // 彩金 12297
         PLUTUS_DS(0x300A),    //打赏  12298
-        PLUTUS_LOTTERY(0x300A),    //彩票  12299
-        PLUTUS_SPORT(0x300B),    //体育  12300
-        PLUTUS_VGAME(0x300C),    //视讯  12301
-        PLUTUS_EGAME(0x300D);    //电子  12302
+        UPDATE_USER_LEVEL(0x300B),  //会员升级 12299
+        PLUTUS_LOTTERY(0x300C),    //彩票  12230
+        PLUTUS_SPORT(0x300D),    //体育  12301
+        PLUTUS_VGAME(0x300E),    //视讯  12302
+        PLUTUS_EGAME(0x300F);    //电子  12303
 
         private static Map<Integer, DataType> map = new HashMap<>();
 
@@ -63,28 +64,6 @@ public class KafkaConf {
      */
     public enum Group {
         CAPITAL_GROUP;  //资金
-    }
-
-    public static void main(String[] args) {
-//        12296
-        for (DataType type : DataType.values()) {
-            System.out.println(type.name() + "  " + type.type());
-        }
-//        System.out.println(0x3001);
-//        System.out.println(0x3002);
-//        System.out.println(0x3003);
-//        System.out.println(0x3004);
-//        System.out.println(0x3005);
-//        System.out.println(0x3006);
-//        System.out.println(0x3007);
-//        System.out.println(0x3008);
-//        System.out.println(0x3009);
-//        System.out.println(0x300A);
-//        System.out.println(0x300B);
-//        System.out.println(0x300C);
-//        System.out.println(0x300D);
-//        System.out.println(0x300E);
-//        System.out.println(0x300F);
     }
 
 }

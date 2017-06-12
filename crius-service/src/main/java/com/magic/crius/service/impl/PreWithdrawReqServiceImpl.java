@@ -7,6 +7,7 @@ import com.magic.crius.vo.PreWithdrawReq;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -44,5 +45,24 @@ public class PreWithdrawReqServiceImpl implements PreWithdrawReqService {
         return preWithdrawRedisService.batchPop(date);
     }
 
+    @Override
+    public List<Long> getSucIds(Long startTime, Long endTime) {
+        return preWithdrawMongoService.getSucIds(startTime, endTime);
+    }
+
+    @Override
+    public List<PreWithdrawReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
+        return preWithdrawMongoService.getNotProc(startTime, endTime, reqIds);
+    }
+
+    @Override
+    public List<PreWithdrawReq> getSaveFailed(Long startTime, Long endTime) {
+        return preWithdrawMongoService.getSaveFailed(startTime, endTime);
+    }
+
+    @Override
+    public boolean saveSuc(List<PreWithdrawReq> reqs) {
+        return preWithdrawMongoService.saveSuc(reqs);
+    }
 
 }

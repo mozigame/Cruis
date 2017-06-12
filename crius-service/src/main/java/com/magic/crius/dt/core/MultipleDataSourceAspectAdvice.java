@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
  * User: joey
  * Date: 2017/6/9
  * Time: 22:06
+ * 数据源切换
  */
 @Component
 @Aspect

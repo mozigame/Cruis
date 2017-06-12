@@ -7,6 +7,7 @@ import com.magic.crius.vo.OperateChargeReq;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +44,26 @@ public class OperateChargeReqServiceImpl implements OperateChargeReqService {
     @Override
     public List<OperateChargeReq> batchPopRedis(Date date) {
         return operateChargeRedisService.batchPop(date);
+    }
+
+    @Override
+    public List<Long> getSucIds(Long startTime, Long endTime) {
+        return operateChargeMongoService.getSucIds(startTime, endTime);
+    }
+
+    @Override
+    public List<OperateChargeReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
+        return operateChargeMongoService.getNotProc(startTime,endTime,reqIds);
+    }
+
+    @Override
+    public List<OperateChargeReq> getSaveFailed(Long startTime, Long endTime) {
+        return operateChargeMongoService.getSaveFailed(startTime,endTime);
+    }
+
+    @Override
+    public boolean saveSuc(List<OperateChargeReq> reqs) {
+        return operateChargeMongoService.saveSuc(reqs);
     }
 
 

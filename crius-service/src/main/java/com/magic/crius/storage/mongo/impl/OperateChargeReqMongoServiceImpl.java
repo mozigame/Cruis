@@ -2,6 +2,7 @@ package com.magic.crius.storage.mongo.impl;
 
 import com.magic.crius.dao.mongo.OperateChargeReqMongoDao;
 import com.magic.crius.enums.MongoCollectionFlag;
+import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.storage.mongo.OperateChargeReqMongoService;
 import com.magic.crius.vo.OperateChargeReq;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -9,6 +10,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * User: joey
@@ -52,4 +55,45 @@ public class OperateChargeReqMongoServiceImpl implements OperateChargeReqMongoSe
         }
         return null;
     }
+
+    @Override
+    public List<Long> getSucIds(Long startTime, Long endTime) {
+        try {
+            return operateChargeMongoDao.getSucIds(startTime, endTime, MongoCollections.operateChargeReq.name());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<OperateChargeReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
+        try {
+            operateChargeMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.operateChargeReq.name());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<OperateChargeReq> getSaveFailed(Long startTime, Long endTime) {
+        try {
+            operateChargeMongoDao.getSaveFailed(startTime, endTime, MongoCollections.operateChargeReq.name());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean saveSuc(List<OperateChargeReq> reqs) {
+        try {
+            return operateChargeMongoDao.save(reqs, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.operateChargeReq.name()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }

@@ -1,18 +1,28 @@
 package com.magic.crius.assemble;
 
+import com.magic.crius.assemble.OwnerCompanyFlowDetailAssemService;
 import com.magic.crius.po.OwnerCompanyFlowDetail;
+import com.magic.crius.service.OwnerCompanyFlowDetailService;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
+import javax.annotation.Resource;
+import java.util.*;
 
 /**
  * 公司入款明细
  */
-public interface OwnerCompanyFlowDetailAssemService {
+@Service("ownerCompanyFlowDetailAssemService")
+public class OwnerCompanyFlowDetailAssemService  {
 
+    @Resource
+    private OwnerCompanyFlowDetailService ownerCompanyFlowDetailService;
 
-    /**
-     * 批量添加公司入款明细
-     * @param ownerCompanyFlowSummmaries
-     */
-    void batchSave(List<OwnerCompanyFlowDetail> ownerCompanyFlowSummmaries);
+    public void batchSave(List<OwnerCompanyFlowDetail> ownerCompanyFlowSummmaries) {
+
+        //todo 错误处理
+        if (ownerCompanyFlowSummmaries.size() > 0) {
+            boolean saveResult = ownerCompanyFlowDetailService.batchInsert(ownerCompanyFlowSummmaries);
+        }
+
+    }
 }

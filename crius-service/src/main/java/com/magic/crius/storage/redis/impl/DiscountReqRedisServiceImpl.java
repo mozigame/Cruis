@@ -52,7 +52,12 @@ public class DiscountReqRedisServiceImpl implements DiscountReqRedisService {
                 if (StringUtils.isNotBlank(reqStr)) {
                     list.add(JSON.parseObject(reqStr, DiscountReq.class));
                 } else {
-                    break;
+                    reqStr = jedis.rpop(key);
+                    if (StringUtils.isNotBlank(reqStr)) {
+                        list.add(JSON.parseObject(reqStr, DiscountReq.class));
+                    } else {
+                        break;
+                    }
                 }
             }
             return list;

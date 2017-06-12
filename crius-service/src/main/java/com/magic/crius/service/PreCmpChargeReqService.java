@@ -1,5 +1,6 @@
 package com.magic.crius.service;
 
+import com.magic.crius.vo.OperateWithDrawReq;
 import com.magic.crius.vo.PreCmpChargeReq;
 
 import java.util.Collection;
@@ -57,5 +58,13 @@ public interface PreCmpChargeReqService {
      * @return
      */
     List<PreCmpChargeReq> getSaveFailed(Long startTime, Long endTime);
+
+
+    /**
+     * 批量添加处理成功的数据id
+     * @param reqs
+     * @return
+     */
+    boolean saveSuc(List<PreCmpChargeReq> reqs);
 
 }

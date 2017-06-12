@@ -1,21 +1,25 @@
 package com.magic.crius.assemble;
 
+import com.magic.crius.assemble.UserFlowMoneyDetailAssemService;
 import com.magic.crius.po.UserFlowMoneyDetail;
+import com.magic.crius.service.UserFlowMoneyDetailService;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * User: joey
  * Date: 2017/6/5
  * Time: 19:11
- * 会员入款明细
  */
-public interface UserFlowMoneyDetailAssemService {
+@Service
+public class UserFlowMoneyDetailAssemService {
 
+    @Resource
+    private UserFlowMoneyDetailService userFlowMoneyDetailService;
 
-    /**
-     * @param details
-     * @return
-     */
-    boolean batchSave(List<UserFlowMoneyDetail> details);
+    public boolean batchSave(List<UserFlowMoneyDetail> details) {
+        return userFlowMoneyDetailService.batchSave(details);
+    }
 }

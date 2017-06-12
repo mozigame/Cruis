@@ -36,7 +36,7 @@ public class KafkaProducerTest {
 
     @Test
     public void testCashback() {
-        for (int i = 0 ; i < 2;i ++) {
+        for (int i = 0; i < 40; i++) {
             CashbackReq req = new CashbackReq();
             req.setReqId(System.currentTimeMillis() + i);
             req.setUserId(2000001L + i);
@@ -48,9 +48,9 @@ public class KafkaProducerTest {
             req.setBettAmount((long) new Random().nextInt(562));
             req.setVaildBettAmount((long) new Random().nextInt(200));
             req.setGameHallId(1000L);
-            req.setGameHallName("视讯"+i);
+            req.setGameHallName("视讯" + i);
             req.setGamePlatformId(100004L);
-            req.setGamePlatformName("BBIN"+i);
+            req.setGamePlatformName("BBIN" + i);
             req.setProduceTime(System.currentTimeMillis());
 
 
@@ -64,8 +64,8 @@ public class KafkaProducerTest {
 
     @Test
     public void testDealerReward() {
-        for (int i = 0 ; i < 2;i ++) {
-            DealerRewardReq  dealer = new DealerRewardReq();
+        for (int i = 0; i < 40; i++) {
+            DealerRewardReq dealer = new DealerRewardReq();
             dealer.setReqId(System.currentTimeMillis() + i);
             dealer.setBillId(System.currentTimeMillis() + i);
             dealer.setDealerId(1000L);
@@ -73,7 +73,7 @@ public class KafkaProducerTest {
             dealer.setUserId(2000001L + i);
             dealer.setAgentId(105094L);
             dealer.setOwnerId(10001L);
-            dealer.setRewardAmount((long)(new Random().nextInt(599)));
+            dealer.setRewardAmount((long) (new Random().nextInt(599)));
             dealer.setCreateTime(System.currentTimeMillis());
             dealer.setGameDeskNum(1000L);
             dealer.setGameId(1000L);
@@ -94,13 +94,13 @@ public class KafkaProducerTest {
 
     @Test
     public void testDiscount() {
-        for (int i = 0 ; i < 2;i ++) {
+        for (int i = 0; i < 3000; i++) {
             DiscountReq discount = new DiscountReq();
             discount.setOwnerId(10001L);
             discount.setReqId(System.currentTimeMillis() + i);
             discount.setUserId(2000001L + i);
             discount.setAgentId(105094L);
-            discount.setAmount((long)(new Random().nextInt(500)));
+            discount.setAmount((long) (new Random().nextInt(500)));
             discount.setCurrency("人民币");
             discount.setRate(87);
             discount.setNeedBettAmount(new Random().nextInt(300));
@@ -117,7 +117,7 @@ public class KafkaProducerTest {
 
     @Test
     public void testJp() {
-        for (int i = 0 ; i < 2;i ++) {
+        for (int i = 0; i < 20; i++) {
             JpReq jp = new JpReq();
             jp.setReqId(System.currentTimeMillis() + i);
             jp.setBillId(System.currentTimeMillis() + i);
@@ -125,7 +125,7 @@ public class KafkaProducerTest {
             jp.setAgentId(105094L);
             jp.setOwnerId(10001L);
             jp.setJpType("300");
-            jp.setJpAmount((long)(new Random().nextInt(4000)));
+            jp.setJpAmount((long) (new Random().nextInt(4000)));
             jp.setCreateTime(System.currentTimeMillis());
             jp.setGameId(1000L);
             jp.setGameName("捕鱼达人");
@@ -144,7 +144,7 @@ public class KafkaProducerTest {
 
     @Test
     public void testOnlCharge() {
-        for (int i = 0 ; i < 2;i ++) {
+        for (int i = 0; i < 20; i++) {
             OnlChargeReq onl = new OnlChargeReq();
             onl.setReqId(System.currentTimeMillis() + i);
             onl.setOrderId(System.currentTimeMillis() + i);
@@ -152,7 +152,7 @@ public class KafkaProducerTest {
             onl.setUserId(2000001L + i);
             onl.setAgentId(105094L);
             onl.setOwnerId(10001L);
-            onl.setAmount((long)(new Random().nextInt(5000)));
+            onl.setAmount((long) (new Random().nextInt(5000)));
             onl.setCurrency("人民币");
             onl.setRate(45);
             onl.setMerchantCode(1000L);
@@ -170,14 +170,14 @@ public class KafkaProducerTest {
 
     @Test
     public void testOperateCharge() {
-        for (int i = 0 ; i < 2;i ++) {
+        for (int i = 0; i < 20; i++) {
             long currentTime = System.currentTimeMillis();
             OperateChargeReq operateCharge = new OperateChargeReq();
             operateCharge.setReqId(currentTime + i);
             operateCharge.setUserIds(new Long[]{2000001L + 1, 2000001L + 2, 2000001L + 3});
             operateCharge.setAgentId(105094L);
             operateCharge.setOwnerId(10001L);
-            operateCharge.setAmount((long)(new Random().nextInt(99999)));
+            operateCharge.setAmount((long) (new Random().nextInt(99999)));
             operateCharge.setRate(45);
             operateCharge.setDepositOffer(100L);
             operateCharge.setRemittanceOffer(1000L);
@@ -198,12 +198,12 @@ public class KafkaProducerTest {
 
     @Test
     public void testOperateWithDraw() {
-        for (int i = 0 ; i < 20;i ++) {
+        for (int i = 0; i < 20; i++) {
             long currentTime = System.currentTimeMillis();
             OperateWithDrawReq operateWithDraw = new OperateWithDrawReq();
             operateWithDraw.setReqId(currentTime + i);
             operateWithDraw.setOwnerId(10001L);
-            operateWithDraw.setUserIds(new Long[]{2000001L + 1, 2000001L + 2, 2000001L  + 3});
+            operateWithDraw.setUserIds(new Long[]{2000001L + 1, 2000001L + 2, 2000001L + 3});
             operateWithDraw.setAmount(1L);
             operateWithDraw.setCurrency("人民币");
             operateWithDraw.setRate(45);
@@ -222,13 +222,13 @@ public class KafkaProducerTest {
 
     @Test
     public void testPreWithdraw() {
-        for (int i = 0 ; i <= 20;i ++) {
+        for (int i = 0; i <= 20; i++) {
             PreWithdrawReq preWithdraw = new PreWithdrawReq();
             preWithdraw.setReqId(System.currentTimeMillis() + i);
             preWithdraw.setUserId(2000001L + i);
             preWithdraw.setAgentId(105094L);
             preWithdraw.setOwnerId(10001L);
-            preWithdraw.setAmount((long)(new Random().nextInt(99999)));
+            preWithdraw.setAmount((long) (new Random().nextInt(99999)));
             preWithdraw.setUserLevel(100L);
             preWithdraw.setRemark("remark");
             preWithdraw.setProduceTime(System.currentTimeMillis());
@@ -243,7 +243,7 @@ public class KafkaProducerTest {
 
     @Test
     public void testPreCmpCharge() {
-        for (int i = 1; i < 40; i++) {
+        for (int i = 0; i < 2; i++) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("DataType", KafkaConf.DataType.PLUTUS_CMP_CHARGE.type());
             PreCmpChargeReq req = new PreCmpChargeReq();
@@ -267,6 +267,130 @@ public class KafkaProducerTest {
             System.out.println(JSON.toJSONString(req));
         }
     }
+
+    @Test
+    public void testSportReq() {
+        for (int i = 0; i < 2; i++) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("DataType", KafkaConf.DataType.PLUTUS_SPORT.type());
+            SportReq req = new SportReq();
+            req.setReqId(System.currentTimeMillis() + i);
+            req.setUserId(2000001L + i);
+            req.setOwnerId(10001L);
+            req.setBetId(System.currentTimeMillis() + i);
+            req.setBcBetId(System.currentTimeMillis() + i * 100);
+            req.setGameId(100L +i);
+            req.setInsertDatetime(System.currentTimeMillis());
+            req.setUpdateDatetime(System.currentTimeMillis());
+            req.setBetDatetime(System.currentTimeMillis());
+            req.setBetAmount(100L);
+            req.setValidBetAmount(1000L);
+            req.setPayoff(10L);
+            req.setGameName("足球");
+
+            req.setDetail("足球-单式标准盘\n" +
+                    "中国家族联赛 2017-05-06\n" +
+                    "武汉卓尔 VS 石家庄永昌\n" +
+                    "武汉 卓尔 @ 1.74");
+            req.setPlayType("香港盘");
+            req.setResult("输");
+
+            jsonObject.put(DATA, req);
+            template.send("cruis_capital", JSON.toJSONString(jsonObject));
+            System.out.println(JSON.toJSONString(req));
+        }
+    }
+
+    @Test
+    public void testVGameReq() {
+        for (int i = 0; i < 2; i++) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("DataType", KafkaConf.DataType.PLUTUS_SPORT.type());
+            VGameReq req = new VGameReq();
+            req.setReqId(System.currentTimeMillis() + i);
+            req.setUserId(2000001L + i);
+            req.setOwnerId(10001L);
+            req.setBetId(System.currentTimeMillis() + i);
+            req.setBcBetId(System.currentTimeMillis() + i * 100);
+            req.setGameId(100L +i);
+            req.setInsertDatetime(System.currentTimeMillis());
+            req.setUpdateDatetime(System.currentTimeMillis());
+            req.setBetDatetime(System.currentTimeMillis());
+            req.setBetAmount(100L);
+            req.setValidBetAmount(1000L);
+            req.setPayoff(10L);
+
+            req.setGameType("百家乐");
+            req.setSerialId("44903");
+            req.setRoundno("C-919");
+            req.setTableCode("C");
+            req.setDetail("庄（9）闲（8）");
+
+            jsonObject.put(DATA, req);
+            template.send("cruis_capital", JSON.toJSONString(jsonObject));
+            System.out.println(JSON.toJSONString(req));
+        }
+    }
+
+    @Test
+    public void testLotteryReq() {
+        for (int i = 0; i < 2; i++) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("DataType", KafkaConf.DataType.PLUTUS_SPORT.type());
+            LotteryReq req = new LotteryReq();
+            req.setReqId(System.currentTimeMillis() + i);
+            req.setUserId(2000001L + i);
+            req.setOwnerId(10001L);
+            req.setBetId(System.currentTimeMillis() + i);
+            req.setBcBetId(System.currentTimeMillis() + i * 100);
+            req.setGameId(100L +i);
+            req.setInsertDatetime(System.currentTimeMillis());
+            req.setUpdateDatetime(System.currentTimeMillis());
+            req.setBetDatetime(System.currentTimeMillis());
+            req.setBetAmount(100L);
+            req.setValidBetAmount(1000L);
+            req.setPayoff(10L);
+
+            req.setDetail("第201705060025期 特别号@48");
+            req.setLotteryType("重庆时时彩");
+            req.setPlayType("特别号");
+
+
+            jsonObject.put(DATA, req);
+            template.send("cruis_capital", JSON.toJSONString(jsonObject));
+            System.out.println(JSON.toJSONString(req));
+        }
+    }
+
+    @Test
+    public void testEGameReq() {
+        for (int i = 0; i < 2; i++) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("DataType", KafkaConf.DataType.PLUTUS_EGAME.type());
+            EGameReq req = new EGameReq();
+            req.setReqId(System.currentTimeMillis() + i);
+            req.setUserId(2000001L + i);
+            req.setOwnerId(10001L);
+            req.setBetId(System.currentTimeMillis() + i);
+            req.setBcBetId(System.currentTimeMillis() + i * 100);
+            req.setGameId(100L +i);
+            req.setInsertDatetime(System.currentTimeMillis());
+            req.setUpdateDatetime(System.currentTimeMillis());
+            req.setBetDatetime(System.currentTimeMillis());
+            req.setBetAmount(100L);
+            req.setValidBetAmount(1000L);
+            req.setPayoff(10L);
+
+            req.setDetail("1：1");
+            req.setResult("输");
+
+            jsonObject.put(DATA, req);
+            template.send("cruis_capital", JSON.toJSONString(jsonObject));
+            System.out.println(JSON.toJSONString(jsonObject));
+        }
+    }
+
+
 
     @Test
     public void testJson() {

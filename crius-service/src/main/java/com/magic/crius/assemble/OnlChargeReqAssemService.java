@@ -1,9 +1,12 @@
 package com.magic.crius.assemble;
 
+import com.magic.crius.assemble.UserFlowMoneyDetailAssemService;
+import com.magic.crius.service.OnlChargeReqService;
+import com.magic.crius.util.CriusLog;
 import com.magic.crius.vo.OnlChargeReq;
-import com.magic.crius.vo.PreCmpChargeReq;
+import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import javax.annotation.Resource;
 
 /**
  * User: joey
@@ -11,16 +14,27 @@ import java.util.Date;
  * Time: 14:31
  * 用户充值成功
  */
-public interface OnlChargeReqAssemService {
+@Service
+public class OnlChargeReqAssemService  {
 
-    /**
-     * 处理在kafka中获取的对象
-     * @param req
-     */
-    void procKafkaData(OnlChargeReq req);
 
-    /**
-     * 在redis中获取数据，然后进行清洗
-     */
-    void convertData(Date date);
+    @Resource
+    private OnlChargeReqService onlChargeService;
+    /*线上入款汇总*/
+    @Resource
+    private OwnerOnlineFlowDetailAssemService ownerOnlineFlowDetailAssemService;
+    /*会员入款明细*/
+    @Resource
+    private UserFlowMoneyDetailAssemService userFlowMoneyDetailAssemService;
+    @Resource
+    private UserTradeAssemService userTradeAssemService;
+
+    public void procKafkaData(OnlChargeReq req) {
+        if (onlChargeService.getByReqId(req.getReqId()) == null) {
+            if (!onlChargeService.save(req)) {
+                CriusLog.error("save OnlChargeReq error,reqId : " + req.getReqId());
+            }
+        }
+    }
+
 }

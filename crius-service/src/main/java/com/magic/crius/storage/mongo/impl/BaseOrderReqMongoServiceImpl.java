@@ -2,6 +2,7 @@ package com.magic.crius.storage.mongo.impl;
 
 import com.magic.crius.dao.mongo.BaseOrderReqMongoDao;
 import com.magic.crius.enums.MongoCollectionFlag;
+import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.storage.mongo.BaseOrderReqMongoService;
 import com.magic.crius.vo.BaseOrderReq;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -9,6 +10,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * User: joey
@@ -19,12 +22,12 @@ import javax.annotation.Resource;
 public class BaseOrderReqMongoServiceImpl implements BaseOrderReqMongoService {
 
     @Resource
-    private BaseOrderReqMongoDao vGameReqMongoDao;
+    private BaseOrderReqMongoDao baseOrderReqMongoDao;
 
     @Override
     public boolean save(BaseOrderReq req) {
         try {
-            return vGameReqMongoDao.save(req) != null;
+            return baseOrderReqMongoDao.save(req) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -34,7 +37,7 @@ public class BaseOrderReqMongoServiceImpl implements BaseOrderReqMongoService {
     @Override
     public boolean saveFailedData(BaseOrderReq req) {
         try {
-            return vGameReqMongoDao.save(req, MongoCollectionFlag.MONGO_FAILED.collName("baseGameReq")) != null;
+            return baseOrderReqMongoDao.save(req, MongoCollectionFlag.MONGO_FAILED.collName(MongoCollections.baseOrderReq.name())) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,10 +49,50 @@ public class BaseOrderReqMongoServiceImpl implements BaseOrderReqMongoService {
         try {
             Query query = new Query();
             query.addCriteria(new Criteria("reqId").is(id));
-            return vGameReqMongoDao.findOne(query);
+            return baseOrderReqMongoDao.findOne(query);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public List<Long> getSucIds(Long startTime, Long endTime) {
+        try {
+            return baseOrderReqMongoDao.getSucIds(startTime, endTime, MongoCollections.baseOrderReq.name());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<BaseOrderReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
+        try {
+            baseOrderReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.baseOrderReq.name());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<BaseOrderReq> getSaveFailed(Long startTime, Long endTime) {
+        try {
+            baseOrderReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.baseOrderReq.name());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean saveSuc(Collection<BaseOrderReq> reqs) {
+        try {
+            return baseOrderReqMongoDao.save(reqs, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.baseOrderReq.name()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

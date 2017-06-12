@@ -7,6 +7,7 @@ import com.magic.crius.vo.DiscountReq;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -42,5 +43,25 @@ public class DiscountReqServiceImpl implements DiscountReqService {
     @Override
     public List<DiscountReq> batchPopRedis(Date date) {
         return discountReqRedisService.batchPop(date);
+    }
+
+    @Override
+    public List<Long> getSucIds(Long startTime, Long endTime) {
+        return discountReqMongoService.getSucIds(startTime, endTime);
+    }
+
+    @Override
+    public List<DiscountReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
+        return discountReqMongoService.getNotProc(startTime, endTime, reqIds);
+    }
+
+    @Override
+    public List<DiscountReq> getSaveFailed(Long startTime, Long endTime) {
+        return discountReqMongoService.getSaveFailed(startTime, endTime);
+    }
+
+    @Override
+    public boolean saveSuc(List<DiscountReq> reqs) {
+        return discountReqMongoService.saveSuc(reqs);
     }
 }

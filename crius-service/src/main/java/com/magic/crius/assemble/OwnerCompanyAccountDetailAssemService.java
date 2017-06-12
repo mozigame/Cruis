@@ -1,17 +1,31 @@
 package com.magic.crius.assemble;
 
+import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
 import com.magic.crius.po.OwnerCompanyAccountDetail;
+import com.magic.crius.service.OwnerCompanyAccountDetailService;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
+import javax.annotation.Resource;
+import java.util.*;
 
 /**
+ * User: joey
+ * Date: 2017/5/31
+ * Time: 13:52
  * 公司账目汇总
  */
-public interface OwnerCompanyAccountDetailAssemService {
+@Service("ownerCompanyAccountDetailAssemService")
+public class OwnerCompanyAccountDetailAssemService {
 
+    @Resource
+    private OwnerCompanyAccountDetailService ownerCompanyAccountDetailService;
 
-    /**
-     * @param ownerCompanyAccountSummmaries
-     */
-    void batchSave(List<OwnerCompanyAccountDetail> ownerCompanyAccountSummmaries);
+    public void batchSave(List<OwnerCompanyAccountDetail> ownerCompanyAccountSummmaries) {
+
+        //todo 错误处理
+        if (ownerCompanyAccountSummmaries.size() > 0) {
+            boolean saveResult = ownerCompanyAccountDetailService.batchInsert(ownerCompanyAccountSummmaries);
+        }
+
+    }
 }

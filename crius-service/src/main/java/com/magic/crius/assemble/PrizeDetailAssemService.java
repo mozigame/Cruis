@@ -1,20 +1,25 @@
 package com.magic.crius.assemble;
 
+import com.magic.crius.assemble.PrizeDetailAssemService;
 import com.magic.crius.po.PrizeDetail;
+import com.magic.crius.service.PrizeDetailService;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
  * User: joey
  * Date: 2017/6/6
  * Time: 14:13
- * 彩金明细
  */
-public interface PrizeDetailAssemService {
+@Service
+public class PrizeDetailAssemService {
 
-    /**
-     * @param details
-     * @return
-     */
-    void batchSave(List<PrizeDetail> details);
+    @Resource
+    private PrizeDetailService prizeDetailService;
+
+    public void batchSave(List<PrizeDetail> details) {
+        prizeDetailService.batchSave(details);
+    }
 }
