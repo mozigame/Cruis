@@ -33,7 +33,7 @@ public class MemberConditionVoMongoServiceImpl implements MemberConditionVoMongo
             update.inc("depositCount", vo.getDepositCount());
             update.inc("depositMoney", vo.getDepositMoney());
             WriteResult result = memberConditionVoMongoDao.getMongoTemplate().findAndModify(query, update, WriteResult.class);
-            return result.getN() > 0;
+            return result != null && result.getN() > 0;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -49,7 +49,7 @@ public class MemberConditionVoMongoServiceImpl implements MemberConditionVoMongo
             update.inc("withdrawCount", vo.getWithdrawCount());
             update.inc("withdrawMoney", vo.getWithdrawMoney());
             WriteResult result = memberConditionVoMongoDao.getMongoTemplate().findAndModify(query, update, WriteResult.class);
-            return result.getN() > 0;
+            return result != null && result.getN() > 0;
         } catch (Exception e) {
             e.printStackTrace();
         }

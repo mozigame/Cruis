@@ -222,7 +222,7 @@ public class KafkaProducerTest {
 
     @Test
     public void testPreWithdraw() {
-        for (int i = 0; i <= 20; i++) {
+        for (int i = 0; i <= 2; i++) {
             PreWithdrawReq preWithdraw = new PreWithdrawReq();
             preWithdraw.setReqId(System.currentTimeMillis() + i);
             preWithdraw.setUserId(2000001L + i);
@@ -334,7 +334,7 @@ public class KafkaProducerTest {
 
     @Test
     public void testLotteryReq() {
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 2; i++) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("DataType", KafkaConf.DataType.PLUTUS_SPORT.type());
             LotteryReq req = new LotteryReq();

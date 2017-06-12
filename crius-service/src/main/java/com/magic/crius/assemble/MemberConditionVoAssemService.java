@@ -21,6 +21,10 @@ public class MemberConditionVoAssemService {
     @Resource
     private MemberConditionVoService memberConditionVoService;
 
+    /**
+     * 充值
+     * @param vos
+     */
     public void batchRecharge(Collection<MemberConditionVo> vos) {
         if (vos != null && vos.size() > 0) {
             for (MemberConditionVo vo : vos) {
@@ -32,6 +36,10 @@ public class MemberConditionVoAssemService {
         }
     }
 
+    /**
+     * 取款
+     * @param vos
+     */
     public void batchWithdraw(Collection<MemberConditionVo> vos) {
         if (vos != null && vos.size() > 0) {
             for (MemberConditionVo vo : vos) {
