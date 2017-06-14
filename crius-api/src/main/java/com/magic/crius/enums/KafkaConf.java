@@ -12,6 +12,8 @@ import java.util.Map;
 public class KafkaConf {
 
 
+    public static final String TOPICS [] = new String[]{"plutus", "hera"};
+
     public static final String DATA = "Data";
 
     public static final String DATA_TYPE="DataType";
