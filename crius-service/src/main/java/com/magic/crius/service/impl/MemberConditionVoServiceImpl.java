@@ -2,6 +2,7 @@ package com.magic.crius.service.impl;
 
 import com.magic.crius.service.MemberConditionVoService;
 import com.magic.crius.storage.mongo.MemberConditionVoMongoService;
+import com.magic.crius.vo.UserLevelReq;
 import com.magic.user.vo.MemberConditionVo;
 import org.springframework.stereotype.Service;
 
@@ -27,5 +28,10 @@ public class MemberConditionVoServiceImpl implements MemberConditionVoService {
     @Override
     public boolean updateWithdraw(MemberConditionVo vo) {
         return memberConditionVoMongoService.updateWithdraw(vo);
+    }
+
+    @Override
+    public boolean updateLevel(UserLevelReq userLevelReq) {
+        return memberConditionVoMongoService.updateLevel(userLevelReq);
     }
 }

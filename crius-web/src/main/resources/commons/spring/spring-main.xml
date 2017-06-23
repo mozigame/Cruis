@@ -29,6 +29,8 @@
     <import resource="classpath*:spring/db-crius.xml"/>
     <import resource="classpath*:spring/codis-user.xml"/>
     <import resource="classpath*:spring/mongo-db-crius.xml"/>
+    <import resource="classpath*:spring/thrift-client.xml"/>
+    <import resource="classpath*:spring/dubbo-consumer.xml"/>
 
 
 </beans>

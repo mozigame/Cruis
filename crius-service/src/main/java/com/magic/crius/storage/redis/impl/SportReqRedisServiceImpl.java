@@ -33,7 +33,7 @@ public class SportReqRedisServiceImpl implements SportReqRedisService {
     public boolean save(SportReq req) {
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_SPORT.key(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyMMddHH"));
+            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_SPORT.key(DateUtil.formatDateTime(new Date(req.getProduceTime()), DateUtil.format_yyyyMMddHH));
             Long result = jedis.lpush(key, JSON.toJSONString(req));
             jedis.expire(key, RedisConstants.EXPIRE_THREE_HOUR);
             return result > 0;
@@ -47,7 +47,7 @@ public class SportReqRedisServiceImpl implements SportReqRedisService {
     public List<SportReq> batchPop(Date date) {
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_SPORT.key(DateUtil.formatDateTime(date, "yyMMddHH"));
+            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_SPORT.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
             List<SportReq> list = new ArrayList<>();
             for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
                 String reqStr = jedis.rpop(key);

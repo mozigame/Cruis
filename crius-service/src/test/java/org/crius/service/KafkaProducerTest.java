@@ -29,7 +29,7 @@ public class KafkaProducerTest {
     @Resource(name = "kafkaTemplate")
     private KafkaTemplate<Integer, String> template;
 
-    private static final String TOPIC = "cruis_capital";
+    private static final String TOPIC = "plutus";
 
     private static final String DATA = "Data";
     private static final String DATA_TYPE = "DataType";
@@ -149,7 +149,7 @@ public class KafkaProducerTest {
             onl.setReqId(System.currentTimeMillis() + i);
             onl.setOrderId(System.currentTimeMillis() + i);
             onl.setBillId(System.currentTimeMillis() + i);
-            onl.setUserId(2000001L + i);
+            onl.setUserId(105094L);
             onl.setAgentId(105094L);
             onl.setOwnerId(10001L);
             onl.setAmount((long) (new Random().nextInt(5000)));
@@ -222,10 +222,10 @@ public class KafkaProducerTest {
 
     @Test
     public void testPreWithdraw() {
-        for (int i = 0; i <= 500; i++) {
+        for (int i = 0; i <= 2; i++) {
             PreWithdrawReq preWithdraw = new PreWithdrawReq();
             preWithdraw.setReqId(System.currentTimeMillis() + i);
-            preWithdraw.setUserId(2000001L + i);
+            preWithdraw.setUserId(105094L);
             preWithdraw.setAgentId(105094L);
             preWithdraw.setOwnerId(10001L);
             preWithdraw.setAmount((long) (new Random().nextInt(99999)));
@@ -248,8 +248,8 @@ public class KafkaProducerTest {
             jsonObject.put("DataType", KafkaConf.DataType.PLUTUS_CMP_CHARGE.type());
             PreCmpChargeReq req = new PreCmpChargeReq();
             req.setReqId(System.currentTimeMillis() + i);
-            req.setUserId(2000001L + i);
-            req.setAgentId((long) i);
+            req.setUserId(105094L);
+            req.setAgentId(105094L);
             req.setOwnerId(10001L);
             req.setAmount(1000L);
             req.setCurrency("人民币");

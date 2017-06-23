@@ -21,5 +21,7 @@ public enum MongoCollections {
     preCmpChargeReq,
     preWithdrawReq,
     sportReq,
-    vGameReq;
+    vGameReq,
+    memberConditionVo,
+    agentConditionVo;
 }

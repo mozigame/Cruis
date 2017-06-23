@@ -1,5 +1,6 @@
 package com.magic.crius.service;
 
+import com.magic.crius.vo.UserLevelReq;
 import com.magic.user.vo.MemberConditionVo;
 
 /**
@@ -22,4 +23,11 @@ public interface MemberConditionVoService {
      * @return
      */
     boolean updateWithdraw(MemberConditionVo vo);
+
+    /**
+     * 修改会员层级
+     * @param userLevelReq
+     * @return
+     */
+    boolean updateLevel(UserLevelReq userLevelReq);
 }

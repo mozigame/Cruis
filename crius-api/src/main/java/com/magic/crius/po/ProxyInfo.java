@@ -16,6 +16,8 @@ public class ProxyInfo {
 
     private Long shareholderId; //股东ID
 
+    private String shareholderName;   //股东账号
+
     private Long ownerId;   //业主ID
 
     private String ownerName; //业主账号
@@ -66,5 +68,13 @@ public class ProxyInfo {
 
     public void setOwnerId(Long ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public String getShareholderName() {
+        return shareholderName;
+    }
+
+    public void setShareholderName(String shareholderName) {
+        this.shareholderName = shareholderName;
     }
 }

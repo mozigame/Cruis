@@ -1,5 +1,6 @@
 package com.magic.crius.assemble;
 
+import com.magic.analysis.enums.ActionType;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.UserTradeService;
@@ -37,9 +38,8 @@ public class UserTradeAssemService {
         userTrade.setTotalNum(0L);
         userTrade.setTradeTime(req.getProduceTime());
         //todo 交易类型
-        userTrade.setTradeType(0);
-        //todo 存取类型
-        userTrade.setActiontype(0);
+        userTrade.setTradeType(ActionType.ZHUAN_CHU.getStatus());
+        userTrade.setActiontype(ActionType.FANG_SHUI.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return userTrade;
     }
@@ -54,9 +54,8 @@ public class UserTradeAssemService {
         userTrade.setTotalNum(0L);
         userTrade.setTradeTime(req.getProduceTime());
         //todo 交易类型
-        userTrade.setTradeType(0);
-        //todo 存取类型
-        userTrade.setActiontype(0);
+        userTrade.setTradeType(ActionType.ZHUAN_CHU.getStatus());
+        userTrade.setActiontype(ActionType.YOU_HUI.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return userTrade;
     }
@@ -71,9 +70,8 @@ public class UserTradeAssemService {
         userTrade.setTotalNum(0L);
         userTrade.setTradeTime(req.getProduceTime());
         //todo 交易类型
-        userTrade.setTradeType(0);
-        //todo 存取类型
-        userTrade.setActiontype(0);
+        userTrade.setTradeType(ActionType.ZHUAN_RU.getStatus());
+        userTrade.setActiontype(ActionType.CHONG_ZHI.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return userTrade;
     }
@@ -88,9 +86,8 @@ public class UserTradeAssemService {
         userTrade.setTotalNum(0L);
         userTrade.setTradeTime(req.getProduceTime());
         //todo 交易类型
-        userTrade.setTradeType(0);
-        //todo 存取类型
-        userTrade.setActiontype(0);
+        userTrade.setTradeType(ActionType.ZHUAN_RU.getStatus());
+        userTrade.setActiontype(ActionType.CHONG_ZHI.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return userTrade;
     }
@@ -105,9 +102,8 @@ public class UserTradeAssemService {
         userTrade.setTotalNum(0L);
         userTrade.setTradeTime(req.getProduceTime());
         //todo 交易类型
-        userTrade.setTradeType(0);
-        //todo 存取类型
-        userTrade.setActiontype(0);
+        userTrade.setTradeType(ActionType.ZHUAN_CHU.getStatus());
+        userTrade.setActiontype(ActionType.TI_KUANG.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return userTrade;
     }
@@ -122,9 +118,8 @@ public class UserTradeAssemService {
         userTrade.setTotalNum(0L);
         userTrade.setTradeTime(req.getProduceTime());
         //todo 交易类型
-        userTrade.setTradeType(0);
-        //todo 存取类型
-        userTrade.setActiontype(0);
+        userTrade.setTradeType(ActionType.ZHUAN_RU.getStatus());
+        userTrade.setActiontype(ActionType.CHONG_ZHI.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return userTrade;
     }
@@ -139,9 +134,9 @@ public class UserTradeAssemService {
         userTrade.setTotalNum(0L);
         userTrade.setTradeTime(req.getProduceTime());
         //todo 交易类型
-        userTrade.setTradeType(0);
+        userTrade.setTradeType(ActionType.ZHUAN_CHU.getStatus());
         //todo 存取类型
-        userTrade.setActiontype(0);
+        userTrade.setActiontype(ActionType.TI_KUANG.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return userTrade;
     }

@@ -21,6 +21,9 @@ import java.util.Optional;
 public class CapitalConsumer {
 
 
+    private static final String RECORD = "Record";
+
+
     /*公司入款（成功）*/
     @Resource
     private PreCmpChargeReqAssemService preCmpChargeReqAssemService;
@@ -61,6 +64,95 @@ public class CapitalConsumer {
             Optional<?> kafkaMessage = Optional.ofNullable(record.value());
             if (kafkaMessage.isPresent()) {
                 transData(record);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * eGame
+     * @param record
+     */
+    @KafkaListener(topics = {"EGAME","egame"}, group = KafkaConf.CAPITAL_GROUP)
+    public void eGameListen(ConsumerRecord<?, ?> record) {
+        try {
+            Optional<?> kafkaMessage = Optional.ofNullable(record.value());
+            if (kafkaMessage.isPresent()) {
+                System.out.println("get kafka data :>>>  " + record.toString());
+                JSONObject object = JSON.parseObject(record.value().toString());
+                EGameReq eGameReq = JSON.parseObject(object.getString(RECORD), EGameReq.class);
+                eGameReq.setReqId(eGameReq.getBcBetId());
+                eGameReq.setProduceTime(eGameReq.getInsertDatetime());
+                eGameReq.setOrderExtent(convertEGameExt(eGameReq));
+                baseGameReqAssemService.procKafkaData(eGameReq);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * vGame
+     * @param record
+     */
+    @KafkaListener(topics = {"VGAME","vgame"}, group = KafkaConf.CAPITAL_GROUP)
+    public void vGameListen(ConsumerRecord<?, ?> record) {
+        try {
+            Optional<?> kafkaMessage = Optional.ofNullable(record.value());
+            if (kafkaMessage.isPresent()) {
+                System.out.println("get kafka data :>>>  " + record.toString());
+                JSONObject object = JSON.parseObject(record.value().toString());
+                VGameReq vGameReq = JSON.parseObject(object.getString(RECORD), VGameReq.class);
+                vGameReq.setReqId(vGameReq.getBcBetId());
+                vGameReq.setProduceTime(vGameReq.getInsertDatetime());
+                vGameReq.setOrderExtent(convertVGameExt(vGameReq));
+                baseGameReqAssemService.procKafkaData(vGameReq);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * sports
+     * @param record
+     */
+    @KafkaListener(topics = {"SPORTS","sports"}, group = KafkaConf.CAPITAL_GROUP)
+    public void sportListen(ConsumerRecord<?, ?> record) {
+        try {
+            Optional<?> kafkaMessage = Optional.ofNullable(record.value());
+            if (kafkaMessage.isPresent()) {
+                System.out.println("get kafka data :>>>  " + record.toString());
+                JSONObject object = JSON.parseObject(record.value().toString());
+                SportReq sportReq = JSON.parseObject(object.getString(RECORD), SportReq.class);
+                sportReq.setReqId(sportReq.getBcBetId());
+                sportReq.setProduceTime(sportReq.getInsertDatetime());
+                sportReq.setOrderExtent(convertSportExt(sportReq));
+                baseGameReqAssemService.procKafkaData(sportReq);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /**
+     * LOTTERY
+     * @param record
+     */
+    @KafkaListener(topics = {"LOTTERY","lottery"}, group = KafkaConf.CAPITAL_GROUP)
+    public void lotteryListen(ConsumerRecord<?, ?> record) {
+        try {
+            Optional<?> kafkaMessage = Optional.ofNullable(record.value());
+            if (kafkaMessage.isPresent()) {
+                System.out.println("get kafka data :>>>  " + record.toString());
+                JSONObject object = JSON.parseObject(record.value().toString());
+                LotteryReq lotteryReq = JSON.parseObject(object.getString(RECORD), LotteryReq.class);
+                lotteryReq.setReqId(lotteryReq.getBcBetId());
+                lotteryReq.setProduceTime(lotteryReq.getInsertDatetime());
+                lotteryReq.setOrderExtent(convertLotteryExt(lotteryReq));
+                baseGameReqAssemService.procKafkaData(lotteryReq);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -115,34 +207,6 @@ public class CapitalConsumer {
             case PLUTUS_DS:
                 DealerRewardReq dealerRewardReq = JSON.parseObject(object.getString(KafkaConf.DATA), DealerRewardReq.class);
                 dealerRewardReqAssemService.procKafkaData(dealerRewardReq);
-                break;
-            case PLUTUS_VGAME:
-                VGameReq vGameReq = JSON.parseObject(object.getString(KafkaConf.DATA), VGameReq.class);
-                vGameReq.setReqId(vGameReq.getBcBetId());
-                vGameReq.setProduceTime(vGameReq.getInsertDatetime());
-                vGameReq.setOrderExtent(convertVGameExt(vGameReq));
-                baseGameReqAssemService.procKafkaData(vGameReq);
-                break;
-            case PLUTUS_EGAME:
-                EGameReq eGameReq = JSON.parseObject(object.getString(KafkaConf.DATA), EGameReq.class);
-                eGameReq.setReqId(eGameReq.getBcBetId());
-                eGameReq.setProduceTime(eGameReq.getInsertDatetime());
-                eGameReq.setOrderExtent(convertEGameExt(eGameReq));
-                baseGameReqAssemService.procKafkaData(eGameReq);
-                break;
-            case PLUTUS_LOTTERY:
-                LotteryReq lotteryReq = JSON.parseObject(object.getString(KafkaConf.DATA), LotteryReq.class);
-                lotteryReq.setReqId(lotteryReq.getBcBetId());
-                lotteryReq.setProduceTime(lotteryReq.getInsertDatetime());
-                lotteryReq.setOrderExtent(convertLotteryExt(lotteryReq));
-                baseGameReqAssemService.procKafkaData(lotteryReq);
-                break;
-            case PLUTUS_SPORT:
-                SportReq sportReq = JSON.parseObject(object.getString(KafkaConf.DATA), SportReq.class);
-                sportReq.setReqId(sportReq.getBcBetId());
-                sportReq.setProduceTime(sportReq.getInsertDatetime());
-                sportReq.setOrderExtent(convertSportExt(sportReq));
-                baseGameReqAssemService.procKafkaData(sportReq);
                 break;
             case UPDATE_USER_LEVEL:
                 UserLevelReq userLevelReq = JSON.parseObject(object.getString(KafkaConf.DATA), UserLevelReq.class);

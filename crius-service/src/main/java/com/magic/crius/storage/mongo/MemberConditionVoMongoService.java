@@ -1,5 +1,6 @@
 package com.magic.crius.storage.mongo;
 
+import com.magic.crius.vo.UserLevelReq;
 import com.magic.user.vo.MemberConditionVo;
 
 import java.util.Collection;
@@ -25,5 +26,12 @@ public interface MemberConditionVoMongoService {
      * @return
      */
     boolean updateWithdraw(MemberConditionVo vo);
+
+    /**
+     * 修改会员层级
+     * @param userLevelReq
+     * @return
+     */
+    boolean updateLevel(UserLevelReq userLevelReq);
 
 }

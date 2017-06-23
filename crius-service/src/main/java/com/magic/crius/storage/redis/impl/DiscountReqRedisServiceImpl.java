@@ -31,7 +31,7 @@ public class DiscountReqRedisServiceImpl implements DiscountReqRedisService {
     public boolean save(DiscountReq discountReq) {
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_DISCOUNT.key(DateUtil.formatDateTime(new Date(discountReq.getProduceTime()), "yyMMddHH"));
+            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_DISCOUNT.key(DateUtil.formatDateTime(new Date(discountReq.getProduceTime()), DateUtil.format_yyyyMMddHH));
             Long result = jedis.lpush(key, JSON.toJSONString(discountReq));
             jedis.expire(key, RedisConstants.EXPIRE_THREE_HOUR);
             return result > 0;
@@ -45,7 +45,7 @@ public class DiscountReqRedisServiceImpl implements DiscountReqRedisService {
     public List<DiscountReq> batchPop(Date date) {
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_DISCOUNT.key(DateUtil.formatDateTime(date, "yyMMddHH"));
+            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_DISCOUNT.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
             List<DiscountReq> list = new ArrayList<>();
             for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
                 String reqStr = jedis.rpop(key);

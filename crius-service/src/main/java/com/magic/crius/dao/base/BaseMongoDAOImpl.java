@@ -5,6 +5,7 @@ import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.util.ReflectionUtils;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.mongodb.Mongo;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -22,41 +23,35 @@ public abstract class BaseMongoDAOImpl<T> implements BaseMongoDAO<T> {
     private static final int DEFAULT_SKIP = 0;
     private static final int DEFAULT_LIMIT = 200;
 
-    /**
-     * spring mongodb　集成操作类
-     */
-    @Resource
-    private MongoTemplate mongoTemplate;
-
     @Override
     public List<T> find(Query query) {
-        return mongoTemplate.find(query, this.getEntityClass());
+        return getMongoTemplate().find(query, this.getEntityClass());
     }
 
     public List<T> find(Query query, String collectionName) {
-        return mongoTemplate.find(query, this.getEntityClass(), collectionName);
+        return getMongoTemplate().find(query, this.getEntityClass(), collectionName);
     }
 
     @Override
     public T findOne(Query query) {
-        return mongoTemplate.findOne(query, this.getEntityClass());
+        return getMongoTemplate().findOne(query, this.getEntityClass());
     }
 
     @Override
     public T update(Query query, Update update) {
-        return mongoTemplate.findAndModify(query, update, this.getEntityClass());
+        return getMongoTemplate().findAndModify(query, update, this.getEntityClass());
     }
 
     @Override
     public T save(T entity) {
-        mongoTemplate.insert(entity);
+        getMongoTemplate().insert(entity);
         return entity;
     }
 
     @Override
     public <X> boolean save(Collection<X> objects, String collectionName) {
         try {
-            mongoTemplate.insert(objects, collectionName);
+            getMongoTemplate().insert(objects, collectionName);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -66,24 +61,24 @@ public abstract class BaseMongoDAOImpl<T> implements BaseMongoDAO<T> {
 
     @Override
     public T save(T entity, String collectionName) {
-        mongoTemplate.insert(entity, collectionName);
+        getMongoTemplate().insert(entity, collectionName);
         return entity;
     }
 
 
     @Override
     public T findById(String id) {
-        return mongoTemplate.findById(id, this.getEntityClass());
+        return getMongoTemplate().findById(id, this.getEntityClass());
     }
 
     @Override
     public T findById(String id, String collectionName) {
-        return mongoTemplate.findById(id, this.getEntityClass(), collectionName);
+        return getMongoTemplate().findById(id, this.getEntityClass(), collectionName);
     }
 
     @Override
     public long count(Query query) {
-        return mongoTemplate.count(query, this.getEntityClass());
+        return getMongoTemplate().count(query, this.getEntityClass());
     }
 
 
@@ -94,7 +89,7 @@ public abstract class BaseMongoDAOImpl<T> implements BaseMongoDAO<T> {
         condition.append("produceTime", new BasicDBObject("$gte", startTime));
         condition.append("produceTime", new BasicDBObject("$lt", endTime));
         BasicDBObject keys = new BasicDBObject();
-        Iterator<DBObject> iterator = mongoTemplate.getCollection(MongoCollectionFlag.SAVE_SUC.collName(collectionName)).find(condition, keys);
+        Iterator<DBObject> iterator = getMongoTemplate().getCollection(MongoCollectionFlag.SAVE_SUC.collName(collectionName)).find(condition, keys);
         while (iterator.hasNext()) {
             Long reqId = (Long) iterator.next().get("reqId");
             reqIds.add(reqId);
@@ -126,7 +121,5 @@ public abstract class BaseMongoDAOImpl<T> implements BaseMongoDAO<T> {
         return ReflectionUtils.getSuperClassGenricType(getClass());
     }
 
-    public MongoTemplate getMongoTemplate() {
-        return this.mongoTemplate;
-    }
+    public abstract MongoTemplate getMongoTemplate();
 }

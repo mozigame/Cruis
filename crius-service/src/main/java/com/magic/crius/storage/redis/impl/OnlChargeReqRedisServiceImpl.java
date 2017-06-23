@@ -31,7 +31,7 @@ public class OnlChargeReqRedisServiceImpl implements OnlChargeReqRedisService {
     public boolean save(OnlChargeReq onlChargeReq) {
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_ONL_CHARGE.key(DateUtil.formatDateTime(new Date(onlChargeReq.getProduceTime()), "yyMMddHH"));
+            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_ONL_CHARGE.key(DateUtil.formatDateTime(new Date(onlChargeReq.getProduceTime()), DateUtil.format_yyyyMMddHH));
             Long result = jedis.lpush(key, JSON.toJSONString(onlChargeReq));
             jedis.expire(key, RedisConstants.EXPIRE_THREE_HOUR);
             return result > 0;
@@ -45,7 +45,7 @@ public class OnlChargeReqRedisServiceImpl implements OnlChargeReqRedisService {
     public List<OnlChargeReq> batchPop(Date date) {
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_ONL_CHARGE.key(DateUtil.formatDateTime(date, "yyMMddHH"));
+            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_ONL_CHARGE.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
             List<OnlChargeReq> list = new ArrayList<>();
             for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
                 String reqStr = jedis.rpop(key);

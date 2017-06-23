@@ -17,4 +17,8 @@ public class RandomTest {
             System.out.println(new Random().nextLong());;
         }
     }
+    @Test
+    public void get() {
+        System.out.println("1498039034244995028".length());
+    }
 }

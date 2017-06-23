@@ -31,7 +31,7 @@ public class CriusScheduler {
     /**
      * 拉取代理列表的时间间隔
      */
-    private static final int proxyPullRate = 1000 * 60 * 60;
+    private static final int proxyPullRate = 1000 * 60;
 
     /*用户充值成功*/
     @Resource

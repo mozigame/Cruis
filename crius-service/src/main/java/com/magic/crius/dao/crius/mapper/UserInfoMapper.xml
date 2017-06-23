@@ -17,7 +17,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         Id, owner_id, user_id, user_account, proxy_id, proxy_name, shareholder_id, shareholder_name,
-        user_level, create_time, update_time, owner_name
+        user_level, create_time, update_time, owner_name, type
     </sql>
 
     <!--根据会员id获取数据-->
@@ -36,13 +36,29 @@
         insert into user_info (owner_id, user_id,
           user_account, proxy_id, proxy_name,
           shareholder_id, shareholder_name, user_level,
-          create_time, update_time, owner_name
+          create_time, update_time, owner_name, type
           )
         values (#{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
           #{userAccount,jdbcType=VARCHAR}, #{proxyId,jdbcType=BIGINT}, #{proxyName,jdbcType=VARCHAR},
           #{shareholderId,jdbcType=BIGINT}, #{shareholderName,jdbcType=VARCHAR}, #{userLevel,jdbcType=INTEGER},
-          #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, #{ownerName,jdbcType=VARCHAR}
+          #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, #{ownerName,jdbcType=VARCHAR},
+          #{type,jdbcType=INTEGER}
           )
+    </insert>
+
+    <!--批量添加-->
+    <insert id="batchInsert" parameterType="com.magic.crius.po.UserInfo">
+        insert into user_info (owner_id, user_id,
+        user_account, proxy_id, proxy_name,
+        shareholder_id, shareholder_name, user_level,
+        create_time, update_time, owner_name, type
+        )
+        values (#{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
+        #{userAccount,jdbcType=VARCHAR}, #{proxyId,jdbcType=BIGINT}, #{proxyName,jdbcType=VARCHAR},
+        #{shareholderId,jdbcType=BIGINT}, #{shareholderName,jdbcType=VARCHAR}, #{userLevel,jdbcType=INTEGER},
+        #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, #{ownerName,jdbcType=VARCHAR},
+        #{type,jdbcType=INTEGER}
+        )
     </insert>
 
 

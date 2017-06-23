@@ -11,9 +11,9 @@ public class GameInfo {
 
     private String gameName;
 
-    private String gameType;
+    private String gameType;    //游戏类型
 
-    private String gameTypeName;    //游戏类型名称
+    private String gameTypeName;    //游戏类型名称    手机游戏/QQ游戏/QQ跑酷/QQ游戏
 
     private String gameFactoryType; //游戏组类型
 
@@ -21,7 +21,7 @@ public class GameInfo {
 
     private String gameAbstractType;    //游戏类别
 
-    private String gameAbstractTypeName;    //游戏类别名称
+    private String gameAbstractTypeName;    //游戏类别名称    视讯
 
     private Long createTime;
 

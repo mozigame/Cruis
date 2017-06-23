@@ -30,7 +30,7 @@ public class PreWithdrawReqRedisServiceImpl implements PreWithdrawReqRedisServic
     public boolean save(PreWithdrawReq preWithdrawReq) {
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_USER_WITHDRAW.key(DateUtil.formatDateTime(new Date(preWithdrawReq.getProduceTime()), "yyMMddHH"));
+            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_USER_WITHDRAW.key(DateUtil.formatDateTime(new Date(preWithdrawReq.getProduceTime()), DateUtil.format_yyyyMMddHH));
             Long result = jedis.lpush(key, JSON.toJSONString(preWithdrawReq));
             jedis.expire(key, RedisConstants.EXPIRE_THREE_HOUR);
             return result > 0;
@@ -44,7 +44,7 @@ public class PreWithdrawReqRedisServiceImpl implements PreWithdrawReqRedisServic
     public List<PreWithdrawReq> batchPop(Date date) {
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_USER_WITHDRAW.key(DateUtil.formatDateTime(date, "yyMMddHH"));
+            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_USER_WITHDRAW.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
             List<PreWithdrawReq> list = new ArrayList<>();
             for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
                 String reqStr = jedis.rpop(key);

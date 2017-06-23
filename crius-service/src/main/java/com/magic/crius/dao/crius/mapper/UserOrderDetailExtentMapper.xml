@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.magic.crius.dao.crius.db.UserOrderDetailExtentMapper">
+    <resultMap id="BaseResultMap" type="com.magic.crius.po.UserOrderDetail">
+        <id column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="order_id" jdbcType="BIGINT" property="orderId"/>
+        <result column="order_extent" jdbcType="VARCHAR" property="updateTime"/>
+    </resultMap>
+
+
+    <!--批量添加-->
+    <insert id="batchInsert" parameterType="com.magic.crius.po.UserOrderDetail">
+        insert into user_order_detail_extent (
+          order_id,  order_extent
+        )
+        values
+        <foreach collection="list" item="param" separator=",">
+            (
+            #{param.orderId,jdbcType=INTEGER},
+            #{param.orderExtent,jdbcType=VARCHAR}
+            )
+        </foreach>
+
+    </insert>
+
+
+</mapper>

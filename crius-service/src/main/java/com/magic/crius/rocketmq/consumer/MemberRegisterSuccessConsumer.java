@@ -8,8 +8,7 @@ import com.magic.api.commons.mq.api.Topic;
 import com.magic.crius.po.UserInfo;
 import com.magic.crius.service.UserInfoService;
 import com.magic.user.entity.Member;
-import com.magic.user.po.OnLineMember;
-import com.magic.user.vo.MemberConditionVo;
+import com.magic.user.enums.AccountType;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -63,6 +62,7 @@ public class MemberRegisterSuccessConsumer implements Consumer {
         userInfo.setUpdateTime(member.getRegisterTime());
         //todo 会员层级待确定，或许默认0
         userInfo.setUserLevel(0);
+        userInfo.setType(AccountType.member.value());
         return userInfo;
     }
 }

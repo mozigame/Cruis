@@ -4,6 +4,7 @@ import com.magic.user.entity.User;
 import com.magic.user.service.dubbo.AccountDubboService;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
 @Component
 public class CriusOutDubboService {
 
+    @Resource
     private AccountDubboService accountDubboService;
 
     /**
@@ -25,6 +27,11 @@ public class CriusOutDubboService {
      * @return
      */
     public List<User> getDateAgents(Long startTime, Long endTime) {
+        try {
+            return accountDubboService.periodAgentList(startTime, endTime, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 }

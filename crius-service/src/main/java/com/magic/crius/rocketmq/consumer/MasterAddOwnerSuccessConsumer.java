@@ -15,6 +15,7 @@ import javax.annotation.Resource;
  * User: joey
  * Date: 2017/5/19
  * Time: 16:52
+ * 添加业主信息
  */
 @Service("masterAddOwnerSuccessConsumer")
 @ConsumerConfig(consumerName = "v1masterAddOwnerSuccessConsumer", topic = Topic.BC_COMPANY_ADD_SUCCESS)

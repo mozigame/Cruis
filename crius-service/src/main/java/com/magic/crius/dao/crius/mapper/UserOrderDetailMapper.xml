@@ -14,7 +14,6 @@
         <result column="pdate" jdbcType="INTEGER" property="pdate"/>
         <result column="create_time" jdbcType="BIGINT" property="createTime"/>
         <result column="update_time" jdbcType="BIGINT" property="updateTime"/>
-        <result column="order_extent" jdbcType="VARCHAR" property="updateTime"/>
     </resultMap>
 
 
@@ -22,13 +21,12 @@
         insert into user_order_detail ( owner_id, user_id,
           game_id, order_id, order_count,
           effect_order_count, pay_off_count, order_state,
-          pdate, create_time, update_time, order_extent
+          pdate, create_time, update_time
           )
         values ( #{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
           #{gameId,jdbcType=VARCHAR}, #{orderId,jdbcType=INTEGER}, #{orderCount,jdbcType=BIGINT},
           #{effectOrderCount,jdbcType=BIGINT}, #{payOffCount,jdbcType=BIGINT}, #{orderState,jdbcType=INTEGER},
-          #{pdate,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT},
-          #{orderExtent,jdbcType=VARCHAR}
+          #{pdate,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}
           )
     </insert>
 
@@ -37,7 +35,7 @@
         insert into user_order_detail ( owner_id, user_id,
         game_id, order_id, order_count,
         effect_order_count, pay_off_count, order_state,
-        pdate, create_time, update_time, order_extent
+        pdate, create_time, update_time
         )
         values
         <foreach collection="list" item="param" separator=",">
@@ -51,8 +49,7 @@
             #{param.orderState,jdbcType=INTEGER},
             #{param.pdate,jdbcType=INTEGER},
             #{param.createTime,jdbcType=BIGINT},
-            #{param.updateTime,jdbcType=BIGINT},
-            #{param.orderExtent,jdbcType=VARCHAR}
+            #{param.updateTime,jdbcType=BIGINT}
             )
         </foreach>
 

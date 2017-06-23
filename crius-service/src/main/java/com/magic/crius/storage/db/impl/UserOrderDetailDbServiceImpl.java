@@ -1,5 +1,6 @@
 package com.magic.crius.storage.db.impl;
 
+import com.magic.crius.dao.crius.db.UserOrderDetailExtentMapper;
 import com.magic.crius.dao.crius.db.UserOrderDetailMapper;
 import com.magic.crius.po.UserOrderDetail;
 import com.magic.crius.storage.db.UserOrderDetailDbService;
@@ -16,11 +17,16 @@ import java.util.List;
 @Service
 public class UserOrderDetailDbServiceImpl implements UserOrderDetailDbService {
 
-    @Resource
+    @Resource(name = "criusUserOrderDetailMapper")
     private UserOrderDetailMapper criusUserOrderDetailMapper;
+    @Resource
+    private UserOrderDetailExtentMapper userOrderDetailExtentMapper;
 
     @Override
     public boolean batchSave(List<UserOrderDetail> details) {
-        return criusUserOrderDetailMapper.batchInsert(details) > 0;
+        if (criusUserOrderDetailMapper.batchInsert(details) > 0) {
+            userOrderDetailExtentMapper.batchInsert(details);
+        }
+        return true;
     }
 }

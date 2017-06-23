@@ -21,4 +21,17 @@
         <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
     </bean>
 
+    <!--账号系统的mongo-->
+
+    <mongo:mongo-client replica-set="${mongo.crius.replica}" id="mongoAccount">
+        <mongo:client-options write-concern="SAFE" connections-per-host="60"
+                              threads-allowed-to-block-for-connection-multiplier="30"/>
+    </mongo:mongo-client>
+
+    <mongo:db-factory id="mongoDbFactoryAccount" dbname="${mongo.account.dbname}" mongo-ref="mongoAccount"/>
+
+    <bean id="mongoTemplateAccount" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg name="mongoDbFactory" ref="mongoDbFactoryAccount" />
+    </bean>
+
 </beans>

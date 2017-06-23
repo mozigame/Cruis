@@ -1,6 +1,6 @@
 package com.magic.crius.assemble;
 
-import com.magic.crius.service.UserLevelReqService;
+import com.magic.crius.service.MemberConditionVoService;
 import com.magic.crius.vo.UserLevelReq;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +15,11 @@ import javax.annotation.Resource;
 public class UserLevelAssemService {
 
     @Resource
-    private UserLevelReqService userLevelReqService;
+    private MemberConditionVoService memberConditionVoService;
 
 
     public void updateLevel(UserLevelReq userLevelReq) {
-        if (!userLevelReqService.updateLevel(userLevelReq)) {
+        if (!memberConditionVoService.updateLevel(userLevelReq)) {
 
         }
     }
