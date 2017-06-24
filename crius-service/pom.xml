@@ -269,8 +269,44 @@
             <version>1.0.0-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
+                    <groupId>com.magic.commons</groupId>
+                    <artifactId>tools</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-aop</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context-support</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-expression</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-jdbc</artifactId>
+                </exclusion>
+                <exclusion>
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-oxm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-test</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-webmvc</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>org.springframework</groupId>
@@ -278,7 +314,7 @@
                 </exclusion>
                 <exclusion>
                     <groupId>org.springframework</groupId>
-                    <artifactId>spring-context-support</artifactId>
+                    <artifactId>spring-aspects</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

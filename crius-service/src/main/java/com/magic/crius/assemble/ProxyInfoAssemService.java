@@ -1,5 +1,6 @@
 package com.magic.crius.assemble;
 
+import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.po.ProxyInfo;
 import com.magic.crius.service.ProxyInfoService;
@@ -27,7 +28,6 @@ public class ProxyInfoAssemService {
     private ProxyInfoService proxyInfoService;
 
 
-
     public void batchSave(Date date) {
         String hhStr = DateUtil.formatDateTime(date, "yyyyMMddHH");
         Date endTime = DateUtil.parseDate(hhStr, "yyyyMMddHH");
@@ -36,7 +36,8 @@ public class ProxyInfoAssemService {
 
         List<ProxyInfo> proxyInfos = new ArrayList<>();
         List<User> list = criusOutDubboService.getDateAgents(startTime.getTimeInMillis(), endTime.getTime()); //获取账号系统中某个时间内的代理
-        if (list != null) {
+        if (list != null && list.size() > 0) {
+            ApiLogger.info("get proxyInfoList ,size : " + list.size());
             for (User user : list) {
                 ProxyInfo proxyInfo = new ProxyInfo();
                 proxyInfo.setProxyId(user.getUserId());
