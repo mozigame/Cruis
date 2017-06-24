@@ -11,6 +11,11 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: com.magic.utils:drm:0.0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.codehaus.jettison:jettison:1.3.7" level="project" />
+    <orderEntry type="library" name="Maven: com.thoughtworks.xstream:xstream:1.4.7" level="project" />
+    <orderEntry type="library" name="Maven: xmlpull:xmlpull:1.1.3.1" level="project" />
+    <orderEntry type="library" name="Maven: xpp3:xpp3_min:1.1.4c" level="project" />
     <orderEntry type="module" module-name="crius-api" />
     <orderEntry type="library" name="Maven: com.magic:magic-user-api:1.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.magic.commons:model:1.0.0-SNAPSHOT" level="project" />
@@ -42,17 +47,6 @@
     <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.15" level="project" />
     <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:2.4.1" level="project" />
     <orderEntry type="library" name="Maven: commons-pool:commons-pool:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: com.magic.commons:engine-gw:1.0.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.magic.commons:core:1.0.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-context-support:4.2.4.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-oxm:4.2.4.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework:spring-websocket:4.2.4.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: cglib:cglib:3.2.5" level="project" />
-    <orderEntry type="library" name="Maven: org.ow2.asm:asm:5.2" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.ant:ant:1.9.6" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.ant:ant-launcher:1.9.6" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.thrift:libthrift:0.10.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.commons:commons-pool2:2.3" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:4.3.8.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:4.3.8.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-beans:4.3.8.RELEASE" level="project" />
@@ -132,20 +126,23 @@
     <orderEntry type="library" name="Maven: org.apache.poi:poi-ooxml:3.9" level="project" />
     <orderEntry type="library" name="Maven: org.apache.poi:poi-ooxml-schemas:3.9" level="project" />
     <orderEntry type="library" name="Maven: org.apache.xmlbeans:xmlbeans:2.3.0" level="project" />
+    <orderEntry type="library" name="Maven: stax:stax-api:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: dom4j:dom4j:1.6.1" level="project" />
     <orderEntry type="library" name="Maven: xml-apis:xml-apis:1.0.b2" level="project" />
+    <orderEntry type="library" name="Maven: com.magic.commons:engine-gw:1.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.thrift:libthrift:0.10.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-pool2:2.3" level="project" />
+    <orderEntry type="library" name="Maven: com.magic.commons:core:1.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: cglib:cglib:3.2.5" level="project" />
+    <orderEntry type="library" name="Maven: org.ow2.asm:asm:5.2" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.ant:ant:1.9.6" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.ant:ant-launcher:1.9.6" level="project" />
     <orderEntry type="library" name="Maven: org.apache.zookeeper:zookeeper:3.4.8" level="project" />
     <orderEntry type="library" name="Maven: jline:jline:0.9.94" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty:3.7.0.Final" level="project" />
     <orderEntry type="library" name="Maven: com.github.sgroschupf:zkclient:0.1" level="project" />
     <orderEntry type="library" name="Maven: com.magic.analysis:commons:0.0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.8.8" level="project" />
-    <orderEntry type="library" name="Maven: com.magic.utils:drm:0.0.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: org.codehaus.jettison:jettison:1.3.7" level="project" />
-    <orderEntry type="library" name="Maven: stax:stax-api:1.0.1" level="project" />
-    <orderEntry type="library" name="Maven: com.thoughtworks.xstream:xstream:1.4.7" level="project" />
-    <orderEntry type="library" name="Maven: xmlpull:xmlpull:1.1.3.1" level="project" />
-    <orderEntry type="library" name="Maven: xpp3:xpp3_min:1.1.4c" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:dubbo:2.5.3" level="project" />
     <orderEntry type="library" name="Maven: org.javassist:javassist:3.15.0-GA" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib:1.1.2-4" level="project" />
