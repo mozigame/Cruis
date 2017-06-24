@@ -135,6 +135,10 @@
             <groupId>com.magic.commons</groupId>
             <artifactId>engine-gw</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.thrift</groupId>
+            <artifactId>libthrift</artifactId>
+        </dependency>
 
         <!-- begin of spring -->
 
