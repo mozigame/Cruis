@@ -152,27 +152,6 @@
                 <artifactId>commons-pool</artifactId>
                 <version>1.5.5</version>
             </dependency>
-            <!-- end gw-->
-            <!--引擎网关 engine-gw -->
-            <dependency>
-                <groupId>com.magic.commons</groupId>
-                <artifactId>engine-gw</artifactId>
-                <version>1.0.0-SNAPSHOT</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>*</artifactId>
-                        <groupId>*</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.thrift</groupId>
-                <artifactId>libthrift</artifactId>
-                <version>0.10.0</version>
-            </dependency>
-
-
-
 
             <!-- begin of spring -->
 
