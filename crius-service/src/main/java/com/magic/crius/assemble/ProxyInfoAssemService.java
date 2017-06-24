@@ -35,7 +35,7 @@ public class ProxyInfoAssemService {
         startTime.add(Calendar.HOUR, -1);
 
         List<ProxyInfo> proxyInfos = new ArrayList<>();
-        List<User> list = criusOutDubboService.getDateAgents(null, null); //获取账号系统中某个时间内的代理
+        List<User> list = criusOutDubboService.getDateAgents(startTime.getTimeInMillis(), endTime.getTime()); //获取账号系统中某个时间内的代理
         if (list != null) {
             for (User user : list) {
                 ProxyInfo proxyInfo = new ProxyInfo();

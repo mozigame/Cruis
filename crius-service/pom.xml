@@ -130,20 +130,6 @@
 
         <!-- end gw-->
 
-        <!-- end gw-->
-        <!--引擎网关 engine-gw -->
-        <dependency>
-            <groupId>com.magic.commons</groupId>
-            <artifactId>engine-gw</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.magic.commons</groupId>
-                    <artifactId>core</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
         <!-- begin of spring -->
 
         <dependency>
@@ -263,6 +249,40 @@
             <artifactId>tools</artifactId>
             <version>${commons-parent.version}</version>
         </dependency>
+
+        <!-- end gw-->
+        <!--引擎网关 engine-gw -->
+        <dependency>
+            <groupId>com.magic.commons</groupId>
+            <artifactId>engine-gw</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.magic.commons</groupId>
+                    <artifactId>core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.magic.commons</groupId>
+            <artifactId>core</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-oxm</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-websocket</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context-support</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
 
         <!--zookeeper-->
         <dependency>
