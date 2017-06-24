@@ -11,8 +11,7 @@
             <directory>${project.basedir}/target</directory>
             <outputDirectory>/</outputDirectory>
             <includes>
-                <include>classes/spring/**</include>
-                <include>classes/*.properties</include>
+                <include>classes/**</include>
             </includes>
         </fileSet>
         <fileSet>

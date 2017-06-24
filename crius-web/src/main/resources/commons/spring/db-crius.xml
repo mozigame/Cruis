@@ -68,10 +68,10 @@
         <property name="dataSource" ref="multipleDataSource"/>
         <property name="configLocation" value="classpath:spring/sqlMapConfig.xml"/>
         <property name="mapperLocations">
-            <array>
+            <list>
                 <value>${crius.mapper.path}</value>
                 <value>${tethys.mapper.path}</value>
-            </array>
+            </list>
         </property>
     </bean>
 
