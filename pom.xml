@@ -286,18 +286,6 @@
                 <version>1.10.3.RELEASE</version>
             </dependency>
 
-            <!--commons-parent codis -->
-            <dependency>
-                <groupId>com.magic.commons</groupId>
-                <artifactId>codis</artifactId>
-                <version>${commons-parent.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.magic.commons</groupId>
-                <artifactId>tools</artifactId>
-                <version>${commons-parent.version}</version>
-            </dependency>
-
             <!--zookeeper-->
             <!--zookeeper-->
             <dependency>
