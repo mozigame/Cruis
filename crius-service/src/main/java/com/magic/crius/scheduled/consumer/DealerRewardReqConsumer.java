@@ -81,6 +81,7 @@ public class DealerRewardReqConsumer {
         int countNum = 0;
         List<DealerRewardReq> reqList = dealerRewardReqService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
+            System.out.println("dealerReqConsumer pop datas, size : "+reqList.size());
             flushData(reqList);
             reqList = dealerRewardReqService.batchPopRedis(date);
             try {

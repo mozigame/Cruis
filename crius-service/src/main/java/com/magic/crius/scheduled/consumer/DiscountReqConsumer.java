@@ -82,7 +82,7 @@ public class DiscountReqConsumer {
         int countNum = 0;
         List<DiscountReq> reqList = discountReqService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            System.out.println(reqList.size() + "   thread "+ Thread.currentThread().getName());
+            System.out.println("discountReqConsumer pop datas, size : "+reqList.size());
             flushData(reqList);
             reqList = discountReqService.batchPopRedis(date);
             try {

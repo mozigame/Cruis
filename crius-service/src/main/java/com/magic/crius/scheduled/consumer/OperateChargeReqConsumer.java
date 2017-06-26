@@ -78,6 +78,7 @@ public class OperateChargeReqConsumer {
         int countNum = 0;
         List<OperateChargeReq> reqList = operateChargeService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
+            System.out.println("operateChargeReqConsumer pop datas, size : "+reqList.size());
             flushData(reqList);
             reqList = operateChargeService.batchPopRedis(date);
             try {
