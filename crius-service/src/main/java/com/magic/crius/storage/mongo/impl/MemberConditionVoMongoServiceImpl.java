@@ -8,6 +8,7 @@ import com.magic.crius.dao.mongo.MemberConditionVoMongoDao;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.storage.mongo.MemberConditionVoMongoService;
 import com.magic.crius.vo.UserLevelReq;
+import com.magic.user.entity.Member;
 import com.magic.user.vo.MemberConditionVo;
 import com.mongodb.WriteResult;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -34,7 +35,17 @@ public class MemberConditionVoMongoServiceImpl implements MemberConditionVoMongo
         try {
             Query query = new Query();
             query.addCriteria(new Criteria("memberId").is(vo.getMemberId()));
+
+            MemberConditionVo findVo = memberConditionVoMongoDao.findOne(query);
+            if (findVo == null) {
+                System.out.println("find memberConditionVo null, memberId :"+vo.getMemberId());
+                return false;
+            }
             Update update = new Update();
+            if (findVo.getMaxDepositMoney() < vo.getMaxDepositMoney()) {
+                update.set("maxDepositMoney", vo.getMaxDepositMoney());
+            }
+            update.set("lastDepositMoney", vo.getLastDepositMoney());
             update.inc("depositCount", vo.getDepositCount());
             update.inc("depositMoney", vo.getDepositMoney());
             update.set("updateTime", System.currentTimeMillis());
@@ -61,7 +72,16 @@ public class MemberConditionVoMongoServiceImpl implements MemberConditionVoMongo
         try {
             Query query = new Query();
             query.addCriteria(new Criteria("memberId").is(vo.getMemberId()));
+            MemberConditionVo findVo = memberConditionVoMongoDao.findOne(query);
+            if (findVo == null) {
+                System.out.println("find memberConditionVo null, memberId :"+vo.getMemberId());
+                return false;
+            }
             Update update = new Update();
+            if (findVo.getMaxWithdrawMoney() < vo.getMaxWithdrawMoney()) {
+                update.set("maxWithdrawMoney",vo.getMaxWithdrawMoney());
+            }
+            update.set("lastWithdrawMoney", vo.getLastWithdrawMoney());
             update.inc("withdrawCount", vo.getWithdrawCount());
             update.inc("withdrawMoney", vo.getWithdrawMoney());
             update.set("updateTime", System.currentTimeMillis());
