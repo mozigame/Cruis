@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.magic.crius.dao.tethys.db.UserTradeMapper">
+<mapper namespace="com.magic.crius.po.UserTrade">
     <resultMap id="BaseResultMap" type="com.magic.crius.po.UserTrade">
         <id column="Id" jdbcType="INTEGER" property="id"/>
         <result column="user_id" jdbcType="BIGINT" property="userId"/>
@@ -31,7 +31,7 @@
     </insert>
 
     <!--批量添加-->
-    <insert id="batchInsert">
+    <insert id="insertBatch">
         insert into user_trade (user_id, trade_id,
         trade_num, total_num, trade_time,
         trade_type, actionType, owner_id,

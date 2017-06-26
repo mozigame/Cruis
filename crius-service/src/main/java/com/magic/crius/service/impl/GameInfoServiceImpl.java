@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * User: joey
@@ -20,7 +21,12 @@ public class GameInfoServiceImpl implements GameInfoService {
     private GameInfoDbService gameInfoDbService;
 
     @Override
-    public boolean batchSave(Collection<GameInfo> gameInfos) {
+    public boolean batchSave(List<GameInfo> gameInfos) {
         return gameInfoDbService.batchSave(gameInfos);
+    }
+
+    @Override
+    public boolean deleteAll() {
+        return gameInfoDbService.deleteAll();
     }
 }

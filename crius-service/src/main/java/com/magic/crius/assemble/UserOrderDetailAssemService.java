@@ -7,6 +7,7 @@ import com.magic.crius.service.UserOrderDetailService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +26,11 @@ public class UserOrderDetailAssemService {
     public boolean batchSave(List<UserOrderDetail> details) {
         boolean flag = false;
         if (userOrderDetailService.batchSave(details)) {
-            tethysUserOrderDetailService.batchSave(details);
+            List<Long> userIds = new ArrayList<>();
+            for (UserOrderDetail orderDetail : details) {
+                userIds.add(orderDetail.getUserId());
+            }
+            tethysUserOrderDetailService.batchSave(details, userIds);
             flag = true;
         }
         return flag;

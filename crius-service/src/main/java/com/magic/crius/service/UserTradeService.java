@@ -3,6 +3,7 @@ package com.magic.crius.service;
 import com.magic.crius.po.UserTrade;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * User: joey
@@ -11,5 +12,5 @@ import java.util.Collection;
  */
 public interface UserTradeService {
 
-    boolean batchSave(Collection<UserTrade> userTrades);
+    boolean batchSave(List<UserTrade> userTrades,List<Long> userId);
 }

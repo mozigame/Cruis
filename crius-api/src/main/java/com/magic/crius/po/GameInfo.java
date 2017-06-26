@@ -1,26 +1,28 @@
 package com.magic.crius.po;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  *  tethys 中的gameInfo
  */
 public class GameInfo {
 
     private Integer id;
-
+    @JSONField(name = "GameId")
     private String gameId;
-
+    @JSONField(name = "Game_name")
     private String gameName;
-
+    @JSONField(name = "Platform_halltype_id")
     private String gameType;    //游戏类型
-
+    @JSONField(name = "Platform_halltype_name")
     private String gameTypeName;    //游戏类型名称    手机游戏/QQ游戏/QQ跑酷/QQ游戏
-
+    @JSONField(name = "Platform_id")
     private String gameFactoryType; //游戏组类型
-
+    @JSONField(name = "Platform_name")
     private String gameFactoryTypeName; //游戏组类型名称
-
+    @JSONField(name = "Halltype_id")
     private String gameAbstractType;    //游戏类别
-
+    @JSONField(name = "Halltype_name")
     private String gameAbstractTypeName;    //游戏类别名称    视讯
 
     private Long createTime;

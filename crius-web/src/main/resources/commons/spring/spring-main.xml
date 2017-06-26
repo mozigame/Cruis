@@ -30,5 +30,6 @@
     <import resource="classpath*:spring/mongo-db-crius.xml"/>
     <import resource="classpath*:spring/thrift-client.xml"/>
     <import resource="classpath*:spring/dubbo-consumer.xml"/>
+    <import resource="classpath*:db-shard-crius.xml"/>
 
 </beans>

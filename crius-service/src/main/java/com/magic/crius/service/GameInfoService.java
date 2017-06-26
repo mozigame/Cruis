@@ -3,6 +3,7 @@ package com.magic.crius.service;
 import com.magic.crius.po.GameInfo;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * User: joey
@@ -11,5 +12,7 @@ import java.util.Collection;
  */
 public interface GameInfoService {
 
-    boolean batchSave(Collection<GameInfo> gameInfos);
+    boolean batchSave(List<GameInfo> gameInfos);
+
+    boolean deleteAll();
 }

@@ -3,6 +3,7 @@ package com.magic.crius.storage.db;
 import com.magic.crius.po.UserTrade;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * User: joey
@@ -12,5 +13,5 @@ import java.util.Collection;
 public interface UserTradeDbService {
 
 
-    boolean batchSave(Collection<UserTrade> userTrades);
+    boolean batchSave(List<UserTrade> userTrades, List<Long> userIds);
 }

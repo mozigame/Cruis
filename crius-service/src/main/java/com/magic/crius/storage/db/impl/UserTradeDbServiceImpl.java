@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * User: joey
@@ -20,9 +21,9 @@ public class UserTradeDbServiceImpl implements UserTradeDbService {
     private UserTradeMapper userTradeMapper;
 
     @Override
-    public boolean batchSave(Collection<UserTrade> userTrades) {
+    public boolean batchSave(List<UserTrade> userTrades, List<Long> userIds) {
         try {
-            return userTradeMapper.batchInsert(userTrades) > 0;
+            return userTradeMapper.insertBatch(userTrades,userIds) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }

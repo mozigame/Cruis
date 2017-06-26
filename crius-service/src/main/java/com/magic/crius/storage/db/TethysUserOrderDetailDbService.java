@@ -3,6 +3,7 @@ package com.magic.crius.storage.db;
 import com.magic.crius.po.UserOrderDetail;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * User: joey
@@ -11,5 +12,5 @@ import java.util.Collection;
  */
 public interface TethysUserOrderDetailDbService {
 
-    boolean batchSave(Collection<UserOrderDetail> userOrderDetails);
+    boolean batchSave(List<UserOrderDetail> userOrderDetails, List<Long> userIds);
 }

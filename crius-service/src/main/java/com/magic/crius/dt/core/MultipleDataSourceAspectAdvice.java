@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
  * Time: 22:06
  * 数据源切换
  */
-@Component
-@Aspect
+//@Component
+//@Aspect
 public class MultipleDataSourceAspectAdvice {
     @Around("execution(* com.magic.crius.dao.crius.db.*.*(..))")
     public Object criusDtAround(ProceedingJoinPoint jp) throws Throwable {

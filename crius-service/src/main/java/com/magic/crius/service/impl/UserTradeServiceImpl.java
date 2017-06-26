@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * User: joey
@@ -20,7 +21,7 @@ public class UserTradeServiceImpl implements UserTradeService {
     private UserTradeDbService userTradeDbService;
 
     @Override
-    public boolean batchSave(Collection<UserTrade> userTrades) {
-        return userTradeDbService.batchSave(userTrades);
+    public boolean batchSave(List<UserTrade> userTrades,List<Long> userIds) {
+        return userTradeDbService.batchSave(userTrades, userIds);
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * User: joey
@@ -20,9 +21,9 @@ public class TethysUserOrderDetailDbServiceImpl implements TethysUserOrderDetail
     private UserOrderDetailMapper userOrderDetailMapper;
 
     @Override
-    public boolean batchSave(Collection<UserOrderDetail> userOrderDetails) {
+    public boolean batchSave(List<UserOrderDetail> userOrderDetails, List<Long> userIds) {
         try {
-            return userOrderDetailMapper.batchInsert(userOrderDetails) > 0;
+            return userOrderDetailMapper.insertBatch(userOrderDetails, userIds) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }

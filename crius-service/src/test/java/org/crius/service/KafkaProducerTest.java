@@ -144,12 +144,12 @@ public class KafkaProducerTest {
 
     @Test
     public void testOnlCharge() {
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 10; i++) {
             OnlChargeReq onl = new OnlChargeReq();
             onl.setReqId(System.currentTimeMillis() + i);
             onl.setOrderId(System.currentTimeMillis() + i);
             onl.setBillId(System.currentTimeMillis() + i);
-            onl.setUserId(105094L);
+            onl.setUserId(455L + i);
             onl.setAgentId(105094L);
             onl.setOwnerId(10001L);
             onl.setAmount((long) (new Random().nextInt(5000)));
@@ -166,6 +166,56 @@ public class KafkaProducerTest {
             jsonObject.put(DATA, onl);
             template.send(TOPIC, jsonObject.toJSONString());
         }
+
+
+        for (int i = 10; i < 20; i++) {
+            OnlChargeReq onl = new OnlChargeReq();
+            onl.setReqId(System.currentTimeMillis() + i);
+            onl.setOrderId(System.currentTimeMillis() + i);
+            onl.setBillId(System.currentTimeMillis() + i);
+            onl.setUserId(567L + i);
+            onl.setAgentId(105094L);
+            onl.setOwnerId(10001L);
+            onl.setAmount((long) (new Random().nextInt(5000)));
+            onl.setCurrency("人民币");
+            onl.setRate(45);
+            onl.setMerchantCode(1000L);
+            onl.setMerchantName("银联");
+            onl.setPaySystemCode(50000);
+            onl.setPaySystemName("小军");
+            onl.setProduceTime(System.currentTimeMillis());
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(DATA_TYPE, KafkaConf.DataType.PLUTUS_ONL_CHARGE.type());
+            jsonObject.put(DATA, onl);
+            template.send(TOPIC, jsonObject.toJSONString());
+        }
+
+
+//        for (int i = 0; i < 10; i++) {
+//            OnlChargeReq onl = new OnlChargeReq();
+//            onl.setReqId(System.currentTimeMillis() + i);
+//            onl.setOrderId(System.currentTimeMillis() + i);
+//            onl.setBillId(System.currentTimeMillis() + i);
+//            onl.setUserId(988L + i);
+//            onl.setAgentId(105094L);
+//            onl.setOwnerId(10001L);
+//            onl.setAmount((long) (new Random().nextInt(5000)));
+//            onl.setCurrency("人民币");
+//            onl.setRate(45);
+//            onl.setMerchantCode(1000L);
+//            onl.setMerchantName("银联");
+//            onl.setPaySystemCode(50000);
+//            onl.setPaySystemName("小军");
+//            onl.setProduceTime(System.currentTimeMillis());
+//
+//            JSONObject jsonObject = new JSONObject();
+//            jsonObject.put(DATA_TYPE, KafkaConf.DataType.PLUTUS_ONL_CHARGE.type());
+//            jsonObject.put(DATA, onl);
+//            template.send(TOPIC, jsonObject.toJSONString());
+//        }
+
+
     }
 
     @Test
@@ -334,12 +384,12 @@ public class KafkaProducerTest {
 
     @Test
     public void testLotteryReq() {
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 20; i++) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("DataType", KafkaConf.DataType.PLUTUS_SPORT.type());
             LotteryReq req = new LotteryReq();
             req.setReqId(System.currentTimeMillis() + i);
-            req.setUserId(2000001L + i);
+            req.setUserId(899L);
             req.setOwnerId(10001L);
             req.setBetId(System.currentTimeMillis() + i);
             req.setBcBetId(System.currentTimeMillis() + i * 100);
@@ -356,8 +406,35 @@ public class KafkaProducerTest {
             req.setPlayType("特别号");
 
 
-            jsonObject.put(DATA, req);
-            template.send("cruis_capital", JSON.toJSONString(jsonObject));
+            jsonObject.put("Record", req);
+            template.send("LOTTERY", JSON.toJSONString(jsonObject));
+            System.out.println(JSON.toJSONString(req));
+        }
+
+        for (int i = 0; i < 20; i++) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("DataType", KafkaConf.DataType.PLUTUS_SPORT.type());
+            LotteryReq req = new LotteryReq();
+            req.setReqId(System.currentTimeMillis() + i);
+            req.setUserId(512L);
+            req.setOwnerId(10001L);
+            req.setBetId(System.currentTimeMillis() + i);
+            req.setBcBetId(System.currentTimeMillis() + i * 100);
+            req.setGameId(100L +i);
+            req.setInsertDatetime(System.currentTimeMillis());
+            req.setUpdateDatetime(System.currentTimeMillis());
+            req.setBetDatetime(System.currentTimeMillis());
+            req.setBetAmount(100L);
+            req.setValidBetAmount(1000L);
+            req.setPayoff(10L);
+
+            req.setDetail("第201705060025期 特别号@48");
+            req.setLotteryType("重庆时时彩");
+            req.setPlayType("特别号");
+
+
+            jsonObject.put("Record", req);
+            template.send("LOTTERY", JSON.toJSONString(jsonObject));
             System.out.println(JSON.toJSONString(req));
         }
     }

@@ -21,14 +21,14 @@ public class CriusThirdThriftService {
     private ThriftFactory thriftFactory;
 
     /**
-     * 会员注册
+     * 拉取游戏列表
      * @param body
      * @param caller
      * @return
      */
-    public EGResp findGames(String body, String caller) {
+    public EGResp getAllGames(String body, String caller) {
         //todo
-        EGReq egReq = assembleEGReq(CmdType.GAME, 0x100001, body);
+        EGReq egReq = assembleEGReq(CmdType.GAME, 0x600004, body);
         return thriftFactory.call(egReq, caller);
     }
 

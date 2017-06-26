@@ -1,5 +1,6 @@
 package com.magic.crius.storage.mongo.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.SymbolTable;
 import com.magic.api.commons.ApiLogger;
@@ -50,7 +51,7 @@ public class MemberConditionVoMongoServiceImpl implements MemberConditionVoMongo
 
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("MemberCondition capital error , vo : " + JSON.toJSONString(vo));
         }
         return false;
     }

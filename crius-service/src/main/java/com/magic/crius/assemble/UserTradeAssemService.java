@@ -2,14 +2,17 @@ package com.magic.crius.assemble;
 
 import com.magic.analysis.enums.ActionType;
 import com.magic.api.commons.tools.DateUtil;
+import com.magic.crius.po.UserOrderDetail;
 import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.UserTradeService;
 import com.magic.crius.vo.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * User: joey
@@ -24,8 +27,16 @@ public class UserTradeAssemService {
     @Resource
     private UserTradeService userTradeService;
 
-    public boolean batchSave(Collection<UserTrade> userTrades) {
-        return userTradeService.batchSave(userTrades);
+    public boolean batchSave(List<UserTrade> userTrades) {
+        if (userTrades != null && userTrades.size() > 0) {
+            List<Long> userIds = new ArrayList<>();
+            for (UserTrade orderDetail : userTrades) {
+                userIds.add(orderDetail.getUserId());
+            }
+            System.out.println("userTrade size : " + userTrades.size() + " userIds.size : " + userIds.size());
+            return userTradeService.batchSave(userTrades, userIds);
+        }
+        return false;
     }
 
     public UserTrade assembleUserTrade(CashbackReq req) {
