@@ -100,7 +100,7 @@ public class KafkaProducerTest {
             discount.setReqId(System.currentTimeMillis() + i);
             discount.setUserId(2000001L + i);
             discount.setAgentId(105094L);
-            discount.setAmount((long) (new Random().nextInt(500)));
+            discount.setOfferAmount((long) (new Random().nextInt(500)));
             discount.setCurrency("人民币");
             discount.setRate(87);
             discount.setNeedBettAmount(new Random().nextInt(300));
@@ -152,7 +152,7 @@ public class KafkaProducerTest {
             onl.setUserId(455L + i);
             onl.setAgentId(105094L);
             onl.setOwnerId(10001L);
-            onl.setAmount((long) (new Random().nextInt(5000)));
+            onl.setChargeAmount((long) (new Random().nextInt(5000)));
             onl.setCurrency("人民币");
             onl.setRate(45);
             onl.setMerchantCode(1000L);
@@ -176,7 +176,7 @@ public class KafkaProducerTest {
             onl.setUserId(567L + i);
             onl.setAgentId(105094L);
             onl.setOwnerId(10001L);
-            onl.setAmount((long) (new Random().nextInt(5000)));
+            onl.setChargeAmount((long) (new Random().nextInt(5000)));
             onl.setCurrency("人民币");
             onl.setRate(45);
             onl.setMerchantCode(1000L);

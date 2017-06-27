@@ -79,7 +79,7 @@ public class BaseOrderReqConsumer {
         int countNum = 0;
         List<BaseOrderReq> reqList = baseOrderReqService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            logger.debug("baseOrderReqConsumer pop datas, size : "+reqList.size());
+            System.out.println("baseOrderReqConsumer pop datas, size : "+reqList.size());
             flushData(reqList);
             reqList = baseOrderReqService.batchPopRedis(date);
             try {

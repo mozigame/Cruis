@@ -88,7 +88,7 @@ public class PreWithdrawReqConsumer {
         int countNum = 0;
         List<PreWithdrawReq> reqList = preWithdrawService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            logger.debug("preWithdrawReqConsumer pop datas, size : "+reqList.size());
+            System.out.println("preWithdrawReqConsumer pop datas, size : "+reqList.size());
             flushData(reqList);
             reqList = preWithdrawService.batchPopRedis(date);
             try {

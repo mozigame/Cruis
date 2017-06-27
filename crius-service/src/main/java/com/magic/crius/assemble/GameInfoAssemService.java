@@ -45,7 +45,7 @@ public class GameInfoAssemService {
 
                 }
             }
-            logger.debug("插入所有游戏" +(System.currentTimeMillis() - startTime));
+            System.out.println("插入所有游戏" +(System.currentTimeMillis() - startTime));
 
         }
     }

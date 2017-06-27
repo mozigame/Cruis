@@ -73,7 +73,7 @@ public class JpReqConsumer {
         int countNum = 0;
         List<JpReq> reqList = jpReqService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            logger.debug("jpReqConsumer pop datas, size : "+reqList.size());
+            System.out.println("jpReqConsumer pop datas, size : "+reqList.size());
             flushData(reqList);
             reqList = jpReqService.batchPopRedis(date);
             try {

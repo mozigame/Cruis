@@ -86,7 +86,7 @@ public class OnlChargeReqConsumer {
         int countNum = 0;
         List<OnlChargeReq> reqList = onlChargeService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            logger.debug("onlChargeReqConsumer pop datas, size : "+reqList.size());
+            System.out.println("onlChargeReqConsumer pop datas, size : "+reqList.size());
             flushData(reqList);
             reqList = onlChargeService.batchPopRedis(date);
             try {

@@ -83,7 +83,7 @@ public class CashbackReqConsumer {
         int countNum = 0;
         List<CashbackReq> reqList = cashbackReqService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            logger.debug("cashbackReqConsumer pop datas, size : "+reqList.size());
+            System.out.println("cashbackReqConsumer pop datas, size : "+reqList.size());
             flushData(reqList);
             reqList = cashbackReqService.batchPopRedis(date);
             try {

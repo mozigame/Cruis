@@ -81,7 +81,7 @@ public class CapitalConsumer {
         try {
             Optional<?> kafkaMessage = Optional.ofNullable(record.value());
             if (kafkaMessage.isPresent()) {
-                logger.debug("get kafka data :>>>  " + record.toString());
+                System.out.println("get kafka data :>>>  " + record.toString());
                 JSONObject object = JSON.parseObject(record.value().toString());
                 EGameReq eGameReq = JSON.parseObject(object.getString(RECORD), EGameReq.class);
                 eGameReq.setReqId(eGameReq.getBcBetId());
@@ -103,7 +103,7 @@ public class CapitalConsumer {
         try {
             Optional<?> kafkaMessage = Optional.ofNullable(record.value());
             if (kafkaMessage.isPresent()) {
-                logger.debug("get kafka data :>>>  " + record.toString());
+                System.out.println("get kafka data :>>>  " + record.toString());
                 JSONObject object = JSON.parseObject(record.value().toString());
                 VGameReq vGameReq = JSON.parseObject(object.getString(RECORD), VGameReq.class);
                 vGameReq.setReqId(vGameReq.getBcBetId());
@@ -125,7 +125,7 @@ public class CapitalConsumer {
         try {
             Optional<?> kafkaMessage = Optional.ofNullable(record.value());
             if (kafkaMessage.isPresent()) {
-                logger.debug("get kafka data :>>>  " + record.toString());
+                System.out.println("get kafka data :>>>  " + record.toString());
                 JSONObject object = JSON.parseObject(record.value().toString());
                 SportReq sportReq = JSON.parseObject(object.getString(RECORD), SportReq.class);
                 sportReq.setReqId(sportReq.getBcBetId());
@@ -148,7 +148,7 @@ public class CapitalConsumer {
         try {
             Optional<?> kafkaMessage = Optional.ofNullable(record.value());
             if (kafkaMessage.isPresent()) {
-                logger.debug("get kafka data :>>>  " + record.toString());
+                System.out.println("get kafka data :>>>  " + record.toString());
                 JSONObject object = JSON.parseObject(record.value().toString());
                 LotteryReq lotteryReq = JSON.parseObject(object.getString(RECORD), LotteryReq.class);
                 lotteryReq.setReqId(lotteryReq.getBcBetId());
@@ -167,7 +167,7 @@ public class CapitalConsumer {
      * @param record
      */
     private void transData(ConsumerRecord<?, ?> record) {
-        logger.debug("get kafka data :>>>  " + record.toString());
+        System.out.println("get kafka data :>>>  " + record.toString());
         JSONObject object = JSON.parseObject(record.value().toString());
         KafkaConf.DataType type = KafkaConf.DataType.parse(object.getInteger(KafkaConf.DATA_TYPE));
         switch (type) {

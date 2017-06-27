@@ -81,7 +81,7 @@ public class OperateWithDrawReqConsumer {
         int countNum = 0;
         List<OperateWithDrawReq> reqList = operateWithDrawReqService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            logger.debug("operateWithDrawReqConsumer pop datas, size : "+reqList.size());
+            System.out.println("operateWithDrawReqConsumer pop datas, size : "+reqList.size());
             flushData(reqList);
             reqList = operateWithDrawReqService.batchPopRedis(date);
             try {

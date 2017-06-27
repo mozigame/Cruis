@@ -43,7 +43,7 @@ public class MemberConditionVoMongoServiceImpl implements MemberConditionVoMongo
 
             MemberConditionVo findVo = memberConditionVoMongoDao.findOne(query);
             if (findVo == null) {
-                logger.debug("find memberConditionVo null, memberId :"+vo.getMemberId());
+                System.out.println("find memberConditionVo null, memberId :"+vo.getMemberId());
                 return false;
             }
             Update update = new Update();

@@ -34,7 +34,7 @@ public class UserTradeAssemService {
             for (UserTrade orderDetail : userTrades) {
                 userIds.add(orderDetail.getUserId());
             }
-            logger.debug("userTrade size : " + userTrades.size() + " userIds.size : " + userIds.size());
+            System.out.println("userTrade size : " + userTrades.size() + " userIds.size : " + userIds.size());
             return userTradeService.batchSave(userTrades, userIds);
         }
         return false;

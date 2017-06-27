@@ -101,7 +101,7 @@ public class PreCmpChargeReqConsumer {
         int countNum = 0;
         List<PreCmpChargeReq> reqList = preCmpChargeService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            logger.debug("preCmpChargeReqConsumer pop datas, size : "+reqList.size());
+            System.out.println("preCmpChargeReqConsumer pop datas, size : "+reqList.size());
             flushData(reqList);
             reqList = preCmpChargeService.batchPopRedis(date);
             try {
