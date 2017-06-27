@@ -76,7 +76,7 @@ public class CapitalConsumer {
      * eGame
      * @param record
      */
-    @KafkaListener(topics = {"EGAME","egame"}, group = KafkaConf.CAPITAL_GROUP)
+    @KafkaListener(topics = {"EGAME"}, group = KafkaConf.CAPITAL_GROUP)
     public void eGameListen(ConsumerRecord<?, ?> record) {
         try {
             Optional<?> kafkaMessage = Optional.ofNullable(record.value());
@@ -98,7 +98,7 @@ public class CapitalConsumer {
      * vGame
      * @param record
      */
-    @KafkaListener(topics = {"VGAME","vgame"}, group = KafkaConf.CAPITAL_GROUP)
+    @KafkaListener(topics = {"VGAME"}, group = KafkaConf.CAPITAL_GROUP)
     public void vGameListen(ConsumerRecord<?, ?> record) {
         try {
             Optional<?> kafkaMessage = Optional.ofNullable(record.value());
@@ -120,7 +120,7 @@ public class CapitalConsumer {
      * sports
      * @param record
      */
-    @KafkaListener(topics = {"SPORTS","sports"}, group = KafkaConf.CAPITAL_GROUP)
+    @KafkaListener(topics = {"SPORTS"}, group = KafkaConf.CAPITAL_GROUP)
     public void sportListen(ConsumerRecord<?, ?> record) {
         try {
             Optional<?> kafkaMessage = Optional.ofNullable(record.value());
@@ -143,7 +143,7 @@ public class CapitalConsumer {
      * LOTTERY
      * @param record
      */
-    @KafkaListener(topics = {"LOTTERY","lottery"}, group = KafkaConf.CAPITAL_GROUP)
+    @KafkaListener(topics = {"LOTTERY"}, group = KafkaConf.CAPITAL_GROUP)
     public void lotteryListen(ConsumerRecord<?, ?> record) {
         try {
             Optional<?> kafkaMessage = Optional.ofNullable(record.value());
