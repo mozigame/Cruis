@@ -10,6 +10,8 @@ import com.alibaba.fastjson.annotation.JSONField;
  */
 public class OperateWithDrawReq {
 
+    @JSONField(name = "BillId")
+    private Long billId;
     @JSONField(name = "ReqId")
     private Long reqId;
     @JSONField(name = "OwnerId")
@@ -119,5 +121,13 @@ public class OperateWithDrawReq {
 
     public void setOwnerId(Long ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public Long getBillId() {
+        return billId;
+    }
+
+    public void setBillId(Long billId) {
+        this.billId = billId;
     }
 }

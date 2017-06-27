@@ -10,6 +10,8 @@ import com.alibaba.fastjson.annotation.JSONField;
  */
 public class CashbackReq {
 
+    @JSONField(name = "BillId")
+    private Long billId;
     @JSONField(name = "ReqId")
     private Long reqId;
     @JSONField(name = "UserId")
@@ -149,5 +151,13 @@ public class CashbackReq {
 
     public void setProduceTime(Long produceTime) {
         this.produceTime = produceTime;
+    }
+
+    public Long getBillId() {
+        return billId;
+    }
+
+    public void setBillId(Long billId) {
+        this.billId = billId;
     }
 }

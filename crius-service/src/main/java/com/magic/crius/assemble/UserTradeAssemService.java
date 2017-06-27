@@ -44,7 +44,7 @@ public class UserTradeAssemService {
         UserTrade userTrade = new UserTrade();
         userTrade.setOwnerId(req.getOwnerId());
         userTrade.setUserId(req.getUserId());
-        userTrade.setTradeId(req.getReqId());
+        userTrade.setTradeId(req.getBillId());
         userTrade.setTradeNum(req.getAmount());
         //todo 账户余额
         userTrade.setTotalNum(0L);
@@ -60,7 +60,7 @@ public class UserTradeAssemService {
         UserTrade userTrade = new UserTrade();
         userTrade.setOwnerId(req.getOwnerId());
         userTrade.setUserId(req.getUserId());
-        userTrade.setTradeId(req.getReqId());
+        userTrade.setTradeId(req.getBillId());
         userTrade.setTradeNum(req.getOfferAmount());
         //todo 账户余额
         userTrade.setTotalNum(0L);
@@ -76,7 +76,7 @@ public class UserTradeAssemService {
         UserTrade userTrade = new UserTrade();
         userTrade.setOwnerId(req.getOwnerId());
         userTrade.setUserId(req.getUserId());
-        userTrade.setTradeId(req.getReqId());
+        userTrade.setTradeId(req.getBillId());
         userTrade.setTradeNum(req.getChargeAmount());
         //todo 账户余额
         userTrade.setTotalNum(0L);
@@ -92,7 +92,7 @@ public class UserTradeAssemService {
         UserTrade userTrade = new UserTrade();
         userTrade.setOwnerId(req.getOwnerId());
         userTrade.setUserId(userId);
-        userTrade.setTradeId(req.getReqId());
+        userTrade.setTradeId(req.getBillId());
         userTrade.setTradeNum(req.getAmount());
         //todo 账户余额
         userTrade.setTotalNum(0L);
@@ -108,7 +108,7 @@ public class UserTradeAssemService {
         UserTrade userTrade = new UserTrade();
         userTrade.setOwnerId(req.getOwnerId());
         userTrade.setUserId(userId);
-        userTrade.setTradeId(req.getReqId());
+        userTrade.setTradeId(req.getBillId());
         userTrade.setTradeNum(req.getAmount());
         //todo 账户余额
         userTrade.setTotalNum(0L);
@@ -124,7 +124,7 @@ public class UserTradeAssemService {
         UserTrade userTrade = new UserTrade();
         userTrade.setOwnerId(req.getOwnerId());
         userTrade.setUserId(req.getUserId());
-        userTrade.setTradeId(req.getReqId());
+        userTrade.setTradeId(req.getBillId());
         userTrade.setTradeNum(req.getAmount());
         //todo 账户余额
         userTrade.setTotalNum(0L);
@@ -140,7 +140,7 @@ public class UserTradeAssemService {
         UserTrade userTrade = new UserTrade();
         userTrade.setOwnerId(req.getOwnerId());
         userTrade.setUserId(req.getUserId());
-        userTrade.setTradeId(req.getReqId());
+        userTrade.setTradeId(req.getBillId());
         userTrade.setTradeNum(req.getAmount());
         //todo 账户余额
         userTrade.setTotalNum(0L);
