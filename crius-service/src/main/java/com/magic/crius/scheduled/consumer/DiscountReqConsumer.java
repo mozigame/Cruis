@@ -13,6 +13,7 @@ import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.DiscountReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.vo.DiscountReq;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -30,6 +31,8 @@ import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
 @Component
 public class DiscountReqConsumer {
 
+
+    private static final Logger logger = Logger.getLogger(DiscountReqConsumer.class);
 
     private ExecutorService userOutMoneyTaskPool = new ThreadPoolExecutor(10, 20, 3, TimeUnit.SECONDS,
             new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.DiscardPolicy());
@@ -82,7 +85,7 @@ public class DiscountReqConsumer {
         int countNum = 0;
         List<DiscountReq> reqList = discountReqService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            System.out.println("discountReqConsumer pop datas, size : "+reqList.size());
+            logger.debug("discountReqConsumer pop datas, size : "+reqList.size());
             flushData(reqList);
             reqList = discountReqService.batchPopRedis(date);
             try {
@@ -193,7 +196,7 @@ public class DiscountReqConsumer {
     private OwnerPreferentialDetail assembleOwnerPreferentialDetail(DiscountReq req) {
         OwnerPreferentialDetail ownerPreferentialDetail = new OwnerPreferentialDetail();
         ownerPreferentialDetail.setOwnerId(req.getOwnerId());
-        ownerPreferentialDetail.setPreferentialMoneyCount(req.getAmount());
+        ownerPreferentialDetail.setPreferentialMoneyCount(req.getOfferAmount());
         ownerPreferentialDetail.setPreferentialNum(1);
         ownerPreferentialDetail.setPreferentialType(req.getStatus());
         //TODO name 在何处获取
@@ -206,7 +209,7 @@ public class DiscountReqConsumer {
         UserPreferentialDetail detail = new UserPreferentialDetail();
         detail.setOwnerId(req.getOwnerId());
         detail.setUserId(req.getUserId());
-        detail.setPreferentialMoneyCount(req.getAmount());
+        detail.setPreferentialMoneyCount(req.getOfferAmount());
         //todo 优惠次数
         detail.setPreferentialNum(1);
         detail.setPreferentialType(req.getStatus());

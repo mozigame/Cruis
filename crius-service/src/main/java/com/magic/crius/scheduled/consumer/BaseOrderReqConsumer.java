@@ -13,6 +13,7 @@ import com.magic.crius.service.BaseOrderReqService;
 import com.magic.crius.service.DealerRewardReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.vo.BaseOrderReq;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -30,7 +31,7 @@ import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
 @Component
 public class BaseOrderReqConsumer {
 
-
+    private static final Logger logger = Logger.getLogger(BaseOrderReqConsumer.class);
     private ExecutorService userOutMoneyTaskPool = new ThreadPoolExecutor(10, 20, 3, TimeUnit.SECONDS,
             new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.DiscardPolicy());
     private ExecutorService userOutMoneyHistoryTaskPool = Executors.newSingleThreadExecutor();
@@ -78,7 +79,7 @@ public class BaseOrderReqConsumer {
         int countNum = 0;
         List<BaseOrderReq> reqList = baseOrderReqService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            System.out.println("baseOrderReqConsumer pop datas, size : "+reqList.size());
+            logger.debug("baseOrderReqConsumer pop datas, size : "+reqList.size());
             flushData(reqList);
             reqList = baseOrderReqService.batchPopRedis(date);
             try {

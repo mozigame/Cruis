@@ -6,6 +6,7 @@ import com.magic.crius.po.UserOrderDetail;
 import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.UserTradeService;
 import com.magic.crius.vo.*;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,7 +24,7 @@ import java.util.List;
 @Service
 public class UserTradeAssemService {
 
-
+    private static Logger logger = Logger.getLogger(UserTradeAssemService.class);
     @Resource
     private UserTradeService userTradeService;
 
@@ -33,7 +34,7 @@ public class UserTradeAssemService {
             for (UserTrade orderDetail : userTrades) {
                 userIds.add(orderDetail.getUserId());
             }
-            System.out.println("userTrade size : " + userTrades.size() + " userIds.size : " + userIds.size());
+            logger.debug("userTrade size : " + userTrades.size() + " userIds.size : " + userIds.size());
             return userTradeService.batchSave(userTrades, userIds);
         }
         return false;
@@ -60,7 +61,7 @@ public class UserTradeAssemService {
         userTrade.setOwnerId(req.getOwnerId());
         userTrade.setUserId(req.getUserId());
         userTrade.setTradeId(req.getReqId());
-        userTrade.setTradeNum(req.getAmount());
+        userTrade.setTradeNum(req.getOfferAmount());
         //todo 账户余额
         userTrade.setTotalNum(0L);
         userTrade.setTradeTime(req.getProduceTime());
@@ -76,7 +77,7 @@ public class UserTradeAssemService {
         userTrade.setOwnerId(req.getOwnerId());
         userTrade.setUserId(req.getUserId());
         userTrade.setTradeId(req.getReqId());
-        userTrade.setTradeNum(req.getAmount());
+        userTrade.setTradeNum(req.getChargeAmount());
         //todo 账户余额
         userTrade.setTotalNum(0L);
         userTrade.setTradeTime(req.getProduceTime());

@@ -6,6 +6,7 @@ import com.magic.crius.po.ProxyInfo;
 import com.magic.crius.service.ProxyInfoService;
 import com.magic.crius.service.dubbo.CriusOutDubboService;
 import com.magic.user.entity.User;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,6 +23,7 @@ import java.util.List;
 @Service
 public class ProxyInfoAssemService {
 
+    private static Logger logger = Logger.getLogger(ProxyInfoAssemService.class);
     @Resource
     private CriusOutDubboService criusOutDubboService;
     @Resource
@@ -37,8 +39,7 @@ public class ProxyInfoAssemService {
         List<ProxyInfo> proxyInfos = new ArrayList<>();
         List<User> list = criusOutDubboService.getDateAgents(startTime.getTimeInMillis(), endTime.getTime()); //获取账号系统中某个时间内的代理
         if (list != null && list.size() > 0) {
-            ApiLogger.info("get proxyInfoList ,size : " + list.size());
-            System.out.println("get proxyInfoList ,size : " + list.size());
+            logger.debug("get proxyInfoList ,size : " + list.size());
             for (User user : list) {
                 ProxyInfo proxyInfo = new ProxyInfo();
                 proxyInfo.setProxyId(user.getUserId());

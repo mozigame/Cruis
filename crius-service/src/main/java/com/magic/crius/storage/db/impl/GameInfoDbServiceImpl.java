@@ -3,13 +3,11 @@ package com.magic.crius.storage.db.impl;
 import com.magic.crius.dao.tethys.db.GameInfoMapper;
 import com.magic.crius.po.GameInfo;
 import com.magic.crius.storage.db.GameInfoDbService;
-import org.apache.ibatis.session.SqlSession;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 /**
  * User: joey
@@ -19,26 +17,44 @@ import java.util.Map;
 @Service
 public class GameInfoDbServiceImpl implements GameInfoDbService {
 
-    @Resource
-    private GameInfoMapper gameInfoMapper;
+    private static final Logger logger = Logger.getLogger(GameInfoDbServiceImpl.class);
+
+    @Resource(name = "tethysGameInfoMapper")
+    private GameInfoMapper tethysGameInfoMapper;
+
+    @Resource(name = "criusGameInfoMapper")
+    private com.magic.crius.dao.crius.db.GameInfoMapper criusGameInfoMapper;
 
     @Override
     public boolean batchSave(List<GameInfo> gameInfos) {
         try {
-            return gameInfoMapper.insertBatch(gameInfos) > 0;
+            if (tethysGameInfoMapper.insertBatch(gameInfos) <= 0) {
+                logger.warn("tethysGameInfoMapper insert gameInfos failed ");
+            }
         } catch (Exception e) {
+            logger.error("criusGameInfoMapper insert gameInfos error ",e);
             e.printStackTrace();
         }
-        return false;
+        if (criusGameInfoMapper.insertBatch(gameInfos) <= 0) {
+            logger.warn("criusGameInfoMapper insert gameInfos failed ");
+            return false;
+        }
+        return true;
     }
 
     @Override
     public boolean deleteAll() {
         try {
-            return gameInfoMapper.deleteAll();
+            if (!tethysGameInfoMapper.deleteAll()) {
+                logger.warn("tethysGameInfoMapper deleteall gameInfos failed ");
+            }
         } catch (Exception e) {
+            logger.warn("tethysGameInfoMapper deleteall gameInfos error ");
             e.printStackTrace();
         }
-        return false;
+        if (!criusGameInfoMapper.deleteAll()) {
+            logger.warn("criusGameInfoMapper deleteall gameInfos failed ");
+        }
+        return true;
     }
 }

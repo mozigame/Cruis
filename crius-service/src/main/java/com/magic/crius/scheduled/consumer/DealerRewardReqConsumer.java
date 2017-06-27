@@ -17,6 +17,7 @@ import com.magic.crius.service.RepairLockService;
 import com.magic.crius.vo.DealerRewardReq;
 import com.magic.crius.vo.OperateWithDrawReq;
 import com.magic.crius.vo.PreCmpChargeReq;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -33,7 +34,7 @@ import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
  */
 @Component
 public class DealerRewardReqConsumer {
-
+    private static final Logger logger = Logger.getLogger(DealerRewardReqConsumer.class);
 
     private ExecutorService userOutMoneyTaskPool = new ThreadPoolExecutor(10, 20, 3, TimeUnit.SECONDS,
             new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.DiscardPolicy());
@@ -81,7 +82,7 @@ public class DealerRewardReqConsumer {
         int countNum = 0;
         List<DealerRewardReq> reqList = dealerRewardReqService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            System.out.println("dealerReqConsumer pop datas, size : "+reqList.size());
+            logger.debug("dealerReqConsumer pop datas, size : "+reqList.size());
             flushData(reqList);
             reqList = dealerRewardReqService.batchPopRedis(date);
             try {

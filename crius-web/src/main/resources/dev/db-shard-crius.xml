@@ -58,7 +58,7 @@
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.magic.passport.dao"/>
+        <property name="basePackage" value="com.magic.crius.dao.tethys.db"/>
         <property name="sqlSessionFactoryBeanName" value="mySqlSessionFactory_0"/>
     </bean>
 

@@ -11,6 +11,7 @@ import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.OperateChargeReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.vo.OperateChargeReq;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -28,6 +29,7 @@ import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
 @Service
 public class OperateChargeReqConsumer {
 
+    private static final Logger logger = Logger.getLogger(OperateChargeReqConsumer.class);
 
     private ExecutorService userOutMoneyTaskPool = new ThreadPoolExecutor(10, 20, 3, TimeUnit.SECONDS,
             new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.DiscardPolicy());
@@ -78,7 +80,7 @@ public class OperateChargeReqConsumer {
         int countNum = 0;
         List<OperateChargeReq> reqList = operateChargeService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            System.out.println("operateChargeReqConsumer pop datas, size : "+reqList.size());
+            logger.debug("operateChargeReqConsumer pop datas, size : "+reqList.size());
             flushData(reqList);
             reqList = operateChargeService.batchPopRedis(date);
             try {

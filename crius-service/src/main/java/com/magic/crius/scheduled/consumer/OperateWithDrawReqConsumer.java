@@ -11,6 +11,7 @@ import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.OperateWithDrawReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.vo.OperateWithDrawReq;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,8 @@ import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
  */
 @Component
 public class OperateWithDrawReqConsumer {
+
+    private static final Logger logger = Logger.getLogger(OperateWithDrawReqConsumer.class);
 
 
     private ExecutorService userOutMoneyTaskPool = new ThreadPoolExecutor(10, 20, 3, TimeUnit.SECONDS,
@@ -78,7 +81,7 @@ public class OperateWithDrawReqConsumer {
         int countNum = 0;
         List<OperateWithDrawReq> reqList = operateWithDrawReqService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            System.out.println("operateWithDrawReqConsumer pop datas, size : "+reqList.size());
+            logger.debug("operateWithDrawReqConsumer pop datas, size : "+reqList.size());
             flushData(reqList);
             reqList = operateWithDrawReqService.batchPopRedis(date);
             try {

@@ -8,6 +8,7 @@ import com.magic.crius.po.*;
 import com.magic.crius.service.JpReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.vo.JpReq;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -24,6 +25,8 @@ import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
  */
 @Component
 public class JpReqConsumer {
+
+    private static final Logger logger = Logger.getLogger(JpReqConsumer.class);
 
     private ExecutorService userOutMoneyTaskPool = new ThreadPoolExecutor(10, 20, 3, TimeUnit.SECONDS,
             new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.DiscardPolicy());
@@ -70,7 +73,7 @@ public class JpReqConsumer {
         int countNum = 0;
         List<JpReq> reqList = jpReqService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            System.out.println("jpReqConsumer pop datas, size : "+reqList.size());
+            logger.debug("jpReqConsumer pop datas, size : "+reqList.size());
             flushData(reqList);
             reqList = jpReqService.batchPopRedis(date);
             try {

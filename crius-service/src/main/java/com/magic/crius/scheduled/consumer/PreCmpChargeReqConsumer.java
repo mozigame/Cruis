@@ -18,6 +18,7 @@ import com.magic.crius.util.CriusLog;
 import com.magic.crius.vo.OperateWithDrawReq;
 import com.magic.crius.vo.PreCmpChargeReq;
 import com.magic.user.vo.MemberConditionVo;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -36,6 +37,7 @@ import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
 @Component
 public class PreCmpChargeReqConsumer {
 
+    private static final Logger logger = Logger.getLogger(PreCmpChargeReqConsumer.class);
 
     private ExecutorService userOutMoneyTaskPool = new ThreadPoolExecutor(10, 20, 4, TimeUnit.SECONDS,
             new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.DiscardPolicy());
@@ -99,7 +101,7 @@ public class PreCmpChargeReqConsumer {
         int countNum = 0;
         List<PreCmpChargeReq> reqList = preCmpChargeService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            System.out.println("preCmpChargeReqConsumer pop datas, size : "+reqList.size());
+            logger.debug("preCmpChargeReqConsumer pop datas, size : "+reqList.size());
             flushData(reqList);
             reqList = preCmpChargeService.batchPopRedis(date);
             try {

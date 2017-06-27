@@ -14,6 +14,7 @@ import com.magic.crius.service.PreWithdrawReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.vo.PreWithdrawReq;
 import com.magic.user.vo.MemberConditionVo;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -31,6 +32,7 @@ import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
 @Component
 public class PreWithdrawReqConsumer {
 
+    private static final Logger logger = Logger.getLogger(PreWithdrawReqConsumer.class);
 
     private ExecutorService userOutMoneyTaskPool = new ThreadPoolExecutor(10, 20, 3, TimeUnit.SECONDS,
             new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.DiscardPolicy());
@@ -86,7 +88,7 @@ public class PreWithdrawReqConsumer {
         int countNum = 0;
         List<PreWithdrawReq> reqList = preWithdrawService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            System.out.println("preWithdrawReqConsumer pop datas, size : "+reqList.size());
+            logger.debug("preWithdrawReqConsumer pop datas, size : "+reqList.size());
             flushData(reqList);
             reqList = preWithdrawService.batchPopRedis(date);
             try {

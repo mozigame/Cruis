@@ -22,8 +22,8 @@ public class OnlChargeReq {
     private Long agentId;
     @JSONField(name = "OwnerId")
     private Long ownerId;
-    @JSONField(name = "Amount")
-    private Long amount;    //充值金额
+    @JSONField(name = "ChargeAmount")
+    private Long chargeAmount;    //充值金额
     @JSONField(name = "Currency")
     private String currency;
     @JSONField(name = "Rate")
@@ -79,12 +79,12 @@ public class OnlChargeReq {
         this.ownerId = ownerId;
     }
 
-    public Long getAmount() {
-        return amount;
+    public Long getChargeAmount() {
+        return chargeAmount;
     }
 
-    public void setAmount(Long amount) {
-        this.amount = amount;
+    public void setChargeAmount(Long chargeAmount) {
+        this.chargeAmount = chargeAmount;
     }
 
     public String getCurrency() {

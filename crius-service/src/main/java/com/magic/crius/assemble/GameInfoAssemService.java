@@ -6,6 +6,7 @@ import com.magic.config.thrift.base.EGResp;
 import com.magic.crius.po.GameInfo;
 import com.magic.crius.service.GameInfoService;
 import com.magic.crius.service.thrift.CriusThirdThriftService;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -20,6 +21,7 @@ import java.util.List;
 @Component
 public class GameInfoAssemService {
 
+    private static Logger logger = Logger.getLogger(GameInfoAssemService.class);
     @Resource
     private CriusThirdThriftService criusThirdThriftService;
     @Resource
@@ -43,7 +45,7 @@ public class GameInfoAssemService {
 
                 }
             }
-            System.out.println("插入所有游戏" +(System.currentTimeMillis() - startTime));
+            logger.debug("插入所有游戏" +(System.currentTimeMillis() - startTime));
 
         }
     }

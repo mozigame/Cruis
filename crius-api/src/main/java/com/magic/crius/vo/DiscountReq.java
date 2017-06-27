@@ -18,8 +18,8 @@ public class DiscountReq {
     private Long agentId;
     @JSONField(name = "OwnerId")
     private Long ownerId;
-    @JSONField(name = "Amount")
-    private Long amount;//优惠赠送额度
+    @JSONField(name = "OfferAmount")
+    private Long offerAmount;//优惠赠送额度
     @JSONField(name = "Currency")
     private String currency;//币种
     @JSONField(name = "Rate")
@@ -63,12 +63,12 @@ public class DiscountReq {
         this.ownerId = ownerId;
     }
 
-    public Long getAmount() {
-        return amount;
+    public Long getOfferAmount() {
+        return offerAmount;
     }
 
-    public void setAmount(Long amount) {
-        this.amount = amount;
+    public void setOfferAmount(Long offerAmount) {
+        this.offerAmount = offerAmount;
     }
 
     public String getCurrency() {

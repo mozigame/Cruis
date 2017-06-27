@@ -11,8 +11,10 @@ import com.magic.crius.po.RepairLock;
 import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.CashbackReqService;
 import com.magic.crius.service.RepairLockService;
+import com.magic.crius.storage.mongo.impl.MemberConditionVoMongoServiceImpl;
 import com.magic.crius.vo.CashbackReq;
 import com.magic.crius.vo.OperateWithDrawReq;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -30,7 +32,7 @@ import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
 @Component
 public class CashbackReqConsumer {
 
-
+    private static final Logger logger = Logger.getLogger(CashbackReqConsumer.class);
 
     private ExecutorService userOutMoneyTaskPool = new ThreadPoolExecutor(10, 20, 3, TimeUnit.SECONDS,
             new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.DiscardPolicy());
@@ -81,7 +83,7 @@ public class CashbackReqConsumer {
         int countNum = 0;
         List<CashbackReq> reqList = cashbackReqService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            System.out.println("cashbackReqConsumer pop datas, size : "+reqList.size());
+            logger.debug("cashbackReqConsumer pop datas, size : "+reqList.size());
             flushData(reqList);
             reqList = cashbackReqService.batchPopRedis(date);
             try {

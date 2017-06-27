@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.magic.crius.dao.crius.db.GameInfoMapper">
+    <resultMap id="BaseResultMap" type="com.magic.crius.po.GameInfo">
+        <id column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="game_id" jdbcType="VARCHAR" property="gameId"/>
+        <result column="game_name" jdbcType="VARCHAR" property="gameName"/>
+        <result column="game_type" jdbcType="VARCHAR" property="gameType"/>
+        <result column="game_type_name" jdbcType="VARCHAR" property="gameTypeName"/>
+        <result column="game_factory_type" jdbcType="VARCHAR" property="gameFactoryType"/>
+        <result column="game_factory_type_name" jdbcType="VARCHAR" property="gameFactoryTypeName"/>
+        <result column="game_abstract_type" jdbcType="VARCHAR" property="gameAbstractType"/>
+        <result column="game_abstract_type_name" jdbcType="VARCHAR" property="gameAbstractTypeName"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    Id, game_id, game_name, game_type, game_type_name, game_factory_type, game_factory_type_name, 
+    game_abstract_type, game_abstract_type_name
+  </sql>
+
+
+
+
+    <insert id="insert" parameterType="com.magic.crius.po.GameInfo">
+        insert into game_info ( game_id, game_name,
+          game_type, game_type_name, game_factory_type,
+          game_factory_type_name, game_abstract_type,
+          game_abstract_type_name
+          )
+        values ( #{gameId,jdbcType=VARCHAR}, #{gameName,jdbcType=VARCHAR},
+          #{gameType,jdbcType=VARCHAR}, #{gameTypeName,jdbcType=VARCHAR}, #{gameFactoryType,jdbcType=VARCHAR},
+          #{gameFactoryTypeName,jdbcType=VARCHAR}, #{gameAbstractType,jdbcType=VARCHAR},
+          #{gameAbstractTypeName,jdbcType=VARCHAR}
+          )
+    </insert>
+
+    <!--批量添加游戏基础信息-->
+    <insert id="insertBatch" >
+        insert into game_info ( game_id, game_name,
+        game_type, game_type_name, game_factory_type,
+        game_factory_type_name, game_abstract_type,
+        game_abstract_type_name
+        )
+        values
+        <foreach collection="param" item="param" separator=",">
+          ( #{param.gameId,jdbcType=VARCHAR},
+            #{param.gameName,jdbcType=VARCHAR},
+            #{param.gameType,jdbcType=VARCHAR},
+            #{param.gameTypeName,jdbcType=VARCHAR},
+            #{param.gameFactoryType,jdbcType=VARCHAR},
+            #{param.gameFactoryTypeName,jdbcType=VARCHAR},
+            #{param.gameAbstractType,jdbcType=VARCHAR},
+            #{param.gameAbstractTypeName,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+
+
+    <!--删除所有游戏信息-->
+    <delete id="deleteAll">
+        DELETE FROM game_info where 1=1
+    </delete>
+
+
+</mapper>

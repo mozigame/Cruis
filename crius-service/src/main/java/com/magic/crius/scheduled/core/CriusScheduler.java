@@ -35,6 +35,8 @@ public class CriusScheduler {
 
     private static final int gameListPullRate = 1000 * 60 * 60 * 2;
 
+    private static final int gameListPullInitDelay = 1000 * 60 * 60;
+
     /*用户充值成功*/
     @Resource
     private OnlChargeReqConsumer onlChargeReqConsumer;
@@ -211,9 +213,9 @@ public class CriusScheduler {
     }
 
     /**
-     *  定时拉取游戏列表
+     * 定时拉取游戏列表
      */
-    @Scheduled(fixedRate = gameListPullRate)
+    @Scheduled(initialDelay = gameListPullInitDelay, fixedRate = gameListPullRate)
     public void gameInfoPullSchedule() {
         try {
             gameInfoAssemService.getAllGames();
@@ -236,10 +238,7 @@ public class CriusScheduler {
     }
 
 
-
-
-
-//    @Scheduled(fixedRate = 1000 * 10)
+    //    @Scheduled(fixedRate = 1000 * 10)
     public void sendKafkaMessage() {
 
         ListenableFuture<SendResult<Integer, String>> future = kafkaTemplate.send("cruis_capital", DateUtil.formatDateTime(new Date(), DateUtil.formatDefaultTimestamp));

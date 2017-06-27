@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * tethys 中的gameInfo
  */
-@Component
+@Component("tethysGameInfoMapper")
 public class GameInfoMapper extends MyBatisDaoImpl<GameInfo, Long> {
 
     public Long insertBatch(List<GameInfo> gameInfos) {

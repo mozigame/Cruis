@@ -12,6 +12,7 @@ import com.magic.crius.service.OnlChargeReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.vo.OnlChargeReq;
 import com.magic.user.vo.MemberConditionVo;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -29,6 +30,7 @@ import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
 @Component
 public class OnlChargeReqConsumer {
 
+    private static final Logger logger = Logger.getLogger(OnlChargeReqConsumer.class);
 
     private ExecutorService userOutMoneyTaskPool = new ThreadPoolExecutor(10, 20, 3, TimeUnit.SECONDS,
             new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.DiscardPolicy());
@@ -84,7 +86,7 @@ public class OnlChargeReqConsumer {
         int countNum = 0;
         List<OnlChargeReq> reqList = onlChargeService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            System.out.println("onlChargeReqConsumer pop datas, size : "+reqList.size());
+            logger.debug("onlChargeReqConsumer pop datas, size : "+reqList.size());
             flushData(reqList);
             reqList = onlChargeService.batchPopRedis(date);
             try {
@@ -120,7 +122,7 @@ public class OnlChargeReqConsumer {
                 } else {
                     MemberConditionVo vo  = memberConditionVoMap.get(req.getUserId());
                     vo.setDepositCount(vo.getDepositCount() + 1);
-                    vo.setDepositMoney(vo.getDepositMoney() + req.getAmount());
+                    vo.setDepositMoney(vo.getDepositMoney() + req.getChargeAmount());
                 }
 
                 /*成功的数据*/
@@ -205,7 +207,7 @@ public class OnlChargeReqConsumer {
     private OwnerOnlineFlowDetail assembleOwnerOnlineFlowDetail(OnlChargeReq req) {
         OwnerOnlineFlowDetail flow = new OwnerOnlineFlowDetail();
         flow.setOwnerId(req.getOwnerId());
-        flow.setOperateFlowMoneyCount(req.getAmount());
+        flow.setOperateFlowMoneyCount(req.getChargeAmount());
         //todo
         flow.setOperateFlowNum(1);
         flow.setMerchantCode(req.getMerchantCode());
@@ -222,7 +224,7 @@ public class OnlChargeReqConsumer {
         detail.setUserId(req.getUserId());
         detail.setMerchantCode(req.getMerchantCode());
         detail.setMerchantName(req.getMerchantName());
-        detail.setOrderCount(req.getAmount());
+        detail.setOrderCount(req.getChargeAmount());
         //Todo 待确定
         detail.setState(0);
         //todo 待确定

@@ -57,9 +57,9 @@ public class MemberConditionVoAssemService {
         vo.setMemberId(req.getUserId());
         vo.setAgentId(req.getAgentId());
         vo.setDepositCount(1);
-        vo.setDepositMoney(req.getAmount());
-        vo.setLastDepositMoney(req.getAmount());
-        vo.setMaxDepositMoney(req.getAmount().intValue());
+        vo.setDepositMoney(req.getChargeAmount());
+        vo.setLastDepositMoney(req.getChargeAmount());
+        vo.setMaxDepositMoney(req.getChargeAmount().intValue());
         return vo;
     }
     public MemberConditionVo assembleDepositMVo(PreCmpChargeReq req) {

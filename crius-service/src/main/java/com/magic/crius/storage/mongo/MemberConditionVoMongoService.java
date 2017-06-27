@@ -4,6 +4,7 @@ import com.magic.crius.vo.UserLevelReq;
 import com.magic.user.vo.MemberConditionVo;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * User: joey
@@ -34,4 +35,11 @@ public interface MemberConditionVoMongoService {
      */
     boolean updateLevel(UserLevelReq userLevelReq);
 
+    /**
+     * 获取一段时间内的会员的层级列表
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    List<MemberConditionVo> findLevels(Long startTime, Long endTime);
 }
