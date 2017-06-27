@@ -20,7 +20,7 @@ public class PreWithdrawReq {
     private Long agentId;
     @JSONField(name = "OwnerId")
     private Long ownerId;
-    @JSONField(name = "Amount")
+    @JSONField(name = "ReqWithdrawAmount")
     private Long amount;
     @JSONField(name = "UserLevel")
     private Long userLevel;

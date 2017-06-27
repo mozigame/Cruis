@@ -80,7 +80,7 @@ public class OperateChargeReqConsumer {
         int countNum = 0;
         List<OperateChargeReq> reqList = operateChargeService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            System.out.println("operateChargeReqConsumer pop datas, size : "+reqList.size());
+            logger.debug("operateChargeReqConsumer pop datas, size : "+reqList.size());
             flushData(reqList);
             reqList = operateChargeService.batchPopRedis(date);
             try {
@@ -108,8 +108,8 @@ public class OperateChargeReqConsumer {
                 ownerOperateFlowSummmaries.add(assembleOwnerOperateFlowDetail(req));
 
                 if (req.getUserIds() != null && req.getUserIds().length > 0) {
-                    for (Long userId : req.getUserIds()) {
-                        userTrades.add(userTradeAssemService.assembleUserTrade(req, userId));
+                    for (int i = 0; i < req.getUserIds().length; i++) {
+                        userTrades.add(userTradeAssemService.assembleUserTrade(req, req.getUserIds()[i], req.getBillIds()[i]));
                     }
                 }
 

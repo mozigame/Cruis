@@ -5,15 +5,12 @@ import com.magic.crius.assemble.OwnerReforwardDetailAssemService;
 import com.magic.crius.assemble.UserTradeAssemService;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
-import com.magic.crius.po.OwnerOperateOutDetail;
 import com.magic.crius.po.OwnerReforwardDetail;
 import com.magic.crius.po.RepairLock;
 import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.CashbackReqService;
 import com.magic.crius.service.RepairLockService;
-import com.magic.crius.storage.mongo.impl.MemberConditionVoMongoServiceImpl;
 import com.magic.crius.vo.CashbackReq;
-import com.magic.crius.vo.OperateWithDrawReq;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 

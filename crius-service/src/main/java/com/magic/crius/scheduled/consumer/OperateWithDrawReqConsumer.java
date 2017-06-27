@@ -108,8 +108,8 @@ public class OperateWithDrawReqConsumer {
 
                 /*会员账号汇总*/
                 if (req.getUserIds() != null && req.getUserIds().length > 0) {
-                    for (Long userId : req.getUserIds()) {
-                        userTrades.add(userTradeAssemService.assembleUserTrade(req, userId));
+                    for (int i = 0; i < req.getUserIds().length; i++) {
+                        userTrades.add(userTradeAssemService.assembleUserTrade(req, req.getUserIds()[i], req.getBillIds()[i]));
                     }
                 }
                 /*成功的数据*/

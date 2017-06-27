@@ -88,11 +88,11 @@ public class UserTradeAssemService {
         return userTrade;
     }
 
-    public UserTrade assembleUserTrade(OperateChargeReq req, Long userId) {
+    public UserTrade assembleUserTrade(OperateChargeReq req, Long userId, Long billId) {
         UserTrade userTrade = new UserTrade();
         userTrade.setOwnerId(req.getOwnerId());
         userTrade.setUserId(userId);
-        userTrade.setTradeId(req.getBillId());
+        userTrade.setTradeId(billId);
         userTrade.setTradeNum(req.getAmount());
         //todo 账户余额
         userTrade.setTotalNum(0L);
@@ -104,11 +104,11 @@ public class UserTradeAssemService {
         return userTrade;
     }
 
-    public UserTrade assembleUserTrade(OperateWithDrawReq req, Long userId) {
+    public UserTrade assembleUserTrade(OperateWithDrawReq req, Long userId, Long billId) {
         UserTrade userTrade = new UserTrade();
         userTrade.setOwnerId(req.getOwnerId());
         userTrade.setUserId(userId);
-        userTrade.setTradeId(req.getBillId());
+        userTrade.setTradeId(billId);
         userTrade.setTradeNum(req.getAmount());
         //todo 账户余额
         userTrade.setTotalNum(0L);
