@@ -21,4 +21,10 @@ public class RandomTest {
     public void get() {
         System.out.println("1498039034244995028".length());
     }
+
+    @Test
+    public void getLength() {
+        System.out.println("1498640847581956400");
+        System.out.println("1498446482049861267");
+    }
 }

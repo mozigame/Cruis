@@ -61,6 +61,10 @@ public class PreCmpChargeReq {
     private Long balance;   //余额
 
 
+    @JSONField(name = "InBankName")
+    private String inBankName;  //银行名称
+
+
     public Long getReqId() {
         return reqId;
     }
@@ -243,5 +247,13 @@ public class PreCmpChargeReq {
 
     public void setBalance(Long balance) {
         this.balance = balance;
+    }
+
+    public String getInBankName() {
+        return inBankName;
+    }
+
+    public void setInBankName(String inBankName) {
+        this.inBankName = inBankName;
     }
 }
