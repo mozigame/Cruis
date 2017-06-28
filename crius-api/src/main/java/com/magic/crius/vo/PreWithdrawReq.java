@@ -35,6 +35,8 @@ public class PreWithdrawReq {
     private Long reqWithdrawAmount;    //申请提现额度
     @JSONField(name = "RealWithdrawAmount")
     private Long realWithdrawAmount;    //实际提现额度
+    @JSONField(name = "NeedPayAmount")
+    private Long needPayAmount; //费用扣除
 
     public Long getReqId() {
         return reqId;
@@ -130,5 +132,13 @@ public class PreWithdrawReq {
 
     public void setBillId(Long billId) {
         this.billId = billId;
+    }
+
+    public Long getNeedPayAmount() {
+        return needPayAmount;
+    }
+
+    public void setNeedPayAmount(Long needPayAmount) {
+        this.needPayAmount = needPayAmount;
     }
 }

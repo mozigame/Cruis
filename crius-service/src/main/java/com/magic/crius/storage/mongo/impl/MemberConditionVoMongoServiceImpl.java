@@ -129,21 +129,12 @@ public class MemberConditionVoMongoServiceImpl implements MemberConditionVoMongo
 
     @Override
     public List<MemberConditionVo> findPeriodLevels(Long startTime, Long endTime) {
-        List<MemberConditionVo> vos = new ArrayList<>();
-        BasicDBObject condition = new BasicDBObject();
-        condition.append("updateTime", new BasicDBObject("$gte", startTime));
-        condition.append("updateTime", new BasicDBObject("$lt", endTime));
-        BasicDBObject keys = new BasicDBObject();
-        keys.append("memberId", 1);
-        keys.append("level", 1);
-        Iterator<DBObject> iterator = memberConditionVoMongoDao.getMongoTemplate().getCollection(MongoCollections.memberConditionVo.name()).find(condition, keys);
-        while (iterator.hasNext()) {
-            DBObject object = iterator.next();
-            MemberConditionVo vo = new MemberConditionVo();
-            vo.setMemberId((Long) object.get("memberId"));
-            vo.setLevel((Integer) object.get("level"));
-            vos.add(vo);
+        try {
+            Query query = new Query(new Criteria("updateTime").gte(startTime).lt(endTime));
+            return  memberConditionVoMongoDao.find(query);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return vos;
+        return null;
     }
 }

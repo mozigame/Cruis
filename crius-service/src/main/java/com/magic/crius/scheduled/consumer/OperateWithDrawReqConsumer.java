@@ -195,7 +195,7 @@ public class OperateWithDrawReqConsumer {
         detail.setOwnerId(req.getOwnerId());
         detail.setOperateOutMoneyCount(req.getAmount());
         //TODO 出款次数
-        detail.setOperateOutNum(req.getUserIds().length);
+        detail.setOperateOutNum(1);
         detail.setOperateOutType(req.getWithdrawType());
         detail.setOperateOutTypeName(req.getRemark());
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));

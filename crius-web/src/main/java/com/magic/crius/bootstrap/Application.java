@@ -26,7 +26,7 @@ public class Application {
 
     private static final Logger logger = Logger.getLogger(Application.class);
     public static void main(String[] args) {
-        logger.error("fdasds>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        logger.info("start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         SpringApplication.run(Application.class, args);
     }
 }

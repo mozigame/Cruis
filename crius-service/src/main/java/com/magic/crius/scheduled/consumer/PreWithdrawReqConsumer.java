@@ -120,7 +120,7 @@ public class PreWithdrawReqConsumer {
                 } else {
                     MemberConditionVo vo  = memberConditionVoMap.get(req.getUserId());
                     vo.setWithdrawCount(vo.getDepositCount() + 1);
-                    vo.setWithdrawMoney(vo.getDepositMoney() + req.getReqWithdrawAmount());
+                    vo.setWithdrawMoney(vo.getDepositMoney() + req.getRealWithdrawAmount());
                 }
 
 
@@ -208,9 +208,9 @@ public class PreWithdrawReqConsumer {
         UserOutMoneyDetail detail = new UserOutMoneyDetail();
         detail.setOwnerId(req.getOwnerId());
         detail.setUserId(req.getUserId());
-        detail.setOrderCount(req.getReqWithdrawAmount());
-        //TODO 待定
-        detail.setTaxCount(0L);
+        detail.setOrderCount(req.getRealWithdrawAmount());
+        //TODO kevin提供
+        detail.setTaxCount(req.getNeedPayAmount());
         //TODO 待定
         detail.setState(0);
         detail.setOrderId(req.getBillId());

@@ -299,7 +299,7 @@ public class KafkaProducerTest {
             req.setUserId(105094L);
             req.setAgentId(105094L);
             req.setOwnerId(10001L);
-            req.setAmount(1000L);
+            req.setChargeAmount(1000L);
             req.setCurrency("人民币");
             req.setRate(75);
             req.setBankCode("ICBC");

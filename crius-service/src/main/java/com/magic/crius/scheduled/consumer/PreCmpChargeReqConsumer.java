@@ -137,7 +137,7 @@ public class PreCmpChargeReqConsumer {
                 } else {
                     MemberConditionVo vo  = memberConditionVoMap.get(req.getUserId());
                     vo.setDepositCount(vo.getDepositCount() + 1);
-                    vo.setDepositMoney(vo.getDepositMoney() + req.getAmount());
+                    vo.setDepositMoney(vo.getDepositMoney() + req.getChargeAmount());
                 }
 
                 sucReqs.add(assembleSucReq(req));
@@ -222,7 +222,7 @@ public class PreCmpChargeReqConsumer {
     private OwnerCompanyFlowDetail assembleOwnerCompanyFlowDetail(PreCmpChargeReq req) {
         OwnerCompanyFlowDetail flow = new OwnerCompanyFlowDetail();
         flow.setOwnerId(req.getOwnerId());
-        flow.setCompanyFlowMoneyCount(req.getAmount());
+        flow.setCompanyFlowMoneyCount(req.getChargeAmount());
         flow.setCompanyFlowNum(1);
         flow.setAccountNum(req.getInBankNum());
         flow.setAccountName(req.getBankHolder());
@@ -239,7 +239,7 @@ public class PreCmpChargeReqConsumer {
     private OwnerCompanyAccountDetail assembleOwnerCompanyAccountDetail(PreCmpChargeReq req) {
         OwnerCompanyAccountDetail account = new OwnerCompanyAccountDetail();
         account.setOwnerId(req.getOwnerId());
-        account.setSummaryMoneyCount(req.getAmount());
+        account.setSummaryMoneyCount(req.getChargeAmount());
         account.setSummaryUserNum(1);
         //TODO 此处待确定
         account.setSummaryType(111);

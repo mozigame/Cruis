@@ -20,8 +20,6 @@ public class PreCmpChargeReq {
     private Long agentId;
     @JSONField(name = "OwnerId")
     private Long ownerId;
-    @JSONField(name = "Amount")
-    private Long amount;    //公司充值金额
     @JSONField(name = "Currency")
     private String currency;
     @JSONField(name = "Rate")
@@ -46,6 +44,23 @@ public class PreCmpChargeReq {
     private Long inTime;//转入时间
     @JSONField(name = "ProduceTime")
     private Long produceTime;//注入kafka的ms时间
+
+    @JSONField(name = "HandlerId")
+    private Long handlerId; //审核人id
+    @JSONField(name = "HandlerName")
+    private String handlerName; //审核人名称
+    @JSONField(name = "OfferAmount")
+    private Long offerAmount;   //优惠赠送额度
+    @JSONField(name = "OfferType")
+    private Integer offerType;  //优惠类型
+    @JSONField(name = "NeedBettAmount")
+    private Long needBettAmount;    //待打码量
+    @JSONField(name = "ChargeType")
+    private Integer chargeType; //入款类型
+
+    @JSONField(name = "ChargeAmount")
+    private Long chargeAmount;    //公司充值金额
+
 
     public Long getReqId() {
         return reqId;
@@ -79,12 +94,12 @@ public class PreCmpChargeReq {
         this.ownerId = ownerId;
     }
 
-    public Long getAmount() {
-        return amount;
+    public Long getChargeAmount() {
+        return chargeAmount;
     }
 
-    public void setAmount(Long amount) {
-        this.amount = amount;
+    public void setChargeAmount(Long chargeAmount) {
+        this.chargeAmount = chargeAmount;
     }
 
     public String getCurrency() {
@@ -189,5 +204,53 @@ public class PreCmpChargeReq {
 
     public void setBillId(Long billId) {
         this.billId = billId;
+    }
+
+    public Long getHandlerId() {
+        return handlerId;
+    }
+
+    public void setHandlerId(Long handlerId) {
+        this.handlerId = handlerId;
+    }
+
+    public String getHandlerName() {
+        return handlerName;
+    }
+
+    public void setHandlerName(String handlerName) {
+        this.handlerName = handlerName;
+    }
+
+    public Long getOfferAmount() {
+        return offerAmount;
+    }
+
+    public void setOfferAmount(Long offerAmount) {
+        this.offerAmount = offerAmount;
+    }
+
+    public Integer getOfferType() {
+        return offerType;
+    }
+
+    public void setOfferType(Integer offerType) {
+        this.offerType = offerType;
+    }
+
+    public Long getNeedBettAmount() {
+        return needBettAmount;
+    }
+
+    public void setNeedBettAmount(Long needBettAmount) {
+        this.needBettAmount = needBettAmount;
+    }
+
+    public Integer getChargeType() {
+        return chargeType;
+    }
+
+    public void setChargeType(Integer chargeType) {
+        this.chargeType = chargeType;
     }
 }

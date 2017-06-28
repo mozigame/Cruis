@@ -8,6 +8,7 @@ import com.magic.crius.assemble.UserTradeAssemService;
 import com.magic.crius.assemble.OwnerOnlineFlowDetailAssemService;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
+import com.magic.crius.enums.PayMethod;
 import com.magic.crius.po.*;
 import com.magic.crius.service.OnlChargeReqService;
 import com.magic.crius.service.RepairLockService;
@@ -228,9 +229,9 @@ public class OnlChargeReqConsumer {
         detail.setOrderCount(req.getChargeAmount());
         //Todo 待确定
         detail.setState(0);
-        //todo 待确定
-        detail.setPayMethod(123);
-        detail.setFlowId(req.getOrderId());
+        //todo kevin 提供
+        detail.setPayMethod(req.getChargeType());
+        detail.setFlowId(req.getBillId());
         //TODO 待确定
         detail.setFlowType(ActionType.CHONG_ZHI.getStatus());
         detail.setOrderId(req.getOrderId());

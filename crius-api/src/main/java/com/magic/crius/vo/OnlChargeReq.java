@@ -38,6 +38,8 @@ public class OnlChargeReq {
     private String paySystemName;   //充入的第三方的系统名字
     @JSONField(name = "ProduceTime")
     private Long produceTime;
+    @JSONField(name = "ChargeType")
+    private Integer chargeType; //支付类型
 
     public Long getReqId() {
         return reqId;
@@ -149,5 +151,13 @@ public class OnlChargeReq {
 
     public void setBillId(Long billId) {
         this.billId = billId;
+    }
+
+    public Integer getChargeType() {
+        return chargeType;
+    }
+
+    public void setChargeType(Integer chargeType) {
+        this.chargeType = chargeType;
     }
 }

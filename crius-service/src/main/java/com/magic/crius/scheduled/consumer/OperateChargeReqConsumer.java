@@ -1,5 +1,6 @@
 package com.magic.crius.scheduled.consumer;
 
+import com.magic.analysis.enums.ActionType;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.OwnerOperateFlowDetailAssemService;
 import com.magic.crius.assemble.UserTradeAssemService;
@@ -7,9 +8,11 @@ import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.po.OwnerOperateFlowDetail;
 import com.magic.crius.po.RepairLock;
+import com.magic.crius.po.UserFlowMoneyDetail;
 import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.OperateChargeReqService;
 import com.magic.crius.service.RepairLockService;
+import com.magic.crius.vo.OnlChargeReq;
 import com.magic.crius.vo.OperateChargeReq;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -202,6 +205,7 @@ public class OperateChargeReqConsumer {
         summmary.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
         return summmary;
     }
+
 
     private OperateChargeReq assembleSucReq(OperateChargeReq req) {
         /*成功的数据*/

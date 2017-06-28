@@ -50,7 +50,7 @@ public class KafkaProducerTest {
             req.setUserId((long) i);
             req.setAgentId((long) i);
             req.setOwnerId((long) i);
-            req.setAmount(1000L);
+            req.setChargeAmount(1000L);
             req.setCurrency("人民币");
             req.setRate(75);
             req.setBankCode("ICBC");
