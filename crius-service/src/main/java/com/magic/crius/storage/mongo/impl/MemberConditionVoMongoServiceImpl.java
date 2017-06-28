@@ -88,6 +88,9 @@ public class MemberConditionVoMongoServiceImpl implements MemberConditionVoMongo
                 logger.warn("find memberConditionVo null, memberId :"+vo.getMemberId());
                 return false;
             }
+            if (findVo == null) {
+                return false;
+            }
             Update update = new Update();
             if (findVo.getMaxWithdrawMoney() < vo.getMaxWithdrawMoney()) {
                 update.set("maxWithdrawMoney",vo.getMaxWithdrawMoney());
