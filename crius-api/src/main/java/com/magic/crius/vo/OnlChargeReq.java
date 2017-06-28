@@ -41,6 +41,9 @@ public class OnlChargeReq {
     @JSONField(name = "ChargeType")
     private Integer chargeType; //支付类型
 
+    @JSONField(name = "Balance")
+    private Long balance;   //余额
+
     public Long getReqId() {
         return reqId;
     }
@@ -159,5 +162,13 @@ public class OnlChargeReq {
 
     public void setChargeType(Integer chargeType) {
         this.chargeType = chargeType;
+    }
+
+    public Long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = balance;
     }
 }

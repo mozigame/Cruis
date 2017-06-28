@@ -61,6 +61,9 @@ public class PreCmpChargeReq {
     @JSONField(name = "ChargeAmount")
     private Long chargeAmount;    //公司充值金额
 
+    @JSONField(name = "Balance")
+    private Long balance;   //余额
+
 
     public Long getReqId() {
         return reqId;
@@ -252,5 +255,13 @@ public class PreCmpChargeReq {
 
     public void setChargeType(Integer chargeType) {
         this.chargeType = chargeType;
+    }
+
+    public Long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = balance;
     }
 }

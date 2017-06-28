@@ -31,5 +31,7 @@
     <import resource="classpath*:spring/thrift-client.xml"/>
     <import resource="classpath*:spring/dubbo-consumer.xml"/>
     <import resource="classpath*:db-shard-crius.xml"/>
+    <import resource="classpath*:spring/mq-crius.xml"/>
+
 
 </beans>
