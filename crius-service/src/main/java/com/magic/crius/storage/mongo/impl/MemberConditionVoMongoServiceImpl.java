@@ -5,11 +5,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.parser.SymbolTable;
 import com.magic.api.commons.ApiLogger;
 import com.magic.crius.dao.mongo.MemberConditionVoMongoDao;
+import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.storage.mongo.MemberConditionVoMongoService;
 import com.magic.crius.vo.UserLevelReq;
 import com.magic.user.entity.Member;
 import com.magic.user.vo.MemberConditionVo;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 import org.apache.commons.logging.Log;
 import org.apache.log4j.Logger;
@@ -19,6 +22,8 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -123,7 +128,22 @@ public class MemberConditionVoMongoServiceImpl implements MemberConditionVoMongo
     }
 
     @Override
-    public List<MemberConditionVo> findLevels(Long startTime, Long endTime) {
-        return null;
+    public List<MemberConditionVo> findPeriodLevels(Long startTime, Long endTime) {
+        List<MemberConditionVo> vos = new ArrayList<>();
+        BasicDBObject condition = new BasicDBObject();
+        condition.append("updateTime", new BasicDBObject("$gte", startTime));
+        condition.append("updateTime", new BasicDBObject("$lt", endTime));
+        BasicDBObject keys = new BasicDBObject();
+        keys.append("memberId", 1);
+        keys.append("level", 1);
+        Iterator<DBObject> iterator = memberConditionVoMongoDao.getMongoTemplate().getCollection(MongoCollections.memberConditionVo.name()).find(condition, keys);
+        while (iterator.hasNext()) {
+            DBObject object = iterator.next();
+            MemberConditionVo vo = new MemberConditionVo();
+            vo.setMemberId((Long) object.get("memberId"));
+            vo.setLevel((Integer) object.get("level"));
+            vos.add(vo);
+        }
+        return vos;
     }
 }

@@ -25,7 +25,7 @@
         select
         <include refid="Base_Column_List"/>
         from user_info
-        where  user_id = #{userId,jdbcType=INTEGER}
+        where user_id = #{userId,jdbcType=INTEGER}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete from user_info
@@ -116,4 +116,11 @@
       owner_name = #{ownerName,jdbcType=VARCHAR}
     where Id = #{id,jdbcType=INTEGER}
   </update>
+
+    <!--修改会员层级-->
+    <update id="updateLevel" >
+        UPDATE user_info
+        SET user_level = #{userLevel,jdbcType=INTEGER}
+        WHERE user_id = #{userId,jdbcType=BIGINT}
+    </update>
 </mapper>

@@ -27,4 +27,9 @@ public class UserInfoDbServiceImpl implements UserInfoDbService {
     public UserInfo get(Long userId) {
         return userInfoMapper.get(userId);
     }
+
+    @Override
+    public boolean updateLevel(Long userId, Integer level) {
+        return userInfoMapper.updateLevel(userId, level) > 0;
+    }
 }

@@ -141,7 +141,7 @@ public class UserTradeAssemService {
         userTrade.setOwnerId(req.getOwnerId());
         userTrade.setUserId(req.getUserId());
         userTrade.setTradeId(req.getBillId());
-        userTrade.setTradeNum(req.getAmount());
+        userTrade.setTradeNum(req.getReqWithdrawAmount());
         //todo 账户余额
         userTrade.setTotalNum(0L);
         userTrade.setTradeTime(req.getProduceTime());

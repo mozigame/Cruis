@@ -6,14 +6,11 @@ import com.magic.crius.enums.KafkaConf;
 import com.magic.crius.vo.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -94,8 +91,9 @@ public class KafkaProducerTest {
 
     @Test
     public void testDiscount() {
-        for (int i = 0; i < 3000; i++) {
+        for (int i = 0; i < 1; i++) {
             DiscountReq discount = new DiscountReq();
+            discount.setBillId(System.currentTimeMillis());
             discount.setOwnerId(10001L);
             discount.setReqId(System.currentTimeMillis() + i);
             discount.setUserId(2000001L + i);
@@ -104,7 +102,7 @@ public class KafkaProducerTest {
             discount.setCurrency("人民币");
             discount.setRate(87);
             discount.setNeedBettAmount(new Random().nextInt(300));
-            discount.setStatus(200);
+            discount.setOfferTypeId(200);
             discount.setProduceTime(System.currentTimeMillis());
 
             JSONObject jsonObject = new JSONObject();
@@ -278,7 +276,7 @@ public class KafkaProducerTest {
             preWithdraw.setUserId(105094L);
             preWithdraw.setAgentId(105094L);
             preWithdraw.setOwnerId(10001L);
-            preWithdraw.setAmount((long) (new Random().nextInt(99999)));
+            preWithdraw.setReqWithdrawAmount((long) (new Random().nextInt(99999)));
             preWithdraw.setUserLevel(100L);
             preWithdraw.setRemark("remark");
             preWithdraw.setProduceTime(System.currentTimeMillis());

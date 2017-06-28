@@ -5,7 +5,7 @@
         <id column="Id" jdbcType="INTEGER" property="id"/>
         <result column="owner_id" jdbcType="BIGINT" property="ownerId"/>
         <result column="user_id" jdbcType="BIGINT" property="userId"/>
-        <result column="merchant_code" jdbcType="INTEGER" property="merchantCode"/>
+        <result column="merchant_code" jdbcType="BIGINT" property="merchantCode"/>
         <result column="merchant_name" jdbcType="VARCHAR" property="merchantName"/>
         <result column="order_count" jdbcType="BIGINT" property="orderCount"/>
         <result column="state" jdbcType="INTEGER" property="state"/>
@@ -28,7 +28,7 @@
           handler_id, handler_name, create_time,
           update_time)
         values (#{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
-          #{merchantCode,jdbcType=INTEGER}, #{merchantName,jdbcType=VARCHAR}, #{orderCount,jdbcType=BIGINT},
+          #{merchantCode,jdbcType=BIGINT}, #{merchantName,jdbcType=VARCHAR}, #{orderCount,jdbcType=BIGINT},
           #{state,jdbcType=INTEGER}, #{payMethod,jdbcType=INTEGER}, #{flowType,jdbcType=INTEGER},
           #{flowId,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{pdate,jdbcType=INTEGER},
           #{handlerId,jdbcType=BIGINT}, #{handlerName,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT},
@@ -47,7 +47,7 @@
         <foreach collection="list" item="param" separator=",">
           (#{param.ownerId,jdbcType=BIGINT},
             #{param.userId,jdbcType=BIGINT},
-            #{param.merchantCode,jdbcType=INTEGER},
+            #{param.merchantCode,jdbcType=BIGINT},
             #{param.merchantName,jdbcType=VARCHAR},
             #{param.orderCount,jdbcType=BIGINT},
             #{param.state,jdbcType=INTEGER},

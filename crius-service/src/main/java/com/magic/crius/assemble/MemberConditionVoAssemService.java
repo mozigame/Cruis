@@ -78,9 +78,9 @@ public class MemberConditionVoAssemService {
         vo.setMemberId(req.getUserId());
         vo.setAgentId(req.getAgentId());
         vo.setWithdrawCount(1);
-        vo.setWithdrawMoney(req.getAmount());
-        vo.setLastWithdrawMoney(req.getAmount());
-        vo.setMaxWithdrawMoney(req.getAmount().intValue());
+        vo.setWithdrawMoney(req.getReqWithdrawAmount());
+        vo.setLastWithdrawMoney(req.getReqWithdrawAmount());
+        vo.setMaxWithdrawMoney(req.getReqWithdrawAmount().intValue());
         return vo;
     }
 

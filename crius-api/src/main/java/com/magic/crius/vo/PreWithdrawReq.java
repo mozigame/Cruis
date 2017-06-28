@@ -20,14 +20,21 @@ public class PreWithdrawReq {
     private Long agentId;
     @JSONField(name = "OwnerId")
     private Long ownerId;
-    @JSONField(name = "ReqWithdrawAmount")
-    private Long amount;
+
     @JSONField(name = "UserLevel")
     private Long userLevel;
     @JSONField(name = "Remark")
     private String remark;
     @JSONField(name = "ProduceTime")
     private Long produceTime;//注入kafka的ms时间
+    @JSONField(name = "HandlerId")
+    private Long handlerId; //审核人id
+    @JSONField(name = "HandlerName")
+    private String handlerName; //审核人账号
+    @JSONField(name = "ReqWithdrawAmount")
+    private Long reqWithdrawAmount;    //申请提现额度
+    @JSONField(name = "RealWithdrawAmount")
+    private Long realWithdrawAmount;    //实际提现额度
 
     public Long getReqId() {
         return reqId;
@@ -61,14 +68,6 @@ public class PreWithdrawReq {
         this.ownerId = ownerId;
     }
 
-    public Long getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Long amount) {
-        this.amount = amount;
-    }
-
     public Long getUserLevel() {
         return userLevel;
     }
@@ -91,6 +90,38 @@ public class PreWithdrawReq {
 
     public void setProduceTime(Long produceTime) {
         this.produceTime = produceTime;
+    }
+
+    public Long getHandlerId() {
+        return handlerId;
+    }
+
+    public void setHandlerId(Long handlerId) {
+        this.handlerId = handlerId;
+    }
+
+    public String getHandlerName() {
+        return handlerName;
+    }
+
+    public void setHandlerName(String handlerName) {
+        this.handlerName = handlerName;
+    }
+
+    public Long getReqWithdrawAmount() {
+        return reqWithdrawAmount;
+    }
+
+    public void setReqWithdrawAmount(Long reqWithdrawAmount) {
+        this.reqWithdrawAmount = reqWithdrawAmount;
+    }
+
+    public Long getRealWithdrawAmount() {
+        return realWithdrawAmount;
+    }
+
+    public void setRealWithdrawAmount(Long realWithdrawAmount) {
+        this.realWithdrawAmount = realWithdrawAmount;
     }
 
     public Long getBillId() {

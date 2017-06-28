@@ -28,8 +28,10 @@ public class DiscountReq {
     private Integer rate;
     @JSONField(name = "NeedBettAmount")
     private Integer needBettAmount;//待打码量
-    @JSONField(name = "Status")
-    private Integer status; //优惠类型
+    @JSONField(name = "OfferTypeId")
+    private Integer offerTypeId; //优惠类型
+    @JSONField(name = "OfferTypeName")
+    private String offerTypeName; //优惠类型名称
     @JSONField(name = "ProduceTime")
     private Long produceTime;//注入kafka的ms时间
 
@@ -97,12 +99,20 @@ public class DiscountReq {
         this.needBettAmount = needBettAmount;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getOfferTypeId() {
+        return offerTypeId;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setOfferTypeId(Integer offerTypeId) {
+        this.offerTypeId = offerTypeId;
+    }
+
+    public String getOfferTypeName() {
+        return offerTypeName;
+    }
+
+    public void setOfferTypeName(String offerTypeName) {
+        this.offerTypeName = offerTypeName;
     }
 
     public Long getProduceTime() {

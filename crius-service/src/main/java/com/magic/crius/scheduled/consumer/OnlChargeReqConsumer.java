@@ -1,5 +1,6 @@
 package com.magic.crius.scheduled.consumer;
 
+import com.magic.analysis.enums.ActionType;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.MemberConditionVoAssemService;
 import com.magic.crius.assemble.UserFlowMoneyDetailAssemService;
@@ -231,7 +232,7 @@ public class OnlChargeReqConsumer {
         detail.setPayMethod(123);
         detail.setFlowId(req.getOrderId());
         //TODO 待确定
-        detail.setFlowType(1);
+        detail.setFlowType(ActionType.CHONG_ZHI.getStatus());
         detail.setOrderId(req.getOrderId());
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         detail.setCreateTime(req.getProduceTime());

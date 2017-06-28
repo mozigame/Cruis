@@ -193,12 +193,11 @@ public class CashbackReqConsumer {
         summmary.setUserId(req.getUserId());
         summmary.setGameType(String.valueOf(req.getGameHallId()));
         //TODO 等待获取
-        summmary.setOrderNum(0);
+        summmary.setOrderNum(1);
         summmary.setOrderCount(req.getBettAmount());
         summmary.setEffectOrderCount(req.getVaildBettAmount());
         summmary.setReforwardMoneyCount(req.getAmount());
-        //TODO 返水编号
-        summmary.setOrderId(0L);
+        summmary.setOrderId(req.getBillId());
         summmary.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         summmary.setCreateTime(req.getProduceTime());
         summmary.setUpdateTime(req.getProduceTime());

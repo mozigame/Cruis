@@ -1,7 +1,10 @@
 package com.magic.crius.service;
 
 import com.magic.crius.vo.UserLevelReq;
+import com.magic.user.bean.MemberCondition;
 import com.magic.user.vo.MemberConditionVo;
+
+import java.util.List;
 
 /**
  * User: joey
@@ -30,4 +33,12 @@ public interface MemberConditionVoService {
      * @return
      */
     boolean updateLevel(UserLevelReq userLevelReq);
+
+    /**
+     * 获取一段时间内的会员
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    List<MemberConditionVo> findPeriodLevels(Long startTime, Long endTime);
 }

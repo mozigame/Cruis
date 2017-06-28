@@ -33,8 +33,13 @@ public class CriusScheduler {
      */
     private static final int proxyPullRate = 1000 * 60 * 60;
 
+    /**
+     * 拉取游戏列表的时间间隔
+     */
     private static final int gameListPullRate = 1000 * 60 * 60 * 2;
-
+    /**
+     * 拉取游戏列表的延时时长
+     */
     private static final int gameListPullInitDelay = 1000 * 60 * 60;
 
     /*用户充值成功*/
@@ -76,6 +81,9 @@ public class CriusScheduler {
     /*游戏列表*/
     @Resource
     private GameInfoAssemService gameInfoAssemService;
+    /*会员层级*/
+    @Resource
+    private UserLevelAssemService userLevelAssemService;
 
     @Resource(name = "kafkaTemplate")
     private KafkaTemplate<Integer, String> kafkaTemplate;
@@ -207,6 +215,18 @@ public class CriusScheduler {
     public void proxyListPullSchedule() {
         try {
             proxyInfoAssemService.batchSave(new Date());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 定时更新会员层级
+     */
+    @Scheduled(fixedRate = proxyPullRate)
+    public void userLevelUpdateSchedule() {
+        try {
+            userLevelAssemService.batchUpdateLevel(new Date());
         } catch (Exception e) {
             e.printStackTrace();
         }

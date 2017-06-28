@@ -108,7 +108,7 @@ public class DiscountReqConsumer {
             List<UserTrade> userTrades = new ArrayList<>();
             List<DiscountReq> sucReqs = new ArrayList<>();
             for (DiscountReq req : list) {
-                /*会员优惠汇总*/
+                /*业主优惠汇总*/
                 ownerOnlineFlowDetailMap.add(assembleOwnerPreferentialDetail(req));
                 /*会员优惠汇总*/
                 userPreferentialDetailHashMap.add(assembleUserPreferentialDetail(req));
@@ -198,9 +198,8 @@ public class DiscountReqConsumer {
         ownerPreferentialDetail.setOwnerId(req.getOwnerId());
         ownerPreferentialDetail.setPreferentialMoneyCount(req.getOfferAmount());
         ownerPreferentialDetail.setPreferentialNum(1);
-        ownerPreferentialDetail.setPreferentialType(req.getStatus());
-        //TODO name 在何处获取
-        ownerPreferentialDetail.setPreferentialTypeName("");
+        ownerPreferentialDetail.setPreferentialType(req.getOfferTypeId());
+        ownerPreferentialDetail.setPreferentialTypeName(req.getOfferTypeName());
         ownerPreferentialDetail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return ownerPreferentialDetail;
     }
@@ -212,9 +211,8 @@ public class DiscountReqConsumer {
         detail.setPreferentialMoneyCount(req.getOfferAmount());
         //todo 优惠次数
         detail.setPreferentialNum(1);
-        detail.setPreferentialType(req.getStatus());
-        //todo 优惠类型名称
-        detail.setPreferentialTypeName("");
+        detail.setPreferentialType(req.getOfferTypeId());
+        detail.setPreferentialTypeName(req.getOfferTypeName());
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return detail;
     }

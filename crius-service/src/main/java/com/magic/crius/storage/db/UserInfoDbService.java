@@ -14,4 +14,6 @@ public interface UserInfoDbService {
     boolean save(UserInfo userInfo);
 
     UserInfo get(Long userId);
+
+    boolean updateLevel(Long userId, Integer level);
 }

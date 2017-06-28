@@ -41,5 +41,5 @@ public interface MemberConditionVoMongoService {
      * @param endTime
      * @return
      */
-    List<MemberConditionVo> findLevels(Long startTime, Long endTime);
+    List<MemberConditionVo> findPeriodLevels(Long startTime, Long endTime);
 }

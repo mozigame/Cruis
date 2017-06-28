@@ -120,7 +120,7 @@ public class PreWithdrawReqConsumer {
                 } else {
                     MemberConditionVo vo  = memberConditionVoMap.get(req.getUserId());
                     vo.setWithdrawCount(vo.getDepositCount() + 1);
-                    vo.setWithdrawMoney(vo.getDepositMoney() + req.getAmount());
+                    vo.setWithdrawMoney(vo.getDepositMoney() + req.getReqWithdrawAmount());
                 }
 
 
@@ -208,18 +208,15 @@ public class PreWithdrawReqConsumer {
         UserOutMoneyDetail detail = new UserOutMoneyDetail();
         detail.setOwnerId(req.getOwnerId());
         detail.setUserId(req.getUserId());
-        detail.setOrderCount(req.getAmount());
+        detail.setOrderCount(req.getReqWithdrawAmount());
         //TODO 待定
         detail.setTaxCount(0L);
         //TODO 待定
         detail.setState(0);
-        //TODO 待定
-        detail.setOrderId(0L);
+        detail.setOrderId(req.getBillId());
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
-        //TODO 待定
-        detail.setHandlerId(0L);
-        //TODO 待定
-        detail.setHandlerName("");
+        detail.setHandlerId(req.getHandlerId());
+        detail.setHandlerName(req.getHandlerName());
         detail.setCreateTime(req.getProduceTime());
         detail.setUpdateTime(req.getProduceTime());
         return detail;

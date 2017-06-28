@@ -7,6 +7,7 @@ import com.magic.user.vo.MemberConditionVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * User: joey
@@ -33,5 +34,10 @@ public class MemberConditionVoServiceImpl implements MemberConditionVoService {
     @Override
     public boolean updateLevel(UserLevelReq userLevelReq) {
         return memberConditionVoMongoService.updateLevel(userLevelReq);
+    }
+
+    @Override
+    public List<MemberConditionVo> findPeriodLevels(Long startTime, Long endTime) {
+        return memberConditionVoMongoService.findPeriodLevels(startTime, endTime);
     }
 }

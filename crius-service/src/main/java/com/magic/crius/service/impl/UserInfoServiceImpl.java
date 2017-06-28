@@ -27,4 +27,9 @@ public class UserInfoServiceImpl implements UserInfoService {
     public UserInfo get(Long userId) {
         return userInfoDbService.get(userId);
     }
+
+    @Override
+    public boolean updateLevel(Long userId, Integer level) {
+        return userInfoDbService.updateLevel(userId, level);
+    }
 }
