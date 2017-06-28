@@ -119,8 +119,8 @@ public class PreWithdrawReqConsumer {
                     memberConditionVoMap.put(req.getUserId(), memberConditionVoAssemService.assembleWithdrawMVo(req));
                 } else {
                     MemberConditionVo vo  = memberConditionVoMap.get(req.getUserId());
-                    vo.setWithdrawCount(vo.getDepositCount() + 1);
-                    vo.setWithdrawMoney(vo.getDepositMoney() + req.getRealWithdrawAmount());
+                    vo.setWithdrawCount(vo.getWithdrawCount() + 1);
+                    vo.setWithdrawMoney(vo.getWithdrawMoney() + req.getRealWithdrawAmount());
                 }
 
 
