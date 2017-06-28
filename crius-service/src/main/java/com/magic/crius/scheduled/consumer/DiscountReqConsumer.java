@@ -214,6 +214,7 @@ public class DiscountReqConsumer {
         detail.setPreferentialType(req.getOfferTypeId());
         detail.setPreferentialTypeName(req.getOfferTypeName());
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
+        detail.setCreateTime(req.getProduceTime());
         return detail;
     }
 

@@ -199,7 +199,7 @@ public class OperateChargeReqConsumer {
         summmary.setOwnerId(req.getOwnerId());
         //todo
         summmary.setOperateFlowNum(1);
-        summmary.setOperateFlowMoneyCount(req.getAmount());
+        summmary.setOperateFlowMoneyCount(req.getChargeAmount());
         summmary.setOperateFlowType(req.getType());
         summmary.setOperateFlowTypeName(req.getRemark());
         summmary.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));

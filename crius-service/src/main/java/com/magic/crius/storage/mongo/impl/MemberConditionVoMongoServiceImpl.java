@@ -73,6 +73,7 @@ public class MemberConditionVoMongoServiceImpl implements MemberConditionVoMongo
             return true;
         } catch (Exception e) {
             logger.error("MemberCondition capital error , vo : " + JSON.toJSONString(vo));
+            e.printStackTrace();
         }
         return false;
     }

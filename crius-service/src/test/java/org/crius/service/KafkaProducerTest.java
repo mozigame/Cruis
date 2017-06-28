@@ -225,7 +225,7 @@ public class KafkaProducerTest {
             operateCharge.setUserIds(new Long[]{2000001L + 1, 2000001L + 2, 2000001L + 3});
             operateCharge.setAgentId(105094L);
             operateCharge.setOwnerId(10001L);
-            operateCharge.setAmount((long) (new Random().nextInt(99999)));
+            operateCharge.setChargeAmount((long) (new Random().nextInt(99999)));
             operateCharge.setRate(45);
             operateCharge.setDepositOffer(100L);
             operateCharge.setRemittanceOffer(1000L);

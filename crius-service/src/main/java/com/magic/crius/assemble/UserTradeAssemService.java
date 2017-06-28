@@ -93,7 +93,7 @@ public class UserTradeAssemService {
         userTrade.setOwnerId(req.getOwnerId());
         userTrade.setUserId(userId);
         userTrade.setTradeId(billId);
-        userTrade.setTradeNum(req.getAmount());
+        userTrade.setTradeNum(req.getChargeAmount());
         //todo 账户余额
         userTrade.setTotalNum(0L);
         userTrade.setTradeTime(req.getProduceTime());

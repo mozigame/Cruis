@@ -20,8 +20,8 @@ public class OperateChargeReq {
     private Long ownerId;
     @JSONField(name = "AgentId")
     private Long agentId;
-    @JSONField(name = "Amount")
-    private Long amount;//人工充值金额
+    @JSONField(name = "ChargeAmount")
+    private Long chargeAmount;//人工充值金额
     @JSONField(name = "Currency")
     private String currency;
     @JSONField(name = "Rate")
@@ -71,14 +71,6 @@ public class OperateChargeReq {
 
     public void setAgentId(Long agentId) {
         this.agentId = agentId;
-    }
-
-    public Long getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Long amount) {
-        this.amount = amount;
     }
 
     public String getCurrency() {
@@ -159,5 +151,13 @@ public class OperateChargeReq {
 
     public void setBillIds(Long[] billIds) {
         this.billIds = billIds;
+    }
+
+    public Long getChargeAmount() {
+        return chargeAmount;
+    }
+
+    public void setChargeAmount(Long chargeAmount) {
+        this.chargeAmount = chargeAmount;
     }
 }
