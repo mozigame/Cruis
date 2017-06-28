@@ -19,7 +19,7 @@ import javax.annotation.Resource;
  * Time: 11:10
  */
 @Component("memberRegisterSucessMongoConsumer")
-@ConsumerConfig(consumerName = "v1memberRegisterSucessMongoConsumer", topic = Topic.MEMBER_REGISTER_SUCCESS)
+@ConsumerConfig(consumerName = "v1criusMemberRegisterSucessMongoConsumer", topic = Topic.MEMBER_REGISTER_SUCCESS)
 public class MemberRegisterSuccessConsumer implements Consumer {
 
     @Resource

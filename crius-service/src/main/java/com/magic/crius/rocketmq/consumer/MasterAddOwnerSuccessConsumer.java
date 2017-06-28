@@ -18,7 +18,7 @@ import javax.annotation.Resource;
  * 添加业主信息
  */
 @Service("masterAddOwnerSuccessConsumer")
-@ConsumerConfig(consumerName = "v1masterAddOwnerSuccessConsumer", topic = Topic.BC_COMPANY_ADD_SUCCESS)
+@ConsumerConfig(consumerName = "v1criusMasterAddOwnerSuccessConsumer", topic = Topic.BC_COMPANY_ADD_SUCCESS)
 public class MasterAddOwnerSuccessConsumer implements Consumer {
 
     @Resource
