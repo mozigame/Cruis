@@ -2,16 +2,12 @@ package com.magic.crius.assemble;
 
 import com.alibaba.fastjson.JSON;
 import com.magic.api.commons.ApiLogger;
-import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
-import com.magic.crius.assemble.OwnerCompanyFlowDetailAssemService;
-import com.magic.crius.assemble.PreCmpChargeReqAssemService;
 import com.magic.crius.service.PreCmpChargeReqService;
 import com.magic.crius.util.CriusLog;
 import com.magic.crius.vo.PreCmpChargeReq;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.*;
 
 /**
  * User: joey

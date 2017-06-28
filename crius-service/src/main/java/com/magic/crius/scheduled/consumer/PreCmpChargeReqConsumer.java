@@ -1,17 +1,11 @@
 package com.magic.crius.scheduled.consumer;
 
 import com.magic.api.commons.tools.DateUtil;
-import com.magic.crius.assemble.MemberConditionVoAssemService;
-import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
-import com.magic.crius.assemble.OwnerCompanyFlowDetailAssemService;
-import com.magic.crius.assemble.UserTradeAssemService;
+import com.magic.crius.assemble.*;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.enums.SummaryKind;
-import com.magic.crius.po.OwnerCompanyAccountDetail;
-import com.magic.crius.po.OwnerCompanyFlowDetail;
-import com.magic.crius.po.RepairLock;
-import com.magic.crius.po.UserTrade;
+import com.magic.crius.po.*;
 import com.magic.crius.service.PreCmpChargeReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.util.CriusLog;
@@ -57,6 +51,8 @@ public class PreCmpChargeReqConsumer {
     private UserTradeAssemService userTradeAssemService;
     @Resource
     private MemberConditionVoAssemService memberConditionVoAssemService;
+    @Resource
+    private UserFlowMoneyDetailAssemService userFlowMoneyDetailAssemService;
 
 
     public void procKafkaData(PreCmpChargeReq req) {
@@ -122,6 +118,7 @@ public class PreCmpChargeReqConsumer {
 
             List<OwnerCompanyFlowDetail> ownerCompanyFlowDetails = new ArrayList<>();
             List<OwnerCompanyAccountDetail> ownerCompanyAccountDetails = new ArrayList<>();
+            List<UserFlowMoneyDetail> userFlowMoneyDetails = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
             List<PreCmpChargeReq> sucReqs = new ArrayList<>();
             Map<Long, MemberConditionVo> memberConditionVoMap = new HashMap<>();
@@ -129,7 +126,10 @@ public class PreCmpChargeReqConsumer {
                 /*公司入款明细*/
                 ownerCompanyFlowDetails.add(assembleOwnerCompanyFlowDetail(req));
                 /*公司账目汇总*/
-                ownerCompanyAccountDetails.add(assembleOwnerCompanyAccountDetail(req));
+                ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req));
+                /*会员入款详情*/
+                userFlowMoneyDetails.add(userFlowMoneyDetailAssemService.assembleUserFlowMoneyDetail(req));
+
                 userTrades.add(userTradeAssemService.assembleUserTrade(req));
                 /*会员入款*/
                 if (memberConditionVoMap.get(req.getUserId()) == null) {
@@ -144,6 +144,7 @@ public class PreCmpChargeReqConsumer {
             }
             ownerCompanyFlowDetailAssemService.batchSave(ownerCompanyFlowDetails);
             ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
+            userFlowMoneyDetailAssemService.batchSave(userFlowMoneyDetails);
             memberConditionVoAssemService.batchRecharge(memberConditionVoMap.values());
             userTradeAssemService.batchSave(userTrades);
             //todo 成功的id处理
@@ -235,18 +236,7 @@ public class PreCmpChargeReqConsumer {
         return flow;
     }
 
-    private OwnerCompanyAccountDetail assembleOwnerCompanyAccountDetail(PreCmpChargeReq req) {
-        OwnerCompanyAccountDetail account = new OwnerCompanyAccountDetail();
-        account.setOwnerId(req.getOwnerId());
-        account.setSummaryMoneyCount(req.getChargeAmount());
-        account.setSummaryUserNum(1);
-        //TODO 此处待确定
-        account.setSummaryType(111);
-        account.setSummaryTypeName("线上入款");
-        account.setSummaryKind(SummaryKind.income.value());
-        account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
-        return account;
-    }
+
 
     private PreCmpChargeReq assembleSucReq(PreCmpChargeReq req) {
         /*成功的数据*/

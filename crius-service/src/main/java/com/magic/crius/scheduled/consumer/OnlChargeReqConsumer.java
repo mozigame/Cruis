@@ -115,7 +115,7 @@ public class OnlChargeReqConsumer {
                 /*线上入款汇总*/
                 ownerOnlineFlowSummmaries.add(assembleOwnerOnlineFlowDetail(req));
                 /*会员入款详情*/
-                userFlowMoneyDetails.add(assembleUserFlowMoneyDetail(req));
+                userFlowMoneyDetails.add(userFlowMoneyDetailAssemService.assembleUserFlowMoneyDetail(req));
                 /*账户交易明细*/
                 userTrades.add(userTradeAssemService.assembleUserTrade(req));
                 /*会员入款*/
@@ -220,26 +220,7 @@ public class OnlChargeReqConsumer {
         return flow;
     }
 
-    private UserFlowMoneyDetail assembleUserFlowMoneyDetail(OnlChargeReq req) {
-        UserFlowMoneyDetail detail = new UserFlowMoneyDetail();
-        detail.setOwnerId(req.getOwnerId());
-        detail.setUserId(req.getUserId());
-        detail.setMerchantCode(req.getMerchantCode());
-        detail.setMerchantName(req.getMerchantName());
-        detail.setOrderCount(req.getChargeAmount());
-        //Todo 待确定
-        detail.setState(0);
-        //todo kevin 提供
-        detail.setPayMethod(req.getChargeType());
-        detail.setFlowId(req.getBillId());
-        //TODO 待确定
-        detail.setFlowType(ActionType.CHONG_ZHI.getStatus());
-        detail.setOrderId(req.getOrderId());
-        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
-        detail.setCreateTime(req.getProduceTime());
-        detail.setUpdateTime(req.getProduceTime());
-        return detail;
-    }
+
 
     private OnlChargeReq assembleSucReq(OnlChargeReq req) {
         /*成功的数据*/

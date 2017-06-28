@@ -48,7 +48,7 @@ public class MemberConditionVoMongoServiceImpl implements MemberConditionVoMongo
 
             MemberConditionVo findVo = memberConditionVoMongoDao.findOne(query);
             if (findVo == null) {
-                System.out.println("find memberConditionVo null, memberId :"+vo.getMemberId());
+                System.out.println("find memberConditionVo null, memberId :" + vo.getMemberId());
                 return false;
             }
             Update update = new Update();
@@ -60,15 +60,15 @@ public class MemberConditionVoMongoServiceImpl implements MemberConditionVoMongo
             update.inc("depositMoney", vo.getDepositMoney());
             update.set("updateTime", System.currentTimeMillis());
             WriteResult result = memberConditionVoMongoDao.getMongoTemplate().findAndModify(query, update, WriteResult.class, MongoCollections.memberConditionVo.name());
-            System.out.println("updateRecharge member, id:"+vo.getMemberId() + ", result : "+result.toString());
+            System.out.println("updateRecharge member, id:" + vo.getMemberId() + ", result : " + result.toString());
 
             Query agentQ = new Query();
             agentQ.addCriteria(new Criteria("agentId").is(vo.getAgentId()));
             Update agentUpdate = new Update();
             agentUpdate.inc("depositMoney", vo.getDepositMoney());
             agentUpdate.set("updateTime", System.currentTimeMillis());
-            WriteResult agentResult = memberConditionVoMongoDao.getMongoTemplate().findAndModify(agentQ, agentUpdate,WriteResult.class, MongoCollections.agentConditionVo.name());
-            System.out.println("updateRecharge agent, id:"+vo.getAgentId() + ", result : "+agentResult.toString());
+            WriteResult agentResult = memberConditionVoMongoDao.getMongoTemplate().findAndModify(agentQ, agentUpdate, WriteResult.class, MongoCollections.agentConditionVo.name());
+            System.out.println("updateRecharge agent, id:" + vo.getAgentId() + ", result : " + agentResult.toString());
 
             return true;
         } catch (Exception e) {
@@ -85,30 +85,27 @@ public class MemberConditionVoMongoServiceImpl implements MemberConditionVoMongo
             query.addCriteria(new Criteria("memberId").is(vo.getMemberId()));
             MemberConditionVo findVo = memberConditionVoMongoDao.findOne(query);
             if (findVo == null) {
-                logger.warn("find memberConditionVo null, memberId :"+vo.getMemberId());
-                return false;
-            }
-            if (findVo == null) {
+                logger.warn("find memberConditionVo null, memberId :" + vo.getMemberId());
                 return false;
             }
             Update update = new Update();
             if (findVo.getMaxWithdrawMoney() < vo.getMaxWithdrawMoney()) {
-                update.set("maxWithdrawMoney",vo.getMaxWithdrawMoney());
+                update.set("maxWithdrawMoney", vo.getMaxWithdrawMoney());
             }
             update.set("lastWithdrawMoney", vo.getLastWithdrawMoney());
             update.inc("withdrawCount", vo.getWithdrawCount());
             update.inc("withdrawMoney", vo.getWithdrawMoney());
             update.set("updateTime", System.currentTimeMillis());
             WriteResult result = memberConditionVoMongoDao.getMongoTemplate().findAndModify(query, update, WriteResult.class, MongoCollections.memberConditionVo.name());
-            System.out.println("updateWithdraw member, id:"+vo.getMemberId() + ", result : "+result.toString());
+            System.out.println("updateWithdraw member, id:" + vo.getMemberId() + ", result : " + result.toString());
 
             Query agentQ = new Query();
             agentQ.addCriteria(new Criteria("agentId").is(vo.getAgentId()));
             Update agentUpdate = new Update();
             agentUpdate.inc("withdrawMoney", vo.getWithdrawMoney());
             agentUpdate.set("updateTime", System.currentTimeMillis());
-            WriteResult agentResult = memberConditionVoMongoDao.getMongoTemplate().findAndModify(agentQ, agentUpdate,WriteResult.class, MongoCollections.agentConditionVo.name());
-            System.out.println("updateWithdraw agent, id:"+vo.getAgentId() + ", result : "+agentResult.toString());
+            WriteResult agentResult = memberConditionVoMongoDao.getMongoTemplate().findAndModify(agentQ, agentUpdate, WriteResult.class, MongoCollections.agentConditionVo.name());
+            System.out.println("updateWithdraw agent, id:" + vo.getAgentId() + ", result : " + agentResult.toString());
 
             return true;
         } catch (Exception e) {
@@ -120,6 +117,7 @@ public class MemberConditionVoMongoServiceImpl implements MemberConditionVoMongo
     @Override
     public boolean updateLevel(UserLevelReq userLevelReq) {
         try {
+            ApiLogger.info("update userLevel , memberId : " + userLevelReq.getUserId() + ", levelId : " + userLevelReq.getLevelId());
             Query query = new Query(new Criteria("memberId").is(userLevelReq.getUserId()));
             Update update = new Update();
             update.set("level", userLevelReq.getLevelId());
@@ -135,7 +133,7 @@ public class MemberConditionVoMongoServiceImpl implements MemberConditionVoMongo
     public List<MemberConditionVo> findPeriodLevels(Long startTime, Long endTime) {
         try {
             Query query = new Query(new Criteria("updateTime").gte(startTime).lt(endTime));
-            return  memberConditionVoMongoDao.find(query);
+            return memberConditionVoMongoDao.find(query);
         } catch (Exception e) {
             e.printStackTrace();
         }

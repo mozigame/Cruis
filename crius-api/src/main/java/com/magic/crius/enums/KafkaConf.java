@@ -24,21 +24,21 @@ public class KafkaConf {
      * kafka消费的数据类型
      */
     public enum DataType {
-        PLUTUS_ONL_CHARGE(0x3001),    // 在线充值 12289
-        PLUTUS_CMP_CHARGE(0x3002),    // 公司入款 12290
-        PLUTUS_DISCOUNT(0x3003),  // 优惠赠送   12291
-        PLUTUS_USER_WITHDRAW(0x3004), // 用户提现   12292
-        PLUTUS_OPR_WITHDRAW(0x3005),  // 人工提现   12293
-        PLUTUS_OPR_CHARGE(0x3006),    // 人工入款   12294
-        PLUTUS_CAHSBACK(0x3007),  // 返水 12295
-        PLUTUS_PAYOFF(0x3008),    // 派彩 12296
-        PLUTUS_JP(0x3009),    // 彩金 12297
-        PLUTUS_DS(0x300A),    //打赏  12298
-        UPDATE_USER_LEVEL(0x300B),  //会员升级 12299
-        PLUTUS_LOTTERY(0x300C),    //彩票  12230
-        PLUTUS_SPORT(0x300D),    //体育  12301
-        PLUTUS_VGAME(0x300E),    //视讯  12302
-        PLUTUS_EGAME(0x300F);    //电子  12303
+        PLUTUS_ONL_CHARGE(0x3001, "在线充值"),    // 在线充值 12289
+        PLUTUS_CMP_CHARGE(0x3002, "公司入款"),    // 公司入款 12290
+        PLUTUS_DISCOUNT(0x3003, "优惠赠送"),  // 优惠赠送   12291
+        PLUTUS_USER_WITHDRAW(0x3004, "用户提现"), // 用户提现   12292
+        PLUTUS_OPR_WITHDRAW(0x3005, "人工提现"),  // 人工提现   12293
+        PLUTUS_OPR_CHARGE(0x3006, "人工入款"),    // 人工入款   12294
+        PLUTUS_CAHSBACK(0x3007, "返水"),  // 返水 12295
+        PLUTUS_PAYOFF(0x3008, "派彩"),    // 派彩 12296
+        PLUTUS_JP(0x3009, "彩金"),    // 彩金 12297
+        PLUTUS_DS(0x300A, "打赏"),    //打赏  12298
+        UPDATE_USER_LEVEL(0x300B, "会员升级"),  //会员升级 12299
+        PLUTUS_LOTTERY(0x300C, "彩票"),    //彩票  12230
+        PLUTUS_SPORT(0x300D, "体育"),    //体育  12301
+        PLUTUS_VGAME(0x300E, "视讯"),    //视讯  12302
+        PLUTUS_EGAME(0x300F, "电子");    //电子  12303
 
         private static Map<Integer, DataType> map = new HashMap<>();
 
@@ -50,12 +50,18 @@ public class KafkaConf {
 
         private Integer type;
 
-        DataType(Integer type) {
+        private String typeName;
+
+        DataType(Integer type,String typeName) {
             this.type = type;
+            this.typeName = typeName;
         }
 
         public Integer type() {
             return type;
+        }
+        public String typeName() {
+            return typeName;
         }
 
         public static DataType parse(Integer type) {
