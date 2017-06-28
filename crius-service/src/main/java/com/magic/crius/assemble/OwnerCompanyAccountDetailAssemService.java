@@ -102,7 +102,7 @@ public class OwnerCompanyAccountDetailAssemService {
         //TODO 此处待确定
         account.setSummaryType(KafkaConf.DataType.PLUTUS_CAHSBACK.type());
         account.setSummaryTypeName(KafkaConf.DataType.PLUTUS_CAHSBACK.typeName());
-        account.setSummaryKind(SummaryKind.income.value());
+        account.setSummaryKind(SummaryKind.outlay.value());
         account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
         return account;
     }
@@ -121,7 +121,7 @@ public class OwnerCompanyAccountDetailAssemService {
         //TODO 此处待确定
         account.setSummaryType(KafkaConf.DataType.PLUTUS_DISCOUNT.type());
         account.setSummaryTypeName(KafkaConf.DataType.PLUTUS_DISCOUNT.typeName());
-        account.setSummaryKind(SummaryKind.income.value());
+        account.setSummaryKind(SummaryKind.outlay.value());
         account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
         return account;
     }
@@ -140,7 +140,7 @@ public class OwnerCompanyAccountDetailAssemService {
         //TODO 此处待确定
         account.setSummaryType(KafkaConf.DataType.PLUTUS_OPR_WITHDRAW.type());
         account.setSummaryTypeName(KafkaConf.DataType.PLUTUS_OPR_WITHDRAW.typeName());
-        account.setSummaryKind(SummaryKind.income.value());
+        account.setSummaryKind(SummaryKind.outlay.value());
         account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
         return account;
     }
@@ -159,7 +159,7 @@ public class OwnerCompanyAccountDetailAssemService {
         //TODO 此处待确定
         account.setSummaryType(KafkaConf.DataType.PLUTUS_OPR_WITHDRAW.type());
         account.setSummaryTypeName(KafkaConf.DataType.PLUTUS_OPR_WITHDRAW.typeName());
-        account.setSummaryKind(SummaryKind.income.value());
+        account.setSummaryKind(SummaryKind.outlay.value());
         account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
         return account;
     }
