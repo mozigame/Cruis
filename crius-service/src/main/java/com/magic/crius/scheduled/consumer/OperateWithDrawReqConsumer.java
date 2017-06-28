@@ -1,10 +1,12 @@
 package com.magic.crius.scheduled.consumer;
 
 import com.magic.api.commons.tools.DateUtil;
+import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
 import com.magic.crius.assemble.OwnerOperateOutDetailAssemService;
 import com.magic.crius.assemble.UserTradeAssemService;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
+import com.magic.crius.po.OwnerCompanyAccountDetail;
 import com.magic.crius.po.OwnerOperateOutDetail;
 import com.magic.crius.po.RepairLock;
 import com.magic.crius.po.UserTrade;
@@ -40,6 +42,9 @@ public class OperateWithDrawReqConsumer {
     /*人工出款详情*/
     @Resource
     private OwnerOperateOutDetailAssemService ownerOperateOutDetailAssemService;
+    /*公司账目汇总*/
+    @Resource
+    private OwnerCompanyAccountDetailAssemService ownerCompanyAccountDetailAssemService;
 
     @Resource
     private UserTradeAssemService userTradeAssemService;
@@ -100,11 +105,14 @@ public class OperateWithDrawReqConsumer {
     private void flushData(Collection<OperateWithDrawReq> list) {
         if (list != null && list.size() > 0) {
             List<OwnerOperateOutDetail> ownerOperateOutDetails = new ArrayList<>();
+            List<OwnerCompanyAccountDetail> ownerCompanyAccountDetails = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
             List<OperateWithDrawReq> sucReqs = new ArrayList<>();
             for (OperateWithDrawReq req : list) {
                 /*人工出款详情*/
                 ownerOperateOutDetails.add(assembleOwnerOperateOutDetail(req));
+                /*公司账目汇总*/
+                ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req));
 
                 /*会员账号汇总*/
                 if (req.getUserIds() != null && req.getUserIds().length > 0) {
@@ -116,6 +124,7 @@ public class OperateWithDrawReqConsumer {
                 sucReqs.add(assembleSucReq(req));
             }
             ownerOperateOutDetailAssemService.batchSave(ownerOperateOutDetails);
+            ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
             userTradeAssemService.batchSave(userTrades);
 
             if (operateWithDrawReqService.saveSuc(sucReqs)) {

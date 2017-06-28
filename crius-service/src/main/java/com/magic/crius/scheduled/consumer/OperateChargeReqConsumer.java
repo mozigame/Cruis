@@ -2,14 +2,12 @@ package com.magic.crius.scheduled.consumer;
 
 import com.magic.analysis.enums.ActionType;
 import com.magic.api.commons.tools.DateUtil;
+import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
 import com.magic.crius.assemble.OwnerOperateFlowDetailAssemService;
 import com.magic.crius.assemble.UserTradeAssemService;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
-import com.magic.crius.po.OwnerOperateFlowDetail;
-import com.magic.crius.po.RepairLock;
-import com.magic.crius.po.UserFlowMoneyDetail;
-import com.magic.crius.po.UserTrade;
+import com.magic.crius.po.*;
 import com.magic.crius.service.OperateChargeReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.vo.OnlChargeReq;
@@ -46,6 +44,8 @@ public class OperateChargeReqConsumer {
     /*人工入款汇总*/
     @Resource
     private OwnerOperateFlowDetailAssemService ownerOperateFlowDetailAssemService;
+    @Resource
+    private OwnerCompanyAccountDetailAssemService ownerCompanyAccountDetailAssemService;
     @Resource
     private UserTradeAssemService userTradeAssemService;
 
@@ -102,13 +102,16 @@ public class OperateChargeReqConsumer {
     private void flushData(Collection<OperateChargeReq> list) {
         if (list != null && list.size() > 0) {
             List<OwnerOperateFlowDetail> ownerOperateFlowSummmaries = new ArrayList<>();
+            List<OwnerCompanyAccountDetail> ownerCompanyAccountDetails = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
             List<OperateChargeReq> sucReqs = new ArrayList<>();
             for (OperateChargeReq req : list) {
-                /**
+                /*
                  * 人工入款汇总
                  */
                 ownerOperateFlowSummmaries.add(assembleOwnerOperateFlowDetail(req));
+                /*公司账目汇总*/
+                ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req));
 
                 if (req.getUserIds() != null && req.getUserIds().length > 0) {
                     for (int i = 0; i < req.getUserIds().length; i++) {
@@ -121,6 +124,7 @@ public class OperateChargeReqConsumer {
 
             }
             ownerOperateFlowDetailAssemService.batchSave(ownerOperateFlowSummmaries);
+            ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
             userTradeAssemService.batchSave(userTrades);
             //todo 成功的id处理
             if (!operateChargeService.saveSuc(sucReqs)) {

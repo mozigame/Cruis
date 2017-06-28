@@ -2,10 +2,7 @@ package com.magic.crius.scheduled.consumer;
 
 import com.magic.analysis.enums.ActionType;
 import com.magic.api.commons.tools.DateUtil;
-import com.magic.crius.assemble.MemberConditionVoAssemService;
-import com.magic.crius.assemble.UserFlowMoneyDetailAssemService;
-import com.magic.crius.assemble.UserTradeAssemService;
-import com.magic.crius.assemble.OwnerOnlineFlowDetailAssemService;
+import com.magic.crius.assemble.*;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.enums.PayMethod;
@@ -46,6 +43,10 @@ public class OnlChargeReqConsumer {
     /*线上入款汇总*/
     @Resource
     private OwnerOnlineFlowDetailAssemService ownerOnlineFlowDetailAssemService;
+
+    /*公司账目汇总*/
+    @Resource
+    private OwnerCompanyAccountDetailAssemService ownerCompanyAccountDetailAssemService;
     /*会员入款明细*/
     @Resource
     private UserFlowMoneyDetailAssemService userFlowMoneyDetailAssemService;
@@ -108,6 +109,7 @@ public class OnlChargeReqConsumer {
         if (list != null && list.size() > 0) {
             List<OwnerOnlineFlowDetail> ownerOnlineFlowSummmaries = new ArrayList<>();
             List<UserFlowMoneyDetail> userFlowMoneyDetails = new ArrayList<>();
+            List<OwnerCompanyAccountDetail> ownerCompanyAccountDetails = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
             List<OnlChargeReq> sucReqs = new ArrayList<>();
             Map<Long, MemberConditionVo> memberConditionVoMap = new HashMap<>();
@@ -116,6 +118,8 @@ public class OnlChargeReqConsumer {
                 ownerOnlineFlowSummmaries.add(assembleOwnerOnlineFlowDetail(req));
                 /*会员入款详情*/
                 userFlowMoneyDetails.add(userFlowMoneyDetailAssemService.assembleUserFlowMoneyDetail(req));
+                /*公司账目汇总*/
+                ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req));
                 /*账户交易明细*/
                 userTrades.add(userTradeAssemService.assembleUserTrade(req));
                 /*会员入款*/
@@ -132,6 +136,7 @@ public class OnlChargeReqConsumer {
             }
             ownerOnlineFlowDetailAssemService.batchSave(ownerOnlineFlowSummmaries);
             userFlowMoneyDetailAssemService.batchSave(userFlowMoneyDetails);
+            ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
             userTradeAssemService.batchSave(userTrades);
             memberConditionVoAssemService.batchRecharge(memberConditionVoMap.values());
             //todo 成功的id处理

@@ -2,14 +2,12 @@ package com.magic.crius.scheduled.consumer;
 
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.MemberConditionVoAssemService;
+import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
 import com.magic.crius.assemble.UserOutMoneyDetailAssemService;
 import com.magic.crius.assemble.UserTradeAssemService;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
-import com.magic.crius.po.OwnerOperateFlowDetail;
-import com.magic.crius.po.RepairLock;
-import com.magic.crius.po.UserOutMoneyDetail;
-import com.magic.crius.po.UserTrade;
+import com.magic.crius.po.*;
 import com.magic.crius.service.PreWithdrawReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.vo.PreWithdrawReq;
@@ -49,6 +47,9 @@ public class PreWithdrawReqConsumer {
     /*会员出款明细*/
     @Resource
     private UserOutMoneyDetailAssemService userOutMoneyDetailAssemService;
+    /*公司账目汇总*/
+    @Resource
+    private OwnerCompanyAccountDetailAssemService ownerCompanyAccountDetailAssemService;
     @Resource
     private UserTradeAssemService userTradeAssemService;
     @Resource
@@ -107,12 +108,15 @@ public class PreWithdrawReqConsumer {
     private void flushData(Collection<PreWithdrawReq> list) {
         if (list != null && list.size() > 0) {
             List<UserOutMoneyDetail> details = new ArrayList<>();
+            List<OwnerCompanyAccountDetail> ownerCompanyAccountDetails = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
             List<PreWithdrawReq> sucReqs = new ArrayList<>();
             Map<Long, MemberConditionVo> memberConditionVoMap = new HashMap<>();
             for (PreWithdrawReq req : list) {
                 /*会员出款明细*/
                 details.add(assembleUserOutMoneyDetail(req));
+                /*公司账目汇总*/
+                ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req));
                 userTrades.add(userTradeAssemService.assembleUserTrade(req));
                 /*会员入款*/
                 if (memberConditionVoMap.get(req.getUserId()) == null) {
@@ -130,7 +134,7 @@ public class PreWithdrawReqConsumer {
             userOutMoneyDetailAssemService.batchSave(details);
             userTradeAssemService.batchSave(userTrades);
             memberConditionVoAssemService.batchWithdraw(memberConditionVoMap.values());
-
+            ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
             //todo  添加成功id
             if (!preWithdrawService.saveSuc(sucReqs)) {
 

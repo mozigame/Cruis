@@ -1,15 +1,13 @@
 package com.magic.crius.scheduled.consumer;
 
 import com.magic.api.commons.tools.DateUtil;
+import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
 import com.magic.crius.assemble.OwnerPreferentialDetailAssemService;
 import com.magic.crius.assemble.UserPreferentialDetailAssemService;
 import com.magic.crius.assemble.UserTradeAssemService;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
-import com.magic.crius.po.OwnerPreferentialDetail;
-import com.magic.crius.po.RepairLock;
-import com.magic.crius.po.UserPreferentialDetail;
-import com.magic.crius.po.UserTrade;
+import com.magic.crius.po.*;
 import com.magic.crius.service.DiscountReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.vo.DiscountReq;
@@ -48,6 +46,9 @@ public class DiscountReqConsumer {
     /*会员优惠汇总*/
     @Resource
     private UserPreferentialDetailAssemService userPreferentialDetailAssemService;
+    /*公司账目汇总*/
+    @Resource
+    private OwnerCompanyAccountDetailAssemService ownerCompanyAccountDetailAssemService;
     @Resource
     private UserTradeAssemService userTradeAssemService;
 
@@ -105,6 +106,7 @@ public class DiscountReqConsumer {
         if (list != null && list.size() > 0) {
             List<OwnerPreferentialDetail> ownerOnlineFlowDetailMap = new ArrayList<>();
             List<UserPreferentialDetail> userPreferentialDetailHashMap = new ArrayList<>();
+            List<OwnerCompanyAccountDetail> ownerCompanyAccountDetails = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
             List<DiscountReq> sucReqs = new ArrayList<>();
             for (DiscountReq req : list) {
@@ -112,6 +114,8 @@ public class DiscountReqConsumer {
                 ownerOnlineFlowDetailMap.add(assembleOwnerPreferentialDetail(req));
                 /*会员优惠汇总*/
                 userPreferentialDetailHashMap.add(assembleUserPreferentialDetail(req));
+                /*公司账目汇总*/
+                ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req));
                 /*账户交易明细*/
                 userTrades.add(userTradeAssemService.assembleUserTrade(req));
                 /*成功的数据*/
@@ -120,6 +124,7 @@ public class DiscountReqConsumer {
             }
             ownerPreferentialDetailAssemService.batchSave(ownerOnlineFlowDetailMap);
             userPreferentialDetailAssemService.batchSave(userPreferentialDetailHashMap);
+            ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
             userTradeAssemService.batchSave(userTrades);
             //todo 成功的id处理
             if (!discountReqService.saveSuc(sucReqs)) {

@@ -1,10 +1,12 @@
 package com.magic.crius.scheduled.consumer;
 
 import com.magic.api.commons.tools.DateUtil;
+import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
 import com.magic.crius.assemble.OwnerReforwardDetailAssemService;
 import com.magic.crius.assemble.UserTradeAssemService;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
+import com.magic.crius.po.OwnerCompanyAccountDetail;
 import com.magic.crius.po.OwnerReforwardDetail;
 import com.magic.crius.po.RepairLock;
 import com.magic.crius.po.UserTrade;
@@ -42,6 +44,9 @@ public class CashbackReqConsumer {
     /*会员反水详情*/
     @Resource
     private OwnerReforwardDetailAssemService ownerReforwardDetailAssemService;
+    /*公司账目汇总*/
+    @Resource
+    private OwnerCompanyAccountDetailAssemService ownerCompanyAccountDetailAssemService;
     /*账户交易明细*/
     @Resource
     private UserTradeAssemService userTradeAssemService;
@@ -99,11 +104,14 @@ public class CashbackReqConsumer {
     private void flushData(Collection<CashbackReq> list) {
         if (list != null && list.size() > 0) {
             List<OwnerReforwardDetail> ownerReforwardDetailHashMap = new ArrayList<>();
+            List<OwnerCompanyAccountDetail> ownerCompanyAccountDetails = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
             Set<CashbackReq> sucReqs = new HashSet<>();
             for (CashbackReq req : list) {
                 /*反水详情*/
                 ownerReforwardDetailHashMap.add(assembleOwnerReforwardDetail(req));
+                /*公司账目汇总*/
+                ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req));
                 /*账户交易明细*/
                 userTrades.add(userTradeAssemService.assembleUserTrade(req));
 
@@ -112,6 +120,7 @@ public class CashbackReqConsumer {
             }
 
             ownerReforwardDetailAssemService.batchSave(ownerReforwardDetailHashMap);
+            ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
             userTradeAssemService.batchSave(userTrades);
 
             /*mongo添加处理成功的数据*/
