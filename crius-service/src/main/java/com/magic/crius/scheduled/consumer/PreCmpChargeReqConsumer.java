@@ -230,7 +230,7 @@ public class PreCmpChargeReqConsumer {
         flow.setBankSystemCode(req.getInBankCode());
         flow.setState(0);
         flow.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
-        //TODO 暂时为空
+        //TODO 暂时为0
         flow.setAccountCode(0L);
         flow.setBankSystemName(req.getInBankName());
         return flow;

@@ -8,7 +8,7 @@
        http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 
     <dubbo:application name="${dubbo.application.name}"/>
-    <dubbo:registry protocol="zookeeper" address="${dubbo.registry.address}" />
+    <dubbo:registry protocol="zookeeper" address="${dubbo.registry.address}" file="../dubbo-registry/magic-tongtu.properties"/>
     <dubbo:protocol port="${dubbo.port}"/>
     <!-- 在此配置consumer的信息 -->
 
