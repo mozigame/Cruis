@@ -1,5 +1,7 @@
 package com.magic.crius.assemble;
 
+import com.alibaba.fastjson.JSON;
+import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.DiscountReqAssemService;
 import com.magic.crius.assemble.OwnerPreferentialDetailAssemService;
@@ -37,10 +39,12 @@ public class DiscountReqAssemService  {
     private UserTradeAssemService userTradeAssemService;
 
     public void procKafkaData(DiscountReq req) {
-        if (discountReqService.getByReqId(req.getReqId()) == null) {
+        if (req.getReqId() != null && discountReqService.getByReqId(req.getReqId()) == null) {
             if (!discountReqService.save(req)) {
                 CriusLog.error("save OnlChargeReq error,reqId : " + req.getReqId());
             }
+        } else {
+            ApiLogger.warn("data not matching,"+ JSON.toJSONString(req));
         }
     }
 

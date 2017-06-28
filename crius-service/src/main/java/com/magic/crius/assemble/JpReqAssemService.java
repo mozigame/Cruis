@@ -1,5 +1,7 @@
 package com.magic.crius.assemble;
 
+import com.alibaba.fastjson.JSON;
+import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.JpReqAssemService;
 import com.magic.crius.assemble.PrizeDetailAssemService;
@@ -27,10 +29,12 @@ public class JpReqAssemService {
     private PrizeDetailAssemService prizeDetailAssemService;
 
     public void procKafkaData(JpReq req) {
-        if (jpReqService.getByReqId(req.getReqId()) == null) {
+        if (req.getReqId() != null && jpReqService.getByReqId(req.getReqId()) == null) {
             if (!jpReqService.save(req)) {
                 CriusLog.error("save JpReq error,reqId : " + req.getReqId());
             }
+        } else {
+            ApiLogger.warn("data not matching,"+ JSON.toJSONString(req));
         }
     }
 

@@ -1,5 +1,7 @@
 package com.magic.crius.assemble;
 
+import com.alibaba.fastjson.JSON;
+import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.CashbackReqAssemService;
 import com.magic.crius.assemble.OwnerReforwardDetailAssemService;
@@ -31,10 +33,12 @@ public class CashbackReqAssemService {
     private UserTradeAssemService userTradeAssemService;
 
     public void procKafkaData(CashbackReq req) {
-        if (cashbackReqService.getByReqId(req.getReqId()) == null) {
+        if (req.getReqId() != null && cashbackReqService.getByReqId(req.getReqId()) == null) {
             if (!cashbackReqService.save(req)) {
                 //todo
             }
+        } else {
+            ApiLogger.warn("data not matching,"+ JSON.toJSONString(req));
         }
     }
 

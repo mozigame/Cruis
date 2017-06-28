@@ -1,5 +1,7 @@
 package com.magic.crius.assemble;
 
+import com.alibaba.fastjson.JSON;
+import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.OperateWithDrawReqAssemService;
 import com.magic.crius.assemble.OwnerOperateOutDetailAssemService;
@@ -30,10 +32,12 @@ public class OperateWithDrawReqAssemService  {
     private OperateWithDrawReqService operateWithDrawReqService;
 
     public void procKafkaData(OperateWithDrawReq req) {
-        if (operateWithDrawReqService.getByReqId(req.getReqId()) == null) {
+        if (req.getReqId() != null && operateWithDrawReqService.getByReqId(req.getReqId()) == null) {
             if (!operateWithDrawReqService.save(req)) {
                 //todo
             }
+        } else {
+            ApiLogger.warn("data not matching,"+ JSON.toJSONString(req));
         }
     }
 

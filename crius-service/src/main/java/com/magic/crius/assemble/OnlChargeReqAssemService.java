@@ -1,5 +1,8 @@
 package com.magic.crius.assemble;
 
+import com.alibaba.fastjson.JSON;
+import com.magic.api.commons.ApiLogger;
+import com.magic.api.commons.utils.StringUtils;
 import com.magic.crius.assemble.UserFlowMoneyDetailAssemService;
 import com.magic.crius.service.OnlChargeReqService;
 import com.magic.crius.util.CriusLog;
@@ -30,10 +33,12 @@ public class OnlChargeReqAssemService  {
     private UserTradeAssemService userTradeAssemService;
 
     public void procKafkaData(OnlChargeReq req) {
-        if (onlChargeService.getByReqId(req.getReqId()) == null) {
+        if (req.getReqId() != null && onlChargeService.getByReqId(req.getReqId()) == null) {
             if (!onlChargeService.save(req)) {
                 CriusLog.error("save OnlChargeReq error,reqId : " + req.getReqId());
             }
+        } else {
+            ApiLogger.warn("data not matching,"+ JSON.toJSONString(req));
         }
     }
 

@@ -1,5 +1,7 @@
 package com.magic.crius.assemble;
 
+import com.alibaba.fastjson.JSON;
+import com.magic.api.commons.ApiLogger;
 import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
 import com.magic.crius.assemble.OwnerCompanyFlowDetailAssemService;
 import com.magic.crius.assemble.PreCmpChargeReqAssemService;
@@ -24,10 +26,12 @@ public class PreCmpChargeReqAssemService {
     private PreCmpChargeReqService preCmpChargeService;
 
     public void procKafkaData(PreCmpChargeReq req) {
-        if (preCmpChargeService.getByReqId(req.getReqId()) == null) {
+        if (req.getReqId() != null && preCmpChargeService.getByReqId(req.getReqId()) == null) {
             if (!preCmpChargeService.savePreCmpCharge(req)) {
                 CriusLog.error("save PreCmpCharge error,reqId : " + req.getReqId());
             }
+        } else {
+            ApiLogger.warn("data not matching,"+ JSON.toJSONString(req));
         }
     }
 

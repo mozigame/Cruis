@@ -78,7 +78,8 @@ public class UserTradeAssemService {
         userTrade.setUserId(req.getUserId());
         userTrade.setTradeId(req.getBillId());
         userTrade.setTradeNum(req.getChargeAmount());
-        userTrade.setTotalNum(req.getBalance());
+        //todo 暂时为0
+        userTrade.setTotalNum(0L);
         userTrade.setTradeTime(req.getProduceTime());
         //todo 交易类型
         userTrade.setTradeType(ActionType.ZHUAN_RU.getStatus());
@@ -126,7 +127,7 @@ public class UserTradeAssemService {
         userTrade.setTradeId(req.getBillId());
         userTrade.setTradeNum(req.getChargeAmount());
         //todo 账户余额
-        userTrade.setTotalNum(req.getBalance());
+        userTrade.setTotalNum(0L);
         userTrade.setTradeTime(req.getProduceTime());
         //todo 交易类型
         userTrade.setTradeType(ActionType.ZHUAN_RU.getStatus());

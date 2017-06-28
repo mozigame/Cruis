@@ -49,10 +49,6 @@ public class PreCmpChargeReq {
     private Long handlerId; //审核人id
     @JSONField(name = "HandlerName")
     private String handlerName; //审核人名称
-    @JSONField(name = "OfferAmount")
-    private Long offerAmount;   //优惠赠送额度
-    @JSONField(name = "OfferType")
-    private Integer offerType;  //优惠类型
     @JSONField(name = "NeedBettAmount")
     private Long needBettAmount;    //待打码量
     @JSONField(name = "ChargeType")
@@ -223,22 +219,6 @@ public class PreCmpChargeReq {
 
     public void setHandlerName(String handlerName) {
         this.handlerName = handlerName;
-    }
-
-    public Long getOfferAmount() {
-        return offerAmount;
-    }
-
-    public void setOfferAmount(Long offerAmount) {
-        this.offerAmount = offerAmount;
-    }
-
-    public Integer getOfferType() {
-        return offerType;
-    }
-
-    public void setOfferType(Integer offerType) {
-        this.offerType = offerType;
     }
 
     public Long getNeedBettAmount() {

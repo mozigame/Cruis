@@ -1,5 +1,7 @@
 package com.magic.crius.assemble;
 
+import com.alibaba.fastjson.JSON;
+import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.PreWithdrawReqAssemService;
 import com.magic.crius.assemble.UserOutMoneyDetailAssemService;
@@ -36,10 +38,12 @@ public class PreWithdrawReqAssemService {
     private UserTradeAssemService userTradeAssemService;
 
     public void procKafkaData(PreWithdrawReq req) {
-        if (preWithdrawService.getByReqId(req.getReqId()) == null) {
+        if (req.getReqId() != null && preWithdrawService.getByReqId(req.getReqId()) == null) {
             if (!preWithdrawService.save(req)) {
                 CriusLog.error("save PreWithdrawReq error,reqId : " + req.getReqId());
             }
+        } else {
+            ApiLogger.warn("data not matching,"+ JSON.toJSONString(req));
         }
     }
 
