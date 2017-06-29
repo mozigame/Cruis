@@ -23,7 +23,7 @@ start() {
     echo "warn: $APP_MAINCLASS already started! (pid=$psid)"
   else
     echo -n "Starting $APP_MAIN ..."
-    nohup java $JAVA_OPTS -classpath $CLASSPATH $APP_MAIN -t 600 -n 10 > $APP_HOME/logs/stdout.out 2>&1 &
+    nohup java $JAVA_OPTS -classpath $CLASSPATH $APP_MAIN -t 600 -n 10 > $APP_HOME/logs/stdout.out   &
     checkpid
     if [ $psid -ne 0 ]; then
       echo "(pid=$psid) [OK]"

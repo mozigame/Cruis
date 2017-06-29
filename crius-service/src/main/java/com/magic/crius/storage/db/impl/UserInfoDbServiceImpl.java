@@ -29,7 +29,7 @@ public class UserInfoDbServiceImpl implements UserInfoDbService {
     }
 
     @Override
-    public boolean updateLevel(Long userId, Integer level) {
+    public boolean updateLevel(Long userId, Long level) {
         return userInfoMapper.updateLevel(userId, level) > 0;
     }
 }

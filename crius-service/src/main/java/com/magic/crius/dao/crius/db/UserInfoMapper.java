@@ -30,6 +30,6 @@ public interface UserInfoMapper {
      * @param level
      * @return
      */
-    int updateLevel(@Param("userId") Long userId,@Param("userLevel") Integer level);
+    int updateLevel(@Param("userId") Long userId,@Param("userLevel") Long level);
 
 }

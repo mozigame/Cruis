@@ -47,19 +47,6 @@
     </bean>
     <!-- dataSource-->
 
-    <!-- tethys dataSource-->
-    <bean id="userDataSource_tethys" parent="baseDataSource">
-        <property name="url">
-            <value>jdbc:mysql://${mysql.tethys.db.serverport}/${mysql.tethys.db.database}?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true</value>
-        </property>
-        <property name="username">
-            <value>${mysql.tethys.db.user}</value>
-        </property>
-        <property name="password">
-            <value>${mysql.tethys.db.password}</value>
-        </property>
-    </bean>
-    <!-- dataSource-->
 
     <!-- sql sessionTemplate -->
     <bean id="mySqlSessionFactory_crius" class="org.mybatis.spring.SqlSessionFactoryBean">
@@ -78,15 +65,5 @@
     </bean>
     <!-- sql sessionTemplate -->
 
-
-    <!--<bean id="multipleDataSource" class="com.magic.crius.dt.core.MultipleDataSource">-->
-        <!--<property name="defaultTargetDataSource" ref="userDataSource_crius"/>-->
-        <!--<property name="targetDataSources" >-->
-            <!--<map>-->
-                <!--<entry key="criusDataSource" value-ref="userDataSource_crius"/>-->
-                <!--<entry key="tethysDataSource" value-ref="userDataSource_tethys"/>-->
-            <!--</map>-->
-        <!--</property>-->
-    <!--</bean>-->
 
 </beans>
