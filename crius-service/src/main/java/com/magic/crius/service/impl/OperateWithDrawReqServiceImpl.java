@@ -1,5 +1,6 @@
 package com.magic.crius.service.impl;
 
+import com.magic.api.commons.ApiLogger;
 import com.magic.crius.service.OperateWithDrawReqService;
 import com.magic.crius.storage.mongo.OperateWithDrawReqMongoService;
 import com.magic.crius.storage.redis.OperateWithDrawReqRedisService;
@@ -30,7 +31,7 @@ public class OperateWithDrawReqServiceImpl implements OperateWithDrawReqService 
             operateWithDrawReqMongoService.saveFailedData(req);
         }
         if (!operateWithDrawReqRedisService.save(req)) {
-            //TODO 缓存保存失败如何处理
+            ApiLogger.warn("operateWithDrawReq insert redis failed,reqId : " + req.getReqId());
         }
         return true;
     }

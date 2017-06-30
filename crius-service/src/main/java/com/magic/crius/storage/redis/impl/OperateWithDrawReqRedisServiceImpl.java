@@ -31,8 +31,10 @@ public class OperateWithDrawReqRedisServiceImpl implements OperateWithDrawReqRed
     public boolean save(OperateWithDrawReq req) {
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_OPR_WITHDRAW.key(DateUtil.formatDateTime(new Date(req.getProduceTime()), DateUtil.format_yyyyMMddHH));
-            Long result = jedis.lpush(key, JSON.toJSONString(req));
+            Date date = new Date(req.getProduceTime());
+            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_OPR_WITHDRAW.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
+            String value = JSON.toJSONString(req);
+            Long result = jedis.lpush(key, value);
             jedis.expire(key, RedisConstants.EXPIRE_THREE_HOUR);
             return result > 0;
         } catch (Exception e) {

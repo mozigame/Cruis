@@ -1,7 +1,7 @@
 #!/bin/bash
 
 APP_HOME=`pwd`
-JAVA_OPTS="-server -Xms2048M -Xmx2048M -Xmn512M -XX:PermSize=256M -XX:MaxPermSize=256M -XX:SurvivorRatio=8 -XX:MaxTenuringThreshold=7"
+JAVA_OPTS="-server -Xms1500M -Xmx1500M -Xmn512M -XX:PermSize=256M -XX:MaxPermSize=256M -XX:SurvivorRatio=8 -XX:MaxTenuringThreshold=7"
 
 #DEBUG_OPTS="-server -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=7088"
 
