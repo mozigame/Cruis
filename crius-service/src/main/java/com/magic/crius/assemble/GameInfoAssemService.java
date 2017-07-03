@@ -2,6 +2,7 @@ package com.magic.crius.assemble;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.magic.api.commons.ApiLogger;
 import com.magic.config.thrift.base.EGResp;
 import com.magic.crius.po.GameInfo;
 import com.magic.crius.service.GameInfoService;
@@ -39,13 +40,18 @@ public class GameInfoAssemService {
                 GameInfo gameInfo = JSONObject.parseObject(obj1.toJSONString(), GameInfo.class);
                 gameInfos.add(gameInfo);
             }
-            //先清空游戏表
-            if (gameInfoService.deleteAll()) {
+            if (!gameInfoService.getLock()) {
+                //先清空游戏表
+                if (gameInfoService.deleteAll()) {
+                    ApiLogger.warn("delete gameInfos failed");
+                }
+                if (!gameInfoService.batchSave(gameInfos)) {
+                    ApiLogger.warn("batchSave gameInfos failed");
+                }
+            } else {
+                gameInfoService.setLock();
             }
-            if (!gameInfoService.batchSave(gameInfos)) {
-
-            }
-            System.out.println("插入所有游戏" +(System.currentTimeMillis() - startTime));
+            ApiLogger.info("insert all gameInfo spend time " +(System.currentTimeMillis() - startTime));
 
         }
     }

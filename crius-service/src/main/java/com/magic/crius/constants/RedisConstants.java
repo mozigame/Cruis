@@ -9,10 +9,14 @@ package com.magic.crius.constants;
 public class RedisConstants {
 
     public static final int EXPIRE_ONE_DAY = 60 * 60 * 24;
+    /* 3 小时 */
+    public static final int EXPIRE_THREE_HOUR =10800;
 
-    public static final int EXPIRE_THREE_HOUR = 60 * 60 * 3;
 
-    public static final String game_info_lock_ = "";
+    /*定时拉取游戏列表的锁*/
+    public static final String GAME_INFO_LOCK = "game_info_lock_";
+    /* 20分钟 */
+    public static final int GAME_INFO_LOCK_EXPIRE= 1200;
     /**
      * 批量pop redis中的数据条数
      */

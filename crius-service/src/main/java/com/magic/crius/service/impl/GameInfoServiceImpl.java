@@ -3,6 +3,7 @@ package com.magic.crius.service.impl;
 import com.magic.crius.po.GameInfo;
 import com.magic.crius.service.GameInfoService;
 import com.magic.crius.storage.db.GameInfoDbService;
+import com.magic.crius.storage.redis.GameInfoRedisService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,8 +20,8 @@ public class GameInfoServiceImpl implements GameInfoService {
 
     @Resource
     private GameInfoDbService gameInfoDbService;
-
-
+    @Resource
+    private GameInfoRedisService gameInfoRedisService;
 
     @Override
     public boolean batchSave(List<GameInfo> gameInfos) {
@@ -34,11 +35,11 @@ public class GameInfoServiceImpl implements GameInfoService {
 
     @Override
     public boolean getLock() {
-        return false;
+        return gameInfoRedisService.getLock();
     }
 
     @Override
     public boolean setLock() {
-        return false;
+        return gameInfoRedisService.setLock();
     }
 }
