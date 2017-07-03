@@ -40,7 +40,7 @@ public class CriusScheduler {
     /**
      * 拉取游戏列表的延时时长
      */
-    private static final int gameListPullInitDelay = 1000 * 60;
+    private static final int gameListPullInitDelay = 1000 * 30;
 
     /*用户充值成功*/
     @Resource
