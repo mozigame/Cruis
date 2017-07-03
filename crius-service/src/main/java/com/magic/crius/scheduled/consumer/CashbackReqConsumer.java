@@ -200,7 +200,7 @@ public class CashbackReqConsumer {
         OwnerReforwardDetail summmary = new OwnerReforwardDetail();
         summmary.setOwnerId(req.getOwnerId());
         summmary.setUserId(req.getUserId());
-        summmary.setGameType(String.valueOf(req.getGameHallId()));
+        summmary.setGameType(String.valueOf(req.getGamePlatformHalltypeId()));
         //TODO 等待获取
         summmary.setOrderNum(1);
         summmary.setOrderCount(req.getBettAmount());

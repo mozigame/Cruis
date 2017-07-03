@@ -20,6 +20,8 @@ public class GameInfoServiceImpl implements GameInfoService {
     @Resource
     private GameInfoDbService gameInfoDbService;
 
+
+
     @Override
     public boolean batchSave(List<GameInfo> gameInfos) {
         return gameInfoDbService.batchSave(gameInfos);
@@ -28,5 +30,15 @@ public class GameInfoServiceImpl implements GameInfoService {
     @Override
     public boolean deleteAll() {
         return gameInfoDbService.deleteAll();
+    }
+
+    @Override
+    public boolean getLock() {
+        return false;
+    }
+
+    @Override
+    public boolean setLock() {
+        return false;
     }
 }

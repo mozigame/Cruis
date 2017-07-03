@@ -44,6 +44,11 @@ public class CashbackReq {
     @JSONField(name = "Balance")
     private Long balance;   //余额
 
+    @JSONField(name = "GamePlatformHalltypeId")
+    private Long gamePlatformHalltypeId;    //游戏类型id
+    @JSONField(name = "GamePlatformHalltypeName")
+    private String gamePlatformHalltypeName;
+
     public Long getReqId() {
         return reqId;
     }
@@ -170,5 +175,21 @@ public class CashbackReq {
 
     public void setBalance(Long balance) {
         this.balance = balance;
+    }
+
+    public Long getGamePlatformHalltypeId() {
+        return gamePlatformHalltypeId;
+    }
+
+    public void setGamePlatformHalltypeId(Long gamePlatformHalltypeId) {
+        this.gamePlatformHalltypeId = gamePlatformHalltypeId;
+    }
+
+    public String getGamePlatformHalltypeName() {
+        return gamePlatformHalltypeName;
+    }
+
+    public void setGamePlatformHalltypeName(String gamePlatformHalltypeName) {
+        this.gamePlatformHalltypeName = gamePlatformHalltypeName;
     }
 }

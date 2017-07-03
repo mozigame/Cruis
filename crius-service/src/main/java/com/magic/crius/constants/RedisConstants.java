@@ -12,9 +12,9 @@ public class RedisConstants {
 
     public static final int EXPIRE_THREE_HOUR = 60 * 60 * 3;
 
-
+    public static final String game_info_lock_ = "";
     /**
-     * 批量pop redis中的数据
+     * 批量pop redis中的数据条数
      */
     public static final int BATCH_POP_NUM = 1000;
 

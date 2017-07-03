@@ -10,7 +10,7 @@ public class ScheduleConsumerConstants {
     /*
     * 处理缓存中数据的线程数量
     * */
-    public static final int THREAD_SIZE = 4;
+    public static final int THREAD_SIZE = 2;
 
     /**
      * 每个线程中轮询在缓存拿取数据的次数

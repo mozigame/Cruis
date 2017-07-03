@@ -41,9 +41,9 @@ public class GameInfoAssemService {
             }
             //先清空游戏表
             if (gameInfoService.deleteAll()) {
-                if (!gameInfoService.batchSave(gameInfos)) {
+            }
+            if (!gameInfoService.batchSave(gameInfos)) {
 
-                }
             }
             System.out.println("插入所有游戏" +(System.currentTimeMillis() - startTime));
 

@@ -12,7 +12,30 @@ import java.util.List;
  */
 public interface GameInfoService {
 
+    /**
+     * 批量添加游戏基础信息
+     * @param gameInfos
+     * @return
+     */
     boolean batchSave(List<GameInfo> gameInfos);
 
+    /**
+     * 删除全部游戏信息
+     * @return
+     */
     boolean deleteAll();
+
+    /**
+     * 获取操作游戏的锁
+     * @return
+     */
+    boolean getLock();
+
+    /**
+     * 设置操作游戏时的锁
+     * @return
+     */
+    boolean setLock();
+
+
 }

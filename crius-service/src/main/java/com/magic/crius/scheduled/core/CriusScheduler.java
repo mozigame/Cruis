@@ -235,7 +235,7 @@ public class CriusScheduler {
     /**
      * 定时拉取游戏列表
      */
-    @Scheduled(initialDelay = gameListPullInitDelay, fixedRate = gameListPullRate)
+//    @Scheduled(initialDelay = gameListPullInitDelay, fixedRate = gameListPullRate)
     public void gameInfoPullSchedule() {
         try {
             gameInfoAssemService.getAllGames();

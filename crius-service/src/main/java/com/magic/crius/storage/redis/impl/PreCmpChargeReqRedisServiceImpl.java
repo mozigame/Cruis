@@ -1,6 +1,7 @@
 package com.magic.crius.storage.redis.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.codis.JedisFactory;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.api.commons.utils.StringUtils;
@@ -33,6 +34,7 @@ public class PreCmpChargeReqRedisServiceImpl implements PreCmpChargeReqRedisServ
             String key = RedisConstants.CLEAR_PREFIX.PLUTUS_CMP_CHARGE.key(DateUtil.formatDateTime(new Date(preCmpChargeReq.getProduceTime()), DateUtil.format_yyyyMMddHH));
             Long result = jedis.lpush(key, JSON.toJSONString(preCmpChargeReq));
             jedis.expire(key, RedisConstants.EXPIRE_THREE_HOUR);
+            ApiLogger.debug("PreCmpChargeReq save , key : "+key);
             return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,6 +56,7 @@ public class PreCmpChargeReqRedisServiceImpl implements PreCmpChargeReqRedisServ
                     break;
                 }
             }
+            ApiLogger.debug("PreCmpChargeReq batchPop , key : "+key);
             return list;
         } catch (Exception e) {
             e.printStackTrace();
