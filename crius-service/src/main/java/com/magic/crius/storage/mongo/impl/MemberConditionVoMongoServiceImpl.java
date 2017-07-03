@@ -10,6 +10,7 @@ import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.storage.mongo.MemberConditionVoMongoService;
 import com.magic.crius.vo.UserLevelReq;
 import com.magic.user.entity.Member;
+import com.magic.user.vo.AgentConditionVo;
 import com.magic.user.vo.MemberConditionVo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -59,16 +60,14 @@ public class MemberConditionVoMongoServiceImpl implements MemberConditionVoMongo
             update.inc("depositCount", vo.getDepositCount());
             update.inc("depositMoney", vo.getDepositMoney());
             update.set("updateTime", System.currentTimeMillis());
-            WriteResult result = memberConditionVoMongoDao.getMongoTemplate().findAndModify(query, update, WriteResult.class, MongoCollections.memberConditionVo.name());
-            ApiLogger.info("member updateRecharge member, id:" + vo.getMemberId() + ", result : " + result.getN());
+            memberConditionVoMongoDao.getMongoTemplate().findAndModify(query, update, MemberConditionVo.class, MongoCollections.memberConditionVo.name());
 
             Query agentQ = new Query();
             agentQ.addCriteria(new Criteria("agentId").is(vo.getAgentId()));
             Update agentUpdate = new Update();
             agentUpdate.inc("depositMoney", vo.getDepositMoney());
             agentUpdate.set("updateTime", System.currentTimeMillis());
-            WriteResult agentResult = memberConditionVoMongoDao.getMongoTemplate().findAndModify(agentQ, agentUpdate, WriteResult.class, MongoCollections.agentConditionVo.name());
-            ApiLogger.info("agent updateRecharge member, id:" + vo.getMemberId() + ", result : " + agentResult.getN());
+            memberConditionVoMongoDao.getMongoTemplate().findAndModify(agentQ, agentUpdate, AgentConditionVo.class, MongoCollections.agentConditionVo.name());
             return true;
         } catch (Exception e) {
             logger.error("MemberCondition capital error , vo : " + JSON.toJSONString(vo));
@@ -95,16 +94,14 @@ public class MemberConditionVoMongoServiceImpl implements MemberConditionVoMongo
             update.inc("withdrawCount", vo.getWithdrawCount());
             update.inc("withdrawMoney", vo.getWithdrawMoney());
             update.set("updateTime", System.currentTimeMillis());
-            WriteResult result = memberConditionVoMongoDao.getMongoTemplate().findAndModify(query, update, WriteResult.class, MongoCollections.memberConditionVo.name());
-            ApiLogger.info("member updateWithdraw member, id:" + vo.getMemberId() + ", result : " + result.getN());
+            memberConditionVoMongoDao.getMongoTemplate().findAndModify(query, update, MemberConditionVo.class, MongoCollections.memberConditionVo.name());
 
             Query agentQ = new Query();
             agentQ.addCriteria(new Criteria("agentId").is(vo.getAgentId()));
             Update agentUpdate = new Update();
             agentUpdate.inc("withdrawMoney", vo.getWithdrawMoney());
             agentUpdate.set("updateTime", System.currentTimeMillis());
-            WriteResult agentResult = memberConditionVoMongoDao.getMongoTemplate().findAndModify(agentQ, agentUpdate, WriteResult.class, MongoCollections.agentConditionVo.name());
-            ApiLogger.info("agent updateWithdraw agent, id:" + vo.getAgentId() + ", result : " + agentResult.getN());
+            memberConditionVoMongoDao.getMongoTemplate().findAndModify(agentQ, agentUpdate, AgentConditionVo.class, MongoCollections.agentConditionVo.name());
 
             return true;
         } catch (Exception e) {

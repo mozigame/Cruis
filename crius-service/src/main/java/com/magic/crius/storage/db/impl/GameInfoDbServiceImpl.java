@@ -27,6 +27,12 @@ public class GameInfoDbServiceImpl implements GameInfoDbService {
 
     @Override
     public boolean batchSave(List<GameInfo> gameInfos) {
+        if (criusGameInfoMapper.insertBatch(gameInfos) <= 0) {
+            logger.warn("criusGameInfoMapper insert gameInfos failed ");
+            return false;
+        } else {
+            logger.info("criusGameInfoMapper insert gameInfos success");
+        }
         try {
             if (tethysGameInfoMapper.insertBatch(gameInfos) <= 0) {
                 logger.warn("tethysGameInfoMapper insert gameInfos failed ");
@@ -34,10 +40,6 @@ public class GameInfoDbServiceImpl implements GameInfoDbService {
         } catch (Exception e) {
             logger.error("tethysGameInfoMapper insert gameInfos error ",e);
             e.printStackTrace();
-        }
-        if (criusGameInfoMapper.insertBatch(gameInfos) <= 0) {
-            logger.warn("criusGameInfoMapper insert gameInfos failed ");
-            return false;
         }
         return true;
     }

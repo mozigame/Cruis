@@ -1,5 +1,6 @@
 package com.magic.crius.dao.tethys.db;
 
+import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.atlas.core.mybatis.MyBatisDaoImpl;
 import com.magic.crius.po.GameInfo;
 import org.apache.ibatis.session.SqlSession;
@@ -18,10 +19,12 @@ public class GameInfoMapper extends MyBatisDaoImpl<GameInfo, Long> {
     public Long insertBatch(List<GameInfo> gameInfos) {
         if (gameInfos != null && gameInfos.size() > 0) {
             for (Map.Entry<Integer, SqlSession> entry : super.shardSqlSessionTemplates.entrySet()) {
+                ApiLogger.info("tethys batch insert gameInfo , key : " + entry.getKey());
                 int num = entry.getValue().insert(sqlMapNamespace + "." + POSTFIX_INSERT_BATCH, gameInfos);
                 if (num < gameInfos.size()) {
-                    System.out.println("insert gameInfos failed, size : " + num);
+                    System.out.println("tethys insert gameInfos failed, size : " + num);
                 }
+                ApiLogger.info("tethys batch insert success , key : " + entry.getKey());
             }
             return (long) gameInfos.size();
         }
