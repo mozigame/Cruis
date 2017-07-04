@@ -59,7 +59,7 @@ public class UserFlowMoneyDetailAssemService {
         detail.setMerchantName(req.getBankCode());
         detail.setOrderCount(req.getChargeAmount());
         //Todo 待确定
-        detail.setState(0);
+        detail.setState(1);
         //todo kevin 提供
         detail.setPayMethod(req.getChargeType());
         detail.setFlowId(req.getBillId());
