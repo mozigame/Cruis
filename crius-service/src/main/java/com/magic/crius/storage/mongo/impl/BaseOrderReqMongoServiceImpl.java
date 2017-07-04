@@ -27,7 +27,7 @@ public class BaseOrderReqMongoServiceImpl implements BaseOrderReqMongoService {
     @Override
     public boolean save(BaseOrderReq req) {
         try {
-            return baseOrderReqMongoDao.save(req) != null;
+            return baseOrderReqMongoDao.save(req, MongoCollections.baseOrderReq.name()) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }
