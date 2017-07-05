@@ -29,7 +29,7 @@ public class GameInfoAssemService {
     private GameInfoService gameInfoService;
 
     public void getAllGames() {
-        String body = "{\"api\":\"game_list\"}";
+        String body = "{\"api\":\"game_list\",\"status\":1}";
         EGResp resp = criusThirdThriftService.getAllGames(body, "account");
         if (resp != null && resp.getCode() == 0) {
             long startTime = System.currentTimeMillis();

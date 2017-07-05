@@ -67,6 +67,8 @@ public class UserFlowMoneyDetailAssemService {
         detail.setFlowType(ActionType.CHONG_ZHI.getStatus());
         detail.setOrderId(req.getBillId());
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
+        //审核人名称
+        detail.setHandlerName(req.getHandlerName());
         detail.setCreateTime(req.getProduceTime());
         detail.setUpdateTime(req.getProduceTime());
         return detail;

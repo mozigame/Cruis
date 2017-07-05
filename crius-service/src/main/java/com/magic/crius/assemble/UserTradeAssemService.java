@@ -141,15 +141,7 @@ public class UserTradeAssemService {
         userTrade.setOwnerId(req.getOwnerId());
         userTrade.setUserId(req.getUserId());
         userTrade.setTradeId(req.getBillId());
-        Long realWithdrawAmount = req.getRealWithdrawAmount();
-        Long needPayAmount = req.getNeedPayAmount();
-        if (realWithdrawAmount == null) {
-            realWithdrawAmount = 0L;
-        }
-        if (needPayAmount == null) {
-            needPayAmount = 0L;
-        }
-        userTrade.setTradeNum(realWithdrawAmount - needPayAmount);
+        userTrade.setTradeNum(req.getReqWithdrawAmount());
         //todo 账户余额
         userTrade.setTotalNum(0L);
         userTrade.setTradeTime(req.getProduceTime());
