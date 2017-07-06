@@ -5,8 +5,10 @@ import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.mq.annotation.ConsumerConfig;
 import com.magic.api.commons.mq.api.Consumer;
 import com.magic.api.commons.mq.api.Topic;
+import com.magic.crius.assemble.BaseOrderReqAssemService;
 import com.magic.crius.po.OwnerInfo;
 import com.magic.crius.service.OwnerInfoService;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,12 +23,15 @@ import javax.annotation.Resource;
 @ConsumerConfig(consumerName = "v1criusMasterAddOwnerSuccessConsumer", topic = Topic.BC_COMPANY_ADD_SUCCESS)
 public class MasterAddOwnerSuccessConsumer implements Consumer {
 
+
+    private static final Logger logger = Logger.getLogger(MasterAddOwnerSuccessConsumer.class);
+
     @Resource
     private OwnerInfoService ownerInfoService;
 
     @Override
     public boolean doit(String topic, String tags, String key, String msg) {
-        ApiLogger.info(String.format("master control add owner success mq consumer start. key:%s, msg:%s", key, msg));
+        logger.info(String.format("master control add owner success mq consumer start. key:%s, msg:%s", key, msg));
         try {
             JSONObject object = JSONObject.parseObject(msg);
             long ownerId = object.getLongValue("id");
@@ -43,7 +48,7 @@ public class MasterAddOwnerSuccessConsumer implements Consumer {
                 }
             }
         } catch (Exception e) {
-            ApiLogger.error(String.format("master control add owner success mq consumer error. key:%s, msg:%s", key, msg), e);
+            logger.error(String.format("master control add owner success mq consumer error. key:%s, msg:%s", key, msg), e);
         }
         return true;
     }

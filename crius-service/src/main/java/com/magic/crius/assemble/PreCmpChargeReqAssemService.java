@@ -1,10 +1,9 @@
 package com.magic.crius.assemble;
 
 import com.alibaba.fastjson.JSON;
-import com.magic.api.commons.ApiLogger;
 import com.magic.crius.service.PreCmpChargeReqService;
-import com.magic.crius.util.CriusLog;
 import com.magic.crius.vo.PreCmpChargeReq;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,16 +17,18 @@ import javax.annotation.Resource;
 @Service
 public class PreCmpChargeReqAssemService {
 
+    private static final Logger logger = Logger.getLogger(PreCmpChargeReqAssemService.class);
+
     @Resource
     private PreCmpChargeReqService preCmpChargeService;
 
     public void procKafkaData(PreCmpChargeReq req) {
         if (req.getReqId() != null && preCmpChargeService.getByReqId(req.getReqId()) == null) {
             if (!preCmpChargeService.savePreCmpCharge(req)) {
-                CriusLog.error("save PreCmpCharge error,reqId : " + req.getReqId());
+                logger.error("save PreCmpCharge error,reqId : " + req.getReqId());
             }
         } else {
-            ApiLogger.warn("data not matching,"+ JSON.toJSONString(req));
+            logger.warn("data not matching,"+ JSON.toJSONString(req));
         }
     }
 

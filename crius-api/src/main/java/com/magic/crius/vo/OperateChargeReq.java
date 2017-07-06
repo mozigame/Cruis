@@ -41,6 +41,9 @@ public class OperateChargeReq {
     @JSONField(name = "ProduceTime")
     private Long produceTime;//注入kafka的ms时间
 
+    @JSONField(name = "Balance")
+    private Long balance;   //余额
+
     public Long getReqId() {
         return reqId;
     }
@@ -159,5 +162,13 @@ public class OperateChargeReq {
 
     public void setChargeAmount(Long chargeAmount) {
         this.chargeAmount = chargeAmount;
+    }
+
+    public Long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = balance;
     }
 }

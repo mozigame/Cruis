@@ -1,9 +1,9 @@
 package com.magic.crius.assemble;
 
 import com.alibaba.fastjson.JSON;
-import com.magic.api.commons.ApiLogger;
 import com.magic.crius.service.DealerRewardReqService;
 import com.magic.crius.vo.DealerRewardReq;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,6 +15,8 @@ import javax.annotation.Resource;
  */
 @Service
 public class DealerRewardReqAssemService  {
+
+    private static final Logger logger = Logger.getLogger(DealerRewardReqAssemService.class);
 
     @Resource
     private DealerRewardReqService dealerRewardReqService;
@@ -28,7 +30,7 @@ public class DealerRewardReqAssemService  {
                 //todo
             }
         } else {
-            ApiLogger.warn("data not matching,"+ JSON.toJSONString(req));
+            logger.warn("data not matching,"+ JSON.toJSONString(req));
         }
     }
 

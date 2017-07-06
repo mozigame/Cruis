@@ -1,22 +1,12 @@
 package com.magic.crius.assemble;
 
 import com.alibaba.fastjson.JSON;
-import com.magic.api.commons.ApiLogger;
-import com.magic.api.commons.tools.DateUtil;
-import com.magic.crius.assemble.OperateChargeReqAssemService;
-import com.magic.crius.assemble.OwnerOperateFlowDetailAssemService;
-import com.magic.crius.assemble.UserTradeAssemService;
-import com.magic.crius.po.OwnerOperateFlowDetail;
-import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.OperateChargeReqService;
-import com.magic.crius.util.CriusLog;
 import com.magic.crius.vo.OperateChargeReq;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * User: joey
@@ -27,21 +17,19 @@ import java.util.List;
 @Service
 public class OperateChargeReqAssemService  {
 
+
+    private static final Logger logger = Logger.getLogger(OperateChargeReqAssemService.class);
+
     @Resource
     private OperateChargeReqService operateChargeService;
-    /*人工入款汇总*/
-    @Resource
-    private OwnerOperateFlowDetailAssemService ownerOperateFlowDetailAssemService;
-    @Resource
-    private UserTradeAssemService userTradeAssemService;
 
     public void procKafkaData(OperateChargeReq req) {
         if (req.getReqId() != null && operateChargeService.getByReqId(req.getReqId()) == null) {
             if (!operateChargeService.save(req)) {
-                CriusLog.error("save OperateChargeReq error,reqId : " + req.getReqId());
+                logger.error("save OperateChargeReq error,reqId : " + req.getReqId());
             }
         } else {
-            ApiLogger.warn("data not matching,"+ JSON.toJSONString(req));
+            logger.warn("data not matching,"+ JSON.toJSONString(req));
         }
     }
 

@@ -35,6 +35,9 @@ public class OperateWithDrawReq {
     @JSONField(name = "ProduceTime")
     private Long produceTime;
 
+    @JSONField(name = "Balance")
+    private Long balance;   //余额
+
     public Long getReqId() {
         return reqId;
     }
@@ -129,5 +132,13 @@ public class OperateWithDrawReq {
 
     public void setBillIds(Long[] billIds) {
         this.billIds = billIds;
+    }
+
+    public Long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = balance;
     }
 }

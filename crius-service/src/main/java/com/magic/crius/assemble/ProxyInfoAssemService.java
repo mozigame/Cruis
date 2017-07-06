@@ -1,6 +1,5 @@
 package com.magic.crius.assemble;
 
-import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.po.ProxyInfo;
 import com.magic.crius.service.ProxyInfoService;

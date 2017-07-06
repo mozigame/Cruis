@@ -45,6 +45,9 @@ public class DealerRewardReq {
     @JSONField(name = "ProduceTime")
     private Long produceTime;
 
+    @JSONField(name = "Balance")
+    private Long balance;   //余额
+
     public Long getBillId() {
         return billId;
     }
@@ -179,5 +182,13 @@ public class DealerRewardReq {
 
     public void setReqId(Long reqId) {
         this.reqId = reqId;
+    }
+
+    public Long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = balance;
     }
 }

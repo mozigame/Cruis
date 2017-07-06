@@ -1,10 +1,10 @@
 package com.magic.crius.service.impl;
 
-import com.magic.api.commons.ApiLogger;
 import com.magic.crius.service.OperateWithDrawReqService;
 import com.magic.crius.storage.mongo.OperateWithDrawReqMongoService;
 import com.magic.crius.storage.redis.OperateWithDrawReqRedisService;
 import com.magic.crius.vo.OperateWithDrawReq;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,6 +20,8 @@ import java.util.List;
 @Service
 public class OperateWithDrawReqServiceImpl implements OperateWithDrawReqService {
 
+    private static final Logger logger = Logger.getLogger(OperateWithDrawReqServiceImpl.class);
+
     @Resource
     private OperateWithDrawReqRedisService operateWithDrawReqRedisService;
     @Resource
@@ -31,7 +33,7 @@ public class OperateWithDrawReqServiceImpl implements OperateWithDrawReqService 
             operateWithDrawReqMongoService.saveFailedData(req);
         }
         if (!operateWithDrawReqRedisService.save(req)) {
-            ApiLogger.warn("operateWithDrawReq insert redis failed,reqId : " + req.getReqId());
+            logger.warn("operateWithDrawReq insert redis failed,reqId : " + req.getReqId());
         }
         return true;
     }

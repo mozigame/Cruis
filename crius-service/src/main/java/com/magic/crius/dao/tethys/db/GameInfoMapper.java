@@ -1,12 +1,12 @@
 package com.magic.crius.dao.tethys.db;
 
-import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.atlas.core.mybatis.MyBatisDaoImpl;
+import com.magic.crius.assemble.BaseOrderReqAssemService;
 import com.magic.crius.po.GameInfo;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -16,15 +16,17 @@ import java.util.Map;
 @Component("tethysGameInfoMapper")
 public class GameInfoMapper extends MyBatisDaoImpl<GameInfo, Long> {
 
+    private static final Logger logger = Logger.getLogger(GameInfoMapper.class);
+
     public Long insertBatch(List<GameInfo> gameInfos) {
         if (gameInfos != null && gameInfos.size() > 0) {
             for (Map.Entry<Integer, SqlSession> entry : super.shardSqlSessionTemplates.entrySet()) {
-                ApiLogger.info("tethys batch insert gameInfo , key : " + entry.getKey());
+                logger.info("tethys batch insert gameInfo , key : " + entry.getKey());
                 int num = entry.getValue().insert(sqlMapNamespace + "." + POSTFIX_INSERT_BATCH, gameInfos);
                 if (num < gameInfos.size()) {
-                    System.out.println("tethys insert gameInfos failed, size : " + num);
+                    logger.warn("tethys insert gameInfos failed, size : " + num);
                 }
-                ApiLogger.info("tethys batch insert success , key : " + entry.getKey());
+                logger.info("tethys batch insert success , key : " + entry.getKey());
             }
             return (long) gameInfos.size();
         }

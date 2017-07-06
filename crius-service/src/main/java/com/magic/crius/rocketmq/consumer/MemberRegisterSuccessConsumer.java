@@ -1,7 +1,6 @@
 package com.magic.crius.rocketmq.consumer;
 
 import com.alibaba.fastjson.JSONObject;
-import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.mq.annotation.ConsumerConfig;
 import com.magic.api.commons.mq.api.Consumer;
 import com.magic.api.commons.mq.api.Topic;
@@ -9,6 +8,7 @@ import com.magic.crius.po.UserInfo;
 import com.magic.crius.service.UserInfoService;
 import com.magic.user.entity.Member;
 import com.magic.user.enums.AccountType;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -22,12 +22,14 @@ import javax.annotation.Resource;
 @ConsumerConfig(consumerName = "v1criusMemberRegisterSucessMongoConsumer", topic = Topic.MEMBER_REGISTER_SUCCESS)
 public class MemberRegisterSuccessConsumer implements Consumer {
 
+    private static final Logger logger = Logger.getLogger(MemberRegisterSuccessConsumer.class);
+
     @Resource
     private UserInfoService userInfoService;
 
     @Override
     public boolean doit(String topic, String tags, String key, String msg) {
-        ApiLogger.info(String.format("member register sucess mongo mq consumer start. key:%s, msg:%s", key, msg));
+        logger.info(String.format("member register sucess mongo mq consumer start. key:%s, msg:%s", key, msg));
         try {
             Member member = JSONObject.parseObject(msg, Member.class);
             UserInfo userInfo = assembleUseInfo(member);
@@ -38,7 +40,7 @@ public class MemberRegisterSuccessConsumer implements Consumer {
                 return false;
             }
         } catch (Exception e) {
-            ApiLogger.error(String.format("member register sucess mq consumer error. key:%s, msg:%s", key, msg), e);
+            logger.error(String.format("member register sucess mq consumer error. key:%s, msg:%s", key, msg), e);
         }
         return true;
     }

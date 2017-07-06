@@ -10,6 +10,7 @@ import com.magic.crius.po.OwnerReforwardDetail;
 import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.CashbackReqService;
 import com.magic.crius.vo.CashbackReq;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,6 +23,9 @@ import java.util.*;
  */
 @Service
 public class CashbackReqAssemService {
+
+
+    private static final Logger logger = Logger.getLogger(CashbackReqAssemService.class);
 
     @Resource
     private CashbackReqService cashbackReqService;
@@ -38,7 +42,7 @@ public class CashbackReqAssemService {
                 //todo
             }
         } else {
-            ApiLogger.warn("data not matching,"+ JSON.toJSONString(req));
+            logger.warn("data not matching,"+ JSON.toJSONString(req));
         }
     }
 

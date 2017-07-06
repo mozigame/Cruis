@@ -38,6 +38,10 @@ public class PreWithdrawReq {
     @JSONField(name = "NeedPayAmount")
     private Long needPayAmount; //费用扣除
 
+    @JSONField(name = "Balance")
+    private Long balance;   //余额
+
+
     public Long getReqId() {
         return reqId;
     }
@@ -140,5 +144,13 @@ public class PreWithdrawReq {
 
     public void setNeedPayAmount(Long needPayAmount) {
         this.needPayAmount = needPayAmount;
+    }
+
+    public Long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = balance;
     }
 }

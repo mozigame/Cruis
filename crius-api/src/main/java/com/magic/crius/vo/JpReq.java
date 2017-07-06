@@ -41,6 +41,9 @@ public class JpReq {
     @JSONField(name = "ProduceTime")
     private Long produceTime;
 
+    @JSONField(name = "Balance")
+    private Long balance;   //余额
+
     public Long getBillId() {
         return billId;
     }
@@ -159,5 +162,13 @@ public class JpReq {
 
     public void setReqId(Long reqId) {
         this.reqId = reqId;
+    }
+
+    public Long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = balance;
     }
 }

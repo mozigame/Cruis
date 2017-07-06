@@ -39,6 +39,9 @@ public class PayoffReq {
     @JSONField(name = "ProduceTime")
     private Long produceTime;
 
+    @JSONField(name = "Balance")
+    private Long balance;   //余额
+
     public Long getReqId() {
         return reqId;
     }
@@ -149,5 +152,13 @@ public class PayoffReq {
 
     public void setBillId(Long billId) {
         this.billId = billId;
+    }
+
+    public Long getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = balance;
     }
 }
