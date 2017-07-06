@@ -47,7 +47,7 @@ public class UserTradeAssemService {
         userTrade.setTradeId(req.getBillId());
         userTrade.setTradeNum(req.getAmount());
         //todo 账户余额
-        userTrade.setTotalNum(0L);
+        userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
         //todo 交易类型
         userTrade.setTradeType(ActionType.ZHUAN_CHU.getStatus());
@@ -63,7 +63,7 @@ public class UserTradeAssemService {
         userTrade.setTradeId(req.getBillId());
         userTrade.setTradeNum(req.getOfferAmount());
         //todo 账户余额
-        userTrade.setTotalNum(0L);
+        userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
         //todo 交易类型
         userTrade.setTradeType(ActionType.ZHUAN_CHU.getStatus());
@@ -79,7 +79,7 @@ public class UserTradeAssemService {
         userTrade.setTradeId(req.getBillId());
         userTrade.setTradeNum(req.getChargeAmount());
         //todo 暂时为0
-        userTrade.setTotalNum(0L);
+        userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
         //todo 交易类型
         userTrade.setTradeType(ActionType.ZHUAN_RU.getStatus());
@@ -95,7 +95,7 @@ public class UserTradeAssemService {
         userTrade.setTradeId(billId);
         userTrade.setTradeNum(req.getChargeAmount());
         //todo 账户余额
-        userTrade.setTotalNum(0L);
+        userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
         //todo 交易类型
         userTrade.setTradeType(ActionType.ZHUAN_RU.getStatus());
@@ -111,7 +111,7 @@ public class UserTradeAssemService {
         userTrade.setTradeId(billId);
         userTrade.setTradeNum(req.getAmount());
         //todo 账户余额
-        userTrade.setTotalNum(0L);
+        userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
         //todo 交易类型
         userTrade.setTradeType(ActionType.ZHUAN_CHU.getStatus());
@@ -127,7 +127,7 @@ public class UserTradeAssemService {
         userTrade.setTradeId(req.getBillId());
         userTrade.setTradeNum(req.getChargeAmount());
         //todo 账户余额
-        userTrade.setTotalNum(0L);
+        userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
         //todo 交易类型
         userTrade.setTradeType(ActionType.ZHUAN_RU.getStatus());
@@ -143,7 +143,7 @@ public class UserTradeAssemService {
         userTrade.setTradeId(req.getBillId());
         userTrade.setTradeNum(req.getReqWithdrawAmount());
         //todo 账户余额
-        userTrade.setTotalNum(0L);
+        userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
         //todo 交易类型
         userTrade.setTradeType(ActionType.ZHUAN_CHU.getStatus());
