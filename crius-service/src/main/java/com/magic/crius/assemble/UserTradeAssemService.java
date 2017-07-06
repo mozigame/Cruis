@@ -2,7 +2,6 @@ package com.magic.crius.assemble;
 
 import com.magic.analysis.enums.ActionType;
 import com.magic.api.commons.tools.DateUtil;
-import com.magic.crius.po.UserOrderDetail;
 import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.UserTradeService;
 import com.magic.crius.vo.*;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +32,7 @@ public class UserTradeAssemService {
             for (UserTrade orderDetail : userTrades) {
                 userIds.add(orderDetail.getUserId());
             }
-            System.out.println("userTrade size : " + userTrades.size() + " userIds.size : " + userIds.size());
+            logger.info("userTrade size : " + userTrades.size() + " userIds.size : " + userIds.size());
             return userTradeService.batchSave(userTrades, userIds);
         }
         return false;
