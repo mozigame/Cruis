@@ -4,6 +4,7 @@ import com.magic.api.commons.codis.JedisFactory;
 import com.magic.api.commons.utils.StringUtils;
 import com.magic.crius.constants.RedisConstants;
 import com.magic.crius.storage.redis.GameInfoRedisService;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
@@ -17,6 +18,8 @@ import javax.annotation.Resource;
 @Service
 public class GameInfoRedisServiceImpl implements GameInfoRedisService {
 
+
+    private static final Logger logger = Logger.getLogger(GameInfoRedisServiceImpl.class);
 
     @Resource(name = "criusJedisFactory")
     private JedisFactory criusJedisFactory;
@@ -40,6 +43,7 @@ public class GameInfoRedisServiceImpl implements GameInfoRedisService {
         try {
             Jedis jedis = criusJedisFactory.getInstance();
             String result = jedis.get(RedisConstants.GAME_INFO_LOCK);
+            logger.info("get gameInfo lock , result : " + result);
             return StringUtils.isNotBlank(result);
         } catch (Exception e) {
             e.printStackTrace();

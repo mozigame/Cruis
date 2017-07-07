@@ -34,7 +34,7 @@ public class GameInfoDbServiceImpl implements GameInfoDbService {
             logger.info("criusGameInfoMapper insert gameInfos success");
         }
         try {
-            if (tethysGameInfoMapper.insertDelBatch(gameInfos)) {
+            if (!tethysGameInfoMapper.insertDelBatch(gameInfos)) {
                 logger.warn("tethysGameInfoMapper insert gameInfos failed ");
             }
         } catch (Exception e) {

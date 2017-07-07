@@ -40,15 +40,17 @@ public class GameInfoAssemService {
                 gameInfos.add(gameInfo);
             }
             if (!gameInfoService.getLock()) {
-                //先清空游戏表
-                if (gameInfoService.deleteAll()) {
-                    logger.warn("delete gameInfos failed");
+                if (!gameInfoService.setLock()) {
+                    logger.error("proc gameInfo set lock error");
+                } else {
+                    //先清空游戏表
+                    if (gameInfoService.deleteAll()) {
+                        logger.warn("delete gameInfos failed");
+                    }
+                    if (!gameInfoService.batchSave(gameInfos)) {
+                        logger.warn("batchSave gameInfos failed");
+                    }
                 }
-                if (!gameInfoService.batchSave(gameInfos)) {
-                    logger.warn("batchSave gameInfos failed");
-                }
-            } else {
-                gameInfoService.setLock();
             }
             logger.info("insert all gameInfo spend time " +(System.currentTimeMillis() - startTime));
 
