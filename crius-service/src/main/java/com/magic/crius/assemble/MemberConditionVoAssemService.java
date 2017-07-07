@@ -1,9 +1,7 @@
 package com.magic.crius.assemble;
 
 import com.magic.crius.service.MemberConditionVoService;
-import com.magic.crius.vo.OnlChargeReq;
-import com.magic.crius.vo.PreCmpChargeReq;
-import com.magic.crius.vo.PreWithdrawReq;
+import com.magic.crius.vo.*;
 import com.magic.user.vo.MemberConditionVo;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +49,7 @@ public class MemberConditionVoAssemService {
         }
     }
 
-
+    /*会员存款*/
     public MemberConditionVo assembleDepositMVo(OnlChargeReq req) {
         MemberConditionVo vo = new MemberConditionVo();
         vo.setMemberId(req.getUserId());
@@ -62,6 +60,7 @@ public class MemberConditionVoAssemService {
         vo.setMaxDepositMoney(req.getChargeAmount().intValue());
         return vo;
     }
+    /*会员存款*/
     public MemberConditionVo assembleDepositMVo(PreCmpChargeReq req) {
         MemberConditionVo vo = new MemberConditionVo();
         vo.setMemberId(req.getUserId());
@@ -72,7 +71,19 @@ public class MemberConditionVoAssemService {
         vo.setMaxDepositMoney(req.getChargeAmount().intValue());
         return vo;
     }
+    /*会员存款*/
+    public MemberConditionVo assembleDepositMVo(OperateChargeReq req, Long userId) {
+        MemberConditionVo vo = new MemberConditionVo();
+        vo.setMemberId(userId);
+        vo.setAgentId(req.getAgentId());
+        vo.setDepositCount(1);
+        vo.setDepositMoney(req.getChargeAmount());
+        vo.setLastDepositMoney(req.getChargeAmount());
+        vo.setMaxDepositMoney(req.getChargeAmount().intValue());
+        return vo;
+    }
 
+    /*会员提款*/
     public MemberConditionVo assembleWithdrawMVo(PreWithdrawReq req) {
         MemberConditionVo vo = new MemberConditionVo();
         vo.setMemberId(req.getUserId());
@@ -81,6 +92,18 @@ public class MemberConditionVoAssemService {
         vo.setWithdrawMoney(req.getRealWithdrawAmount());
         vo.setLastWithdrawMoney(req.getRealWithdrawAmount());
         vo.setMaxWithdrawMoney(req.getRealWithdrawAmount().intValue());
+        return vo;
+    }
+    /*人工提款*/
+    public MemberConditionVo assembleWithdrawMVo(OperateWithDrawReq req, Long userId) {
+        MemberConditionVo vo = new MemberConditionVo();
+        vo.setMemberId(userId);
+        //todo 不确定是否需要
+//        vo.setAgentId(req.getAgentId());
+        vo.setWithdrawCount(1);
+        vo.setWithdrawMoney(req.getAmount());
+        vo.setLastWithdrawMoney(req.getAmount());
+        vo.setMaxWithdrawMoney(req.getAmount().intValue());
         return vo;
     }
 

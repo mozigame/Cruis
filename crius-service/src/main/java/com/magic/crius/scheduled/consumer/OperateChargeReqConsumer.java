@@ -2,6 +2,7 @@ package com.magic.crius.scheduled.consumer;
 
 import com.magic.analysis.enums.ActionType;
 import com.magic.api.commons.tools.DateUtil;
+import com.magic.crius.assemble.MemberConditionVoAssemService;
 import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
 import com.magic.crius.assemble.OwnerOperateFlowDetailAssemService;
 import com.magic.crius.assemble.UserTradeAssemService;
@@ -12,6 +13,7 @@ import com.magic.crius.service.OperateChargeReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.vo.OnlChargeReq;
 import com.magic.crius.vo.OperateChargeReq;
+import com.magic.user.vo.MemberConditionVo;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -48,6 +50,8 @@ public class OperateChargeReqConsumer {
     private OwnerCompanyAccountDetailAssemService ownerCompanyAccountDetailAssemService;
     @Resource
     private UserTradeAssemService userTradeAssemService;
+    @Resource
+    private MemberConditionVoAssemService memberConditionVoAssemService;
 
 
     public void init(Date date) {
@@ -105,6 +109,7 @@ public class OperateChargeReqConsumer {
             List<OwnerCompanyAccountDetail> ownerCompanyAccountDetails = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
             List<OperateChargeReq> sucReqs = new ArrayList<>();
+            Map<Long, MemberConditionVo> memberConditionVoMap = new HashMap<>();
             for (OperateChargeReq req : list) {
                 /*
                  * 人工入款汇总
@@ -116,8 +121,18 @@ public class OperateChargeReqConsumer {
                 if (req.getUserIds() != null && req.getUserIds().length > 0) {
                     for (int i = 0; i < req.getUserIds().length; i++) {
                         userTrades.add(userTradeAssemService.assembleUserTrade(req, req.getUserIds()[i], req.getBillIds()[i]));
+
+                        /*会员入款*/
+                        if (memberConditionVoMap.get(req.getUserIds()[i]) == null) {
+                            memberConditionVoMap.put(req.getUserIds()[i], memberConditionVoAssemService.assembleDepositMVo(req, req.getUserIds()[i]));
+                        } else {
+                            MemberConditionVo vo  = memberConditionVoMap.get(req.getUserIds()[i]);
+                            vo.setDepositCount(vo.getDepositCount() + 1);
+                            vo.setDepositMoney(vo.getDepositMoney() + req.getChargeAmount());
+                        }
                     }
                 }
+
 
                 /*成功的数据*/
                 sucReqs.add(assembleSucReq(req));
@@ -125,6 +140,7 @@ public class OperateChargeReqConsumer {
             }
             ownerOperateFlowDetailAssemService.batchSave(ownerOperateFlowSummmaries);
             ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
+            memberConditionVoAssemService.batchRecharge(memberConditionVoMap.values());
             userTradeAssemService.batchSave(userTrades);
             //todo 成功的id处理
             if (!operateChargeService.saveSuc(sucReqs)) {

@@ -1,6 +1,7 @@
 package com.magic.crius.scheduled.consumer;
 
 import com.magic.api.commons.tools.DateUtil;
+import com.magic.crius.assemble.MemberConditionVoAssemService;
 import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
 import com.magic.crius.assemble.OwnerOperateOutDetailAssemService;
 import com.magic.crius.assemble.UserTradeAssemService;
@@ -13,6 +14,7 @@ import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.OperateWithDrawReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.vo.OperateWithDrawReq;
+import com.magic.user.vo.MemberConditionVo;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -51,6 +53,9 @@ public class OperateWithDrawReqConsumer {
 
     @Resource
     private RepairLockService repairLockService;
+
+    @Resource
+    private MemberConditionVoAssemService memberConditionVoAssemService;
 
 
     public void init(Date date) {
@@ -108,6 +113,7 @@ public class OperateWithDrawReqConsumer {
             List<OwnerCompanyAccountDetail> ownerCompanyAccountDetails = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
             List<OperateWithDrawReq> sucReqs = new ArrayList<>();
+            Map<Long, MemberConditionVo> memberConditionVoMap = new HashMap<>();
             for (OperateWithDrawReq req : list) {
                 /*人工出款详情*/
                 ownerOperateOutDetails.add(assembleOwnerOperateOutDetail(req));
@@ -118,6 +124,15 @@ public class OperateWithDrawReqConsumer {
                 if (req.getUserIds() != null && req.getUserIds().length > 0) {
                     for (int i = 0; i < req.getUserIds().length; i++) {
                         userTrades.add(userTradeAssemService.assembleUserTrade(req, req.getUserIds()[i], req.getBillIds()[i]));
+
+                        /*会员提款*/
+                        if (memberConditionVoMap.get(req.getUserIds()[i]) == null) {
+                            memberConditionVoMap.put(req.getUserIds()[i], memberConditionVoAssemService.assembleWithdrawMVo(req, req.getUserIds()[i]));
+                        } else {
+                            MemberConditionVo vo  = memberConditionVoMap.get(req.getUserIds()[i]);
+                            vo.setWithdrawCount(vo.getWithdrawCount() + 1);
+                            vo.setWithdrawMoney(vo.getWithdrawMoney() + req.getAmount());
+                        }
                     }
                 }
                 /*成功的数据*/
@@ -125,6 +140,7 @@ public class OperateWithDrawReqConsumer {
             }
             ownerOperateOutDetailAssemService.batchSave(ownerOperateOutDetails);
             ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
+            memberConditionVoAssemService.batchWithdraw(memberConditionVoMap.values());
             userTradeAssemService.batchSave(userTrades);
 
             if (operateWithDrawReqService.saveSuc(sucReqs)) {
