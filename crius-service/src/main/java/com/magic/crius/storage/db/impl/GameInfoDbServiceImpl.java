@@ -34,7 +34,7 @@ public class GameInfoDbServiceImpl implements GameInfoDbService {
             logger.info("criusGameInfoMapper insert gameInfos success");
         }
         try {
-            if (tethysGameInfoMapper.insertBatch(gameInfos) <= 0) {
+            if (tethysGameInfoMapper.insertDelBatch(gameInfos)) {
                 logger.warn("tethysGameInfoMapper insert gameInfos failed ");
             }
         } catch (Exception e) {
@@ -46,14 +46,6 @@ public class GameInfoDbServiceImpl implements GameInfoDbService {
 
     @Override
     public boolean deleteAll() {
-        try {
-            if (!tethysGameInfoMapper.deleteAll()) {
-                logger.warn("tethysGameInfoMapper deleteall gameInfos failed ");
-            }
-        } catch (Exception e) {
-            logger.warn("tethysGameInfoMapper deleteall gameInfos error ");
-            e.printStackTrace();
-        }
         if (!criusGameInfoMapper.deleteAll()) {
             logger.warn("criusGameInfoMapper deleteall gameInfos failed ");
         }

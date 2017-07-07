@@ -22,21 +22,26 @@ public class GameInfoMapper extends MyBatisDaoImpl<GameInfo, Long> {
         if (gameInfos != null && gameInfos.size() > 0) {
             for (Map.Entry<Integer, SqlSession> entry : super.shardSqlSessionTemplates.entrySet()) {
                 logger.info("tethys batch insert gameInfo , key : " + entry.getKey());
-                int num = entry.getValue().insert(sqlMapNamespace + "." + POSTFIX_INSERT_BATCH, gameInfos);
-                if (num < gameInfos.size()) {
-                    logger.warn("tethys insert gameInfos failed, size : " + num);
-                }
-                logger.info("tethys batch insert success , key : " + entry.getKey());
+
             }
             return (long) gameInfos.size();
         }
         return 0L;
     }
 
-    public boolean deleteAll() {
+    public boolean insertDelBatch(List<GameInfo> gameInfos) {
         for (Map.Entry<Integer, SqlSession> entry : super.shardSqlSessionTemplates.entrySet()) {
-            int num = entry.getValue().delete(sqlMapNamespace + "." + POSTFIX_DELETE);
+            try {
+                int num = entry.getValue().delete(sqlMapNamespace + "." + POSTFIX_DELETE);
+                logger.info("tethys delete all gameInfo ,num : " + num + ", key:" + entry.getKey());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            int num = entry.getValue().insert(sqlMapNamespace + "." + POSTFIX_INSERT_BATCH, gameInfos);
+            logger.info("tethys batch insert gameInfo, num : "+ num +" , key : " + entry.getKey());
         }
         return true;
     }
+
 }
