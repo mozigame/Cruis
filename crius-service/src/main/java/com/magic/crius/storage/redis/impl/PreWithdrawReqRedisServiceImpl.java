@@ -56,7 +56,7 @@ public class PreWithdrawReqRedisServiceImpl implements PreWithdrawReqRedisServic
                     break;
                 }
             }
-            ApiLogger.debug("PreWithdrawReq batchPop , key : "+key);
+            ApiLogger.debug("PreWithdrawReq batchPop , key : "+key+ ", size : "+list.size());
             return list;
         } catch (Exception e) {
             e.printStackTrace();

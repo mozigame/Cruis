@@ -56,7 +56,7 @@ public class PreCmpChargeReqRedisServiceImpl implements PreCmpChargeReqRedisServ
                     break;
                 }
             }
-            ApiLogger.debug("PreCmpChargeReq batchPop , key : "+key);
+            ApiLogger.debug("PreCmpChargeReq batchPop , key : "+key+ ", size : "+list.size());
             return list;
         } catch (Exception e) {
             e.printStackTrace();

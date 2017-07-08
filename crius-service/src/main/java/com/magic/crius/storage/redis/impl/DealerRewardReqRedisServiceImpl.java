@@ -58,7 +58,7 @@ public class DealerRewardReqRedisServiceImpl implements DealerRewardReqRedisServ
                     break;
                 }
             }
-            ApiLogger.debug("DealerRewardReq batchPop , key : "+key);
+            ApiLogger.debug("DealerRewardReq batchPop , key : "+key + ", size : "+list.size());
             return list;
         } catch (Exception e) {
             e.printStackTrace();

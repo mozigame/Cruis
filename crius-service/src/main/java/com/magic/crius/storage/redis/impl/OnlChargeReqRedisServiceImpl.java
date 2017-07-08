@@ -57,7 +57,7 @@ public class OnlChargeReqRedisServiceImpl implements OnlChargeReqRedisService {
                     break;
                 }
             }
-            ApiLogger.debug("OnlChargeReq batchPop , key : "+key);
+            ApiLogger.debug("OnlChargeReq batchPop , key : "+key + ", size : "+list.size());
             return list;
         } catch (Exception e) {
             e.printStackTrace();

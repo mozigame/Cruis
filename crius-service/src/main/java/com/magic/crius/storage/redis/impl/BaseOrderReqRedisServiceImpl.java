@@ -58,7 +58,7 @@ public class BaseOrderReqRedisServiceImpl implements BaseOrderReqRedisService {
                     break;
                 }
             }
-            ApiLogger.debug("BaseOrderReq batchPop , key : "+key);
+            ApiLogger.debug("BaseOrderReq batchPop , key : "+key + ", size : "+list.size());
             return list;
         } catch (Exception e) {
             e.printStackTrace();

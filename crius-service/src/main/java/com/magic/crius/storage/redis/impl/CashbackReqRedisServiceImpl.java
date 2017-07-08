@@ -56,7 +56,7 @@ public class CashbackReqRedisServiceImpl implements CashbackReqRedisService {
                     break;
                 }
             }
-            ApiLogger.debug("CashbackReq batchPop , key : "+key);
+            ApiLogger.debug("CashbackReq batchPop , key : "+key + ", size : "+list.size());
             return list;
         } catch (Exception e) {
             e.printStackTrace();

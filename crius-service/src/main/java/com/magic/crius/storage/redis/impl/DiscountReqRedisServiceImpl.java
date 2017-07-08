@@ -62,7 +62,7 @@ public class DiscountReqRedisServiceImpl implements DiscountReqRedisService {
                     }
                 }
             }
-            ApiLogger.debug("DiscountReq batchPop , key : "+key);
+            ApiLogger.debug("DiscountReq batchPop , key : "+key + ", size : "+list.size());
             return list;
         } catch (Exception e) {
             e.printStackTrace();

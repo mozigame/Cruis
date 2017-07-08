@@ -59,7 +59,7 @@ public class OperateWithDrawReqRedisServiceImpl implements OperateWithDrawReqRed
                     break;
                 }
             }
-            ApiLogger.debug("OperateWithDrawReq batchPop , key : "+key);
+            ApiLogger.debug("OperateWithDrawReq batchPop , key : "+key+ ", size : "+list.size());
             return list;
         } catch (Exception e) {
             e.printStackTrace();

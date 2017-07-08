@@ -56,7 +56,7 @@ public class OperateChargeReqRedisServiceImpl implements OperateChargeReqRedisSe
                     break;
                 }
             }
-            ApiLogger.debug("OperateChargeReq batchPop , key : "+key);
+            ApiLogger.debug("OperateChargeReq batchPop , key : "+key+ ", size : "+list.size());
             return list;
         } catch (Exception e) {
             e.printStackTrace();

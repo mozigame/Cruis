@@ -57,7 +57,7 @@ public class JpReqRedisServiceImpl implements JpReqRedisService {
                     break;
                 }
             }
-            ApiLogger.debug("JpReq batchPop , key : "+key);
+            ApiLogger.debug("JpReq batchPop , key : "+key + ", size : "+list.size());
             return list;
         } catch (Exception e) {
             e.printStackTrace();
