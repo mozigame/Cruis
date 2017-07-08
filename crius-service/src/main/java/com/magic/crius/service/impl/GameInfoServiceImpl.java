@@ -42,4 +42,9 @@ public class GameInfoServiceImpl implements GameInfoService {
     public boolean setLock() {
         return gameInfoRedisService.setLock();
     }
+
+    @Override
+    public GameInfo get(GameInfo gameInfo) {
+        return gameInfoDbService.get(gameInfo);
+    }
 }

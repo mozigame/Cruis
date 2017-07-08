@@ -37,6 +37,10 @@ public interface GameInfoService {
      */
     boolean setLock();
 
-
+    /**
+     * 获取游戏详情
+     * @param gameInfo
+     * @return
+     */
     GameInfo get(GameInfo gameInfo);
 }

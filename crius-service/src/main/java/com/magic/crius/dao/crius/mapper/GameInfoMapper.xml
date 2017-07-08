@@ -60,5 +60,22 @@
         DELETE FROM game_info where 1=1
     </delete>
 
+    <!--获取游戏详情-->
+    <select id="get" parameterType="com.magic.crius.po.GameInfo" resultMap="BaseResultMap">
+        select
+         <include refid="Base_Column_List"></include>
+         from game_info
+        <where>
+            <if test="gameId != null and gameId > 0">
+                game_id = #{gameId}
+            </if>
+            <if test="gameFactoryType != null and gameFactoryType >0 ">
+                and game_factory_type=#{gameFactoryType}
+            </if>
+            <if test="gameAbstractType != null and gameAbstractType > 0">
+                and game_abstract_type=#{gameAbstractType}
+            </if>
+        </where>
+    </select>
 
 </mapper>

@@ -15,4 +15,6 @@ public interface GameInfoDbService {
     boolean batchSave(List<GameInfo> gameInfos);
 
     boolean deleteAll();
+
+    GameInfo get(GameInfo gameInfo);
 }

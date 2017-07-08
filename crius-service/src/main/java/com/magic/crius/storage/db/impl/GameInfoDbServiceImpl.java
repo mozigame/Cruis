@@ -51,4 +51,9 @@ public class GameInfoDbServiceImpl implements GameInfoDbService {
         }
         return true;
     }
+
+    @Override
+    public GameInfo get(GameInfo gameInfo) {
+        return criusGameInfoMapper.get(gameInfo);
+    }
 }

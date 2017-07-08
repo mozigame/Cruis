@@ -27,4 +27,11 @@ public interface GameInfoMapper {
      * @return
      */
     boolean deleteAll();
+
+    /**
+     * 获取游戏详情
+     * @param info
+     * @return
+     */
+    GameInfo get(GameInfo info);
 }
