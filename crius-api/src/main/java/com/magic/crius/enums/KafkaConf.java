@@ -35,10 +35,12 @@ public class KafkaConf {
         PLUTUS_JP(0x3009, "彩金"),    // 彩金 12297
         PLUTUS_DS(0x300A, "打赏"),    //打赏  12298
         UPDATE_USER_LEVEL(0x300B, "会员升级"),  //会员升级 12299
-        PLUTUS_LOTTERY(0x300C, "彩票"),    //彩票  12230
-        PLUTUS_SPORT(0x300D, "体育"),    //体育  12301
-        PLUTUS_VGAME(0x300E, "视讯"),    //视讯  12302
-        PLUTUS_EGAME(0x300F, "电子");    //电子  12303
+        PLUTUS_AGENT_BILL(0x300C, "代理退佣"),  //代理退佣 12300
+        PLUTUS_OWNER_BILL(0x300D, "业主包网"),  //业主包网 12301
+        PLUTUS_LOTTERY(0x300E, "彩票"),    //彩票  12232
+        PLUTUS_SPORT(0x300F, "体育"),    //体育  12303
+        PLUTUS_VGAME(0x3001, "视讯"),    //视讯  12304
+        PLUTUS_EGAME(0x3002, "电子");    //电子  12305
 
         private static Map<Integer, DataType> map = new HashMap<>();
 

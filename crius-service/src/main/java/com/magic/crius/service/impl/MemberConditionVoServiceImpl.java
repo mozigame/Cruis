@@ -20,7 +20,6 @@ public class MemberConditionVoServiceImpl implements MemberConditionVoService {
     @Resource
     private MemberConditionVoMongoService memberConditionVoMongoService;
 
-
     @Override
     public boolean updateRecharge(MemberConditionVo vo) {
         return memberConditionVoMongoService.updateRecharge(vo);

@@ -31,9 +31,9 @@ public class OnlChargeReqConsumer {
 
     private static final Logger logger = Logger.getLogger(OnlChargeReqConsumer.class);
 
-    private ExecutorService userOutMoneyTaskPool = new ThreadPoolExecutor(10, 20, 3, TimeUnit.SECONDS,
+    private ExecutorService onlChargeTaskPool = new ThreadPoolExecutor(10, 20, 3, TimeUnit.SECONDS,
             new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.DiscardPolicy());
-    private ExecutorService userOutMoneyHistoryTaskPool = Executors.newSingleThreadExecutor();
+    private ExecutorService onlChargeHistoryTaskPool = Executors.newSingleThreadExecutor();
 
     @Resource
     private RepairLockService repairLockService;
@@ -63,7 +63,7 @@ public class OnlChargeReqConsumer {
 
     private void detailCalculate(Date date) {
         for (int i = 0; i < THREAD_SIZE; i++) {
-            userOutMoneyTaskPool.execute(new Runnable() {
+            onlChargeTaskPool.execute(new Runnable() {
                 @Override
                 public void run() {
                     currentDataCalculate(date);
@@ -71,7 +71,7 @@ public class OnlChargeReqConsumer {
             });
         }
 
-        userOutMoneyHistoryTaskPool.execute(new Runnable() {
+        onlChargeHistoryTaskPool.execute(new Runnable() {
             @Override
             public void run() {
                 repairCacheHistoryTask(date);

@@ -214,7 +214,7 @@ public class CriusScheduler {
     @Scheduled(fixedRate = proxyPullRate)
     public void proxyListPullSchedule() {
         try {
-            proxyInfoAssemService.batchSave(new Date());
+            proxyInfoAssemService.init(new Date());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -238,7 +238,7 @@ public class CriusScheduler {
     @Scheduled(initialDelay = gameListPullInitDelay, fixedRate = gameListPullRate)
     public void gameInfoPullSchedule() {
         try {
-            gameInfoAssemService.getAllGames();
+            gameInfoAssemService.init();
         } catch (Exception e) {
             e.printStackTrace();
         }

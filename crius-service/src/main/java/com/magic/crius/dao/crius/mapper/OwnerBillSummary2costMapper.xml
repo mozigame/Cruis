@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.magic.crius.dao.db.OwnerBillSummary2costMapper">
+  <resultMap id="BaseResultMap" type="com.magic.crius.po.OwnerBillSummary2cost">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="owner_id" jdbcType="BIGINT" property="ownerId" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="proxy_id" jdbcType="BIGINT" property="proxyId" />
+    <result column="proxy_name" jdbcType="VARCHAR" property="proxyName" />
+    <result column="bill_type" jdbcType="VARCHAR" property="billType" />
+    <result column="bill_type_name" jdbcType="VARCHAR" property="billTypeName" />
+    <result column="bill" jdbcType="BIGINT" property="bill" />
+    <result column="cost" jdbcType="BIGINT" property="cost" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+
+  <!--添加业主成本部分退佣汇总-->
+  <insert id="insert" parameterType="com.magic.crius.po.OwnerBillSummary2cost">
+      insert into owner_bill_summary2cost (owner_id, order_id,
+        proxy_id, proxy_name, bill_type,
+        bill_type_name, bill, cost,
+        remark)
+      values (#{ownerId,jdbcType=BIGINT}, #{orderId,jdbcType=VARCHAR},
+        #{proxyId,jdbcType=BIGINT}, #{proxyName,jdbcType=VARCHAR}, #{billType,jdbcType=VARCHAR},
+        #{billTypeName,jdbcType=VARCHAR}, #{bill,jdbcType=BIGINT}, #{cost,jdbcType=BIGINT},
+        #{remark,jdbcType=VARCHAR})
+    </insert>
+
+</mapper>

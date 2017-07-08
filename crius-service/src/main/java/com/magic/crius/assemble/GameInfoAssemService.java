@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * User: joey
@@ -26,6 +28,18 @@ public class GameInfoAssemService {
     private CriusThirdThriftService criusThirdThriftService;
     @Resource
     private GameInfoService gameInfoService;
+
+
+    private ExecutorService gameInfoTaskPool = Executors.newSingleThreadExecutor();
+
+    public void init() {
+        gameInfoTaskPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                getAllGames();
+            }
+        });
+    }
 
     public void getAllGames() {
         String body = "{\"api\":\"game_list\",\"status\":1}";
@@ -44,7 +58,7 @@ public class GameInfoAssemService {
                     logger.error("proc gameInfo set lock error");
                 } else {
                     //先清空游戏表
-                    if (gameInfoService.deleteAll()) {
+                    if (!gameInfoService.deleteAll()) {
                         logger.warn("delete gameInfos failed");
                     }
                     if (!gameInfoService.batchSave(gameInfos)) {

@@ -33,9 +33,9 @@ public class CashbackReqConsumer {
 
     private static final Logger logger = Logger.getLogger(CashbackReqConsumer.class);
 
-    private ExecutorService userOutMoneyTaskPool = new ThreadPoolExecutor(10, 20, 3, TimeUnit.SECONDS,
+    private ExecutorService cashBackTaskPool = new ThreadPoolExecutor(10, 20, 3, TimeUnit.SECONDS,
             new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.DiscardPolicy());
-    private ExecutorService userOutMoneyHistoryTaskPool = Executors.newSingleThreadExecutor();
+    private ExecutorService cashBackHistoryTaskPool = Executors.newSingleThreadExecutor();
 
     @Resource
     private CashbackReqService cashbackReqService;
@@ -59,7 +59,7 @@ public class CashbackReqConsumer {
 
     private void detailCalculate(Date date) {
         for (int i = 0; i < THREAD_SIZE; i++) {
-            userOutMoneyTaskPool.execute(new Runnable() {
+            cashBackTaskPool.execute(new Runnable() {
                 @Override
                 public void run() {
                     currentDataCalculate(date);
@@ -67,7 +67,7 @@ public class CashbackReqConsumer {
             });
         }
 
-        userOutMoneyHistoryTaskPool.execute(new Runnable() {
+        cashBackHistoryTaskPool.execute(new Runnable() {
             @Override
             public void run() {
                 repairCacheHistoryTask(date);

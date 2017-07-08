@@ -36,9 +36,9 @@ import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
 public class DealerRewardReqConsumer {
     private static final Logger logger = Logger.getLogger(DealerRewardReqConsumer.class);
 
-    private ExecutorService userOutMoneyTaskPool = new ThreadPoolExecutor(10, 20, 3, TimeUnit.SECONDS,
+    private ExecutorService dealerRewardTaskPool = new ThreadPoolExecutor(10, 20, 3, TimeUnit.SECONDS,
             new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.DiscardPolicy());
-    private ExecutorService userOutMoneyHistoryTaskPool = Executors.newSingleThreadExecutor();
+    private ExecutorService dealerRewardHistoryTaskPool = Executors.newSingleThreadExecutor();
 
     @Resource
     private DealerRewardReqService dealerRewardReqService;
@@ -56,7 +56,7 @@ public class DealerRewardReqConsumer {
 
     private void detailCalculate(Date date) {
         for (int i = 0; i < THREAD_SIZE; i++) {
-            userOutMoneyTaskPool.execute(new Runnable() {
+            dealerRewardTaskPool.execute(new Runnable() {
                 @Override
                 public void run() {
                     currentDataCalculate(date);
@@ -64,7 +64,7 @@ public class DealerRewardReqConsumer {
             });
         }
 
-        userOutMoneyHistoryTaskPool.execute(new Runnable() {
+        dealerRewardHistoryTaskPool.execute(new Runnable() {
             @Override
             public void run() {
                 repairCacheHistoryTask(date);

@@ -223,6 +223,14 @@ public class CapitalConsumer {
                 UserLevelReq userLevelReq = JSON.parseObject(object.getString(KafkaConf.DATA), UserLevelReq.class);
                 userLevelAssemService.updateLevel(userLevelReq);
                 break;
+            case PLUTUS_AGENT_BILL:
+                AgentBillReq agentBillReq = JSON.parseObject(object.getString(KafkaConf.DATA), AgentBillReq.class);
+
+                break;
+            case PLUTUS_OWNER_BILL:
+                OwnerBillReq ownerBillReq = JSON.parseObject(object.getString(KafkaConf.DATA), OwnerBillReq.class);
+
+                break;
             default:
                 break;
 

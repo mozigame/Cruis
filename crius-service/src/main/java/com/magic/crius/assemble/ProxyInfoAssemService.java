@@ -29,14 +29,18 @@ public class ProxyInfoAssemService {
     private ProxyInfoService proxyInfoService;
 
 
-    public void batchSave(Date date) {
+    public void init(Date date) {
         String hhStr = DateUtil.formatDateTime(date, "yyyyMMddHH");
         Date endTime = DateUtil.parseDate(hhStr, "yyyyMMddHH");
         Calendar startTime = Calendar.getInstance();
+        startTime.setTime(DateUtil.parseDate(hhStr, "yyyyMMddHH"));
         startTime.add(Calendar.HOUR, -1);
+        batchSave(startTime.getTimeInMillis(), endTime.getTime());
+    }
 
+    public void batchSave(Long startTime, Long endTime) {
         List<ProxyInfo> proxyInfos = new ArrayList<>();
-        List<User> list = criusOutDubboService.getDateAgents(startTime.getTimeInMillis(), endTime.getTime()); //获取账号系统中某个时间内的代理
+        List<User> list = criusOutDubboService.getDateAgents(startTime, endTime); //获取账号系统中某个时间内的代理
         if (list != null && list.size() > 0) {
             System.out.println("get proxyInfoList ,size : " + list.size());
             for (User user : list) {
@@ -54,6 +58,7 @@ public class ProxyInfoAssemService {
 
             }
         }
-
     }
+
+
 }

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.magic.crius.dao.db.ProxyBillDetailMapper">
+    <resultMap id="BaseResultMap" type="com.magic.crius.po.ProxyBillDetail">
+        <id column="Id" jdbcType="INTEGER" property="id"/>
+        <result column="owner_id" jdbcType="BIGINT" property="ownerId"/>
+        <result column="proxy_id" jdbcType="BIGINT" property="proxyId"/>
+        <result column="proxy_name" jdbcType="VARCHAR" property="proxyName"/>
+        <result column="order_id" jdbcType="VARCHAR" property="orderId"/>
+        <result column="pdate" jdbcType="VARCHAR" property="pdate"/>
+        <result column="user_num" jdbcType="BIGINT" property="userNum"/>
+        <result column="income" jdbcType="BIGINT" property="income"/>
+        <result column="effect_income" jdbcType="BIGINT" property="effectIncome"/>
+        <result column="effect_order_count" jdbcType="BIGINT" property="effectOrderCount"/>
+        <result column="order_count" jdbcType="BIGINT" property="orderCount"/>
+        <result column="cost" jdbcType="BIGINT" property="cost"/>
+        <result column="record_cost" jdbcType="BIGINT" property="recordCost"/>
+        <result column="reforward_account" jdbcType="BIGINT" property="reforwardAccount"/>
+        <result column="record_reforward_account" jdbcType="BIGINT" property="recordReforwardAccount"/>
+        <result column="reforward_state" jdbcType="INTEGER" property="reforwardState"/>
+    </resultMap>
+
+
+    <!--代理账单汇总-->
+    <insert id="insert" parameterType="com.magic.crius.po.ProxyBillDetail">
+      insert into proxy_bill_detail (owner_id, proxy_id,
+        proxy_name, order_id, pdate,
+        user_num, income, effect_income,
+        effect_order_count, order_count, cost,
+        record_cost, reforward_account, record_reforward_account,
+        reforward_state)
+      values ( #{ownerId,jdbcType=BIGINT}, #{proxyId,jdbcType=BIGINT},
+        #{proxyName,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{pdate,jdbcType=VARCHAR},
+        #{userNum,jdbcType=BIGINT}, #{income,jdbcType=BIGINT}, #{effectIncome,jdbcType=BIGINT},
+        #{effectOrderCount,jdbcType=BIGINT}, #{orderCount,jdbcType=BIGINT}, #{cost,jdbcType=BIGINT},
+        #{recordCost,jdbcType=BIGINT}, #{reforwardAccount,jdbcType=BIGINT}, #{recordReforwardAccount,jdbcType=BIGINT},
+        #{reforwardState,jdbcType=INTEGER})
+    </insert>
+
+</mapper>

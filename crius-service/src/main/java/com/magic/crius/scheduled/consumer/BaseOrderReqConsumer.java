@@ -3,14 +3,11 @@ package com.magic.crius.scheduled.consumer;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.UserOrderDetailAssemService;
 import com.magic.crius.constants.CriusConstants;
-import com.magic.crius.constants.RedisConstants;
+import com.magic.crius.constants.ScheduleConsumerConstants;
 import com.magic.crius.enums.MongoCollections;
-import com.magic.crius.po.OwnerReforwardDetail;
 import com.magic.crius.po.RepairLock;
 import com.magic.crius.po.UserOrderDetail;
-import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.BaseOrderReqService;
-import com.magic.crius.service.DealerRewardReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.vo.BaseOrderReq;
 import org.apache.log4j.Logger;
@@ -32,14 +29,14 @@ import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
 public class BaseOrderReqConsumer {
 
     private static final Logger logger = Logger.getLogger(BaseOrderReqConsumer.class);
-    private ExecutorService userOutMoneyTaskPool = new ThreadPoolExecutor(10, 20, 3, TimeUnit.SECONDS,
+    private ExecutorService baseOrderTaskPool = new ThreadPoolExecutor(10, 20, 3, TimeUnit.SECONDS,
             new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.DiscardPolicy());
-    private ExecutorService userOutMoneyHistoryTaskPool = Executors.newSingleThreadExecutor();
+    private ExecutorService baseOrderHistoryTaskPool = Executors.newSingleThreadExecutor();
 
     @Resource
     private RepairLockService repairLockService;
-    
-    
+
+
     @Resource
     private BaseOrderReqService baseOrderReqService;
     @Resource
@@ -52,8 +49,9 @@ public class BaseOrderReqConsumer {
 
 
     private void detailCalculate(Date date) {
-        for (int i = 0; i < THREAD_SIZE; i++) {
-            userOutMoneyTaskPool.execute(new Runnable() {
+        System.out.println("THREAD_SIZE     " +THREAD_SIZE);
+        for (int i = 0; i < ScheduleConsumerConstants.THREAD_SIZE; i++) {
+            baseOrderTaskPool.execute(new Runnable() {
                 @Override
                 public void run() {
                     currentDataCalculate(date);
@@ -61,7 +59,7 @@ public class BaseOrderReqConsumer {
             });
         }
 
-        userOutMoneyHistoryTaskPool.execute(new Runnable() {
+        baseOrderHistoryTaskPool.execute(new Runnable() {
             @Override
             public void run() {
                 repairCacheHistoryTask(date);
@@ -78,8 +76,9 @@ public class BaseOrderReqConsumer {
     private void currentDataCalculate(Date date) {
         int countNum = 0;
         List<BaseOrderReq> reqList = baseOrderReqService.batchPopRedis(date);
+        System.out.println("POLL_TIME  ------  " + POLL_TIME);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            System.out.println("baseOrderReqConsumer pop datas, size : "+reqList.size());
+            System.out.println("baseOrderReqConsumer pop datas, size : " + reqList.size());
             flushData(reqList);
             reqList = baseOrderReqService.batchPopRedis(date);
             try {
@@ -188,9 +187,9 @@ public class BaseOrderReqConsumer {
         detail.setPayOffCount(req.getPayoff());
         //todo 订单状态
         detail.setOrderState(0);
-        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
-        detail.setCreateTime(req.getProduceTime());
-        detail.setUpdateTime(req.getProduceTime());
+        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getUpdateDatetime()), "yyyyMMdd")));
+        detail.setCreateTime(req.getInsertDatetime());
+        detail.setUpdateTime(req.getUpdateDatetime());
         detail.setOrderExtent(req.getOrderExtent().toJSONString());
         return detail;
     }

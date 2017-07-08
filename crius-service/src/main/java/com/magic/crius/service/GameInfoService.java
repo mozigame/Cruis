@@ -38,4 +38,5 @@ public interface GameInfoService {
     boolean setLock();
 
 
+    GameInfo get(GameInfo gameInfo);
 }

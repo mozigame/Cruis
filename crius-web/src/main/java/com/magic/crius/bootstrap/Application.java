@@ -20,7 +20,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @EnableScheduling
 @Import({ServerPropertiesAutoConfiguration.class, DispatcherServletAutoConfiguration.class,
         EmbeddedServletContainerAutoConfiguration.class})
-@PropertySource(value = {"classpath:codis-crius.properties", "classpath:crius-db.properties", "classpath:crius-kafka.properties", "classpath:crius-mongo.properties", "classpath:dubbo.properties"})
+@PropertySource(value = {"classpath:codis-crius.properties", "classpath:crius-db.properties", "classpath:crius-kafka.properties",
+        "classpath:crius-mongo.properties", "classpath:dubbo.properties", "classpath:crius-config.properties"})
 @ImportResource(value = {"classpath:spring/spring-main.xml"})
 public class Application {
 

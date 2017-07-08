@@ -1,21 +1,13 @@
 package com.magic.crius.storage.mongo.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.parser.SymbolTable;
 import com.magic.api.commons.ApiLogger;
 import com.magic.crius.dao.mongo.MemberConditionVoMongoDao;
-import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.storage.mongo.MemberConditionVoMongoService;
 import com.magic.crius.vo.UserLevelReq;
-import com.magic.user.entity.Member;
 import com.magic.user.vo.AgentConditionVo;
 import com.magic.user.vo.MemberConditionVo;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
-import org.apache.commons.logging.Log;
 import org.apache.log4j.Logger;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -23,8 +15,6 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**

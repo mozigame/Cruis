@@ -33,9 +33,9 @@ public class PreCmpChargeReqConsumer {
 
     private static final Logger logger = Logger.getLogger(PreCmpChargeReqConsumer.class);
 
-    private ExecutorService userOutMoneyTaskPool = new ThreadPoolExecutor(10, 20, 4, TimeUnit.SECONDS,
+    private ExecutorService preCmpChargeTaskPool = new ThreadPoolExecutor(10, 20, 4, TimeUnit.SECONDS,
             new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.DiscardPolicy());
-    private ExecutorService userOutMoneyHistoryTaskPool = Executors.newSingleThreadExecutor();
+    private ExecutorService preCmpChargeHistoryTaskPool = Executors.newSingleThreadExecutor();
 
     @Resource
     private RepairLockService repairLockService;
@@ -71,7 +71,7 @@ public class PreCmpChargeReqConsumer {
 
     private void detailCalculate(Date date) {
         for (int i = 0; i < THREAD_SIZE; i++) {
-            userOutMoneyTaskPool.execute(new Runnable() {
+            preCmpChargeTaskPool.execute(new Runnable() {
                 @Override
                 public void run() {
                     currentDataCalculate(date);
@@ -79,7 +79,7 @@ public class PreCmpChargeReqConsumer {
             });
         }
 
-        userOutMoneyHistoryTaskPool.execute(new Runnable() {
+        preCmpChargeHistoryTaskPool.execute(new Runnable() {
             @Override
             public void run() {
                 repairCacheHistoryTask(date);

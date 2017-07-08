@@ -1,10 +1,12 @@
 package com.magic.crius.assemble;
 
+import com.alibaba.fastjson.JSON;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.service.MemberConditionVoService;
 import com.magic.crius.service.UserInfoService;
 import com.magic.crius.vo.UserLevelReq;
 import com.magic.user.vo.MemberConditionVo;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,6 +22,8 @@ import java.util.List;
 @Service
 public class UserLevelAssemService {
 
+    private static final Logger logger = Logger.getLogger(UserLevelAssemService.class);
+
     @Resource
     private MemberConditionVoService memberConditionVoService;
     @Resource
@@ -28,7 +32,7 @@ public class UserLevelAssemService {
 
     public void updateLevel(UserLevelReq userLevelReq) {
         if (!memberConditionVoService.updateLevel(userLevelReq)) {
-
+            logger.warn("update user level failed, param: " + JSON.toJSONString(userLevelReq));
         }
     }
 
@@ -41,8 +45,20 @@ public class UserLevelAssemService {
         String hhStr = DateUtil.formatDateTime(date, "yyyyMMddHH");
         Date endTime = DateUtil.parseDate(hhStr, "yyyyMMddHH");
         Calendar startTime = Calendar.getInstance();
+        startTime.setTime(DateUtil.parseDate(hhStr, "yyyyMMddHH"));
         startTime.add(Calendar.HOUR, -1);
-        List<MemberConditionVo> vos = memberConditionVoService.findPeriodLevels(startTime.getTimeInMillis(), endTime.getTime());
+        rectifyLevel(startTime.getTimeInMillis(), endTime.getTime());
+    }
+
+    /**
+     * 纠正用户层级
+     *
+     * @param startTime
+     * @param endTime
+     */
+    public void rectifyLevel(Long startTime, Long endTime) {
+        List<MemberConditionVo> vos = memberConditionVoService.findPeriodLevels(startTime, endTime);
+        logger.info(String.format("batch update user level , startTime : %d, endTime : %d", startTime, endTime));
         if (vos.size() > 0) {
             System.out.println("findPeriodLevels ,size :" + vos.size());
             int i = 0;
@@ -51,7 +67,9 @@ public class UserLevelAssemService {
                     i++;
                 }
             }
-            System.out.println("batchUpdateLevel size : " + i);
+            logger.info("batchUpdateLevel size : " + i);
         }
     }
+
+
 }

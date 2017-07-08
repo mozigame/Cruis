@@ -13,7 +13,7 @@ public class UserLevelReq {
     @JSONField(name = "UserId")
     private Long userId;    // 用户Id
     @JSONField(name = "LevelId")
-    private Integer levelId;   // 升级后的层级Id
+    private Long levelId;   // 升级后的层级Id
 
     public Long getUserId() {
         return userId;
@@ -23,11 +23,11 @@ public class UserLevelReq {
         this.userId = userId;
     }
 
-    public Integer getLevelId() {
+    public Long getLevelId() {
         return levelId;
     }
 
-    public void setLevelId(Integer levelId) {
+    public void setLevelId(Long levelId) {
         this.levelId = levelId;
     }
 }

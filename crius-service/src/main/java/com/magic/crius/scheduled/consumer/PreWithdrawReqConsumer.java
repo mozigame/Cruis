@@ -32,9 +32,9 @@ public class PreWithdrawReqConsumer {
 
     private static final Logger logger = Logger.getLogger(PreWithdrawReqConsumer.class);
 
-    private ExecutorService userOutMoneyTaskPool = new ThreadPoolExecutor(10, 20, 3, TimeUnit.SECONDS,
+    private ExecutorService preWithDrawTaskPool = new ThreadPoolExecutor(10, 20, 3, TimeUnit.SECONDS,
             new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.DiscardPolicy());
-    private ExecutorService userOutMoneyHistoryTaskPool = Executors.newSingleThreadExecutor();
+    private ExecutorService preWithDrawHistoryTaskPool = Executors.newSingleThreadExecutor();
 
     @Resource
     private RepairLockService repairLockService;
@@ -63,7 +63,7 @@ public class PreWithdrawReqConsumer {
 
     private void detailCalculate(Date date) {
         for (int i = 0; i < THREAD_SIZE; i++) {
-            userOutMoneyTaskPool.execute(new Runnable() {
+            preWithDrawTaskPool.execute(new Runnable() {
                 @Override
                 public void run() {
                     currentDataCalculate(date);
@@ -71,7 +71,7 @@ public class PreWithdrawReqConsumer {
             });
         }
 
-        userOutMoneyHistoryTaskPool.execute(new Runnable() {
+        preWithDrawHistoryTaskPool.execute(new Runnable() {
             @Override
             public void run() {
                 repairCacheHistoryTask(date);
