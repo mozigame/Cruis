@@ -49,7 +49,6 @@ public class BaseOrderReqConsumer {
 
 
     private void detailCalculate(Date date) {
-        System.out.println("THREAD_SIZE     " +THREAD_SIZE);
         for (int i = 0; i < ScheduleConsumerConstants.THREAD_SIZE; i++) {
             baseOrderTaskPool.execute(new Runnable() {
                 @Override
@@ -76,7 +75,6 @@ public class BaseOrderReqConsumer {
     private void currentDataCalculate(Date date) {
         int countNum = 0;
         List<BaseOrderReq> reqList = baseOrderReqService.batchPopRedis(date);
-        System.out.println("POLL_TIME  ------  " + POLL_TIME);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
             System.out.println("baseOrderReqConsumer pop datas, size : " + reqList.size());
             flushData(reqList);

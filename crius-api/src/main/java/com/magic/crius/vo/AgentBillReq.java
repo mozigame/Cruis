@@ -18,8 +18,19 @@ public class AgentBillReq {
     private Long discountAmount;// 优惠
     @JSONField(name = "PayoffTotalAmount")
     private Long payoffTotalAmount;// 派彩总额
+    @JSONField(name = "VaildBettTotalAmount")
+    private Long vaildBettTotalAmount;  //当期有效投注额  //todo
+    @JSONField(name = "RebateTotalAmount")
+    private Long rebateTotalAmount; //可获退佣总额  //todo
+    @JSONField(name = "CostTotalAmount")
+    private Long costTotalAmount;   //当期费用总额    //todo
+
     @JSONField(name = "AgentHallInfos")
     private List<AgentHallBillVo> agentHallInfos;
+    @JSONField(name = "BillStartTime")
+    private Long billStartTime;     // 账单开始时间
+    @JSONField(name = "BillEndTime")
+    private Long billEndTime;       // 账单结束时间
     @JSONField(name = "ProduceTime")
     private Long produceTime;
 
@@ -136,6 +147,46 @@ public class AgentBillReq {
 
     public void setSchemeName(String schemeName) {
         this.schemeName = schemeName;
+    }
+
+    public Long getBillStartTime() {
+        return billStartTime;
+    }
+
+    public void setBillStartTime(Long billStartTime) {
+        this.billStartTime = billStartTime;
+    }
+
+    public Long getBillEndTime() {
+        return billEndTime;
+    }
+
+    public void setBillEndTime(Long billEndTime) {
+        this.billEndTime = billEndTime;
+    }
+
+    public Long getVaildBettTotalAmount() {
+        return vaildBettTotalAmount;
+    }
+
+    public void setVaildBettTotalAmount(Long vaildBettTotalAmount) {
+        this.vaildBettTotalAmount = vaildBettTotalAmount;
+    }
+
+    public Long getRebateTotalAmount() {
+        return rebateTotalAmount;
+    }
+
+    public void setRebateTotalAmount(Long rebateTotalAmount) {
+        this.rebateTotalAmount = rebateTotalAmount;
+    }
+
+    public Long getCostTotalAmount() {
+        return costTotalAmount;
+    }
+
+    public void setCostTotalAmount(Long costTotalAmount) {
+        this.costTotalAmount = costTotalAmount;
     }
 }
 

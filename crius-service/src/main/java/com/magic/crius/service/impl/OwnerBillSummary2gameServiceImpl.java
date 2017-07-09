@@ -6,6 +6,7 @@ import com.magic.crius.storage.db.OwnerBillSummary2gameDbService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * User: joey
@@ -21,5 +22,10 @@ public class OwnerBillSummary2gameServiceImpl implements OwnerBillSummary2gameSe
     @Override
     public boolean save(OwnerBillSummary2game summary2game) {
         return ownerBillSummary2gameDbService.save(summary2game);
+    }
+
+    @Override
+    public boolean batchInsert(List<OwnerBillSummary2game> list) {
+        return ownerBillSummary2gameDbService.batchInsert(list);
     }
 }

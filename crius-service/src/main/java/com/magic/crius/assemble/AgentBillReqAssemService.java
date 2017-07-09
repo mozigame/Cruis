@@ -1,5 +1,7 @@
 package com.magic.crius.assemble;
 
+import com.magic.crius.enums.BillType;
+import com.magic.crius.po.BillInfo;
 import com.magic.crius.po.ProxyBillDetail;
 import com.magic.crius.vo.AgentBillReq;
 import org.springframework.stereotype.Service;
@@ -18,16 +20,18 @@ public class AgentBillReqAssemService {
 
     @Resource
     private ProxyBillDetailAssemService proxyBillDetailAssemService;
+    @Resource
+    private BillInfoAssemService billInfoAssemService;
 
     private void procKafkaData(AgentBillReq req) {
 
+        billInfoAssemService.save(assemBillInfo(req));
 
         ProxyBillDetail detail = new ProxyBillDetail();
         detail.setOwnerId(req.getOwnerId());
         detail.setProxyId(req.getAgentId());
         //Todo 获取不到代理账号
 //        detail.setProxyName();
-        //todo 类型不确定
         detail.setOrderId(req.getBillId());
         //todo 如何获取pdate
 //        detail.setPdate();
@@ -50,6 +54,28 @@ public class AgentBillReqAssemService {
 //        private Long recordReforwardAccount;//已获退佣
 //        private Integer reforwardState;//退佣状态
 
+    }
+
+    /*账单汇总表*/
+    private BillInfo assemBillInfo(AgentBillReq req) {
+        BillInfo info = new BillInfo();
+        info.setIncome(req.getOwnerId());
+        info.setOrderId(req.getBillId() + "");
+        //todo  账单名称 dubbo 获取?
+//        info.setOrderName();
+        info.setPdate(Integer.parseInt(req.getBillDate()));
+        info.setSchemeCode(req.getSchemeId() + "");
+        info.setSchemeName(req.getSchemeName());
+        //todo 后台处理
+//        info.setAccount(req.getTotalCost());
+        info.setIncome(req.getCostTotalAmount());
+        info.setBillType(BillType.proxy.value());
+        info.setStartTime(req.getBillStartTime());
+        info.setEndTime(req.getBillEndTime());
+        //todo 通过dubbo 获取
+//        info.setPdateName();
+        info.setStatus(0);
+        return info;
     }
 
 }

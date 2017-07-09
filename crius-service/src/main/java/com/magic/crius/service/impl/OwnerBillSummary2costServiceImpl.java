@@ -6,6 +6,7 @@ import com.magic.crius.storage.db.OwnerBillSummary2costDbService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * User: joey
@@ -22,5 +23,10 @@ public class OwnerBillSummary2costServiceImpl implements OwnerBillSummary2costSe
     @Override
     public boolean save(OwnerBillSummary2cost cost) {
         return ownerBillSummary2costDbService.save(cost);
+    }
+
+    @Override
+    public boolean batchInsert(List<OwnerBillSummary2cost> costs) {
+        return ownerBillSummary2costDbService.batchInsert(costs);
     }
 }

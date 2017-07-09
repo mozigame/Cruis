@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
  * User: joey
  * Date: 2017/6/9
  * Time: 17:04
+ * 初始化配置参数
  */
 @Component
 public class ScheduleConsumerConstants {

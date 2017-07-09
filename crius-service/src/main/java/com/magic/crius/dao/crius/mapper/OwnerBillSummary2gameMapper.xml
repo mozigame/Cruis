@@ -22,4 +22,23 @@
           #{billCount,jdbcType=BIGINT}, #{income,jdbcType=BIGINT})
     </insert>
 
+
+    <!--批量添加业主月游戏账单汇总-->
+    <insert id="batchInsert">
+        insert into owner_bill_summary2game (owner_id, order_id,
+        pdate, pdate_name, game_type,
+        bill_count, income)
+        values
+        <foreach collection="list" item="param" separator="," >
+            ( #{param.ownerId,jdbcType=BIGINT},
+              #{param.orderId,jdbcType=VARCHAR},
+              #{param.pdate,jdbcType=VARCHAR},
+              #{param.pdateName,jdbcType=VARCHAR},
+              #{param.gameType,jdbcType=VARCHAR},
+              #{param.billCount,jdbcType=BIGINT},
+              #{param.income,jdbcType=BIGINT})
+        </foreach>
+
+    </insert>
+
 </mapper>
