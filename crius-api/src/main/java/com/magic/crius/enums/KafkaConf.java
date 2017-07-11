@@ -20,6 +20,8 @@ public class KafkaConf {
 
     public static final String CAPITAL_GROUP = "capital_group";
 
+   
+
     /**
      * kafka消费的数据类型
      */
@@ -39,8 +41,8 @@ public class KafkaConf {
         PLUTUS_OWNER_BILL(0x300D, "业主包网"),  //业主包网 12301
         PLUTUS_LOTTERY(0x300E, "彩票"),    //彩票  12232
         PLUTUS_SPORT(0x300F, "体育"),    //体育  12303
-        PLUTUS_VGAME(0x3001, "视讯"),    //视讯  12304
-        PLUTUS_EGAME(0x3002, "电子");    //电子  12305
+        PLUTUS_VGAME(0x3011, "视讯"),    //视讯  12304
+        PLUTUS_EGAME(0x3012, "电子");    //电子  12305
 
         private static Map<Integer, DataType> map = new HashMap<>();
 

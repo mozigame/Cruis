@@ -28,6 +28,7 @@ public class Application {
     private static final Logger logger = Logger.getLogger(Application.class);
     public static void main(String[] args) {
         logger.info("start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        System.setProperty("user.timezone","America/New_York");
         SpringApplication.run(Application.class, args);
     }
 }
