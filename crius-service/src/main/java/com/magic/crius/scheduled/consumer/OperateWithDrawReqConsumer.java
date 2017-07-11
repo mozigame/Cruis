@@ -1,30 +1,44 @@
 package com.magic.crius.scheduled.consumer;
 
+import static com.magic.crius.constants.ScheduleConsumerConstants.POLL_TIME;
+import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+import javax.annotation.Resource;
+
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Component;
+
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.MemberConditionVoAssemService;
 import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
 import com.magic.crius.assemble.OwnerOperateOutDetailAssemService;
+import com.magic.crius.assemble.UserOutMoneyDetailAssemService;
 import com.magic.crius.assemble.UserTradeAssemService;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.po.OwnerCompanyAccountDetail;
 import com.magic.crius.po.OwnerOperateOutDetail;
 import com.magic.crius.po.RepairLock;
+import com.magic.crius.po.UserOutMoneyDetail;
 import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.OperateWithDrawReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.vo.OperateWithDrawReq;
+import com.magic.crius.vo.PreWithdrawReq;
 import com.magic.user.vo.MemberConditionVo;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.*;
-import java.util.concurrent.*;
-
-import static com.magic.crius.constants.ScheduleConsumerConstants.POLL_TIME;
-import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
 
 /**
  * 人工提现
@@ -47,6 +61,9 @@ public class OperateWithDrawReqConsumer {
     /*公司账目汇总*/
     @Resource
     private OwnerCompanyAccountDetailAssemService ownerCompanyAccountDetailAssemService;
+    
+    @Resource
+    private UserOutMoneyDetailAssemService userOutMoneyDetailAssemService;
 
     @Resource
     private UserTradeAssemService userTradeAssemService;
@@ -109,7 +126,8 @@ public class OperateWithDrawReqConsumer {
      */
     private void flushData(Collection<OperateWithDrawReq> list) {
         if (list != null && list.size() > 0) {
-            List<OwnerOperateOutDetail> ownerOperateOutDetails = new ArrayList<>();
+        	List<OwnerOperateOutDetail> ownerOperateOutDetails = new ArrayList<>();
+            List<UserOutMoneyDetail> userOutMoneyDetails = new ArrayList<>();
             List<OwnerCompanyAccountDetail> ownerCompanyAccountDetails = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
             List<OperateWithDrawReq> sucReqs = new ArrayList<>();
@@ -125,6 +143,7 @@ public class OperateWithDrawReqConsumer {
                     for (int i = 0; i < req.getUserIds().length; i++) {
                         userTrades.add(userTradeAssemService.assembleUserTrade(req, req.getUserIds()[i], req.getBillIds()[i]));
                         ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req,req.getUserIds()[i]));
+                        userOutMoneyDetails.add(assembleUserOutMoneyDetail(req,req.getUserIds()[i]));
                         /*会员提款*/
                         if (memberConditionVoMap.get(req.getUserIds()[i]) == null) {
                             memberConditionVoMap.put(req.getUserIds()[i], memberConditionVoAssemService.assembleWithdrawMVo(req, req.getUserIds()[i]));
@@ -142,6 +161,7 @@ public class OperateWithDrawReqConsumer {
             ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
             memberConditionVoAssemService.batchWithdraw(memberConditionVoMap.values());
             userTradeAssemService.batchSave(userTrades);
+            userOutMoneyDetailAssemService.batchSave(userOutMoneyDetails);
 
             if (operateWithDrawReqService.saveSuc(sucReqs)) {
                 //todo 修改状态
@@ -224,6 +244,25 @@ public class OperateWithDrawReqConsumer {
         detail.setOperateOutType(req.getWithdrawType());
         detail.setOperateOutTypeName(req.getRemark());
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
+        return detail;
+    }
+    
+   
+    
+    private UserOutMoneyDetail assembleUserOutMoneyDetail(OperateWithDrawReq req,Long userId) {
+        UserOutMoneyDetail detail = new UserOutMoneyDetail();
+        detail.setOwnerId(req.getOwnerId());
+        detail.setUserId(userId);
+        detail.setOrderCount(req.getAmount());
+        
+        //TODO 待定
+        detail.setState(0);
+        detail.setOrderId(req.getReqId());
+        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
+        detail.setHandlerId(req.getHandlerId());
+        detail.setHandlerName(req.getHandlerName());
+        detail.setCreateTime(req.getProduceTime());
+        detail.setUpdateTime(req.getProduceTime());
         return detail;
     }
 

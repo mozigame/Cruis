@@ -40,6 +40,7 @@ public class OwnerCompanyAccountDetailAssemService {
      */
     public OwnerCompanyAccountDetail assembleOwnerCompanyAccountDetail(PreCmpChargeReq req) {
         OwnerCompanyAccountDetail account = new OwnerCompanyAccountDetail();
+        account.setUserId(req.getUserId());
         account.setOwnerId(req.getOwnerId());
         account.setSummaryMoneyCount(req.getChargeAmount());
         account.setSummaryUserNum(1);

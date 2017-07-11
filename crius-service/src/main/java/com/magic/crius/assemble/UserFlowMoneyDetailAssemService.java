@@ -1,17 +1,20 @@
 package com.magic.crius.assemble;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
 import com.magic.analysis.enums.ActionType;
+import com.magic.analysis.enums.PayMethod;
 import com.magic.api.commons.tools.DateUtil;
-import com.magic.crius.assemble.UserFlowMoneyDetailAssemService;
 import com.magic.crius.po.UserFlowMoneyDetail;
 import com.magic.crius.service.UserFlowMoneyDetailService;
 import com.magic.crius.vo.OnlChargeReq;
+import com.magic.crius.vo.OperateChargeReq;
 import com.magic.crius.vo.PreCmpChargeReq;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
 
 /**
  * User: joey
@@ -66,6 +69,29 @@ public class UserFlowMoneyDetailAssemService {
         //TODO 待确定
         detail.setFlowType(ActionType.CHONG_ZHI.getStatus());
         detail.setOrderId(req.getBillId());
+        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
+        //审核人名称
+        detail.setHandlerId(req.getHandlerId());
+        detail.setHandlerName(req.getHandlerName());
+        detail.setCreateTime(req.getProduceTime());
+        detail.setUpdateTime(req.getProduceTime());
+        return detail;
+    }
+    
+    public UserFlowMoneyDetail assembleUserFlowMoneyDetail(OperateChargeReq req,Long userId) {
+        UserFlowMoneyDetail detail = new UserFlowMoneyDetail();
+        detail.setOwnerId(req.getOwnerId());
+        detail.setUserId(userId);
+       
+        detail.setOrderCount(req.getChargeAmount());
+        //Todo 待确定
+        detail.setState(1);
+        //todo kevin 提供
+        detail.setPayMethod(PayMethod.ANOTHER.getMethod());
+        detail.setFlowId(req.getReqId());
+        //TODO 待确定
+        detail.setFlowType(ActionType.CHONG_ZHI.getStatus());
+        detail.setOrderId(req.getReqId());
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         //审核人名称
         detail.setHandlerId(req.getHandlerId());

@@ -5,6 +5,7 @@ import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.MemberConditionVoAssemService;
 import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
 import com.magic.crius.assemble.OwnerOperateFlowDetailAssemService;
+import com.magic.crius.assemble.UserFlowMoneyDetailAssemService;
 import com.magic.crius.assemble.UserTradeAssemService;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
@@ -48,6 +49,8 @@ public class OperateChargeReqConsumer {
     private OwnerOperateFlowDetailAssemService ownerOperateFlowDetailAssemService;
     @Resource
     private OwnerCompanyAccountDetailAssemService ownerCompanyAccountDetailAssemService;
+    @Resource
+    private UserFlowMoneyDetailAssemService userFlowMoneyDetailAssemService;
     @Resource
     private UserTradeAssemService userTradeAssemService;
     @Resource
@@ -107,6 +110,8 @@ public class OperateChargeReqConsumer {
         if (list != null && list.size() > 0) {
             List<OwnerOperateFlowDetail> ownerOperateFlowSummmaries = new ArrayList<>();
             List<OwnerCompanyAccountDetail> ownerCompanyAccountDetails = new ArrayList<>();
+            List<UserFlowMoneyDetail> userFlowMoneyDetails = new ArrayList<>();
+            
             List<UserTrade> userTrades = new ArrayList<>();
             List<OperateChargeReq> sucReqs = new ArrayList<>();
             Map<Long, MemberConditionVo> memberConditionVoMap = new HashMap<>();
@@ -122,6 +127,7 @@ public class OperateChargeReqConsumer {
                     for (int i = 0; i < req.getUserIds().length; i++) {
                         userTrades.add(userTradeAssemService.assembleUserTrade(req, req.getUserIds()[i], req.getBillIds()[i]));
                         ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req,req.getUserIds()[i]));
+                        userFlowMoneyDetails.add(userFlowMoneyDetailAssemService.assembleUserFlowMoneyDetail(req,req.getUserIds()[i]));
                         /*会员入款*/
                         if (memberConditionVoMap.get(req.getUserIds()[i]) == null) {
                             memberConditionVoMap.put(req.getUserIds()[i], memberConditionVoAssemService.assembleDepositMVo(req, req.getUserIds()[i]));
@@ -141,6 +147,7 @@ public class OperateChargeReqConsumer {
             ownerOperateFlowDetailAssemService.batchSave(ownerOperateFlowSummmaries);
             ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
             memberConditionVoAssemService.batchRecharge(memberConditionVoMap.values());
+            userFlowMoneyDetailAssemService.batchSave(userFlowMoneyDetails);
             userTradeAssemService.batchSave(userTrades);
             //todo 成功的id处理
             if (!operateChargeService.saveSuc(sucReqs)) {
