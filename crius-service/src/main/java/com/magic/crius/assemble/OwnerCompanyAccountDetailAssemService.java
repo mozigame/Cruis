@@ -157,8 +157,8 @@ public class OwnerCompanyAccountDetailAssemService {
         account.setSummaryMoneyCount(req.getRealWithdrawAmount());
         account.setSummaryUserNum(1);
         //TODO 此处待确定
-        account.setSummaryType(KafkaConf.DataType.PLUTUS_OPR_WITHDRAW.type());
-        account.setSummaryTypeName(KafkaConf.DataType.PLUTUS_OPR_WITHDRAW.typeName());
+        account.setSummaryType(KafkaConf.DataType.PLUTUS_USER_WITHDRAW.type());
+        account.setSummaryTypeName(KafkaConf.DataType.PLUTUS_USER_WITHDRAW.typeName());
         account.setSummaryKind(SummaryKind.outlay.value());
         account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
         return account;
