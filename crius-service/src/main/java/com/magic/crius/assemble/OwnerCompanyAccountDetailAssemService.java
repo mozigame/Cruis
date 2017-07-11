@@ -56,8 +56,9 @@ public class OwnerCompanyAccountDetailAssemService {
      * @param req
      * @return
      */
-    public OwnerCompanyAccountDetail assembleOwnerCompanyAccountDetail(OperateChargeReq req) {
+    public OwnerCompanyAccountDetail assembleOwnerCompanyAccountDetail(OperateChargeReq req,Long userId) {
         OwnerCompanyAccountDetail account = new OwnerCompanyAccountDetail();
+        account.setUserId(userId);
         account.setOwnerId(req.getOwnerId());
         account.setSummaryMoneyCount(req.getChargeAmount());
         account.setSummaryUserNum(1);
@@ -77,6 +78,7 @@ public class OwnerCompanyAccountDetailAssemService {
      */
     public OwnerCompanyAccountDetail assembleOwnerCompanyAccountDetail(OnlChargeReq req) {
         OwnerCompanyAccountDetail account = new OwnerCompanyAccountDetail();
+        account.setUserId(req.getUserId());
         account.setOwnerId(req.getOwnerId());
         account.setSummaryMoneyCount(req.getChargeAmount());
         account.setSummaryUserNum(1);
@@ -96,6 +98,7 @@ public class OwnerCompanyAccountDetailAssemService {
      */
     public OwnerCompanyAccountDetail assembleOwnerCompanyAccountDetail(CashbackReq req) {
         OwnerCompanyAccountDetail account = new OwnerCompanyAccountDetail();
+        account.setUserId(req.getUserId());
         account.setOwnerId(req.getOwnerId());
         account.setSummaryMoneyCount(req.getAmount());
         account.setSummaryUserNum(1);
@@ -115,6 +118,7 @@ public class OwnerCompanyAccountDetailAssemService {
      */
     public OwnerCompanyAccountDetail assembleOwnerCompanyAccountDetail(DiscountReq req) {
         OwnerCompanyAccountDetail account = new OwnerCompanyAccountDetail();
+        account.setUserId(req.getUserId());
         account.setOwnerId(req.getOwnerId());
         account.setSummaryMoneyCount(req.getOfferAmount());
         account.setSummaryUserNum(1);
@@ -132,8 +136,9 @@ public class OwnerCompanyAccountDetailAssemService {
      * @param req
      * @return
      */
-    public OwnerCompanyAccountDetail assembleOwnerCompanyAccountDetail(OperateWithDrawReq req) {
+    public OwnerCompanyAccountDetail assembleOwnerCompanyAccountDetail(OperateWithDrawReq req,Long userId) {
         OwnerCompanyAccountDetail account = new OwnerCompanyAccountDetail();
+        account.setUserId(userId);
         account.setOwnerId(req.getOwnerId());
         account.setSummaryMoneyCount(req.getAmount());
         account.setSummaryUserNum(1);
@@ -153,6 +158,7 @@ public class OwnerCompanyAccountDetailAssemService {
      */
     public OwnerCompanyAccountDetail assembleOwnerCompanyAccountDetail(PreWithdrawReq req) {
         OwnerCompanyAccountDetail account = new OwnerCompanyAccountDetail();
+        account.setUserId(req.getUserId());
         account.setOwnerId(req.getOwnerId());
         account.setSummaryMoneyCount(req.getRealWithdrawAmount());
         account.setSummaryUserNum(1);
@@ -163,5 +169,7 @@ public class OwnerCompanyAccountDetailAssemService {
         account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
         return account;
     }
+
+	
 
 }

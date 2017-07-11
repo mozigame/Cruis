@@ -116,12 +116,12 @@ public class OperateChargeReqConsumer {
                  */
                 ownerOperateFlowSummmaries.add(assembleOwnerOperateFlowDetail(req));
                 /*公司账目汇总*/
-                ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req));
+               //ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req));
 
-                if (req.getUserIds() != null && req.getUserIds().length > 0) {
+                if (req.getUserIds() != null && req.getUserIds().length > 0) { 
                     for (int i = 0; i < req.getUserIds().length; i++) {
                         userTrades.add(userTradeAssemService.assembleUserTrade(req, req.getUserIds()[i], req.getBillIds()[i]));
-
+                        ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req,req.getUserIds()[i]));
                         /*会员入款*/
                         if (memberConditionVoMap.get(req.getUserIds()[i]) == null) {
                             memberConditionVoMap.put(req.getUserIds()[i], memberConditionVoAssemService.assembleDepositMVo(req, req.getUserIds()[i]));

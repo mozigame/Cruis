@@ -35,6 +35,10 @@ public class OwnerCompanyAccountDetail {
      * 统计日期
      */
     private Integer pdate;
+    
+    private Long userId;
+    
+    
 
     public Integer getId() {
         return id;
@@ -99,4 +103,14 @@ public class OwnerCompanyAccountDetail {
     public void setPdate(Integer pdate) {
         this.pdate = pdate;
     }
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+    
+    
 }

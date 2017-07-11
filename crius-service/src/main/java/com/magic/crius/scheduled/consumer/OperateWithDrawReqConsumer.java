@@ -118,13 +118,13 @@ public class OperateWithDrawReqConsumer {
                 /*人工出款详情*/
                 ownerOperateOutDetails.add(assembleOwnerOperateOutDetail(req));
                 /*公司账目汇总*/
-                ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req));
+                //ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req));
 
                 /*会员账号汇总*/
                 if (req.getUserIds() != null && req.getUserIds().length > 0) {
                     for (int i = 0; i < req.getUserIds().length; i++) {
                         userTrades.add(userTradeAssemService.assembleUserTrade(req, req.getUserIds()[i], req.getBillIds()[i]));
-
+                        ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req,req.getUserIds()[i]));
                         /*会员提款*/
                         if (memberConditionVoMap.get(req.getUserIds()[i]) == null) {
                             memberConditionVoMap.put(req.getUserIds()[i], memberConditionVoAssemService.assembleWithdrawMVo(req, req.getUserIds()[i]));

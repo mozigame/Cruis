@@ -37,8 +37,12 @@ public class KafkaConf {
         PLUTUS_JP(0x3009, "彩金"),    // 彩金 12297
         PLUTUS_DS(0x300A, "打赏"),    //打赏  12298
         UPDATE_USER_LEVEL(0x300B, "会员升级"),  //会员升级 12299
-        PLUTUS_AGENT_BILL(0x300C, "代理退佣"),  //代理退佣 12300
-        PLUTUS_OWNER_BILL(0x300D, "业主包网"),  //业主包网 12301
+        
+        PLUTUS_OWNER_BILL(0x300C, "业主包网"),  //业主包网 12301
+        
+        PLUTUS_AGENT_BILL(0x300D, "代理退佣"),  //代理退佣 12300
+        
+        
         PLUTUS_LOTTERY(0x300E, "彩票"),    //彩票  12232
         PLUTUS_SPORT(0x300F, "体育"),    //体育  12303
         PLUTUS_VGAME(0x3011, "视讯"),    //视讯  12304

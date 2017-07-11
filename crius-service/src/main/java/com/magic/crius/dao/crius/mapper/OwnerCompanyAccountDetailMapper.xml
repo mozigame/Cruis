@@ -9,6 +9,7 @@
         <result column="summary_type" jdbcType="INTEGER" property="summaryType"/>
         <result column="summary_type_name" jdbcType="VARCHAR" property="summaryTypeName"/>
         <result column="summary_kind" jdbcType="INTEGER" property="summaryKind"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
         <result column="pdate" jdbcType="INTEGER" property="pdate"/>
     </resultMap>
 
@@ -33,7 +34,7 @@
     <insert id="batchInsert" >
     insert into owner_company_account_detail (owner_id, summary_money_count,
       summary_user_num, summary_type, summary_type_name, 
-      summary_kind, pdate)
+      summary_kind,user_id, pdate)
     values
     <foreach collection="list" item="param" separator="," >
       ( #{param.ownerId,jdbcType=BIGINT},
@@ -42,6 +43,7 @@
         #{param.summaryType,jdbcType=INTEGER},
         #{param.summaryTypeName,jdbcType=VARCHAR},
         #{param.summaryKind,jdbcType=INTEGER},
+        #{param.userId,jdbcType=BIGINT},
         #{param.pdate,jdbcType=INTEGER})
     </foreach>
 
