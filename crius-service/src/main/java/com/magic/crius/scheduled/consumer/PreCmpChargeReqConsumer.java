@@ -222,11 +222,12 @@ public class PreCmpChargeReqConsumer {
 
     private OwnerCompanyFlowDetail assembleOwnerCompanyFlowDetail(PreCmpChargeReq req) {
         OwnerCompanyFlowDetail flow = new OwnerCompanyFlowDetail();
+        
         flow.setOwnerId(req.getOwnerId());
         flow.setCompanyFlowMoneyCount(req.getChargeAmount());
         flow.setCompanyFlowNum(1);
         flow.setAccountNum(req.getInBankNum());
-        flow.setAccountName(req.getBankHolder());
+        flow.setAccountName(req.getInBankHolder());
         flow.setBankSystemCode(req.getInBankCode());
         flow.setState(0);
         flow.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));

@@ -30,6 +30,8 @@ public class PreCmpChargeReqRedisServiceImpl implements PreCmpChargeReqRedisServ
     @Override
     public boolean save(PreCmpChargeReq preCmpChargeReq) {
         try {
+        	
+        	ApiLogger.debug("PreCmpChargeReqRedisServiceImpl : ");
             Jedis jedis = criusJedisFactory.getInstance();
             String key = RedisConstants.CLEAR_PREFIX.PLUTUS_CMP_CHARGE.key(DateUtil.formatDateTime(new Date(preCmpChargeReq.getProduceTime()), DateUtil.format_yyyyMMddHH));
             Long result = jedis.lpush(key, JSON.toJSONString(preCmpChargeReq));
@@ -47,6 +49,7 @@ public class PreCmpChargeReqRedisServiceImpl implements PreCmpChargeReqRedisServ
         try {
             Jedis jedis = criusJedisFactory.getInstance();
             String key = RedisConstants.CLEAR_PREFIX.PLUTUS_CMP_CHARGE.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
+            ApiLogger.debug("preCmpChargeRedisService : "+key);
             List<PreCmpChargeReq> list = new ArrayList<>();
             for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
                 String reqStr = jedis.rpop(key);
@@ -64,5 +67,7 @@ public class PreCmpChargeReqRedisServiceImpl implements PreCmpChargeReqRedisServ
         return null;
     }
 
+    
+    
 
 }
