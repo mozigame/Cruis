@@ -256,7 +256,7 @@ public class OperateWithDrawReqConsumer {
         detail.setOrderCount(req.getAmount());
         
         //TODO 待定
-        detail.setState(0);
+        detail.setState(1);
         detail.setOrderId(req.getReqId());
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         detail.setHandlerId(req.getHandlerId());
