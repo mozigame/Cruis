@@ -134,7 +134,7 @@ public class OperateWithDrawReqConsumer {
             Map<Long, MemberConditionVo> memberConditionVoMap = new HashMap<>();
             for (OperateWithDrawReq req : list) {
                 /*人工出款详情*/
-                ownerOperateOutDetails.add(assembleOwnerOperateOutDetail(req));
+               
                 /*公司账目汇总*/
                 //ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req));
 
@@ -144,6 +144,7 @@ public class OperateWithDrawReqConsumer {
                         userTrades.add(userTradeAssemService.assembleUserTrade(req, req.getUserIds()[i], req.getBillIds()[i]));
                         ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req,req.getUserIds()[i]));
                         userOutMoneyDetails.add(assembleUserOutMoneyDetail(req,req.getUserIds()[i]));
+                        ownerOperateOutDetails.add(assembleOwnerOperateOutDetail(req));
                         /*会员提款*/
                         if (memberConditionVoMap.get(req.getUserIds()[i]) == null) {
                             memberConditionVoMap.put(req.getUserIds()[i], memberConditionVoAssemService.assembleWithdrawMVo(req, req.getUserIds()[i]));

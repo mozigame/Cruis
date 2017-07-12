@@ -119,7 +119,7 @@ public class OperateChargeReqConsumer {
                 /*
                  * 人工入款汇总
                  */
-                ownerOperateFlowSummmaries.add(assembleOwnerOperateFlowDetail(req));
+               
                 /*公司账目汇总*/
                //ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req));
 
@@ -128,6 +128,7 @@ public class OperateChargeReqConsumer {
                         userTrades.add(userTradeAssemService.assembleUserTrade(req, req.getUserIds()[i], req.getBillIds()[i]));
                         ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req,req.getUserIds()[i]));
                         userFlowMoneyDetails.add(userFlowMoneyDetailAssemService.assembleUserFlowMoneyDetail(req,req.getUserIds()[i]));
+                        ownerOperateFlowSummmaries.add(assembleOwnerOperateFlowDetail(req));
                         /*会员入款*/
                         if (memberConditionVoMap.get(req.getUserIds()[i]) == null) {
                             memberConditionVoMap.put(req.getUserIds()[i], memberConditionVoAssemService.assembleDepositMVo(req, req.getUserIds()[i]));
