@@ -1,25 +1,31 @@
 package com.magic.crius.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Service;
+
 import com.magic.analysis.utils.StringUtils;
+import com.magic.crius.po.BillInfo;
+import com.magic.crius.po.OwnerBillSummary2cost;
+import com.magic.crius.po.OwnerBillSummary2game;
 import com.magic.crius.po.ProxyBillDetail;
 import com.magic.crius.po.ProxyBillSummary2cost;
 import com.magic.crius.po.ProxyBillSummary2game;
+import com.magic.crius.service.BillInfoService;
+import com.magic.crius.service.OwnerBillSummary2costService;
+import com.magic.crius.service.OwnerBillSummary2gameService;
 import com.magic.crius.service.ProxyBillDetailService;
 import com.magic.crius.service.ProxyBillSummary2costService;
 import com.magic.crius.service.ProxyBillSummary2gameService;
-import com.magic.crius.vo.AgentHallBillVo;
-import org.springframework.stereotype.Service;
-
-import com.magic.crius.po.BillInfo;
-import com.magic.crius.service.BillInfoService;
 import com.magic.crius.storage.db.BillInfoDbService;
 import com.magic.crius.vo.AgentBillReq;
+import com.magic.crius.vo.AgentHallBillVo;
+import com.magic.crius.vo.AmountVo;
 import com.magic.crius.vo.OwnerBillReq;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.magic.crius.vo.OwnerHallBillVo;
 
 /**
  * User: joey
@@ -40,6 +46,13 @@ public class BillInfoServiceImpl implements BillInfoService {
 
     @Resource
     private ProxyBillSummary2costService proxyBillSummary2costService;
+    
+
+    @Resource
+    private OwnerBillSummary2costService ownerBillSummary2costService;
+    
+    @Resource
+    private OwnerBillSummary2gameService ownerBillSummary2gameService;
 
 
     @Override
@@ -48,9 +61,16 @@ public class BillInfoServiceImpl implements BillInfoService {
     }
     
     public void save(OwnerBillReq req){
+    	if(req==null){
+    		return;
+    	}
     	
-    	/*List<>  s=req.getHallBillInfos();
-    	List<>  a=req.getOwnerCostInfo();*/
+    	BillInfo billInfo=this.assembleBillInfo(req);
+    	List<OwnerBillSummary2cost> costList=this.assembleBillInfoSummaryCost(req);
+    	List<OwnerBillSummary2game> gameList=this.assembleBillInfoSummaryGame(req);
+    	this.save(billInfo);
+    	this.ownerBillSummary2costService.batchInsert(costList);
+    	this.ownerBillSummary2gameService.batchInsert(gameList);
     }
     
     public void save(AgentBillReq req){
@@ -68,6 +88,66 @@ public class BillInfoServiceImpl implements BillInfoService {
                 proxyBillSummary2costService.save(cost);
             });
         }
+    }
+    
+    private List<OwnerBillSummary2cost> assembleBillInfoSummaryCost(OwnerBillReq req){
+    	List<OwnerBillSummary2cost> costList=new ArrayList<>();
+    	OwnerBillSummary2cost cost=null;
+    	for(AmountVo amount:req.getOwnerCostInfo()){
+    		cost = new OwnerBillSummary2cost();
+    		cost.setOwnerId(req.getOwnerId());
+    		cost.setOrderId(""+req.getBillId());
+    		cost.setBill(amount.getAmount());
+    		cost.setBillType(""+amount.getAmountTypeId());
+    		cost.setBillTypeName(amount.getAmountTypeName());
+    		cost.setCost(amount.getAmount());
+    	}
+        return costList;
+    }
+    
+    private List<OwnerBillSummary2game> assembleBillInfoSummaryGame(OwnerBillReq req){
+    	List<OwnerBillSummary2game> gameList=new ArrayList<>();
+    	OwnerBillSummary2game game=null;
+    	String gameType=null;
+    	for(OwnerHallBillVo bill:req.getHallBillInfos()){
+    		game = new OwnerBillSummary2game();
+    		game.setOwnerId(req.getOwnerId());
+    		game.setOrderId(""+req.getBillId());
+    		game.setPdate(req.getBillDate());
+    		game.setPdateName(req.getBillDate());
+            gameType=this.getFactoryGameType(bill.getPlatformId(), bill.getHallTypeId());
+            game.setGameType(gameType);
+            game.setIncome(bill.getPayOffAmount());
+            game.setBillCount(bill.getNeedPayAmount());
+    	}
+    	
+        return gameList;
+    }
+    
+    private String getFactoryGameType(Long gameFactoryType, Long gameAbstractType) {
+    	 //@TODO
+		return null;
+	}
+
+	private BillInfo assembleBillInfo(OwnerBillReq req){
+    	BillInfo billInfo = new BillInfo();
+        billInfo.setOwnerId(req.getOwnerId());
+//        billInfo.setProxyId(req);
+        billInfo.setOrderId(req.getBillId().toString());
+        billInfo.setOrderName("");
+        if (StringUtils.isStringNull(req.getBillDate())){
+            billInfo.setPdate(Integer.parseInt(req.getBillDate()));
+        }
+        billInfo.setSchemeCode(req.getSchemeId().toString());
+        billInfo.setSchemeName(req.getSchemeName());
+        billInfo.setAccount(req.getTotalCost());
+        billInfo.setIncome(req.getRealToalCost());
+        billInfo.setBillType(1);//1:业主;2:代理
+        billInfo.setStartTime(req.getBillStartTime());
+        billInfo.setEndTime(req.getBillEndTime());
+        billInfo.setPdateName(req.getBillDate());
+        billInfo.setStatus(1);//1:未处理
+        return billInfo;
     }
 
 
