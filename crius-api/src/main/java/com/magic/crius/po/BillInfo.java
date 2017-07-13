@@ -27,7 +27,7 @@ public class BillInfo {
 
     private Long income;    //实付金额
 
-    private Integer billType;   //账单类型
+    private Integer billType;   //账单类型//1:业主;2:代理
 
     private Long startTime;   //账单起点
 
@@ -35,7 +35,7 @@ public class BillInfo {
 
     private String pdateName;   //期数名称
 
-    private Integer status; //账单状态，默认0
+    private Integer status; //账单状态，默认1:未处理
 
     public Integer getId() {
         return id;

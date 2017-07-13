@@ -28,7 +28,7 @@ public class ProxyBillDetail {
 
     private Long recordReforwardAccount;//已获退佣
 
-    private Integer reforwardState;//退佣状态
+    private Integer reforwardState;//退佣状态;默认1是未处理
 
     //    private Long recordCost;//当期费用扣除
 //    private Long effectIncome;//本期有效收益

@@ -1,6 +1,7 @@
 package com.magic.crius.service;
 
 import com.alibaba.fastjson.JSON;
+import com.magic.crius.vo.AgentBillReq;
 import com.magic.crius.vo.PreCmpChargeReq;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -63,5 +64,13 @@ public class KafkaProducerTest {
             req.setProduceTime(System.currentTimeMillis());
             template.send("test", "bza" + i);
         }
+    }
+
+
+    @Test
+    public void TestBillInfo(){
+        AgentBillReq agentBillReq = new AgentBillReq();
+
+
     }
 }
