@@ -26,4 +26,19 @@
           #{pdate,jdbcType=INTEGER})
     </insert>
 
+    <!--添加代理成本部分退佣汇总-->
+    <insert id="batchInsert" parameterType="com.magic.crius.po.ProxyBillSummary2cost">
+        insert into proxy_bill_summary2cost (owner_id, proxy_id,
+        proxy_name, order_id, cost_type,
+        cost_type_name, cost, remark,
+        pdate)
+        values
+        <foreach collection="list" item="param" separator="," >
+        (#{ownerId,jdbcType=BIGINT}, #{proxyId,jdbcType=BIGINT},
+        #{proxyName,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{costType,jdbcType=VARCHAR},
+        #{costTypeName,jdbcType=VARCHAR}, #{cost,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR},
+        #{pdate,jdbcType=INTEGER})
+        </foreach>
+    </insert>
+
 </mapper>

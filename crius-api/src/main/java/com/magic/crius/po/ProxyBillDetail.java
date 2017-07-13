@@ -30,10 +30,33 @@ public class ProxyBillDetail {
 
     private Integer reforwardState;//退佣状态;默认1是未处理
 
-    //    private Long recordCost;//当期费用扣除
-//    private Long effectIncome;//本期有效收益
-//    private Long orderCount;//当期总投注
+        private Long recordCost;//当期费用扣除
+    private Long effectIncome;//本期有效收益
+    private Long orderCount;//当期总投注
 
+    public Long getRecordCost() {
+        return recordCost;
+    }
+
+    public void setRecordCost(Long recordCost) {
+        this.recordCost = recordCost;
+    }
+
+    public Long getOrderCount() {
+        return orderCount;
+    }
+
+    public void setOrderCount(Long orderCount) {
+        this.orderCount = orderCount;
+    }
+
+    public Long getEffectIncome() {
+        return effectIncome;
+    }
+
+    public void setEffectIncome(Long effectIncome) {
+        this.effectIncome = effectIncome;
+    }
 
     public Integer getId() {
         return id;

@@ -6,6 +6,7 @@ import com.magic.crius.storage.db.ProxyBillSummary2costDbService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * User: joey
@@ -21,5 +22,10 @@ public class ProxyBillSummary2costDbServiceImpl implements ProxyBillSummary2cost
     @Override
     public boolean save(ProxyBillSummary2cost cost) {
         return proxyBillSummary2costMapper.insert(cost) > 0;
+    }
+
+    @Override
+    public boolean batchInsert(List<ProxyBillSummary2cost> costs) {
+        return proxyBillSummary2costMapper.batchInsert(costs) > 0;
     }
 }

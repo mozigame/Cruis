@@ -83,10 +83,7 @@ public class BillInfoServiceImpl implements BillInfoService {
             billInfoDbService.save(billInfo);
             proxyBillDetailService.save(proxyBillDetail);
             proxyBillSummary2gameService.save(proxyBillSummary2game);
-
-            proxyBillSummary2cost.forEach((ProxyBillSummary2cost cost) -> {
-                proxyBillSummary2costService.save(cost);
-            });
+            proxyBillSummary2costService.batchInsert(proxyBillSummary2cost);
         }
     }
     
