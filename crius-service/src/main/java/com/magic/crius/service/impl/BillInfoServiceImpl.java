@@ -15,6 +15,7 @@ import com.magic.crius.po.ProxyBillDetail;
 import com.magic.crius.po.ProxyBillSummary2cost;
 import com.magic.crius.po.ProxyBillSummary2game;
 import com.magic.crius.service.BillInfoService;
+import com.magic.crius.service.GameInfoService;
 import com.magic.crius.service.OwnerBillSummary2costService;
 import com.magic.crius.service.OwnerBillSummary2gameService;
 import com.magic.crius.service.ProxyBillDetailService;
@@ -53,6 +54,9 @@ public class BillInfoServiceImpl implements BillInfoService {
     
     @Resource
     private OwnerBillSummary2gameService ownerBillSummary2gameService;
+    
+    @Resource
+    private GameInfoService gameInfoService;
 
 
     @Override
@@ -129,8 +133,8 @@ public class BillInfoServiceImpl implements BillInfoService {
     }
     
     private String getFactoryGameType(Long gameFactoryType, Long gameAbstractType) {
-    	 //@TODO
-		return null;
+    	String key=gameFactoryType+"-"+gameAbstractType;
+		return gameInfoService.getGameTypeByFactoryMap().get(key);
 	}
 
 	private BillInfo assembleBillInfo(OwnerBillReq req){

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: joey
@@ -55,5 +56,15 @@ public class GameInfoDbServiceImpl implements GameInfoDbService {
     @Override
     public GameInfo get(GameInfo gameInfo) {
         return criusGameInfoMapper.get(gameInfo);
+    }
+    
+    /**
+     * 
+     * @param gameFactoryType
+     * @param gameAbstractType
+     * @return map<key=gameFactoryType+"-"+gameAbstractType, value=gameType>
+     */
+    public Map<String, String> getGameTypeByFactoryMap(){
+    	return criusGameInfoMapper.getGameTypeByFactoryMap();
     }
 }

@@ -34,4 +34,12 @@ public interface GameInfoMapper {
      * @return
      */
     GameInfo get(GameInfo info);
+    
+    /**
+     * 
+     * @param gameFactoryType
+     * @param gameAbstractType
+     * @return map<key=gameFactoryType+"-"+gameAbstractType, value=gameType>
+     */
+    Map<String, String> getGameTypeByFactoryMap();
 }

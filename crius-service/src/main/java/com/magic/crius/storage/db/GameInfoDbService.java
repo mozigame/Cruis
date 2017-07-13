@@ -1,9 +1,9 @@
 package com.magic.crius.storage.db;
 
-import com.magic.crius.po.GameInfo;
-
-import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+
+import com.magic.crius.po.GameInfo;
 
 /**
  * User: joey
@@ -17,4 +17,12 @@ public interface GameInfoDbService {
     boolean deleteAll();
 
     GameInfo get(GameInfo gameInfo);
+    
+    /**
+     * 
+     * @param gameFactoryType
+     * @param gameAbstractType
+     * @return map<key=gameFactoryType+"-"+gameAbstractType, value=gameType>
+     */
+    Map<String, String> getGameTypeByFactoryMap();
 }

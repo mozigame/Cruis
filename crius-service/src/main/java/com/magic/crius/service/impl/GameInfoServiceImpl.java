@@ -1,14 +1,16 @@
 package com.magic.crius.service.impl;
 
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
 import com.magic.crius.po.GameInfo;
 import com.magic.crius.service.GameInfoService;
 import com.magic.crius.storage.db.GameInfoDbService;
 import com.magic.crius.storage.redis.GameInfoRedisService;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * User: joey
@@ -46,5 +48,15 @@ public class GameInfoServiceImpl implements GameInfoService {
     @Override
     public GameInfo get(GameInfo gameInfo) {
         return gameInfoDbService.get(gameInfo);
+    }
+    
+    /**
+     * 
+     * @param gameFactoryType
+     * @param gameAbstractType
+     * @return map<key=gameFactoryType+"-"+gameAbstractType, value=gameType>
+     */
+    public Map<String, String> getGameTypeByFactoryMap(){
+    	return gameInfoDbService.getGameTypeByFactoryMap();
     }
 }
