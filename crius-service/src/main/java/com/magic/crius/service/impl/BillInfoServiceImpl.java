@@ -140,7 +140,7 @@ public class BillInfoServiceImpl implements BillInfoService {
         billInfo.setOrderId(String.valueOf(req.getBillId()));
         billInfo.setOrderName("");
         if (StringUtils.isStringNull(req.getBillDate())){
-            billInfo.setPdate(Integer.parseInt(req.getBillDate()));
+//            billInfo.setPdate(Integer.parseInt(req.getBillDate()));
         }
         billInfo.setSchemeCode(String.valueOf(req.getSchemeId()));
         billInfo.setSchemeName(req.getSchemeName());
