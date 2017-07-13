@@ -14,11 +14,11 @@ public class ProxyBillSummary2cost {
 
     private String orderId; //账单id
 
-    private String costType;    //游戏类型
+    private String costType;    //cost类型
 
     private String costTypeName;    //游戏类型名称
 
-    private Long cost;  //本期收益
+    private Long cost;  //本期收益  feeAmount/discountAmount
 
     private String remark;  //备注
 

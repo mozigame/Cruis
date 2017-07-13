@@ -23,7 +23,7 @@ public class AgentBillReq {
     @JSONField(name = "RebateTotalAmount")
     private Long rebateTotalAmount; //可获退佣总额  //todo
     @JSONField(name = "CostTotalAmount")
-    private Long costTotalAmount;   //当期费用总额    //todo
+    private Long costTotalAmount;   //当期费用总额    //account
 
     @JSONField(name = "AgentHallInfos")
     private List<AgentHallBillVo> agentHallInfos;

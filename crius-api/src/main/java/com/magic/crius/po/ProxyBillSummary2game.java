@@ -15,23 +15,23 @@ public class ProxyBillSummary2game {
 
     private String orderId;//账单id
 
-    private String gameType;//游戏类型
+    private String gameType;//游戏类型 No
 
-    private Long lastEffectOrderCount;//上期有效投注
+    private Long lastEffectOrderCount;//上期有效投注 no
 
-    private Long effectOrderCount;//当期有效投注
+    private Long effectOrderCount;//当期有效投注 vaildBettTotalAmount
 
-    private Long lastIncome;//上期收益
+    private Long lastIncome;//上期收益 No
 
-    private Long income;//本期收益
+    private Long income;//本期收益 payoffTotalAmount
 
-    private Integer pdate;//统计期数
+    private Integer pdate;//统计期数 BillDate
 
-    private Long reforward;//返水
+    private Long reforward;//返水 add(AgentHallBillVo. cashbackAmount)
 
-    private Long administration;//行政
+    private Long administration;//行政 add(AgentHallBillVo. costAmount)
 
-    private Long reforwardAccount;//可获退佣
+    private Long reforwardAccount;//可获退佣 add(AgentHallBillVo. rebateAmount)
 
     public Integer getId() {
         return id;

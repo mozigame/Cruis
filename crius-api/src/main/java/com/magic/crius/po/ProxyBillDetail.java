@@ -12,21 +12,21 @@ public class ProxyBillDetail {
 
     private String proxyName;   //代理名称
 
-    private Long orderId; //账单编号
+    private Long orderId; //账单编号 billId
 
-    private String pdate;//统计期数
+    private String pdate;//统计期数 BillDate
 
-    private Long userNum;//会员数量
+    private Long userNum;//会员数量  no
 
-    private Long income;//本期收益
+    private Long income;//本期收益 payoffTotalAmount
 
-    private Long reforwardAccount;//可获退佣
+    private Long reforwardAccount;//可获退佣 rebateTotalAmount
 
-    private Long effectOrderCount;//当期有效投注
+    private Long effectOrderCount;//当期有效投注 vaildBettTotalAmount
 
-    private Long cost;//当期累计费用
+    private Long cost;//当期累计费用 costTotalAmount
 
-    private Long recordReforwardAccount;//已获退佣
+    private Long recordReforwardAccount;//已获退佣 rebateTotalAmount
 
     private Integer reforwardState;//退佣状态;默认1是未处理
 

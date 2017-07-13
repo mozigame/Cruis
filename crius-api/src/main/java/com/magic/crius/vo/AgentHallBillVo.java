@@ -11,7 +11,7 @@ public class AgentHallBillVo {
 
     @JSONField(name = "PlatformId")
     private Long platformId;
-    @JSONField(name = "HallTypeId")
+    @JSONField(name = "HallTypeId") 
     private Long hallTypeId;
     @JSONField(name = "VaildBettAmount")
     private Long vaildBettAmount;   // 有效投注额
