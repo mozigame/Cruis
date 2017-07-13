@@ -140,8 +140,7 @@ public class KafkaProducerTest {
         	OwnerBillReq bill = new OwnerBillReq();
         	bill.setAppId(System.currentTimeMillis() + i);
         	bill.setBillId(System.currentTimeMillis() + i);
-        	bill.setBillDate(""+(new Date().getTime() + i));
-        	
+        	bill.setBillDate(""+DateKit.format(new Date(), "yyyyMM"));
         	bill.setBillEndTime(new Date().getTime());
         	bill.setBillStartTime(new Date().getTime());
         	bill.setOwnerId(10001L);
