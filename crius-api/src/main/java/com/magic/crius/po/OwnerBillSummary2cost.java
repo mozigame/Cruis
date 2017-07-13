@@ -7,6 +7,10 @@ public class OwnerBillSummary2cost {
     private Integer id;
 
     private Long ownerId;
+    
+    private Long proxyId;
+    
+    private Long proxyName;
 
     private String orderId; //账单id
 
@@ -35,8 +39,28 @@ public class OwnerBillSummary2cost {
     public void setOwnerId(Long ownerId) {
         this.ownerId = ownerId;
     }
+    
+    
 
-    public String getOrderId() {
+    public Long getProxyId() {
+		return proxyId;
+	}
+
+	public void setProxyId(Long proxyId) {
+		this.proxyId = proxyId;
+	}
+	
+	
+
+	public Long getProxyName() {
+		return proxyName;
+	}
+
+	public void setProxyName(Long proxyName) {
+		this.proxyName = proxyName;
+	}
+
+	public String getOrderId() {
         return orderId;
     }
 

@@ -203,6 +203,7 @@ public class CapitalConsumer {
         logger.info("get kafka data :>>>  " + record.toString());
         JSONObject object = JSON.parseObject(record.value().toString());
         KafkaConf.DataType type = KafkaConf.DataType.parse(object.getInteger(KafkaConf.DATA_TYPE));
+        logger.info("----transData---thread="+Thread.currentThread().getId()+" type="+type);
         switch (type) {
             case PLUTUS_ONL_CHARGE:
                 OnlChargeReq onlChargeReq = JSON.parseObject(object.getString(KafkaConf.DATA), OnlChargeReq.class);

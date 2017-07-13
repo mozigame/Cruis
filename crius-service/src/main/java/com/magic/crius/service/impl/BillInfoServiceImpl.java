@@ -69,8 +69,12 @@ public class BillInfoServiceImpl implements BillInfoService {
     	List<OwnerBillSummary2cost> costList=this.assembleBillInfoSummaryCost(req);
     	List<OwnerBillSummary2game> gameList=this.assembleBillInfoSummaryGame(req);
     	this.save(billInfo);
-    	this.ownerBillSummary2costService.batchInsert(costList);
-    	this.ownerBillSummary2gameService.batchInsert(gameList);
+    	if(costList.size()>0){
+    		this.ownerBillSummary2costService.batchInsert(costList);
+    	}
+    	if(gameList.size()>0){
+    		this.ownerBillSummary2gameService.batchInsert(gameList);
+    	}
     }
     
     public void save(AgentBillReq req){
@@ -93,11 +97,13 @@ public class BillInfoServiceImpl implements BillInfoService {
     	for(AmountVo amount:req.getOwnerCostInfo()){
     		cost = new OwnerBillSummary2cost();
     		cost.setOwnerId(req.getOwnerId());
-    		cost.setOrderId(""+req.getBillId());
+    		cost.setOrderId(String.valueOf(req.getBillId()));
+//    		cost.setProxyId();
     		cost.setBill(amount.getAmount());
-    		cost.setBillType(""+amount.getAmountTypeId());
+    		cost.setBillType(String.valueOf(amount.getAmountTypeId()));
     		cost.setBillTypeName(amount.getAmountTypeName());
     		cost.setCost(amount.getAmount());
+    		costList.add(cost);
     	}
         return costList;
     }
@@ -109,13 +115,14 @@ public class BillInfoServiceImpl implements BillInfoService {
     	for(OwnerHallBillVo bill:req.getHallBillInfos()){
     		game = new OwnerBillSummary2game();
     		game.setOwnerId(req.getOwnerId());
-    		game.setOrderId(""+req.getBillId());
+    		game.setOrderId(String.valueOf(req.getBillId()));
     		game.setPdate(req.getBillDate());
     		game.setPdateName(req.getBillDate());
             gameType=this.getFactoryGameType(bill.getPlatformId(), bill.getHallTypeId());
             game.setGameType(gameType);
             game.setIncome(bill.getPayOffAmount());
             game.setBillCount(bill.getNeedPayAmount());
+            gameList.add(game);
     	}
     	
         return gameList;
@@ -130,12 +137,12 @@ public class BillInfoServiceImpl implements BillInfoService {
     	BillInfo billInfo = new BillInfo();
         billInfo.setOwnerId(req.getOwnerId());
 //        billInfo.setProxyId(req);
-        billInfo.setOrderId(req.getBillId().toString());
+        billInfo.setOrderId(String.valueOf(req.getBillId()));
         billInfo.setOrderName("");
         if (StringUtils.isStringNull(req.getBillDate())){
-            billInfo.setPdate(Integer.parseInt(req.getBillDate()));
+//            billInfo.setPdate(Integer.parseInt(req.getBillDate()));
         }
-        billInfo.setSchemeCode(req.getSchemeId().toString());
+        billInfo.setSchemeCode(String.valueOf(req.getSchemeId()));
         billInfo.setSchemeName(req.getSchemeName());
         billInfo.setAccount(req.getTotalCost());
         billInfo.setIncome(req.getRealToalCost());
