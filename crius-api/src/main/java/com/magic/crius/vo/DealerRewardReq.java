@@ -191,4 +191,16 @@ public class DealerRewardReq {
     public void setBalance(Long balance) {
         this.balance = balance;
     }
+
+	@Override
+	public String toString() {
+		return "DealerRewardReq [reqId=" + reqId + ", billId=" + billId + ", dealerId=" + dealerId + ", dealerName="
+				+ dealerName + ", userId=" + userId + ", agentId=" + agentId + ", ownerId=" + ownerId
+				+ ", rewardAmount=" + rewardAmount + ", createTime=" + createTime + ", gameDeskNum=" + gameDeskNum
+				+ ", gameId=" + gameId + ", gameName=" + gameName + ", gameHallId=" + gameHallId + ", gameHallName="
+				+ gameHallName + ", gamePlatformId=" + gamePlatformId + ", gamePlatformName=" + gamePlatformName
+				+ ", produceTime=" + produceTime + ", balance=" + balance + "]";
+	}
+    
+    
 }

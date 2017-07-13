@@ -47,9 +47,13 @@ public class OperateChargeReqRedisServiceImpl implements OperateChargeReqRedisSe
         try {
             Jedis jedis = criusJedisFactory.getInstance();
             String key = RedisConstants.CLEAR_PREFIX.PLUTUS_OPR_CHARGE.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
+            ApiLogger.debug("key :"+key);
+            
             List<OperateChargeReq> list = new ArrayList<>();
             for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
                 String reqStr = jedis.rpop(key);
+                ApiLogger.debug("reqStr :"+reqStr );
+                
                 if (StringUtils.isNotBlank(reqStr)) {
                     list.add(JSON.parseObject(reqStr, OperateChargeReq.class));
                 } else {

@@ -1,6 +1,8 @@
 package com.magic.crius.service;
 
 import com.magic.crius.po.BillInfo;
+import com.magic.crius.vo.AgentBillReq;
+import com.magic.crius.vo.OwnerBillReq;
 
 /**
  * User: joey
@@ -11,4 +13,8 @@ import com.magic.crius.po.BillInfo;
 public interface BillInfoService {
 
     boolean save(BillInfo billInfo);
+    
+    public void save(OwnerBillReq req);
+    
+    public void save(AgentBillReq req);
 }

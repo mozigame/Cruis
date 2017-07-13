@@ -186,7 +186,7 @@ public class BaseOrderReqConsumer {
         //todo 订单状态
         detail.setOrderState(0);
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getUpdateDatetime()), "yyyyMMdd")));
-        detail.setCreateTime(req.getInsertDatetime());
+        detail.setCreateTime(req.getBetDatetime());
         detail.setUpdateTime(req.getUpdateDatetime());
         detail.setOrderExtent(req.getOrderExtent().toJSONString());
         return detail;

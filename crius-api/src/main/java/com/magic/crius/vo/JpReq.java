@@ -171,4 +171,16 @@ public class JpReq {
     public void setBalance(Long balance) {
         this.balance = balance;
     }
+
+	@Override
+	public String toString() {
+		return "JpReq [reqId=" + reqId + ", billId=" + billId + ", userId=" + userId + ", agentId=" + agentId
+				+ ", ownerId=" + ownerId + ", jpType=" + jpType + ", jpAmount=" + jpAmount + ", createTime="
+				+ createTime + ", gameId=" + gameId + ", gameName=" + gameName + ", gameHallId=" + gameHallId
+				+ ", gameHallName=" + gameHallName + ", gamePlatformId=" + gamePlatformId + ", gamePlatformName="
+				+ gamePlatformName + ", produceTime=" + produceTime + ", balance=" + balance + "]";
+	}
+    
+    
+    
 }

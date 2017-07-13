@@ -148,4 +148,16 @@ public class OwnerBillReq {
     public void setSchemeName(String schemeName) {
         this.schemeName = schemeName;
     }
+
+	@Override
+	public String toString() {
+		return "OwnerBillReq [totalCost=" + totalCost + ", realToalCost=" + realToalCost + ", billStartTime="
+				+ billStartTime + ", billEndTime=" + billEndTime + ", ownerCostInfo=" + ownerCostInfo
+				+ ", hallBillInfos=" + hallBillInfos + ", produceTime=" + produceTime + ", billId=" + billId
+				+ ", ownerId=" + ownerId + ", appId=" + appId + ", billDate=" + billDate + ", schemeId=" + schemeId
+				+ ", schemeName=" + schemeName + "]";
+	}
+    
+    
+    
 }

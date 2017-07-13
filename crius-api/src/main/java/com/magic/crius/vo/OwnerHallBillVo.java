@@ -50,4 +50,12 @@ public class OwnerHallBillVo {
     public void setNeedPayAmount(Long needPayAmount) {
         this.needPayAmount = needPayAmount;
     }
+
+	@Override
+	public String toString() {
+		return "OwnerHallBillVo [platformId=" + platformId + ", hallTypeId=" + hallTypeId + ", payOffAmount="
+				+ payOffAmount + ", needPayAmount=" + needPayAmount + "]";
+	}
+    
+    
 }

@@ -188,5 +188,18 @@ public class AgentBillReq {
     public void setCostTotalAmount(Long costTotalAmount) {
         this.costTotalAmount = costTotalAmount;
     }
+
+	@Override
+	public String toString() {
+		return "AgentBillReq [feeAmount=" + feeAmount + ", discountAmount=" + discountAmount + ", payoffTotalAmount="
+				+ payoffTotalAmount + ", vaildBettTotalAmount=" + vaildBettTotalAmount + ", rebateTotalAmount="
+				+ rebateTotalAmount + ", costTotalAmount=" + costTotalAmount + ", agentHallInfos=" + agentHallInfos
+				+ ", billStartTime=" + billStartTime + ", billEndTime=" + billEndTime + ", produceTime=" + produceTime
+				+ ", billId=" + billId + ", ownerId=" + ownerId + ", agentId=" + agentId + ", appId=" + appId
+				+ ", billDate=" + billDate + ", schemeId=" + schemeId + ", schemeName=" + schemeName + "]";
+	}
+    
+    
+    
 }
 

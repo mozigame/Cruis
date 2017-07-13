@@ -40,4 +40,12 @@ public class AmountVo {
     public void setAmount(Long amount) {
         this.amount = amount;
     }
+
+	@Override
+	public String toString() {
+		return "AmountVo [amountTypeId=" + amountTypeId + ", amountTypeName=" + amountTypeName + ", amount=" + amount
+				+ "]";
+	}
+    
+    
 }

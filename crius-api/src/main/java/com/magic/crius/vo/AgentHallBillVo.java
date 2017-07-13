@@ -79,4 +79,13 @@ public class AgentHallBillVo {
     public void setRebateAmount(Long rebateAmount) {
         this.rebateAmount = rebateAmount;
     }
+
+	@Override
+	public String toString() {
+		return "AgentHallBillVo [platformId=" + platformId + ", hallTypeId=" + hallTypeId + ", vaildBettAmount="
+				+ vaildBettAmount + ", payoffAmount=" + payoffAmount + ", cashbackAmount=" + cashbackAmount
+				+ ", costAmount=" + costAmount + ", rebateAmount=" + rebateAmount + "]";
+	}
+    
+    
 }

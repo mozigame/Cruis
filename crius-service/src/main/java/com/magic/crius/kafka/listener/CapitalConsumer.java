@@ -211,12 +211,15 @@ public class CapitalConsumer {
                 break;
             case PLUTUS_JP:
                 JpReq jpReq = JSON.parseObject(object.getString(KafkaConf.DATA), JpReq.class);
+                System.out.println("jp :"+jpReq);
                 jpReq.setProduceTime(System.currentTimeMillis());
                 jpReqAssemService.procKafkaData(jpReq);
                 break;
             case PLUTUS_DS:
                 DealerRewardReq dealerRewardReq = JSON.parseObject(object.getString(KafkaConf.DATA), DealerRewardReq.class);
                 dealerRewardReq.setProduceTime(System.currentTimeMillis());
+                
+                System.out.println("DealerRewardReq :"+dealerRewardReq);
                 dealerRewardReqAssemService.procKafkaData(dealerRewardReq);
                 break;
             case UPDATE_USER_LEVEL:
@@ -225,11 +228,17 @@ public class CapitalConsumer {
                 break;
             case PLUTUS_AGENT_BILL:
                 AgentBillReq agentBillReq = JSON.parseObject(object.getString(KafkaConf.DATA), AgentBillReq.class);
-
+                System.out.println(agentBillReq);
+                logger.info("get kafka data :>>>  " + agentBillReq.toString());
+                
+                
                 break;
             case PLUTUS_OWNER_BILL:
                 OwnerBillReq ownerBillReq = JSON.parseObject(object.getString(KafkaConf.DATA), OwnerBillReq.class);
-
+                System.out.println(ownerBillReq);
+                logger.info("get kafka data :>>>  " + ownerBillReq.toString());
+                
+                
                 break;
             default:
                 break;

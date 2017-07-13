@@ -50,9 +50,11 @@ public class OperateWithDrawReqRedisServiceImpl implements OperateWithDrawReqRed
         try {
             Jedis jedis = criusJedisFactory.getInstance();
             String key = RedisConstants.CLEAR_PREFIX.PLUTUS_OPR_WITHDRAW.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
+            ApiLogger.debug("key :"+key);
             List<OperateWithDrawReq> list = new ArrayList<>();
             for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
                 String reqStr = jedis.rpop(key);
+                ApiLogger.debug("reqStr :"+reqStr);
                 if (StringUtils.isNotBlank(reqStr)) {
                     list.add(JSON.parseObject(reqStr, OperateWithDrawReq.class));
                 } else {

@@ -63,7 +63,7 @@ public class UserLevelAssemService {
             System.out.println("findPeriodLevels ,size :" + vos.size());
             int i = 0;
             for (MemberConditionVo vo : vos) {
-                if (userInfoService.updateLevel(vo.getMemberId(), vo.getLevel())) {
+                if (userInfoService.updateLevel(vo.getMemberId(), (long)vo.getLevel())) {
                     i++;
                 }
             }
