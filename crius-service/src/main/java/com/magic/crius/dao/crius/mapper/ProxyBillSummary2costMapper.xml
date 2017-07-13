@@ -34,10 +34,10 @@
         pdate)
         values
         <foreach collection="list" item="param" separator="," >
-        (#{ownerId,jdbcType=BIGINT}, #{proxyId,jdbcType=BIGINT},
-        #{proxyName,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{costType,jdbcType=VARCHAR},
-        #{costTypeName,jdbcType=VARCHAR}, #{cost,jdbcType=BIGINT}, #{remark,jdbcType=VARCHAR},
-        #{pdate,jdbcType=INTEGER})
+        (#{param.ownerId,jdbcType=BIGINT}, #{param.proxyId,jdbcType=BIGINT},
+        #{param.proxyName,jdbcType=VARCHAR}, #{param.orderId,jdbcType=VARCHAR}, #{param.costType,jdbcType=VARCHAR},
+        #{param.costTypeName,jdbcType=VARCHAR}, #{param.cost,jdbcType=BIGINT}, #{param.remark,jdbcType=VARCHAR},
+        #{param.pdate,jdbcType=INTEGER})
         </foreach>
     </insert>
 

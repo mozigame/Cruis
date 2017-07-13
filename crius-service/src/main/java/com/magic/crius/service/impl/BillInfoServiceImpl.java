@@ -177,7 +177,7 @@ public class BillInfoServiceImpl implements BillInfoService {
         proxyBillDetail.setPdate(agentBillReq.getBillDate());
         //proxyBillDetail.setUserNum();;
         proxyBillDetail.setIncome(agentBillReq.getPayoffTotalAmount());
-        proxyBillDetail.setRecordReforwardAccount(agentBillReq.getRebateTotalAmount());
+        proxyBillDetail.setReforwardAccount(agentBillReq.getRebateTotalAmount());
         proxyBillDetail.setEffectOrderCount(agentBillReq.getVaildBettTotalAmount());
         proxyBillDetail.setCost(agentBillReq.getCostTotalAmount());
         proxyBillDetail.setReforwardState(1);
