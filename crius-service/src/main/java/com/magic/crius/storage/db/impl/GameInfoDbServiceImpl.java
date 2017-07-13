@@ -1,14 +1,17 @@
 package com.magic.crius.storage.db.impl;
 
-import com.magic.crius.dao.tethys.db.GameInfoMapper;
-import com.magic.crius.po.GameInfo;
-import com.magic.crius.storage.db.GameInfoDbService;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import java.util.List;
-import java.util.Map;
+import com.magic.crius.dao.tethys.db.GameInfoMapper;
+import com.magic.crius.po.GameInfo;
+import com.magic.crius.storage.db.GameInfoDbService;
 
 /**
  * User: joey
@@ -65,6 +68,11 @@ public class GameInfoDbServiceImpl implements GameInfoDbService {
      * @return map<key=gameFactoryType+"-"+gameAbstractType, value=gameType>
      */
     public Map<String, String> getGameTypeByFactoryMap(){
-    	return criusGameInfoMapper.getGameTypeByFactoryMap();
+    	List<Map<String, String>> list= criusGameInfoMapper.getGameTypeByFactoryAll();
+    	Map<String, String> map=new HashMap<>();
+    	for(Map<String, String> m:list){
+    		map.put(m.get("game_key"), m.get("game_type"));
+    	}
+    	return map;
     }
 }

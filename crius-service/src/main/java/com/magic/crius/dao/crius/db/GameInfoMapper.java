@@ -1,13 +1,12 @@
 package com.magic.crius.dao.crius.db;
 
-import com.magic.api.commons.atlas.core.mybatis.MyBatisDaoImpl;
-import com.magic.crius.po.GameInfo;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
+
+import com.magic.crius.po.GameInfo;
 
 /**
  * tethys 中的gameInfo
@@ -41,5 +40,5 @@ public interface GameInfoMapper {
      * @param gameAbstractType
      * @return map<key=gameFactoryType+"-"+gameAbstractType, value=gameType>
      */
-    Map<String, String> getGameTypeByFactoryMap();
+    List<Map<String, String>> getGameTypeByFactoryAll();
 }
