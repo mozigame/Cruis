@@ -1,23 +1,46 @@
 package com.magic.crius.kafka.listener;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.magic.analysis.utils.StringUtils;
-import com.magic.crius.assemble.*;
-import com.magic.crius.enums.KafkaConf;
-import com.magic.crius.po.BillInfo;
-import com.magic.crius.po.ProxyBillDetail;
-import com.magic.crius.po.ProxyBillSummary2cost;
-import com.magic.crius.po.ProxyBillSummary2game;
-import com.magic.crius.vo.*;
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+import java.util.Optional;
+
+import javax.annotation.Resource;
+
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.log4j.Logger;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-import java.util.Optional;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.magic.crius.assemble.BaseOrderReqAssemService;
+import com.magic.crius.assemble.CashbackReqAssemService;
+import com.magic.crius.assemble.DealerRewardReqAssemService;
+import com.magic.crius.assemble.DiscountReqAssemService;
+import com.magic.crius.assemble.JpReqAssemService;
+import com.magic.crius.assemble.OnlChargeReqAssemService;
+import com.magic.crius.assemble.OperateChargeReqAssemService;
+import com.magic.crius.assemble.OperateWithDrawReqAssemService;
+import com.magic.crius.assemble.PreCmpChargeReqAssemService;
+import com.magic.crius.assemble.PreWithdrawReqAssemService;
+import com.magic.crius.assemble.UserLevelAssemService;
+import com.magic.crius.enums.KafkaConf;
+import com.magic.crius.service.BillInfoService;
+import com.magic.crius.vo.AgentBillReq;
+import com.magic.crius.vo.CashbackReq;
+import com.magic.crius.vo.DealerRewardReq;
+import com.magic.crius.vo.DiscountReq;
+import com.magic.crius.vo.EGameReq;
+import com.magic.crius.vo.JpReq;
+import com.magic.crius.vo.LotteryReq;
+import com.magic.crius.vo.OnlChargeReq;
+import com.magic.crius.vo.OperateChargeReq;
+import com.magic.crius.vo.OperateWithDrawReq;
+import com.magic.crius.vo.OwnerBillReq;
+import com.magic.crius.vo.PayoffReq;
+import com.magic.crius.vo.PreCmpChargeReq;
+import com.magic.crius.vo.PreWithdrawReq;
+import com.magic.crius.vo.SportReq;
+import com.magic.crius.vo.UserLevelReq;
+import com.magic.crius.vo.VGameReq;
 
 /**
  * User: joey
@@ -66,6 +89,9 @@ public class CapitalConsumer {
     /*用户层级修改*/
     @Resource
     private UserLevelAssemService userLevelAssemService;
+    
+    @Resource
+    private BillInfoService billInfoService;
 
     @KafkaListener(topics = {"plutus", "hera"}, group = KafkaConf.CAPITAL_GROUP)
     public void listen(ConsumerRecord<?, ?> record) {
@@ -236,14 +262,14 @@ public class CapitalConsumer {
                 AgentBillReq agentBillReq = JSON.parseObject(object.getString(KafkaConf.DATA), AgentBillReq.class);
                 System.out.println(agentBillReq);
                 logger.info("get kafka data :>>>  " + agentBillReq.toString());
-                
+                billInfoService.save(agentBillReq);
                 
                 break;
             case PLUTUS_OWNER_BILL:
                 OwnerBillReq ownerBillReq = JSON.parseObject(object.getString(KafkaConf.DATA), OwnerBillReq.class);
                 System.out.println(ownerBillReq);
                 logger.info("get kafka data :>>>  " + ownerBillReq.toString());
-                
+                billInfoService.save(ownerBillReq);
                 
                 break;
             default:
