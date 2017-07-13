@@ -138,10 +138,10 @@ public class BillInfoServiceImpl implements BillInfoService {
         billInfo.setOwnerId(req.getOwnerId());
 //        billInfo.setProxyId(req);
         billInfo.setOrderId(String.valueOf(req.getBillId()));
-        billInfo.setOrderName("");
         if (StringUtils.isStringNull(req.getBillDate())){
-//            billInfo.setPdate(Integer.parseInt(req.getBillDate()));
+            billInfo.setPdate(Integer.parseInt(req.getBillDate()));
         }
+        billInfo.setOrderName(billInfo.getPdate()+"账单");
         billInfo.setSchemeCode(String.valueOf(req.getSchemeId()));
         billInfo.setSchemeName(req.getSchemeName());
         billInfo.setAccount(req.getTotalCost());

@@ -144,6 +144,8 @@ public class KafkaProducerTest {
         	bill.setBillEndTime(new Date().getTime());
         	bill.setBillStartTime(new Date().getTime());
         	bill.setOwnerId(10001L);
+        	bill.setTotalCost(100l);
+        	bill.setRealToalCost(100l);
         	
         	List<AmountVo> list=new ArrayList();
         	AmountVo amount=null;
