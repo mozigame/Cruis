@@ -1,17 +1,38 @@
 package org.crius.service;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.magic.crius.enums.KafkaConf;
-import com.magic.crius.vo.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+
+import javax.annotation.Resource;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.annotation.Resource;
-import java.util.Random;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.magic.analysis.utils.DateKit;
+import com.magic.crius.enums.KafkaConf;
+import com.magic.crius.vo.AmountVo;
+import com.magic.crius.vo.CashbackReq;
+import com.magic.crius.vo.DealerRewardReq;
+import com.magic.crius.vo.DiscountReq;
+import com.magic.crius.vo.EGameReq;
+import com.magic.crius.vo.JpReq;
+import com.magic.crius.vo.LotteryReq;
+import com.magic.crius.vo.OnlChargeReq;
+import com.magic.crius.vo.OperateChargeReq;
+import com.magic.crius.vo.OperateWithDrawReq;
+import com.magic.crius.vo.OwnerBillReq;
+import com.magic.crius.vo.OwnerHallBillVo;
+import com.magic.crius.vo.PreCmpChargeReq;
+import com.magic.crius.vo.PreWithdrawReq;
+import com.magic.crius.vo.SportReq;
+import com.magic.crius.vo.VGameReq;
 
 /**
  * User: joey
@@ -110,6 +131,49 @@ public class KafkaProducerTest {
             jsonObject.put(DATA, discount);
             template.send(TOPIC, jsonObject.toJSONString());
 
+        }
+    }
+    
+    @Test
+    public void testBillOwner() {
+        for (int i = 0; i < 2; i++) {
+        	OwnerBillReq bill = new OwnerBillReq();
+        	bill.setAppId(System.currentTimeMillis() + i);
+        	bill.setBillId(System.currentTimeMillis() + i);
+        	bill.setBillDate(""+(new Date().getTime() + i));
+        	
+        	bill.setBillEndTime(new Date().getTime());
+        	bill.setBillStartTime(new Date().getTime());
+        	bill.setOwnerId(10001L);
+        	
+        	List<AmountVo> list=new ArrayList();
+        	AmountVo amount=null;
+        	for(int j=0; j<2; j++){
+        		amount=new AmountVo();
+        		amount.setAmountTypeId(10l);
+        		amount.setAmountTypeName("10test");
+        		amount.setAmount(10l+j);
+        		list.add(amount);
+        	}
+        	bill.setOwnerCostInfo(list);
+        	
+        	List<OwnerHallBillVo> billList=new ArrayList();
+        	OwnerHallBillVo billInfo=null;
+        	for(int j=0; j<3; j++){
+        		billInfo=new OwnerHallBillVo();
+        		billInfo.setHallTypeId(1000l);
+        		billInfo.setPlatformId(1001l);
+        		billInfo.setPayOffAmount(100l);
+        		billInfo.setNeedPayAmount(105l);
+        		billList.add(billInfo);
+        	}
+        	bill.setHallBillInfos(billList);
+            bill.setProduceTime(System.currentTimeMillis());
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put(DATA_TYPE, KafkaConf.DataType.PLUTUS_OWNER_BILL.type());
+            jsonObject.put(DATA, bill);
+            template.send(TOPIC, jsonObject.toJSONString());
         }
     }
 

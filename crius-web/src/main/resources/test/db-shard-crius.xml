@@ -67,7 +67,28 @@
         <property name="dataSource" ref="userDataSource_0"/>
         <property name="configLocation" value="classpath:spring/sqlMapConfig.xml"/>
         <property name="mapperLocations" value="${tethys.mapper.path}"/>
-
+        <property name="plugins">
+            <array>
+            	<bean id="sqlInterceptor" class="com.magic.common.logger.SqlInterceptor">
+            		<!-- 以下配置优先于数据库的系统参数配置 -->
+            		<property name="properties">
+						<props>  
+			                <prop key="sql.logSqlIgnore">select_seq,select_count</prop> 
+			                <prop key="sql.ignoreKey"><!-- 忽略sql包含的字符 -->
+			                	FROM tf_sysconfig WHERE
+			                </prop>
+			                <prop key="sql.ignoreSqlId"><!-- 忽略Mapper.id -->
+			                	LogDbMapper:insert
+			                	LogDbMapper:insertList
+			                </prop>
+			                <prop key="sql.ignoreSqlIdOnLoad"><!-- 忽略sql日志仅在启动时，前60秒 -->
+			                	SysconfigMapper.selectByExample
+			                </prop>
+			            </props>
+			         </property>
+            	</bean>
+            </array>
+        </property>
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
@@ -85,6 +106,28 @@
         <property name="dataSource" ref="userDataSource_1"/>
         <property name="configLocation" value="classpath:spring/sqlMapConfig.xml"/>
         <property name="mapperLocations" value="${tethys.mapper.path}"/>
+        <property name="plugins">
+            <array>
+            	<bean id="sqlInterceptor" class="com.magic.common.logger.SqlInterceptor">
+            		<!-- 以下配置优先于数据库的系统参数配置 -->
+            		<property name="properties">
+						<props>  
+			                <prop key="sql.logSqlIgnore">select_seq,select_count</prop> 
+			                <prop key="sql.ignoreKey"><!-- 忽略sql包含的字符 -->
+			                	FROM tf_sysconfig WHERE
+			                </prop>
+			                <prop key="sql.ignoreSqlId"><!-- 忽略Mapper.id -->
+			                	LogDbMapper:insert
+			                	LogDbMapper:insertList
+			                </prop>
+			                <prop key="sql.ignoreSqlIdOnLoad"><!-- 忽略sql日志仅在启动时，前60秒 -->
+			                	SysconfigMapper.selectByExample
+			                </prop>
+			            </props>
+			         </property>
+            	</bean>
+            </array>
+        </property>
     </bean>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
