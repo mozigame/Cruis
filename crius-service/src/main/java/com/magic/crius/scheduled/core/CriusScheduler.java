@@ -308,13 +308,14 @@ public class CriusScheduler {
         });
     }
 
-    @Scheduled(cron = "0 0 2 * * ?")
+    @Scheduled(cron = "0 54 12 * * ?")
     public void monthlyJobRun() {
         ApiLogger.info("monthly job run start.");
         try {
             Jedis jedis = criusJedisFactory.getInstance();
             jedis.incr(RedisConstants.OWNER_BILL_KEY);
             jedis.expire(RedisConstants.OWNER_BILL_KEY,3*60*60);//3个小时存活时间
+            //TODO
             if (StringUtils.isNotEmpty(jedis.get(RedisConstants.OWNER_BILL_KEY)) && Integer.parseInt(jedis.get(RedisConstants.OWNER_BILL_KEY)) == 1){
                 ApiLogger.debug("begin run : ");
                 //获取所有ownerId
@@ -350,11 +351,12 @@ public class CriusScheduler {
                     StmlBillInfoReq stmlBillInfoReq_proxy = null;
                     for (Long ownerId : ownerList){
                         stmlBillInfoReq_proxy = new StmlBillInfoReq();
+                        //TODO
                         BillingCycleVo billingCycleVo = monthBillJobService.getProxyCurrentBillCycle(ownerId);
                         // 先数据库查，是否已存在改账单
                         BillInfo billInfo = new BillInfo();
-                        billInfo.setStartTime(billInfo.getStartTime());
-                        billInfo.setEndTime(billInfo.getEndTime());
+                        billInfo.setStartTime(Long.parseLong(billingCycleVo.getStartTime()));
+                        billInfo.setEndTime(Long.parseLong(billingCycleVo.getEndTime()));
                         billInfo.setBillType(2);//代理账单
                         billInfo.setOwnerId(ownerId);
                         billInfo.setPdate(Integer.parseInt(billingCycleVo.getStartTime().toString().substring(0,6)));

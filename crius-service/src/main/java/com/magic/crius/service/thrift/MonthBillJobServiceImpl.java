@@ -64,7 +64,7 @@ public class MonthBillJobServiceImpl implements MonthBillJobService {
                 stmlBillInfoReq.setEndDay(Integer.parseInt(billingCycleVo.getEndTime()));
             }
         }
-        if (StringUtils.isStringNull(stmlBillInfoReq.getBillDate())){
+        if (org.apache.commons.lang3.StringUtils.isNotEmpty(stmlBillInfoReq.getBillDate())){
             stmlBillInfoReq.setBillDate(stmlBillInfoReq.getStartDay().toString().substring(0,6));
         }
         String body = JsonUtils.toJsonStringTrimNull(stmlBillInfoReq);
@@ -76,7 +76,7 @@ public class MonthBillJobServiceImpl implements MonthBillJobService {
             ApiLogger.error("代理月结账单任务调度访问thrift接口失败");
             throw ConfigException.THRIFT_TIME_OUT;
         }else {
-            ApiLogger.info("代理月结账单任务调度返回报文：" + resp.getData());
+            ApiLogger.info("代理月结账单任务调度返回报文：" + resp);
             return  resp;
         }
     }
