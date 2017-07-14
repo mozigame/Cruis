@@ -205,26 +205,29 @@ public class BillInfoServiceImpl implements BillInfoService {
         List<ProxyBillSummary2game> proxyBillSummary2gameList = new ArrayList<>();
         List<AgentHallBillVo> agentHallBillVoList = agentBillReq.getAgentHallInfos();
         String gameType = "";
-        for ( AgentHallBillVo agentHallBillVo : agentHallBillVoList) {
-            proxyBillSummary2game = new ProxyBillSummary2game();
-            proxyBillSummary2game.setOwnerId(agentBillReq.getOwnerId());
-            proxyBillSummary2game.setProxyId(agentBillReq.getAgentId());
-            proxyBillSummary2game.setOrderId(agentBillReq.getBillId().toString());
-            proxyBillSummary2game.setEffectOrderCount(agentBillReq.getVaildBettTotalAmount());
+        if (agentHallBillVoList != null && agentHallBillVoList.size() > 0){
+            for ( AgentHallBillVo agentHallBillVo : agentHallBillVoList) {
+                proxyBillSummary2game = new ProxyBillSummary2game();
+                proxyBillSummary2game.setOwnerId(agentBillReq.getOwnerId());
+                proxyBillSummary2game.setProxyId(agentBillReq.getAgentId());
+                proxyBillSummary2game.setOrderId(agentBillReq.getBillId().toString());
+                proxyBillSummary2game.setEffectOrderCount(agentBillReq.getVaildBettTotalAmount());
 
-            proxyBillSummary2game.setIncome(agentBillReq.getPayoffTotalAmount());
+                proxyBillSummary2game.setIncome(agentBillReq.getPayoffTotalAmount());
 
-            if (org.apache.commons.lang3.StringUtils.isNotEmpty(agentBillReq.getBillDate())){
-                proxyBillSummary2game.setPdate(Integer.parseInt(agentBillReq.getBillDate()));
+                if (org.apache.commons.lang3.StringUtils.isNotEmpty(agentBillReq.getBillDate())){
+                    proxyBillSummary2game.setPdate(Integer.parseInt(agentBillReq.getBillDate()));
+                }
+                gameType=this.getFactoryGameType(agentHallBillVo.getPlatformId(), agentHallBillVo.getHallTypeId());
+                proxyBillSummary2game.setGameType(gameType);
+                proxyBillSummary2game.setReforward(agentHallBillVo.getCashbackAmount());
+                proxyBillSummary2game.setAdministration(agentHallBillVo.getCostAmount());
+                proxyBillSummary2game.setReforwardAccount(agentHallBillVo.getRebateAmount());
+
+                proxyBillSummary2gameList.add(proxyBillSummary2game);
             }
-            gameType=this.getFactoryGameType(agentHallBillVo.getPlatformId(), agentHallBillVo.getHallTypeId());
-            proxyBillSummary2game.setGameType(gameType);
-            proxyBillSummary2game.setReforward(agentHallBillVo.getCashbackAmount());
-            proxyBillSummary2game.setAdministration(agentHallBillVo.getCostAmount());
-            proxyBillSummary2game.setReforwardAccount(agentHallBillVo.getRebateAmount());
-
-            proxyBillSummary2gameList.add(proxyBillSummary2game);
         }
+
         return proxyBillSummary2gameList;
     }
 
