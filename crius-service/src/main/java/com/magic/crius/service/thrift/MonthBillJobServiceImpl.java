@@ -1,21 +1,32 @@
 package com.magic.crius.service.thrift;
 
 import com.magic.analysis.exception.ConfigException;
+import com.magic.analysis.utils.DateKit;
 import com.magic.analysis.utils.JsonUtils;
 import com.magic.analysis.utils.StringUtils;
 import com.magic.api.commons.ApiLogger;
+import com.magic.api.commons.codis.JedisFactory;
 import com.magic.api.commons.core.exception.CommonException;
 import com.magic.bc.query.service.BillingCycleService;
+import com.magic.bc.query.service.ContractFeeService;
 import com.magic.bc.query.vo.BillingCycleVo;
+import com.magic.bc.query.vo.ContractFeeOwnerDetailsVo;
 import com.magic.commons.enginegw.service.ThriftFactory;
 import com.magic.config.thrift.base.CmdType;
 import com.magic.config.thrift.base.EGResp;
+import com.magic.crius.constants.RedisConstants;
+import com.magic.crius.po.BillInfo;
+import com.magic.crius.service.BillInfoService;
 import com.magic.crius.service.MonthBillJobService;
+import com.magic.crius.service.ProxyInfoService;
 import com.magic.crius.vo.StmlBillInfoReq;
 import org.springframework.stereotype.Service;
+import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,6 +40,18 @@ public class MonthBillJobServiceImpl implements MonthBillJobService {
 
     @Resource
     BillingCycleService billingCycleService;
+
+    @Resource(name = "criusJedisFactory")
+    private JedisFactory criusJedisFactory;
+
+    @Resource
+    private ProxyInfoService proxyInfoService;
+
+    @Resource
+    private BillInfoService billInfoService;
+
+    @Resource
+    private ContractFeeService contractFeeService;
 
     private BillingCycleVo getCurrentBillCycle(Long ownerId){
         Map<String,BillingCycleVo> BillInfo = billingCycleService.getThisBillingInfo(ownerId,System.currentTimeMillis());
@@ -94,4 +117,68 @@ public class MonthBillJobServiceImpl implements MonthBillJobService {
         }
     }
 
+    @Override
+    public void RunJob() {
+        Jedis jedis = criusJedisFactory.getInstance();
+        jedis.incr(RedisConstants.OWNER_BILL_KEY);
+        jedis.expire(RedisConstants.OWNER_BILL_KEY,3*60*60);//3个小时存活时间
+
+        if (org.apache.commons.lang3.StringUtils.isNotEmpty(jedis.get(RedisConstants.OWNER_BILL_KEY)) && Integer.parseInt(jedis.get(RedisConstants.OWNER_BILL_KEY)) == 1){
+            ApiLogger.debug("begin run : ");
+            //获取所有ownerId
+            List<Long> ownerList = proxyInfoService.getOwenrList();
+
+            if (ownerList != null && ownerList.size() > 0 ){
+                StmlBillInfoReq stmlBillInfoReq_owner = null;
+                String staticsDay = DateKit.isCurrentMonthMonday();
+                //TODO 当日期是当前月第一个周的周一，并且不是1号，开始统计业主账单
+                if (staticsDay.equals(DateKit.formatDate(new Date()))){
+                    for (Long ownerId : ownerList){
+                        stmlBillInfoReq_owner = new StmlBillInfoReq();
+                        stmlBillInfoReq_owner.setOwnerId(ownerId);
+                        //业主
+                        stmlBillInfoReq_owner.setStartDay(Integer.parseInt(DateKit.isLastMonthMonday().replace("-","")));
+                        stmlBillInfoReq_owner.setEndDay(Integer.parseInt(DateKit.lastDay().replace("-","")));
+                        stmlBillInfoReq_owner.setBillType(1);//业主包网方案
+                        //获取包网方案
+                        ContractFeeOwnerDetailsVo contractFeeOwnerDetailsVo = contractFeeService.getOwnerContractFeeDetails(ownerId);
+                        if (contractFeeOwnerDetailsVo != null ){
+                            stmlBillInfoReq_owner.setSchemeId(contractFeeOwnerDetailsVo.getId() );
+                            //stmlBillInfoReq_owner.setSchemeName(stmlBillInfoReq_owner.toString().substring(0,6) + "月包网方案");
+                            stmlBillInfoReq_owner.setSchemeName(contractFeeOwnerDetailsVo.getName());
+                        }
+
+                        EGResp egResp = MonthJobRun(stmlBillInfoReq_owner);
+                        ApiLogger.info("ownerId " + ownerId +" 返回报文： " + egResp);
+                    }
+                }
+
+
+                //代理
+                StmlBillInfoReq stmlBillInfoReq_proxy = null;
+                for (Long ownerId : ownerList){
+                    stmlBillInfoReq_proxy = new StmlBillInfoReq();
+                    // 获取上一期的期数
+                    BillingCycleVo billingCycleVo = getProxyLastBillCycle(ownerId);
+                    // 先数据库查，是否已存在改账单
+                    BillInfo billInfo = new BillInfo();
+                    billInfo.setStartTime(Long.parseLong(billingCycleVo.getStartTime()));
+                    billInfo.setEndTime(Long.parseLong(billingCycleVo.getEndTime()));
+                    billInfo.setBillType(2);//代理账单
+                    billInfo.setOwnerId(ownerId);
+                    billInfo.setPdate(Integer.parseInt(billingCycleVo.getStartTime().toString().substring(0,6)));
+                    boolean isexist = billInfoService.isExistBill(billInfo);
+                    if(!isexist){
+                        stmlBillInfoReq_proxy.setStartDay(Integer.parseInt(billingCycleVo.getStartTime()));
+                        stmlBillInfoReq_proxy.setEndDay(Integer.parseInt(billingCycleVo.getEndTime()));
+                        stmlBillInfoReq_proxy.setBillType(2);
+                        stmlBillInfoReq_proxy.setOwnerId(ownerId);
+                        EGResp egResp = MonthJobRun(stmlBillInfoReq_proxy);
+                        ApiLogger.info("proxy : ownerId " + ownerId +" 返回报文： " + egResp);
+                    }
+                }
+
+            }
+        }
+    }
 }

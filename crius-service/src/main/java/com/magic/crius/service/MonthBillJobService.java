@@ -14,4 +14,6 @@ public interface MonthBillJobService {
 
     BillingCycleVo getProxyLastBillCycle(Long ownerId);
 
+    void RunJob();
+
 }

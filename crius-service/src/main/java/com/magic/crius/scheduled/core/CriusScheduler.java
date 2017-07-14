@@ -312,67 +312,7 @@ public class CriusScheduler {
     public void monthlyJobRun() {
         ApiLogger.info("monthly job run start.");
         try {
-            Jedis jedis = criusJedisFactory.getInstance();
-            jedis.incr(RedisConstants.OWNER_BILL_KEY);
-            jedis.expire(RedisConstants.OWNER_BILL_KEY,3*60*60);//3个小时存活时间
-            //TODO
-            if (StringUtils.isNotEmpty(jedis.get(RedisConstants.OWNER_BILL_KEY)) && Integer.parseInt(jedis.get(RedisConstants.OWNER_BILL_KEY)) == 1){
-                ApiLogger.debug("begin run : ");
-                //获取所有ownerId
-                List<Long> ownerList = proxyInfoService.getOwenrList();
-
-                if (ownerList != null && ownerList.size() > 0 ){
-                    StmlBillInfoReq stmlBillInfoReq_owner = null;
-                    String staticsDay = DateKit.isCurrentMonthMonday();
-                    //TODO 当日期是当前月第一个周的周一，并且不是1号，开始统计业主账单
-                    if (staticsDay.equals(DateKit.formatDate(new Date()))){
-                        for (Long ownerId : ownerList){
-                            stmlBillInfoReq_owner = new StmlBillInfoReq();
-                            stmlBillInfoReq_owner.setOwnerId(ownerId);
-                            //业主
-                            stmlBillInfoReq_owner.setStartDay(Integer.parseInt(DateKit.isLastMonthMonday().replace("-","")));
-                            stmlBillInfoReq_owner.setEndDay(Integer.parseInt(DateKit.lastDay().replace("-","")));
-                            stmlBillInfoReq_owner.setBillType(1);//业主包网方案
-                            //TODO 暂时写死 包网方案e
-                            ContractFeeOwnerDetailsVo contractFeeOwnerDetailsVo = contractFeeService.getOwnerContractFeeDetails(ownerId);
-                            if (contractFeeOwnerDetailsVo != null ){
-                                stmlBillInfoReq_owner.setSchemeId(contractFeeOwnerDetailsVo.getId() );
-                                //stmlBillInfoReq_owner.setSchemeName(stmlBillInfoReq_owner.toString().substring(0,6) + "月包网方案");
-                                stmlBillInfoReq_owner.setSchemeName(contractFeeOwnerDetailsVo.getName());
-                            }
-
-                            EGResp egResp = monthBillJobService.MonthJobRun(stmlBillInfoReq_owner);
-                            ApiLogger.info("ownerId " + ownerId +" 返回报文： " + egResp);
-                        }
-                    }
-
-
-                    //代理
-                    StmlBillInfoReq stmlBillInfoReq_proxy = null;
-                    for (Long ownerId : ownerList){
-                        stmlBillInfoReq_proxy = new StmlBillInfoReq();
-                        //TODO 获取上一期的期数
-                        BillingCycleVo billingCycleVo = monthBillJobService.getProxyLastBillCycle(ownerId);
-                        // 先数据库查，是否已存在改账单
-                        BillInfo billInfo = new BillInfo();
-                        billInfo.setStartTime(Long.parseLong(billingCycleVo.getStartTime()));
-                        billInfo.setEndTime(Long.parseLong(billingCycleVo.getEndTime()));
-                        billInfo.setBillType(2);//代理账单
-                        billInfo.setOwnerId(ownerId);
-                        billInfo.setPdate(Integer.parseInt(billingCycleVo.getStartTime().toString().substring(0,6)));
-                        boolean isexist = billInfoService.isExistBill(billInfo);
-                        if(!isexist){
-                            stmlBillInfoReq_proxy.setStartDay(Integer.parseInt(billingCycleVo.getStartTime()));
-                            stmlBillInfoReq_proxy.setEndDay(Integer.parseInt(billingCycleVo.getEndTime()));
-                            stmlBillInfoReq_proxy.setBillType(2);
-                            stmlBillInfoReq_proxy.setOwnerId(ownerId);
-                            EGResp egResp = monthBillJobService.MonthJobRun(stmlBillInfoReq_proxy);
-                            ApiLogger.info("proxy : ownerId " + ownerId +" 返回报文： " + egResp);
-                        }
-                    }
-
-                }
-            }
+            monthBillJobService.RunJob();
             ApiLogger.info("monthly job run end.");
         } catch (Exception e) {
             e.printStackTrace();
