@@ -171,7 +171,7 @@ public class BillInfoServiceImpl implements BillInfoService {
         billInfo.setProxyId(agentBillReq.getAgentId());
         billInfo.setOrderId(agentBillReq.getBillId().toString());
         billInfo.setOrderName(agentBillReq.getBillDate()+"月账单");
-        if (StringUtils.isStringNull(agentBillReq.getBillDate())){
+        if (org.apache.commons.lang3.StringUtils.isNotEmpty(agentBillReq.getBillDate())){
             billInfo.setPdate(Integer.parseInt(agentBillReq.getBillDate()));
         }
         billInfo.setSchemeCode(agentBillReq.getSchemeId().toString());
@@ -191,7 +191,9 @@ public class BillInfoServiceImpl implements BillInfoService {
         proxyBillDetail.setOwnerId(agentBillReq.getOwnerId());
         proxyBillDetail.setProxyId(agentBillReq.getAgentId());
         proxyBillDetail.setOrderId(agentBillReq.getBillId());
-        proxyBillDetail.setPdate(agentBillReq.getBillDate());
+        if (org.apache.commons.lang3.StringUtils.isNotEmpty(agentBillReq.getBillDate())){
+            proxyBillDetail.setPdate(agentBillReq.getBillDate());
+        }
         //proxyBillDetail.setUserNum();;
         proxyBillDetail.setIncome(agentBillReq.getPayoffTotalAmount());
         proxyBillDetail.setReforwardAccount(agentBillReq.getRebateTotalAmount());
@@ -210,7 +212,8 @@ public class BillInfoServiceImpl implements BillInfoService {
         proxyBillSummary2game.setEffectOrderCount(agentBillReq.getVaildBettTotalAmount());
 
         proxyBillSummary2game.setIncome(agentBillReq.getPayoffTotalAmount());
-        if (StringUtils.isStringNull(agentBillReq.getBillDate())){
+
+        if (org.apache.commons.lang3.StringUtils.isNotEmpty(agentBillReq.getBillDate())){
             proxyBillSummary2game.setPdate(Integer.parseInt(agentBillReq.getBillDate()));
         }
         List<AgentHallBillVo> agentHallBillVoList = agentBillReq.getAgentHallInfos();
@@ -237,7 +240,7 @@ public class BillInfoServiceImpl implements BillInfoService {
         proxyBillSummary2cost.setOwnerId(agentBillReq.getOwnerId());
         proxyBillSummary2cost.setProxyId(agentBillReq.getAgentId());
         proxyBillSummary2cost.setOrderId(agentBillReq.getBillId().toString());
-        if (StringUtils.isStringNull(agentBillReq.getBillDate())){
+        if (org.apache.commons.lang3.StringUtils.isNotEmpty(agentBillReq.getBillDate())){
             proxyBillSummary2cost.setPdate(Integer.parseInt(agentBillReq.getBillDate()));
         }
         proxyBillSummary2cost.setCostType("1");//手续费
@@ -249,7 +252,7 @@ public class BillInfoServiceImpl implements BillInfoService {
         proxyBillSummary2cost_1.setOwnerId(agentBillReq.getOwnerId());
         proxyBillSummary2cost_1.setProxyId(agentBillReq.getAgentId());
         proxyBillSummary2cost_1.setOrderId(agentBillReq.getBillId().toString());
-        if (StringUtils.isStringNull(agentBillReq.getBillDate())){
+        if (org.apache.commons.lang3.StringUtils.isNotEmpty(agentBillReq.getBillDate())){
             proxyBillSummary2cost_1.setPdate(Integer.parseInt(agentBillReq.getBillDate()));
         }
         proxyBillSummary2cost_1.setCostType("2");//手续费

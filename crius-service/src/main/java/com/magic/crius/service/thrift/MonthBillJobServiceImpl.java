@@ -79,9 +79,7 @@ public class MonthBillJobServiceImpl implements MonthBillJobService {
                 stmlBillInfoReq.setEndDay(Integer.parseInt(billingCycleVo.getEndTime()));
             }
         }
-        if (org.apache.commons.lang3.StringUtils.isNotEmpty(stmlBillInfoReq.getBillDate())){
-            stmlBillInfoReq.setBillDate(stmlBillInfoReq.getStartDay().toString().substring(0,6));
-        }
+        stmlBillInfoReq.setBillDate(stmlBillInfoReq.getStartDay().toString().substring(0,6));
         String body = JsonUtils.toJsonStringTrimNull(stmlBillInfoReq);
         ApiLogger.info("代理月结账单任务调度请求报文：" + body);
 
