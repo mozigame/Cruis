@@ -34,6 +34,8 @@ public interface UserInfoMapper {
     
     
     UserInfo getSummaryNum(UserInfo record);
+    
+    UserInfo getProxyNum(UserInfo record);
    
 
 }

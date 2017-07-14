@@ -36,4 +36,10 @@ public class UserInfoDbServiceImpl implements UserInfoDbService {
     public UserInfo getSummaryNum(UserInfo record){
     	 return userInfoMapper.getSummaryNum(record);
     }
+
+	@Override
+	public UserInfo getProxyNum(UserInfo record) {
+		// TODO Auto-generated method stub
+		return userInfoMapper.getProxyNum(record);
+	}
 }
