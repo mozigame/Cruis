@@ -325,7 +325,7 @@ public class CriusScheduler {
                     StmlBillInfoReq stmlBillInfoReq_owner = null;
                     String staticsDay = DateKit.isCurrentMonthMonday();
                     //TODO 当日期是当前月第一个周的周一，并且不是1号，开始统计业主账单
-                    if (!staticsDay.equals(DateKit.formatDate(new Date()))){
+                    if (staticsDay.equals(DateKit.formatDate(new Date()))){
                         for (Long ownerId : ownerList){
                             stmlBillInfoReq_owner = new StmlBillInfoReq();
                             stmlBillInfoReq_owner.setOwnerId(ownerId);
