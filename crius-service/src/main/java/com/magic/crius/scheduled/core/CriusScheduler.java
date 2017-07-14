@@ -308,7 +308,7 @@ public class CriusScheduler {
         });
     }
 
-    @Scheduled(cron = "0 54 12 * * ?")
+    @Scheduled(cron = "0 0 2 * * ?")
     public void monthlyJobRun() {
         ApiLogger.info("monthly job run start.");
         try {
