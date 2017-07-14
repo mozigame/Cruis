@@ -322,13 +322,13 @@ public class CriusScheduler {
 
                 if (ownerList != null && ownerList.size() > 0 ){
                     StmlBillInfoReq stmlBillInfoReq_owner = null;
-                    for (Long ownerId : ownerList){
-                        stmlBillInfoReq_owner = new StmlBillInfoReq();
-                        stmlBillInfoReq_owner.setOwnerId(ownerId);
-                        //业主
-                        String staticsDay = DateKit.isCurrentMonthMonday();
-                        if (staticsDay.equals(DateKit.formatDate(new Date()))){
-                            //当日期是当前月第一个周的周一，并且不是1号，开始统计业主账单
+                    String staticsDay = DateKit.isCurrentMonthMonday();
+                    //TODO 当日期是当前月第一个周的周一，并且不是1号，开始统计业主账单
+                    if (!staticsDay.equals(DateKit.formatDate(new Date()))){
+                        for (Long ownerId : ownerList){
+                            stmlBillInfoReq_owner = new StmlBillInfoReq();
+                            stmlBillInfoReq_owner.setOwnerId(ownerId);
+                            //业主
                             stmlBillInfoReq_owner.setStartDay(Integer.parseInt(DateKit.isLastMonthMonday()));
                             stmlBillInfoReq_owner.setEndDay(Integer.parseInt(DateKit.lastDay()));
                             stmlBillInfoReq_owner.setBillType(1);//业主包网方案
@@ -344,6 +344,7 @@ public class CriusScheduler {
                             ApiLogger.info("ownerId " + ownerId +" 返回报文： " + egResp);
                         }
                     }
+
 
                     //代理
                     StmlBillInfoReq stmlBillInfoReq_proxy = null;
