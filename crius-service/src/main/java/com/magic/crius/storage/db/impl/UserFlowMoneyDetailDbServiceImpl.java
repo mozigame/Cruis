@@ -26,6 +26,11 @@ public class UserFlowMoneyDetailDbServiceImpl implements UserFlowMoneyDetailDbSe
 
     @Override
     public boolean batchSave(List<UserFlowMoneyDetail> details) {
-        return userFlowMoneyDetailMapper.batchInsert(details) > 0;
+    	
+    	for(UserFlowMoneyDetail detail:details){
+    		userFlowMoneyDetailMapper.insert(detail);
+    	}
+    	return true;
+        //return userFlowMoneyDetailMapper.batchInsert(details) > 0;
     }
 }

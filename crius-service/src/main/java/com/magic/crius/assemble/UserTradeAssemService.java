@@ -29,11 +29,18 @@ public class UserTradeAssemService {
     public boolean batchSave(List<UserTrade> userTrades) {
         if (userTrades != null && userTrades.size() > 0) {
             List<Long> userIds = new ArrayList<>();
+            List<Long> userIdList=null;
+            List<UserTrade> tradeList=null;
             for (UserTrade orderDetail : userTrades) {
-                userIds.add(orderDetail.getUserId());
+            	userIdList=new ArrayList<>();
+            	tradeList=new ArrayList<>();
+            	tradeList.add(orderDetail);
+            	userIdList.add(orderDetail.getUserId());
+                //userIds.add(orderDetail.getUserId());
+            	userTradeService.batchSave(tradeList, userIdList);
             }
             logger.info("userTrade size : " + userTrades.size() + " userIds.size : " + userIds.size());
-            return userTradeService.batchSave(userTrades, userIds);
+            //return userTradeService.batchSave(userTrades, userIds);
         }
         return false;
     }
