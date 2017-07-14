@@ -24,4 +24,9 @@ public class ProxyInfoServiceImpl implements ProxyInfoService {
     public boolean batchInsert(List<ProxyInfo> infos) {
         return proxyInfoDbService.batchInsert(infos);
     }
+
+    @Override
+    public List<Long> getOwenrList() {
+        return proxyInfoDbService.getOwnerIdList();
+    }
 }

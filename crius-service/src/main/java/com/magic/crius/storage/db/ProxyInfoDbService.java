@@ -13,4 +13,6 @@ import java.util.List;
 public interface ProxyInfoDbService {
 
     boolean batchInsert(List<ProxyInfo> infos);
+
+    List<Long> getOwnerIdList();
 }

@@ -4,6 +4,8 @@ import com.magic.crius.po.BillInfo;
 import com.magic.crius.vo.AgentBillReq;
 import com.magic.crius.vo.OwnerBillReq;
 
+import java.util.List;
+
 /**
  * User: joey
  * Date: 2017/7/8
@@ -17,4 +19,6 @@ public interface BillInfoService {
     public void save(OwnerBillReq req);
     
     public void save(AgentBillReq req);
+
+    public boolean isExistBill(BillInfo billInfo);
 }

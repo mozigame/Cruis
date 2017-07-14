@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 public interface BillInfoMapper {
 
     int insert(BillInfo record);
+
+    int isExistBillInfo(BillInfo record);
 }

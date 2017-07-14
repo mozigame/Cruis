@@ -22,6 +22,8 @@ public class RedisConstants {
      */
     public static final int BATCH_POP_NUM = 1000;
 
+    public static final String OWNER_BILL_KEY = "OWNER_BILL_KEY";
+
     /**
      * @doc
      */

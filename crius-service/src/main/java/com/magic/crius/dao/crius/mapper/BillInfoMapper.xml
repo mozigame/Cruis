@@ -36,5 +36,13 @@
           #{status,jdbcType=INTEGER})
     </insert>
 
+    <select id="isExistBillInfo" parameterType="com.magic.crius.po.BillInfo">
+      SELECT COUNT(1) FROM bill_info where 1=1
+      and owner_id = #{ownerId,jdbcType=BIGINT}
+      and  bill_type = #{billType,jdbcType=INTEGER}
+      and start_time  =  #{startTime,jdbcType=BIGINT}
+      and end_time = #{endTime,jdbcType=BIGINT}
+      and pdate = #{pdate,jdbcType=BIGINT}
+    </select>
 
 </mapper>

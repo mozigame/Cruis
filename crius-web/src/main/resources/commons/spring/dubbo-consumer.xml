@@ -15,4 +15,9 @@
     <!-- 账户系统 -->
     <dubbo:reference id="accountDubboService" interface="com.magic.user.service.dubbo.AccountDubboService" init="true" timeout="15000"
                      retries="0" check="false"/>
+
+    <dubbo:reference id="billingCycleService" interface="com.magic.bc.query.service.BillingCycleService" init="true" timeout="15000" retries="0" check="false"/>
+
+    <!-- 根据业主id查询业主包网方案详情 -->
+    <dubbo:reference id="contractFeeService" interface="com.magic.bc.query.service.ContractFeeService" init="true" timeout="15000" retries="0" check="false"/>
 </beans>

@@ -23,4 +23,9 @@ public class BillInfoDbServiceImpl implements BillInfoDbService {
     public boolean save(BillInfo billInfo) {
         return billInfoMapper.insert(billInfo) > 0;
     }
+
+    @Override
+    public boolean isExistBillInfo(BillInfo billInfo) {
+        return billInfoMapper.isExistBillInfo(billInfo) > 0;
+    }
 }

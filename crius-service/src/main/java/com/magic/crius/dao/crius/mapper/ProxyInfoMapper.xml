@@ -78,4 +78,8 @@
       owner_id = #{ownerId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+   <select id="getOwnerIdList" resultType="long" >
+      SELECT DISTINCT owner_id FROM proxy_info
+   </select>
 </mapper>

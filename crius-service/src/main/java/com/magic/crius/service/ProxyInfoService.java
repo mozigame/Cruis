@@ -12,4 +12,6 @@ import java.util.List;
 public interface ProxyInfoService {
 
     boolean batchInsert(List<ProxyInfo> infos);
+
+    List<Long> getOwenrList();
 }

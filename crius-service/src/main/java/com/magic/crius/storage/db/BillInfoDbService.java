@@ -11,4 +11,6 @@ import com.magic.crius.po.BillInfo;
 public interface BillInfoDbService {
 
     boolean save(BillInfo billInfo);
+
+    boolean isExistBillInfo(BillInfo billInfo);
 }

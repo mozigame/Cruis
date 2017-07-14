@@ -63,7 +63,13 @@ public class BillInfoServiceImpl implements BillInfoService {
     public boolean save(BillInfo billInfo) {
         return billInfoDbService.save(billInfo);
     }
-    
+
+
+    @Override
+    public boolean isExistBill(BillInfo billInfo) {
+        return billInfoDbService.isExistBillInfo(billInfo);
+    }
+
     public void save(OwnerBillReq req){
     	if(req==null){
     		return;

@@ -16,4 +16,6 @@ public interface ProxyInfoMapper {
 
     int batchInsert(@Param("list") List<ProxyInfo> infos);
 
+    List<Long> getOwnerIdList();
+
 }
