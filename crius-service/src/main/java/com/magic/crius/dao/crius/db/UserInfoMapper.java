@@ -36,7 +36,7 @@ public interface UserInfoMapper {
     int getSummaryNum(UserInfo record);
 
     
-    UserInfo getProxyNum(UserInfo record);
+    int getProxyNum(UserInfo record);
 
    
 

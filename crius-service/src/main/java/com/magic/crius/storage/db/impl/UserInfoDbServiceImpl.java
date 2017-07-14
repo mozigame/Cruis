@@ -38,7 +38,7 @@ public class UserInfoDbServiceImpl implements UserInfoDbService {
     }
 
 	@Override
-	public UserInfo getProxyNum(UserInfo record) {
+	public int getProxyNum(UserInfo record) {
 		// TODO Auto-generated method stub
 		return userInfoMapper.getProxyNum(record);
 	}

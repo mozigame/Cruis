@@ -37,4 +37,9 @@ public class UserInfoServiceImpl implements UserInfoService {
     public int getSummaryUserNum(UserInfo userInfo) {
         return userInfoDbService.getSummaryNum(userInfo);
     }
+
+    @Override
+    public int getSummaryProxyNum(UserInfo userInfo) {
+        return userInfoDbService.getProxyNum(userInfo);
+    }
 }
