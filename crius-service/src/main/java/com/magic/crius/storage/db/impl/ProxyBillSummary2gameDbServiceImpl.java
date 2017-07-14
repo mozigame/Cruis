@@ -6,6 +6,7 @@ import com.magic.crius.storage.db.ProxyBillSummary2gameDbService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * User: joey
@@ -21,5 +22,10 @@ public class ProxyBillSummary2gameDbServiceImpl implements ProxyBillSummary2game
     @Override
     public boolean save(ProxyBillSummary2game game) {
         return proxyBillSummary2gameMapper.insert(game) > 0;
+    }
+
+    @Override
+    public boolean batchInsert(List<ProxyBillSummary2game> gameList) {
+        return proxyBillSummary2gameMapper.batchInsert(gameList) > 0;
     }
 }
