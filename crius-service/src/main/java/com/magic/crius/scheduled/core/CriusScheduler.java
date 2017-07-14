@@ -329,8 +329,8 @@ public class CriusScheduler {
                             stmlBillInfoReq_owner = new StmlBillInfoReq();
                             stmlBillInfoReq_owner.setOwnerId(ownerId);
                             //业主
-                            stmlBillInfoReq_owner.setStartDay(Integer.parseInt(DateKit.isLastMonthMonday()));
-                            stmlBillInfoReq_owner.setEndDay(Integer.parseInt(DateKit.lastDay()));
+                            stmlBillInfoReq_owner.setStartDay(Integer.parseInt(DateKit.isLastMonthMonday().replace("-","")));
+                            stmlBillInfoReq_owner.setEndDay(Integer.parseInt(DateKit.lastDay().replace("-","")));
                             stmlBillInfoReq_owner.setBillType(1);//业主包网方案
                             //TODO 暂时写死 包网方案e
                             ContractFeeOwnerDetailsVo contractFeeOwnerDetailsVo = contractFeeService.getOwnerContractFeeDetails(ownerId);
