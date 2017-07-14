@@ -163,7 +163,7 @@ public class KafkaProducerTest {
         	for(int j=0; j<3; j++){
         		billInfo=new OwnerHallBillVo();
         		billInfo.setHallTypeId(1000l);
-        		billInfo.setPlatformId(1001l);
+        		billInfo.setPlatformId(100l);
         		billInfo.setPayOffAmount(100l);
         		billInfo.setNeedPayAmount(105l);
         		billList.add(billInfo);

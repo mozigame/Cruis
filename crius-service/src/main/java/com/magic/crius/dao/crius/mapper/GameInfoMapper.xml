@@ -79,7 +79,7 @@
     </select>
 
 	<select id="getGameTypeByFactoryAll" resultType="hashmap">
-			select CONCAT(game_factory_type, '-', game_abstract_type) game_key, game_type game_factory_type
+			select CONCAT(game_factory_type, '-', game_abstract_type) game_key, game_type
 			 from game_info  group by game_factory_type, game_abstract_type, game_type 
 	</select>
 </mapper>
