@@ -119,7 +119,8 @@ public class BillInfoServiceImpl implements BillInfoService {
     		game.setOrderId(String.valueOf(req.getBillId()));
     		game.setPdate(req.getBillDate());
     		game.setPdateName(req.getBillDate());
-            gameType=this.getFactoryGameType(bill.getPlatformId(), bill.getHallTypeId());
+//            gameType=this.getFactoryGameType(bill.getPlatformId(), bill.getHallTypeId());
+    		gameType=String.valueOf(bill.getPlatformId());
             game.setGameType(gameType);
             game.setIncome(bill.getPayOffAmount());
             game.setBillCount(bill.getNeedPayAmount());
