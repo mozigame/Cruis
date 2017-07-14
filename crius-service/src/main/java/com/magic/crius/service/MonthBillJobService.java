@@ -12,6 +12,6 @@ public interface MonthBillJobService {
 
     EGResp MonthJobRun(StmlBillInfoReq stmlBillInfoReq);
 
-    BillingCycleVo getProxyCurrentBillCycle(Long ownerId);
+    BillingCycleVo getProxyLastBillCycle(Long ownerId);
 
 }

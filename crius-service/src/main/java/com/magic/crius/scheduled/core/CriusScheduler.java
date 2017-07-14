@@ -351,8 +351,8 @@ public class CriusScheduler {
                     StmlBillInfoReq stmlBillInfoReq_proxy = null;
                     for (Long ownerId : ownerList){
                         stmlBillInfoReq_proxy = new StmlBillInfoReq();
-                        //TODO
-                        BillingCycleVo billingCycleVo = monthBillJobService.getProxyCurrentBillCycle(ownerId);
+                        //TODO 获取上一期的期数
+                        BillingCycleVo billingCycleVo = monthBillJobService.getProxyLastBillCycle(ownerId);
                         // 先数据库查，是否已存在改账单
                         BillInfo billInfo = new BillInfo();
                         billInfo.setStartTime(Long.parseLong(billingCycleVo.getStartTime()));

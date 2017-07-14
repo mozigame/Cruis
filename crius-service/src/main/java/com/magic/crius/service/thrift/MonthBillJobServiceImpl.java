@@ -45,9 +45,24 @@ public class MonthBillJobServiceImpl implements MonthBillJobService {
         return billingCycleVo;
     }
 
+    private BillingCycleVo getLastBillCycle(Long ownerId){
+        Map<String,BillingCycleVo> BillInfo = billingCycleService.getThisBillingInfo(ownerId,System.currentTimeMillis());
+        ApiLogger.info( ownerId +"的期数：" + BillInfo);
+        if (BillInfo == null){
+            throw new CommonException(CommonException.ERROR_LEVEL_SERVICE, 3, 0, 10, HttpServletResponse.SC_OK, "!",
+                    "当前ownerId:" + ownerId + "没上期期数！");
+        }
+        BillingCycleVo billingCycleVo = (BillingCycleVo) BillInfo.get("lastBilling");
+        ApiLogger.info("上期期数开始时间: " + billingCycleVo.getStartTime());
+        ApiLogger.info("上期期数结束时间: " + billingCycleVo.getEndTime());
+        billingCycleVo.setStartTime(billingCycleVo.getStartTime().replaceAll("-",""));
+        billingCycleVo.setEndTime(billingCycleVo.getEndTime().replaceAll("-",""));
+        return billingCycleVo;
+    }
+
     @Override
-    public BillingCycleVo getProxyCurrentBillCycle(Long ownerId) {
-        return getCurrentBillCycle(ownerId);
+    public BillingCycleVo getProxyLastBillCycle(Long ownerId) {
+        return getLastBillCycle(ownerId);
     }
 
     @Override
