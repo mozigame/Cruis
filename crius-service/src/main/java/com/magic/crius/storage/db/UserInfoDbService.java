@@ -18,4 +18,6 @@ public interface UserInfoDbService {
     boolean updateLevel(Long userId, Long level);
     
     int getSummaryNum(UserInfo record);
+    
+    UserInfo getProxyNum(UserInfo record);
 }
