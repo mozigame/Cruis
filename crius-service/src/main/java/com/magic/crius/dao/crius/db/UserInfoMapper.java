@@ -31,5 +31,9 @@ public interface UserInfoMapper {
      * @return
      */
     int updateLevel(@Param("userId") Long userId,@Param("userLevel") Long level);
+    
+    
+    UserInfo getSummaryNum(UserInfo record);
+   
 
 }

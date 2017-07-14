@@ -123,4 +123,20 @@
         SET user_level = #{userLevel,jdbcType=INTEGER}
         WHERE user_id = #{userId,jdbcType=BIGINT}
     </update>
+    
+    
+    <select id="getSummaryNum" resultMap="BaseResultMap" parameterType="com.magic.crius.po.UserInfo">
+    select  count(distinct user_id)  as userCount
+    from user_info
+    where 1=1
+     <if test="ownerId != null">
+       and  owner_id = #{ownerId,jdbcType=BIGINT}  
+      </if>
+      <if test="proxyId != null">
+      and  proxy_id = #{proxyId,jdbcType=BIGINT}
+    </if>
+      
+    
+   
+  </select>
 </mapper>

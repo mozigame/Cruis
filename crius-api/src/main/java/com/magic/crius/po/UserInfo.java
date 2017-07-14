@@ -32,6 +32,8 @@ public class UserInfo {
     private String ownerName;   //业主名称
 
     private Integer type;   //用户类型
+    
+    private Long userCount;
 
     public Integer getId() {
         return id;
@@ -41,7 +43,16 @@ public class UserInfo {
         this.id = id;
     }
 
-    public Long getOwnerId() {
+    
+    public Long getUserCount() {
+		return userCount;
+	}
+
+	public void setUserCount(Long userCount) {
+		this.userCount = userCount;
+	}
+
+	public Long getOwnerId() {
         return ownerId;
     }
 

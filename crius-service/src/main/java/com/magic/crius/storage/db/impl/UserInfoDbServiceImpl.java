@@ -32,4 +32,8 @@ public class UserInfoDbServiceImpl implements UserInfoDbService {
     public boolean updateLevel(Long userId, Long level) {
         return userInfoMapper.updateLevel(userId, level) > 0;
     }
+    
+    public UserInfo getSummaryNum(UserInfo record){
+    	 return userInfoMapper.getSummaryNum(record);
+    }
 }
