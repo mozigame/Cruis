@@ -129,9 +129,10 @@ public class BillInfoServiceImpl implements BillInfoService {
         return gameList;
     }
     
-    private String getFactoryGameType(Long gameFactoryType, Long gameAbstractType) {
-    	String key=gameFactoryType+"-"+gameAbstractType;
-		return gameInfoService.getGameTypeByFactoryMap().get(key);
+    private String getFactoryGameType(Long platformId, Long hallTypeId) {
+//    	String key=gameFactoryType+"-"+gameAbstractType;
+//		return gameInfoService.getGameTypeByFactoryMap().get(key);
+    	return String.valueOf(platformId);
 	}
 
 	private BillInfo assembleBillInfo(OwnerBillReq req){
