@@ -119,7 +119,8 @@ public class BillInfoServiceImpl implements BillInfoService {
     		game.setOrderId(String.valueOf(req.getBillId()));
     		game.setPdate(req.getBillDate());
     		game.setPdateName(req.getBillDate());
-            gameType=this.getFactoryGameType(bill.getPlatformId(), bill.getHallTypeId());
+//            gameType=this.getFactoryGameType(bill.getPlatformId(), bill.getHallTypeId());
+    		gameType=String.valueOf(bill.getPlatformId());
             game.setGameType(gameType);
             game.setIncome(bill.getPayOffAmount());
             game.setBillCount(bill.getNeedPayAmount());
@@ -129,9 +130,10 @@ public class BillInfoServiceImpl implements BillInfoService {
         return gameList;
     }
     
-    private String getFactoryGameType(Long gameFactoryType, Long gameAbstractType) {
-    	String key=gameFactoryType+"-"+gameAbstractType;
-		return gameInfoService.getGameTypeByFactoryMap().get(key);
+    private String getFactoryGameType(Long platformId, Long hallTypeId) {
+//    	String key=gameFactoryType+"-"+gameAbstractType;
+//		return gameInfoService.getGameTypeByFactoryMap().get(key);
+    	return String.valueOf(platformId);
 	}
 
 	private BillInfo assembleBillInfo(OwnerBillReq req){
