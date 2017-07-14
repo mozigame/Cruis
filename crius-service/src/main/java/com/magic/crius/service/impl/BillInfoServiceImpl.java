@@ -5,22 +5,11 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.magic.crius.po.*;
+import com.magic.crius.service.*;
 import org.springframework.stereotype.Service;
 
 import com.magic.analysis.utils.StringUtils;
-import com.magic.crius.po.BillInfo;
-import com.magic.crius.po.OwnerBillSummary2cost;
-import com.magic.crius.po.OwnerBillSummary2game;
-import com.magic.crius.po.ProxyBillDetail;
-import com.magic.crius.po.ProxyBillSummary2cost;
-import com.magic.crius.po.ProxyBillSummary2game;
-import com.magic.crius.service.BillInfoService;
-import com.magic.crius.service.GameInfoService;
-import com.magic.crius.service.OwnerBillSummary2costService;
-import com.magic.crius.service.OwnerBillSummary2gameService;
-import com.magic.crius.service.ProxyBillDetailService;
-import com.magic.crius.service.ProxyBillSummary2costService;
-import com.magic.crius.service.ProxyBillSummary2gameService;
 import com.magic.crius.storage.db.BillInfoDbService;
 import com.magic.crius.vo.AgentBillReq;
 import com.magic.crius.vo.AgentHallBillVo;
@@ -58,6 +47,8 @@ public class BillInfoServiceImpl implements BillInfoService {
     @Resource
     private GameInfoService gameInfoService;
 
+    @Resource
+    private UserInfoService userInfoService;
 
     @Override
     public boolean save(BillInfo billInfo) {
@@ -201,6 +192,11 @@ public class BillInfoServiceImpl implements BillInfoService {
         proxyBillDetail.setCost(agentBillReq.getCostTotalAmount());
         proxyBillDetail.setReforwardState(1);
         proxyBillDetail.setRecordReforwardAccount(agentBillReq.getRebateTotalAmount());
+        //设置有效会员数量
+        UserInfo userInfo = new UserInfo();
+        userInfo.setOwnerId(agentBillReq.getOwnerId());
+        userInfo.setProxyId(agentBillReq.getAgentId());
+        proxyBillDetail.setUserNum(Long.parseLong(userInfoService.getSummaryUserNum(userInfo)+""));
         return proxyBillDetail;
     }
 

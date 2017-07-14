@@ -33,7 +33,7 @@ public class UserInfoDbServiceImpl implements UserInfoDbService {
         return userInfoMapper.updateLevel(userId, level) > 0;
     }
     
-    public UserInfo getSummaryNum(UserInfo record){
+    public int getSummaryNum(UserInfo record){
     	 return userInfoMapper.getSummaryNum(record);
     }
 }

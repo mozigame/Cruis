@@ -32,4 +32,9 @@ public class UserInfoServiceImpl implements UserInfoService {
     public boolean updateLevel(Long userId, Long level) {
         return userInfoDbService.updateLevel(userId, level);
     }
+
+    @Override
+    public int getSummaryUserNum(UserInfo userInfo) {
+        return userInfoDbService.getSummaryNum(userInfo);
+    }
 }

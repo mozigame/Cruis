@@ -14,4 +14,6 @@ public interface UserInfoService {
     UserInfo get(Long userId);
 
     boolean updateLevel(Long userId, Long level);
+
+    int getSummaryUserNum(UserInfo userInfo);
 }
