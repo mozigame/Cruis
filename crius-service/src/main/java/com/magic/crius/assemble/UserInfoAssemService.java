@@ -130,7 +130,8 @@ public class UserInfoAssemService {
     	Long userLevelMember=null;
     	Integer userLevelUser=null;
     	List<MemberConditionVo> newList=new ArrayList<>();
-    	List<UserInfo> changeList=new ArrayList<>(); 
+    	List<Long> newUserIdList=new ArrayList<>(); //用于避免新数据时userId重复
+    	List<UserInfo> changeList=new ArrayList<>();
     	for(MemberConditionVo member:batchList){
     		isExist=false;
     		for(UserInfo userInfo:userList){
@@ -150,7 +151,8 @@ public class UserInfoAssemService {
     				break;
     			}
     		}
-    		if(!isExist){
+    		if(!isExist && !newUserIdList.contains(member.getMemberId())){
+    			newUserIdList.add(member.getMemberId());
     			newList.add(member);
     		}
     	}
