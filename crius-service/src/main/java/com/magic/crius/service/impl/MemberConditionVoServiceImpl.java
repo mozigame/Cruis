@@ -39,4 +39,22 @@ public class MemberConditionVoServiceImpl implements MemberConditionVoService {
     public List<MemberConditionVo> findPeriodLevels(Long startTime, Long endTime) {
         return memberConditionVoMongoService.findPeriodLevels(startTime, endTime);
     }
+    
+    /**
+     * 翻页查询
+     * @param page
+     * @param pageCount
+     * @return
+     */
+    public List<MemberConditionVo> findByPage(int page, int pageCount){
+    	return memberConditionVoMongoService.findByPage(page, pageCount);
+    }
+    
+    /**
+     * 取得表的总记录数
+     * @return
+     */
+    public Long getTotalCount(){
+    	return memberConditionVoMongoService.getTotalCount();
+    }
 }

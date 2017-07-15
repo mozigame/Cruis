@@ -1,7 +1,8 @@
 package com.magic.crius.service;
 
+import java.util.List;
+
 import com.magic.crius.po.UserInfo;
-import com.magic.user.entity.User;
 
 /**
  * User: joey
@@ -19,4 +20,22 @@ public interface UserInfoService {
     int getSummaryUserNum(UserInfo userInfo);
 
     int getSummaryProxyNum(UserInfo userInfo);
+    
+    /**
+     * 批量插入数据
+     * @param list
+     * @return
+     */
+    public int batchInsert(List<UserInfo> list);
+    
+    public int updateByPrimaryKey(UserInfo userInfo);
+    
+    /**
+     * 根据userId查用户
+     * @param userIdList
+     * @param proxyIdList
+     * @return
+     */
+    List<UserInfo> findUserInfoList(List<Long> userIdList,
+    		List<Long> proxyIdList);
 }

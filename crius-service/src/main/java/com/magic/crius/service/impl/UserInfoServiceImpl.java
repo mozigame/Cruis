@@ -5,6 +5,8 @@ import com.magic.crius.service.UserInfoService;
 import com.magic.crius.storage.db.UserInfoDbService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 /**
@@ -37,9 +39,28 @@ public class UserInfoServiceImpl implements UserInfoService {
     public int getSummaryUserNum(UserInfo userInfo) {
         return userInfoDbService.getSummaryNum(userInfo);
     }
+    
+    public int batchInsert(List<UserInfo> list){
+    	return userInfoDbService.batchInsert(list);
+    }
+    
+    public int updateByPrimaryKey(UserInfo userInfo){
+    	return userInfoDbService.updateByPrimaryKey(userInfo);
+    }
 
     @Override
     public int getSummaryProxyNum(UserInfo userInfo) {
         return userInfoDbService.getProxyNum(userInfo);
+    }
+    
+    /**
+     * 根据userId查用户
+     * @param userIdList
+     * @param proxyIdList
+     * @return
+     */
+    public List<UserInfo> findUserInfoList(List<Long> userIdList,
+    		List<Long> proxyIdList){
+    	return userInfoDbService.findUserInfoList(userIdList, proxyIdList);
     }
 }

@@ -1,8 +1,11 @@
 package com.magic.crius.dao.crius.db;
 
-import com.magic.crius.po.UserInfo;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+
+import com.magic.crius.po.UserInfo;
 
 /**
  * 会员基础信息
@@ -23,6 +26,9 @@ public interface UserInfoMapper {
      * @return
      */
     UserInfo get(@Param("userId") Long userId);
+    
+    List<UserInfo> findUserInfoList(@Param("userIdList") List<Long> userIdList,
+    		@Param("proxyIdList") List<Long>proxyIdList); 
 
     /**
      * 修改会员层级
@@ -37,6 +43,11 @@ public interface UserInfoMapper {
 
     
     int getProxyNum(UserInfo record);
+    
+    
+    public int batchInsert(List<UserInfo> list);
+    
+    public int updateByPrimaryKey(UserInfo userInfo);
 
    
 
