@@ -1,6 +1,9 @@
 package com.magic.crius.storage.db;
 
 import com.magic.crius.po.UserInfo;
+
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -20,4 +23,17 @@ public interface UserInfoDbService {
     int getSummaryNum(UserInfo record);
     
     int getProxyNum(UserInfo record);
+    
+    public int batchInsert(List<UserInfo> list);
+    
+    public int updateByPrimaryKey(UserInfo userInfo);
+    
+    /**
+     * 根据userId查用户
+     * @param userIdList
+     * @param proxyIdList
+     * @return
+     */
+    List<UserInfo> findUserInfoList(List<Long> userIdList,
+    		List<Long> proxyIdList);;
 }

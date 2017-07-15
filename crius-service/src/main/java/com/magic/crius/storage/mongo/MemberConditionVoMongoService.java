@@ -1,10 +1,9 @@
 package com.magic.crius.storage.mongo;
 
+import java.util.List;
+
 import com.magic.crius.vo.UserLevelReq;
 import com.magic.user.vo.MemberConditionVo;
-
-import java.util.Collection;
-import java.util.List;
 
 /**
  * User: joey
@@ -42,4 +41,12 @@ public interface MemberConditionVoMongoService {
      * @return
      */
     List<MemberConditionVo> findPeriodLevels(Long startTime, Long endTime);
+    
+    public List<MemberConditionVo> findByPage(int page, int pageCount);
+    
+    /**
+     * 取得表的总记录数
+     * @return
+     */
+    public Long getTotalCount();
 }

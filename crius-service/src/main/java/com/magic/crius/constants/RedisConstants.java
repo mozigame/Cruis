@@ -23,6 +23,16 @@ public class RedisConstants {
     public static final int BATCH_POP_NUM = 1000;
 
     public static final String OWNER_BILL_KEY = "OWNER_BILL_KEY";
+    
+    /**
+     * 同步用户数据每页批量
+     */
+    public static final int USER_INFO_ASYNC_PAGE_BATCH=2000;
+    /**
+     * 同步用户数据的页数
+     */
+    public static final String REDIS_USER_INFO_SYNC_PAGE="_userInfoSyncPage";
+    
 
     /**
      * @doc

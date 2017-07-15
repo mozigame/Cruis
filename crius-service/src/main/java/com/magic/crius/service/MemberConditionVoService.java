@@ -41,4 +41,19 @@ public interface MemberConditionVoService {
      * @return
      */
     List<MemberConditionVo> findPeriodLevels(Long startTime, Long endTime);
+    
+    /**
+     * 翻页查询
+     * @param page
+     * @param pageCount
+     * @return
+     */
+    public List<MemberConditionVo> findByPage(int page, int pageCount);
+    
+    /**
+     * 取得表的总记录数
+     * @return
+     */
+    public Long getTotalCount();
+    
 }

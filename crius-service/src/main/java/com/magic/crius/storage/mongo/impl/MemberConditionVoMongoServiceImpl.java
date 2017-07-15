@@ -1,21 +1,28 @@
 package com.magic.crius.storage.mongo.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.magic.api.commons.ApiLogger;
-import com.magic.crius.dao.mongo.MemberConditionVoMongoDao;
-import com.magic.crius.enums.MongoCollections;
-import com.magic.crius.storage.mongo.MemberConditionVoMongoService;
-import com.magic.crius.vo.UserLevelReq;
-import com.magic.user.vo.AgentConditionVo;
-import com.magic.user.vo.MemberConditionVo;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import org.apache.log4j.Logger;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import java.util.List;
+import com.alibaba.fastjson.JSON;
+import com.magic.api.commons.ApiLogger;
+import com.magic.crius.dao.mongo.MemberConditionVoMongoDao;
+import com.magic.crius.enums.MongoCollections;
+import com.magic.crius.storage.db.SpringDataPageable;
+import com.magic.crius.storage.mongo.MemberConditionVoMongoService;
+import com.magic.crius.vo.UserLevelReq;
+import com.magic.user.vo.AgentConditionVo;
+import com.magic.user.vo.MemberConditionVo;
 
 /**
  * User: joey
@@ -124,5 +131,39 @@ public class MemberConditionVoMongoServiceImpl implements MemberConditionVoMongo
             e.printStackTrace();
         }
         return null;
+    }
+    
+    
+    public List<MemberConditionVo> findByPage(int page, int pageCount) {
+        try {
+        	SpringDataPageable pageable = new SpringDataPageable();
+        	
+        	List<Order> orders = new ArrayList<Order>();  //排序
+            orders.add(new Order(Direction.ASC, "_id"));
+            Sort sort = new Sort(orders);
+
+            // 开始页
+            pageable.setPagenumber(page);
+            // 每页条数
+            pageable.setPagesize(pageCount);
+            // 排序
+            pageable.setSort(sort);
+            Query query = new Query();
+            List<MemberConditionVo> list = memberConditionVoMongoDao.find(query.with(pageable), MongoCollections.memberConditionVo.name());
+            
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    /**
+     * 取得表的总记录数
+     * @return
+     */
+    public Long getTotalCount(){
+    	Query query = new Query();
+    	return memberConditionVoMongoDao.count(query);
     }
 }

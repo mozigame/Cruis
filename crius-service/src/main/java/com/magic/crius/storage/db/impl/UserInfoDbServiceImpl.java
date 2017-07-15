@@ -5,6 +5,8 @@ import com.magic.crius.po.UserInfo;
 import com.magic.crius.storage.db.UserInfoDbService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 /**
@@ -41,5 +43,18 @@ public class UserInfoDbServiceImpl implements UserInfoDbService {
 	public int getProxyNum(UserInfo record) {
 		// TODO Auto-generated method stub
 		return userInfoMapper.getProxyNum(record);
+	}
+	
+	public int batchInsert(List<UserInfo> list){
+		return userInfoMapper.batchInsert(list);
+	}
+	
+	public int updateByPrimaryKey(UserInfo userInfo){
+		return userInfoMapper.updateByPrimaryKey(userInfo);
+	}
+	
+	public List<UserInfo> findUserInfoList(List<Long> userIdList,
+    		List<Long> proxyIdList){
+		return userInfoMapper.findUserInfoList(userIdList, proxyIdList);
 	}
 }

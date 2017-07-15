@@ -27,6 +27,24 @@
         from user_info
         where user_id = #{userId,jdbcType=INTEGER}
     </select>
+    
+    <select id="findUserInfoList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user_info
+        where user_id in
+	      <foreach collection="userIdList" item="userId" index="index"
+	               open="(" close=")" separator=",">
+	        #{userId}
+	      </foreach>
+	      
+	      and proxy_id in 
+	      <foreach collection="proxyIdList" item="proxyId" index="index"
+	               open="(" close=")" separator=",">
+	        #{proxyId}
+	      </foreach>
+    </select>
+    
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete from user_info
         where user_id = #{userId,jdbcType=INTEGER}
@@ -53,12 +71,22 @@
         shareholder_id, shareholder_name, user_level,
         create_time, update_time, owner_name, type
         )
-        values (#{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
-        #{userAccount,jdbcType=VARCHAR}, #{proxyId,jdbcType=BIGINT}, #{proxyName,jdbcType=VARCHAR},
-        #{shareholderId,jdbcType=BIGINT}, #{shareholderName,jdbcType=VARCHAR}, #{userLevel,jdbcType=INTEGER},
-        #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}, #{ownerName,jdbcType=VARCHAR},
-        #{type,jdbcType=INTEGER}
-        )
+         values
+        <foreach collection="list" item="param" separator=",">
+          (#{param.ownerId,jdbcType=BIGINT}
+          	, #{param.userId,jdbcType=BIGINT}
+          	, #{param.userAccount,jdbcType=VARCHAR}
+	        , #{param.proxyId,jdbcType=BIGINT}
+	        , #{param.proxyName,jdbcType=VARCHAR}
+	        , #{param.shareholderId,jdbcType=BIGINT}
+	        , #{param.shareholderName,jdbcType=VARCHAR}
+	        , #{param.userLevel,jdbcType=INTEGER}
+	        , #{param.createTime,jdbcType=BIGINT}
+	        , #{param.updateTime,jdbcType=BIGINT}
+	        , #{param.ownerName,jdbcType=VARCHAR}
+	        , #{param.type,jdbcType=INTEGER}
+	        )
+        </foreach>
     </insert>
 
 
