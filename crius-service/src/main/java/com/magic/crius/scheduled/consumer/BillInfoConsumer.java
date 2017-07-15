@@ -1,6 +1,7 @@
 package com.magic.crius.scheduled.consumer;
 
 import com.magic.crius.service.BillInfoService;
+import com.magic.crius.util.ThreadTaskPoolFactory;
 import com.magic.crius.vo.AgentBillReq;
 import com.magic.crius.vo.OwnerBillReq;
 import com.magic.crius.vo.PayoffReq;
@@ -19,8 +20,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class BillInfoConsumer {
 
-    private ExecutorService billInfoJobTaskPool = new ThreadPoolExecutor(10, 20, 3, TimeUnit.SECONDS,
-            new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.CallerRunsPolicy());
+    private ExecutorService billInfoJobTaskPool = ThreadTaskPoolFactory.billInfoJobTaskPool;
 
     @Resource
     private BillInfoService billInfoService;
