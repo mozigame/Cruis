@@ -1,36 +1,25 @@
 package com.magic.crius.scheduled.core;
 
-import com.alibaba.fastjson.JSON;
 import com.magic.analysis.utils.DateKit;
 import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.codis.JedisFactory;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.bc.query.service.ContractFeeService;
-import com.magic.bc.query.vo.BillingCycleVo;
-import com.magic.bc.query.vo.ContractFeeOwnerDetailsVo;
-import com.magic.config.thrift.base.EGResp;
 import com.magic.crius.assemble.*;
-import com.magic.crius.constants.RedisConstants;
-import com.magic.crius.po.BillInfo;
 import com.magic.crius.scheduled.consumer.*;
 import com.magic.crius.service.BillInfoService;
-import com.magic.crius.service.MonthBillJobService;
 import com.magic.crius.service.ProxyInfoService;
 import com.magic.crius.service.RepairLockService;
-import com.magic.crius.vo.StmlBillInfoReq;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
-import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 /**
  * User: joey
@@ -106,9 +95,6 @@ public class CriusScheduler {
     private KafkaTemplate<Integer, String> kafkaTemplate;
 
     @Resource
-    private MonthBillJobService monthBillJobService;
-
-    @Resource
     private ProxyInfoService proxyInfoService;
 
     @Resource(name = "criusJedisFactory")
@@ -119,6 +105,9 @@ public class CriusScheduler {
 
     @Resource
     private ContractFeeService contractFeeService;
+
+    @Resource
+    private MonthJobConsumer monthJobConsumer;
     /**
      * 公司入款
      */
@@ -312,7 +301,7 @@ public class CriusScheduler {
     public void monthlyJobRun() {
         ApiLogger.info("monthly job run start.");
         try {
-            monthBillJobService.RunJob();
+            monthJobConsumer.init();
             ApiLogger.info("monthly job run end.");
         } catch (Exception e) {
             e.printStackTrace();

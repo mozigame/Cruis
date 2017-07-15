@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import com.magic.crius.scheduled.consumer.BillInfoConsumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.log4j.Logger;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -91,7 +92,7 @@ public class CapitalConsumer {
     private UserLevelAssemService userLevelAssemService;
     
     @Resource
-    private BillInfoService billInfoService;
+    private BillInfoConsumer billInfoConsumer;
 
     @KafkaListener(topics = {"plutus", "hera"}, group = KafkaConf.CAPITAL_GROUP)
     public void listen(ConsumerRecord<?, ?> record) {
@@ -263,15 +264,15 @@ public class CapitalConsumer {
                 AgentBillReq agentBillReq = JSON.parseObject(object.getString(KafkaConf.DATA), AgentBillReq.class);
                 System.out.println(agentBillReq);
                 logger.info("get kafka data :>>>  " + agentBillReq.toString());
-                billInfoService.save(agentBillReq);
-                
+               // billInfoService.save(agentBillReq);
+                billInfoConsumer.saveProxyBillInfo(agentBillReq);
                 break;
             case PLUTUS_OWNER_BILL:
                 OwnerBillReq ownerBillReq = JSON.parseObject(object.getString(KafkaConf.DATA), OwnerBillReq.class);
                 System.out.println(ownerBillReq);
                 logger.info("get kafka data :>>>  " + ownerBillReq.toString());
-                billInfoService.save(ownerBillReq);
-                
+                //billInfoService.save(ownerBillReq);PLUTUS_AGENT_BILL
+                billInfoConsumer.saveOwnerBillInfo(ownerBillReq);
                 break;
             default:
                 break;

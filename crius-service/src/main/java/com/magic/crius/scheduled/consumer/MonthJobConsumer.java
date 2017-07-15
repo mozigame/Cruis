@@ -1,4 +1,4 @@
-package com.magic.crius.service.thrift;
+package com.magic.crius.scheduled.consumer;
 
 import com.magic.analysis.exception.ConfigException;
 import com.magic.analysis.utils.DateKit;
@@ -17,10 +17,9 @@ import com.magic.config.thrift.base.EGResp;
 import com.magic.crius.constants.RedisConstants;
 import com.magic.crius.po.BillInfo;
 import com.magic.crius.service.BillInfoService;
-import com.magic.crius.service.MonthBillJobService;
 import com.magic.crius.service.ProxyInfoService;
 import com.magic.crius.vo.StmlBillInfoReq;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
@@ -28,12 +27,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.*;
 
 /**
- * Created by Administrator on 2017/7/8.
+ * 代理和业主月结账单任务调度
  */
-@Service
-public class MonthBillJobServiceImpl implements MonthBillJobService {
+@Component
+public class MonthJobConsumer {
+
+    private ExecutorService MonthJobTaskPool = new ThreadPoolExecutor(5, 20, 1, TimeUnit.SECONDS,
+                new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.DiscardPolicy());
 
     @Resource
     private ThriftFactory thriftFactory;
@@ -52,6 +55,19 @@ public class MonthBillJobServiceImpl implements MonthBillJobService {
 
     @Resource
     private ContractFeeService contractFeeService;
+
+    public void init() {
+        doBillInfoJob();
+    }
+
+    private void doBillInfoJob() {
+        MonthJobTaskPool.execute(new Runnable() {
+            @Override
+            public void run() {
+                RunJob();
+            }
+        });
+    }
 
     private BillingCycleVo getCurrentBillCycle(Long ownerId){
         Map<String,BillingCycleVo> BillInfo = billingCycleService.getThisBillingInfo(ownerId,System.currentTimeMillis());
@@ -83,12 +99,10 @@ public class MonthBillJobServiceImpl implements MonthBillJobService {
         return billingCycleVo;
     }
 
-    @Override
     public BillingCycleVo getProxyLastBillCycle(Long ownerId) {
         return getLastBillCycle(ownerId);
     }
 
-    @Override
     public EGResp MonthJobRun(StmlBillInfoReq stmlBillInfoReq) {
 
         //获取当期期数
@@ -117,7 +131,9 @@ public class MonthBillJobServiceImpl implements MonthBillJobService {
         }
     }
 
-    @Override
+    /**
+     * 发起请求，调thrift接口通知消息
+     */
     public void RunJob() {
         Jedis jedis = criusJedisFactory.getInstance();
         jedis.incr(RedisConstants.OWNER_BILL_KEY);
@@ -181,4 +197,5 @@ public class MonthBillJobServiceImpl implements MonthBillJobService {
             }
         }
     }
+
 }
