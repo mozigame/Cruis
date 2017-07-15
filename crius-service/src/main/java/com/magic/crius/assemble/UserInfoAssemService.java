@@ -55,7 +55,11 @@ public class UserInfoAssemService {
     	Jedis jedis = criusJedisFactory.getInstance();
         Long page=jedis.incr(RedisConstants.REDIS_USER_INFO_SYNC_PAGE);
         jedis.expire(RedisConstants.REDIS_USER_INFO_SYNC_PAGE,3*60*60);//3个小时存活时间
-        batchUserInfoSyncTask(page.intValue(), RedisConstants.USER_INFO_ASYNC_PAGE_BATCH);
+        try {
+			batchUserInfoSyncTask(page.intValue(), RedisConstants.USER_INFO_ASYNC_PAGE_BATCH);
+		} catch (Exception e) {
+			logger.error("-----batchUserInfoSync---page="+page+" size="+RedisConstants.USER_INFO_ASYNC_PAGE_BATCH, e);
+		}
     }
 
     /**
