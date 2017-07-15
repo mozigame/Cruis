@@ -94,6 +94,7 @@ public class UserInfoAssemService {
         	if(rows!=null && rows<page*size){
         		Jedis jedis = criusJedisFactory.getInstance();
         		jedis.del(RedisConstants.REDIS_USER_INFO_SYNC_PAGE);
+        		logger.info("batchUserInfoSyncTask reset :" + RedisConstants.REDIS_USER_INFO_SYNC_PAGE+" for:"+rows+"<"+(page*size));
         		if(page>2){//避免死循环
         			batchUserInfoSync();
         		}
@@ -142,6 +143,7 @@ public class UserInfoAssemService {
     					userInfo.setUpdateTime(new Date().getTime());
     					changeList.add(userInfo);
     				}
+    				break;
     			}
     		}
     		if(!isExist){
