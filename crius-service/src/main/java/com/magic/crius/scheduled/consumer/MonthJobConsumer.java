@@ -18,6 +18,7 @@ import com.magic.crius.constants.RedisConstants;
 import com.magic.crius.po.BillInfo;
 import com.magic.crius.service.BillInfoService;
 import com.magic.crius.service.ProxyInfoService;
+import com.magic.crius.util.ThreadTaskPoolFactory;
 import com.magic.crius.vo.StmlBillInfoReq;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
@@ -35,8 +36,7 @@ import java.util.concurrent.*;
 @Component
 public class MonthJobConsumer {
 
-    private ExecutorService MonthJobTaskPool = new ThreadPoolExecutor(5, 20, 1, TimeUnit.SECONDS,
-                new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.DiscardPolicy());
+    private ExecutorService MonthJobTaskPool = ThreadTaskPoolFactory.billInfoJobTaskPool;
 
     @Resource
     private ThriftFactory thriftFactory;
@@ -118,15 +118,15 @@ public class MonthJobConsumer {
         }
         stmlBillInfoReq.setBillDate(stmlBillInfoReq.getStartDay().toString().substring(0,6));
         String body = JsonUtils.toJsonStringTrimNull(stmlBillInfoReq);
-        ApiLogger.info("代理月结账单任务调度请求报文：" + body);
+        ApiLogger.info("代理和业主月结账单任务调度请求报文：" + body);
 
         //调thrift接口
         EGResp resp = thriftFactory.call(CmdType.SETTLE, 0x300013, body, "yezhu");
+        ApiLogger.info("代理和业主月结账单任务调度返回报文：" + resp);
         if (resp == null ){
-            ApiLogger.error("代理月结账单任务调度访问thrift接口失败");
+            ApiLogger.error("代理和业主月结账单任务调度访问thrift接口失败");
             throw ConfigException.THRIFT_TIME_OUT;
         }else {
-            ApiLogger.info("代理月结账单任务调度返回报文：" + resp);
             return  resp;
         }
     }

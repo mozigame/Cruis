@@ -327,6 +327,10 @@ public class CriusScheduler {
         });
     }
 
+    /**
+     * 每天凌晨2点执行定时任务发起请求
+     *
+     */
     @Scheduled(cron = "0 0 2 * * ?")
     public void monthlyJobRun() {
         ApiLogger.info("monthly job run start.");
