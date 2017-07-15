@@ -5,12 +5,27 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.magic.crius.po.*;
-import com.magic.crius.service.*;
 import org.springframework.stereotype.Service;
 
 import com.magic.analysis.utils.StringUtils;
+import com.magic.crius.po.BillInfo;
+import com.magic.crius.po.OwnerBillSummary2cost;
+import com.magic.crius.po.OwnerBillSummary2game;
+import com.magic.crius.po.ProxyBillDetail;
+import com.magic.crius.po.ProxyBillSummary2cost;
+import com.magic.crius.po.ProxyBillSummary2game;
+import com.magic.crius.po.UserInfo;
+import com.magic.crius.service.BillInfoService;
+import com.magic.crius.service.GameInfoService;
+import com.magic.crius.service.OwnerBillSummary2costService;
+import com.magic.crius.service.OwnerBillSummary2gameService;
+import com.magic.crius.service.ProxyBillDetailService;
+import com.magic.crius.service.ProxyBillSummary2costService;
+import com.magic.crius.service.ProxyBillSummary2gameService;
+import com.magic.crius.service.UserInfoService;
 import com.magic.crius.storage.db.BillInfoDbService;
+import com.magic.crius.storage.mongo.AgentBillReqMongoService;
+import com.magic.crius.storage.mongo.OwnerBillReqMongoService;
 import com.magic.crius.vo.AgentBillReq;
 import com.magic.crius.vo.AgentHallBillVo;
 import com.magic.crius.vo.AmountVo;
@@ -24,6 +39,11 @@ import com.magic.crius.vo.OwnerHallBillVo;
  */
 @Service
 public class BillInfoServiceImpl implements BillInfoService {
+	
+	 @Resource
+    private OwnerBillReqMongoService ownerBillReqMongoService;
+    @Resource
+    private AgentBillReqMongoService agentBillReqMongoService;
 
     @Resource
     private BillInfoDbService billInfoDbService;
@@ -66,6 +86,11 @@ public class BillInfoServiceImpl implements BillInfoService {
     		return;
     	}
     	
+    	if (!ownerBillReqMongoService.save(req)) {
+    		ownerBillReqMongoService.saveFailedData(req);
+            //todo
+        }
+    	
     	BillInfo billInfo=this.assembleBillInfo(req);
     	List<OwnerBillSummary2cost> costList=this.assembleBillInfoSummaryCost(req);
     	List<OwnerBillSummary2game> gameList=this.assembleBillInfoSummaryGame(req);
@@ -80,6 +105,11 @@ public class BillInfoServiceImpl implements BillInfoService {
     
     public void save(AgentBillReq req){
         if (req != null) {
+        	if (!agentBillReqMongoService.save(req)) {
+        		agentBillReqMongoService.saveFailedData(req);
+                //todo
+            }
+        	
             BillInfo billInfo = assembleBillInfo(req);
             ProxyBillDetail proxyBillDetail = assembleProxyBillDetail(req);
             List<ProxyBillSummary2game> proxyBillSummary2game = assembleProxyBillSummary2Game(req);

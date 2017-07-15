@@ -23,5 +23,7 @@ public enum MongoCollections {
     sportReq,
     vGameReq,
     memberConditionVo,
-    agentConditionVo;
+    agentConditionVo,
+    ownerBillReq,
+    agentBillReq;
 }
