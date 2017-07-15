@@ -139,6 +139,7 @@ public class UserInfoAssemService {
     						)){
     					userInfo.setUserAccount(member.getMemberName());
     					userInfo.setUserLevel(userLevelMember.intValue());
+    					userInfo.setUpdateTime(new Date().getTime());
     					changeList.add(userInfo);
     				}
     			}
