@@ -169,8 +169,8 @@
   </select>
   
   <select id="getProxyNum" resultType="int" parameterType="com.magic.crius.po.UserInfo">
-    select  count(distinct proxy_id)  as userCount
-    from user_info
+    select  count(proxy_id)  as userCount
+    from proxy_info
     where owner_id = #{ownerId,jdbcType=BIGINT}  
    
   </select>
