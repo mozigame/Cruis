@@ -20,7 +20,7 @@ public class BaseOrderReq {
     @JSONField(name = "bc_bet_id")
     private Long bcBetId;   //注单号，改后
     @JSONField(name = "bet_id")
-    private Long betId; //主单号，原始游戏单号
+    private String betId; //主单号，原始游戏单号
     @JSONField(name = "game_id")
     private Long gameId;    //
     @JSONField(name = "game_name")
@@ -65,11 +65,11 @@ public class BaseOrderReq {
         this.bcBetId = bcBetId;
     }
 
-    public Long getBetId() {
+    public String getBetId() {
         return betId;
     }
 
-    public void setBetId(Long betId) {
+    public void setBetId(String betId) {
         this.betId = betId;
     }
 

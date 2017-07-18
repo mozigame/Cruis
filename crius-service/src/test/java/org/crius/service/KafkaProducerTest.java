@@ -390,7 +390,7 @@ public class KafkaProducerTest {
             req.setReqId(System.currentTimeMillis() + i);
             req.setUserId(2000001L + i);
             req.setOwnerId(10001L);
-            req.setBetId(System.currentTimeMillis() + i);
+            //req.setBetId(System.currentTimeMillis() + i);
             req.setBcBetId(System.currentTimeMillis() + i * 100);
             req.setGameId(100L +i);
             req.setInsertDatetime(System.currentTimeMillis());
@@ -423,7 +423,7 @@ public class KafkaProducerTest {
             req.setReqId(System.currentTimeMillis() + i);
             req.setUserId(2000001L + i);
             req.setOwnerId(10001L);
-            req.setBetId(System.currentTimeMillis() + i);
+          //  req.setBetId(System.currentTimeMillis() + i);
             req.setBcBetId(System.currentTimeMillis() + i * 100);
             req.setGameId(100L +i);
             req.setInsertDatetime(System.currentTimeMillis());
@@ -454,7 +454,7 @@ public class KafkaProducerTest {
             req.setReqId(System.currentTimeMillis() + i);
             req.setUserId(899L);
             req.setOwnerId(10001L);
-            req.setBetId(System.currentTimeMillis() + i);
+           // req.setBetId(System.currentTimeMillis() + i);
             req.setBcBetId(System.currentTimeMillis() + i * 100);
             req.setGameId(100L +i);
             req.setInsertDatetime(System.currentTimeMillis());
@@ -481,7 +481,7 @@ public class KafkaProducerTest {
             req.setReqId(System.currentTimeMillis() + i);
             req.setUserId(512L);
             req.setOwnerId(10001L);
-            req.setBetId(System.currentTimeMillis() + i);
+         //   req.setBetId(System.currentTimeMillis() + i);
             req.setBcBetId(System.currentTimeMillis() + i * 100);
             req.setGameId(100L +i);
             req.setInsertDatetime(System.currentTimeMillis());
@@ -511,7 +511,7 @@ public class KafkaProducerTest {
             req.setReqId(System.currentTimeMillis() + i);
             req.setUserId(2000001L + i);
             req.setOwnerId(10001L);
-            req.setBetId(System.currentTimeMillis() + i);
+         //   req.setBetId(System.currentTimeMillis() + i);
             req.setBcBetId(System.currentTimeMillis() + i * 100);
             req.setGameId(100L +i);
             req.setInsertDatetime(System.currentTimeMillis());
