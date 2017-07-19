@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.magic.crius.dao.crius.db.RiskEventDetailMapper">
+    <resultMap id="BaseResultMap" type="com.magic.crius.po.RiskEventDetail">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+		<result column="risk_event_record_id" property="riskEventRecordId" jdbcType="INTEGER"/>
+		<result column="user_id" property="userId" jdbcType="BIGINT"/>
+		<result column="ip" property="ip" jdbcType="INTEGER"/>
+		<result column="time" property="time" jdbcType="BIGINT"/>
+		<result column="json_data" property="jsonData" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--添加账单汇总表-->
+    <insert id="insert" parameterType="com.magic.crius.po.RiskEventDetail">
+        insert into risk_event_detail
+		(risk_event_record_id
+			,user_id
+			,ip
+			,time
+			,json_data
+			)
+		 values 
+		(#{riskEventRecordId,jdbcType=BIGINT}
+			,#{userId,jdbcType=BIGINT}
+			,#{ip,jdbcType=INTEGER}
+			,#{time,jdbcType=INTEGER}
+			,#{jsonData,jdbcType=VARCHAR}
+			)
+    </insert>
+
+	<!--批量添加-->
+    <insert id="batchInsert" >
+        insert into risk_event_detail (risk_event_record_id
+			,user_id
+			,ip
+			,time
+			,json_data)
+        values
+         <foreach collection="list" item="param" separator=",">
+            (
+             #{param.riskEventRecordId,jdbcType=BIGINT}
+			,#{param.userId,jdbcType=BIGINT}
+			,#{param.ip,jdbcType=INTEGER}
+			,#{param.time,jdbcType=INTEGER}
+			,#{param.jsonData,jdbcType=VARCHAR})
+         </foreach>
+    </insert>
+    
+	<sql id="getList_sql">
+		select Id,risk_event_id as riskEventRecordId,user_id as userId,ip,time,json_data as jsonData
+		from risk_event_detail
+	</sql>
+
+</mapper>

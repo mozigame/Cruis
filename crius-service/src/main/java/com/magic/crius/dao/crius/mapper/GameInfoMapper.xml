@@ -24,12 +24,12 @@
         insert into game_info ( game_id, game_name,
           game_type, game_type_name, game_factory_type,
           game_factory_type_name, game_abstract_type,
-          game_abstract_type_name
+          game_abstract_type_name,update_time
           )
         values ( #{gameId,jdbcType=VARCHAR}, #{gameName,jdbcType=VARCHAR},
           #{gameType,jdbcType=VARCHAR}, #{gameTypeName,jdbcType=VARCHAR}, #{gameFactoryType,jdbcType=VARCHAR},
           #{gameFactoryTypeName,jdbcType=VARCHAR}, #{gameAbstractType,jdbcType=VARCHAR},
-          #{gameAbstractTypeName,jdbcType=VARCHAR}
+          #{gameAbstractTypeName,jdbcType=VARCHAR},#{updateTime,jdbcType=INTEGER}
           )
     </insert>
 
@@ -38,7 +38,7 @@
         insert into game_info ( game_id, game_name,
         game_type, game_type_name, game_factory_type,
         game_factory_type_name, game_abstract_type,
-        game_abstract_type_name
+        game_abstract_type_name,update_time
         )
         values
         <foreach collection="param" item="param" separator=",">
@@ -49,7 +49,8 @@
             #{param.gameFactoryType,jdbcType=VARCHAR},
             #{param.gameFactoryTypeName,jdbcType=VARCHAR},
             #{param.gameAbstractType,jdbcType=VARCHAR},
-            #{param.gameAbstractTypeName,jdbcType=VARCHAR}
+            #{param.gameAbstractTypeName,jdbcType=VARCHAR},
+            #{param.updateTime,jdbcType=INTEGER}
             )
         </foreach>
     </insert>

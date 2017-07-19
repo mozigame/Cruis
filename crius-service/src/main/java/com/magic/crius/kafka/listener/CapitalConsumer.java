@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
-import com.magic.crius.scheduled.consumer.BillInfoConsumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.log4j.Logger;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -22,9 +21,10 @@ import com.magic.crius.assemble.OperateChargeReqAssemService;
 import com.magic.crius.assemble.OperateWithDrawReqAssemService;
 import com.magic.crius.assemble.PreCmpChargeReqAssemService;
 import com.magic.crius.assemble.PreWithdrawReqAssemService;
+import com.magic.crius.assemble.RiskEventRecordAssemService;
 import com.magic.crius.assemble.UserLevelAssemService;
 import com.magic.crius.enums.KafkaConf;
-import com.magic.crius.service.BillInfoService;
+import com.magic.crius.scheduled.consumer.BillInfoConsumer;
 import com.magic.crius.vo.AgentBillReq;
 import com.magic.crius.vo.CashbackReq;
 import com.magic.crius.vo.DealerRewardReq;
@@ -39,6 +39,7 @@ import com.magic.crius.vo.OwnerBillReq;
 import com.magic.crius.vo.PayoffReq;
 import com.magic.crius.vo.PreCmpChargeReq;
 import com.magic.crius.vo.PreWithdrawReq;
+import com.magic.crius.vo.RiskRecordReq;
 import com.magic.crius.vo.SportReq;
 import com.magic.crius.vo.UserLevelReq;
 import com.magic.crius.vo.VGameReq;
@@ -87,6 +88,8 @@ public class CapitalConsumer {
     /*注单*/
     @Resource
     private BaseOrderReqAssemService baseGameReqAssemService;
+    @Resource
+    private RiskEventRecordAssemService riskEventRecordAssemService;
     /*用户层级修改*/
     @Resource
     private UserLevelAssemService userLevelAssemService;
@@ -125,6 +128,28 @@ public class CapitalConsumer {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+    
+    
+    /**
+     * 风控数据记录
+     * @param record
+     */
+    @KafkaListener(topics = {"RISKREC"}, group = KafkaConf.CAPITAL_GROUP)
+    public void riskRecListen(ConsumerRecord<?, ?> record) {
+        try {
+            Optional<?> kafkaMessage = Optional.ofNullable(record.value());
+            if (kafkaMessage.isPresent()) {
+                logger.info("---riskRecListen--get kafka data :>>>  " + record.toString());
+                JSONObject object = JSON.parseObject(record.value().toString());
+                RiskRecordReq riskRecordReq=new RiskRecordReq(object);
+                riskEventRecordAssemService.procKafkaData(riskRecordReq);
+            }
+        } catch (Exception e) {
+        	logger.error("----riskRecListen--", e);
+            e.printStackTrace();
+            
         }
     }
 

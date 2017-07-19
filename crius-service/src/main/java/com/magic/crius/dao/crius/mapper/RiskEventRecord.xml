@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.magic.crius.dao.crius.db.RiskEventRecordMapper">
+    <resultMap id="BaseResultMap" type="com.magic.crius.po.RiskEventRecord">
+        <result column="id" property="id" jdbcType="BIGINT"/>
+		<result column="event_time_ns" property="eventTimeNs" jdbcType="BIGINT"/>
+		<result column="title" property="title" jdbcType="VARCHAR"/>
+		<result column="risk_info_msg" property="riskInfoMsg" jdbcType="VARCHAR"/>
+		<result column="owner_id" property="ownerId" jdbcType="BIGINT"/>
+		<result column="risk_type" property="riskType" jdbcType="INTEGER"/>
+		<result column="pdate" property="pdate" jdbcType="INTEGER"/>
+		<result column="risk_event_id" property="riskEventId" jdbcType="BIGINT"/>
+		<result column="create_time" property="createTime" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <!--添加账单汇总表-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.magic.crius.po.RiskEventRecord">
+    	 insert into risk_event_record
+		(event_time_ns
+			,title
+			,risk_info_msg
+			,owner_id
+			,risk_type
+			,risk_event_id
+			,pdate
+			,create_time
+			)
+		 values 
+		(#{eventTimeNs,jdbcType=BIGINT}
+			,#{title,jdbcType=VARCHAR}
+			,#{riskInfoMsg,jdbcType=VARCHAR}
+			,#{ownerId,jdbcType=BIGINT}
+			,#{riskType,jdbcType=INTEGER}
+			,#{riskEventId,jdbcType=BIGINT}
+			,#{pdate,jdbcType=INTEGER}
+			,#{createTime,jdbcType=BIGINT}
+			)
+    </insert>
+    
+    <sql id="getList_sql">
+    	select Id,event_time_ns as eventTimeNs,title,risk_info_msg as riskInfoMsg,owner_id as ownerId
+    		, risk_type as riskType,risk_event_id as riskEventId,pdate,create_time as createTime
+    	from risk_event_record
+    </sql>
+</mapper>
