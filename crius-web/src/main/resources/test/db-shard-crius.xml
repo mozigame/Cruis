@@ -15,7 +15,7 @@
        http://www.springframework.org/schema/util/spring-util.xsd">
 
 
-     <bean id="baseDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <bean id="baseDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
        <property name="driverClassName" value="${mysql.crius.driver}" />
 		
 		<property name="minEvictableIdleTimeMillis" value="5000" />
@@ -38,6 +38,7 @@
 		
 
      </bean>
+
 
 
     <!-- dataSource_0-->
