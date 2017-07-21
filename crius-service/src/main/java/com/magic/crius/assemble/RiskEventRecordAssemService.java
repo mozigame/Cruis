@@ -51,6 +51,15 @@ public class RiskEventRecordAssemService {
 			return Long.parseLong((String)obj);
 		}
 	}
+	
+	private String getShort(String str, int size){
+		if(str!=null){
+			if(str.length()>size){
+				return str.substring(0, size);
+			}
+		}
+		return str;
+	}
     public void procKafkaData(RiskRecordReq req) {
     	RiskEventRecord riskEventRecord=new RiskEventRecord();
     	riskEventRecord.setCreateTime(new Date().getTime());
@@ -59,7 +68,7 @@ public class RiskEventRecordAssemService {
     	riskEventRecord.setRiskEventId(req.getRiskEventId());
     	riskEventRecord.setRiskType(req.getRiskTypeId());
     	riskEventRecord.setTitle(req.getRiskEventTitle());
-    	riskEventRecord.setRiskInfoMsg(req.getRiskInfoMsg());
+    	riskEventRecord.setRiskInfoMsg(getShort(req.getRiskInfoMsg(), 990));
     	riskEventRecord.setOwnerId(req.getOwnerId());
     	if(req.getEventTimeNs()!=null){
     		try {
