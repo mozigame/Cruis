@@ -37,7 +37,8 @@ public class UserTradeDbServiceImpl implements UserTradeDbService {
 	public boolean updateTradeStatus(UserTrade userTrade) {
 		// TODO Auto-generated method stub
 		 try {
-	            userTradeMapper.update(userTrade);
+	            userTradeMapper.update(userTrade.getUserId(),userTrade);
+	            
 	            return true;
 	        } catch (Exception e) {
 	            e.printStackTrace();
@@ -49,7 +50,7 @@ public class UserTradeDbServiceImpl implements UserTradeDbService {
 	public boolean saveTrade(UserTrade userTrade) {
 		// TODO Auto-generated method stub
 		try {
-            userTradeMapper.insert(userTrade);
+            userTradeMapper.insert(userTrade.getUserId(),userTrade);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
