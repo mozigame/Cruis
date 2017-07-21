@@ -2,7 +2,9 @@ package org.crius.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import javax.annotation.Resource;
@@ -31,6 +33,7 @@ import com.magic.crius.vo.OwnerBillReq;
 import com.magic.crius.vo.OwnerHallBillVo;
 import com.magic.crius.vo.PreCmpChargeReq;
 import com.magic.crius.vo.PreWithdrawReq;
+import com.magic.crius.vo.RiskRecordReq;
 import com.magic.crius.vo.SportReq;
 import com.magic.crius.vo.VGameReq;
 
@@ -176,6 +179,40 @@ public class KafkaProducerTest {
             jsonObject.put(DATA, bill);
             template.send(TOPIC, jsonObject.toJSONString());
         }
+    }
+    
+    @Test
+    public void testRiskEvent(){
+    	 for (int i = 0; i < 2; i++) {
+         	RiskRecordReq record = new RiskRecordReq();
+         	record.setOwnerId(105094l);
+         	record.setEventTimeNs(15555255855l+i);
+         	record.setRiskEventTitle("test"+i);
+         	record.setRiskInfoMsg("test"+i);
+         	record.setRiskTime(new Date().getTime());
+         	record.setRiskEventId(1);
+         	record.setRiskTypeId(1);
+         	List<Map<String, Object>> mapList=new ArrayList<>();
+         	
+         	Map<String, Object> map=new HashMap<>();
+         	map.put("UserId", 1l);
+         	map.put("Time", new Date().getTime());
+         	map.put("Ip", 120252525+i);
+         	map.put("RiskType", 1);
+         	mapList.add(map);
+         	Map<String, Object> riskDataMap=new HashMap<>();
+         	Map<String, Object> eventRecordInfoMap = new HashMap<>();
+         	eventRecordInfoMap.put("EventTimeNs", 12349234979l+i);
+         	riskDataMap.put("EventRecordInfo", eventRecordInfoMap);
+         	riskDataMap.put("EventInfos", mapList);
+         	record.setRiskData(riskDataMap);
+         	JSONObject jsonObject = new JSONObject();
+         	
+//            jsonObject.put(DATA, record);
+//            jsonObject.put("DataType", "RISKREC");
+            System.out.println("-----"+jsonObject.toJSON(record).toString());
+            template.send("RISKREC", jsonObject.toJSON(record).toString());
+    	 }
     }
 
     @Test
