@@ -13,4 +13,6 @@ import java.util.List;
 public interface UserTradeService {
 
     boolean batchSave(List<UserTrade> userTrades,List<Long> userId);
+    
+    boolean updateTradeList(List<UserTrade> userTrades);
 }

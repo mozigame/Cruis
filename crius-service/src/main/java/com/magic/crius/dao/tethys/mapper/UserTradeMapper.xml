@@ -31,7 +31,7 @@
     </insert>
 
     <!--批量添加-->
-    <insert id="insertBatch">
+    <insert id="insert">
         insert into user_trade (user_id, trade_id,
         trade_num, total_num, trade_time,
         trade_type, actionType, owner_id,
@@ -51,4 +51,37 @@
 
     </insert>
 
+
+  <insert id="insertBatch">
+        insert into user_trade (user_id, trade_id,
+        trade_num, total_num, trade_time,
+        trade_type, actionType, owner_id,
+        pdate)
+        values
+        <foreach collection="list" item="param" separator=",">
+          ( #{param.userId,jdbcType=INTEGER},
+            #{param.tradeId,jdbcType=INTEGER},
+            #{param.tradeNum,jdbcType=INTEGER},
+            #{param.totalNum,jdbcType=INTEGER},
+            #{param.tradeTime,jdbcType=BIGINT},
+            #{param.tradeType,jdbcType=INTEGER},
+            #{param.actiontype,jdbcType=INTEGER},
+            #{param.ownerId,jdbcType=INTEGER},
+            #{param.pdate,jdbcType=INTEGER})
+        </foreach>
+
+    </insert>
+
+
+
+   <update id="update" parameterType="com.magic.crius.po.UserTrade">
+    update user_trade
+    set status=#{status,jdbcType=INTEGER},
+    totalNum=#{param.totalNum,jdbcType=INTEGER}
+    where 
+    
+     owner_id = #{ownerId,jdbcType=BIGINT} 
+     and user_id = #{userId,jdbcType=BIGINT} 
+     and trade_id=#{tradeId,jdbcType=INTEGER}
+   </update>
 </mapper>

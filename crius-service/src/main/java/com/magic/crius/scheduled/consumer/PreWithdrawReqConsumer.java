@@ -132,7 +132,8 @@ public class PreWithdrawReqConsumer {
                 sucReqs.add(assembleSucReq(req));
             }
             userOutMoneyDetailAssemService.batchSave(details);
-            userTradeAssemService.batchSave(userTrades);
+            userTradeAssemService.batchUpdate(userTrades);
+          
             memberConditionVoAssemService.batchWithdraw(memberConditionVoMap.values());
             ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
             //todo  添加成功id

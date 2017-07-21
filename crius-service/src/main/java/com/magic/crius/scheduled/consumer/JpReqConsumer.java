@@ -2,6 +2,7 @@ package com.magic.crius.scheduled.consumer;
 
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.PrizeDetailAssemService;
+import com.magic.crius.assemble.UserOrderDetailAssemService;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.po.*;
@@ -38,6 +39,9 @@ public class JpReqConsumer {
     private JpReqService jpReqService;
     @Resource
     private PrizeDetailAssemService prizeDetailAssemService;
+    
+    @Resource
+    private UserOrderDetailAssemService userOrderDetailAssemService;
 
 
     public void init(Date date) {
@@ -92,15 +96,19 @@ public class JpReqConsumer {
     private void flushData(Collection<JpReq> list) {
         if (list != null && list.size() > 0) {
             List<PrizeDetail> prizeDetails = new ArrayList<>();
+            List<UserOrderDetail> orderDetails = new ArrayList<>();
             List<JpReq> sucReqs = new ArrayList<>();
             for (JpReq req : list) {
                 /*彩金明细*/
                 prizeDetails.add(assemblePrizeDetail(req));
+                
+                orderDetails.add(userOrderDetailAssemService.assembleUserOrderDetail(req));
                 /*成功的数据*/
                 sucReqs.add(assembleSucReq(req));
             }
             prizeDetailAssemService.batchSave(prizeDetails);
 
+            userOrderDetailAssemService.batchSaveDetails(orderDetails);
             //todo 成功的id处理
             if (!jpReqService.saveSuc(sucReqs)) {
 

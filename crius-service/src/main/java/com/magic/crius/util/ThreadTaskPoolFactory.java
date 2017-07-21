@@ -13,8 +13,8 @@ public class ThreadTaskPoolFactory {
     /**
      * 账单消费线程池
      */
-    public static ExecutorService billInfoJobTaskPool = new ThreadPoolExecutor(5, 20, 1, TimeUnit.SECONDS,
-            new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.DiscardPolicy());
+    public static ExecutorService billInfoJobTaskPool = new ThreadPoolExecutor(5, 20, 10, TimeUnit.SECONDS,
+            new ArrayBlockingQueue<>(100), new ThreadPoolExecutor.CallerRunsPolicy());
 
 
 }

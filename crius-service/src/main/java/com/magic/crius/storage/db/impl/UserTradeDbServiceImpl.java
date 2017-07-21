@@ -24,9 +24,36 @@ public class UserTradeDbServiceImpl implements UserTradeDbService {
     public boolean batchSave(List<UserTrade> userTrades, List<Long> userIds) {
         try {
             return userTradeMapper.insertBatch(userTrades,userIds) != null;
+           // userTradeMapper.insert(entity);
+            
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
+
+	@Override
+	public boolean updateTradeStatus(UserTrade userTrade) {
+		// TODO Auto-generated method stub
+		 try {
+	            userTradeMapper.update(userTrade);
+	            return true;
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return false;
+	}
+
+	@Override
+	public boolean saveTrade(UserTrade userTrade) {
+		// TODO Auto-generated method stub
+		try {
+            userTradeMapper.insert(userTrade);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+	}
 }

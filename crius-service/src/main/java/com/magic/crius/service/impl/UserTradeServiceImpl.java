@@ -22,6 +22,26 @@ public class UserTradeServiceImpl implements UserTradeService {
 
     @Override
     public boolean batchSave(List<UserTrade> userTrades,List<Long> userIds) {
-        return userTradeDbService.batchSave(userTrades, userIds);
+        //return userTradeDbService.batchSave(userTrades, userIds);
+        
+        for(UserTrade trade:userTrades){
+			userTradeDbService.saveTrade(trade);
+		}
+		
+		return true;
     }
+
+	@Override
+	public boolean updateTradeList(List<UserTrade> userTrades) {
+		// TODO Auto-generated method stub
+		for(UserTrade trade:userTrades){
+			userTradeDbService.updateTradeStatus(trade);
+		}
+		
+		return true;
+	}
+
+	
+    
+    
 }

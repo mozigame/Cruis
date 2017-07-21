@@ -40,7 +40,7 @@
         insert into user_order_detail ( owner_id, user_id,
         game_id, order_id, order_count,
         effect_order_count, pay_off_count, order_state,
-        pdate, create_time, update_time
+        pdate, create_time, update_time,remark
         )
         values
         <foreach collection="list" item="param" separator=",">
@@ -54,7 +54,8 @@
             #{param.orderState,jdbcType=INTEGER},
             #{param.pdate,jdbcType=INTEGER},
             #{param.createTime,jdbcType=BIGINT},
-            #{param.updateTime,jdbcType=BIGINT}
+            #{param.updateTime,jdbcType=BIGINT},
+            #{param.remark,jdbcType=VARCHAR}
             )
         </foreach>
     </insert>

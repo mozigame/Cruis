@@ -38,11 +38,23 @@ public class UserTradeAssemService {
 //            	userIdList.add(orderDetail.getUserId());
                 userIds.add(orderDetail.getUserId());
             	//userTradeService.batchSave(tradeList, userIdList);
+                //userTradeService.
             }
             logger.info("userTrade size : " + userTrades.size() + " userIds.size : " + userIds.size());
             return userTradeService.batchSave(userTrades, userIds);
+           // return true;
         }
         return false;
+    }
+    
+    
+    public boolean batchUpdate(List<UserTrade> userTrades) {
+        if (userTrades==null||userTrades.isEmpty()) {
+        	return false;
+        }
+        logger.info("batchUpdate userTrade size : " + userTrades.size() );
+        return userTradeService.updateTradeList(userTrades);
+      
     }
 
     public UserTrade assembleUserTrade(CashbackReq req) {
@@ -157,5 +169,8 @@ public class UserTradeAssemService {
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return userTrade;
     }
+
+
+	
 
 }

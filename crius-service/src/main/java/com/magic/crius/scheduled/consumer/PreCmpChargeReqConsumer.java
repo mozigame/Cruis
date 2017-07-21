@@ -146,7 +146,7 @@ public class PreCmpChargeReqConsumer {
             ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
             userFlowMoneyDetailAssemService.batchSave(userFlowMoneyDetails);
             memberConditionVoAssemService.batchRecharge(memberConditionVoMap.values());
-            userTradeAssemService.batchSave(userTrades);
+            userTradeAssemService.batchUpdate(userTrades);
             //todo 成功的id处理
             if (!preCmpChargeService.saveSuc(sucReqs)) {
 

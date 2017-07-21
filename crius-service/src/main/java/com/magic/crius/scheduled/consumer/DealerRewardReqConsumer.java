@@ -1,31 +1,35 @@
 package com.magic.crius.scheduled.consumer;
 
-import com.magic.api.commons.tools.DateUtil;
-import com.magic.crius.assemble.OwnerAwardDetailAssemService;
-import com.magic.crius.assemble.OwnerOperateOutDetailAssemService;
-import com.magic.crius.assemble.UserTradeAssemService;
-import com.magic.crius.constants.CriusConstants;
-import com.magic.crius.constants.RedisConstants;
-import com.magic.crius.enums.MongoCollections;
-import com.magic.crius.po.OwnerAwardDetail;
-import com.magic.crius.po.OwnerOperateOutDetail;
-import com.magic.crius.po.RepairLock;
-import com.magic.crius.po.UserTrade;
-import com.magic.crius.service.DealerRewardReqService;
-import com.magic.crius.service.OperateWithDrawReqService;
-import com.magic.crius.service.RepairLockService;
-import com.magic.crius.vo.DealerRewardReq;
-import com.magic.crius.vo.OperateWithDrawReq;
-import com.magic.crius.vo.PreCmpChargeReq;
+import static com.magic.crius.constants.ScheduleConsumerConstants.POLL_TIME;
+import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
+import javax.annotation.Resource;
+
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-import java.util.*;
-import java.util.concurrent.*;
-
-import static com.magic.crius.constants.ScheduleConsumerConstants.POLL_TIME;
-import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
+import com.magic.api.commons.tools.DateUtil;
+import com.magic.crius.assemble.OwnerAwardDetailAssemService;
+import com.magic.crius.assemble.UserOrderDetailAssemService;
+import com.magic.crius.constants.CriusConstants;
+import com.magic.crius.enums.MongoCollections;
+import com.magic.crius.po.OwnerAwardDetail;
+import com.magic.crius.po.RepairLock;
+import com.magic.crius.po.UserOrderDetail;
+import com.magic.crius.service.DealerRewardReqService;
+import com.magic.crius.service.RepairLockService;
+import com.magic.crius.vo.DealerRewardReq;
 
 /**
  * User: joey
@@ -47,6 +51,9 @@ public class DealerRewardReqConsumer {
     private OwnerAwardDetailAssemService ownerAwardDetailAssemService;
     @Resource
     private RepairLockService repairLockService;
+    
+    @Resource
+    private UserOrderDetailAssemService userOrderDetailAssemService;
 
 
     public void init(Date date) {
@@ -102,13 +109,19 @@ public class DealerRewardReqConsumer {
         if (list != null && list.size() > 0) {
             List<OwnerAwardDetail> details = new ArrayList<>();
             List<DealerRewardReq> sucReqs = new ArrayList<>();
+            List<UserOrderDetail> orderDetails = new ArrayList<>();
             for (DealerRewardReq req : list) {
+            	
                 details.add(assembleOwnerAwardDetail(req));
+                
+                orderDetails.add(userOrderDetailAssemService.assembleUserOrderDetail(req));
                 /*成功的数据*/
                 sucReqs.add(assembleSucReq(req));
             }
 
             ownerAwardDetailAssemService.batchSave(details);
+            
+            userOrderDetailAssemService.batchSaveDetails(orderDetails);
             //todo 成功的id处理
             if (!dealerRewardReqService.saveSuc(sucReqs)) {
 

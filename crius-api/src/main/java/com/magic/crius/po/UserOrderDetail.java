@@ -30,6 +30,8 @@ public class UserOrderDetail {
     private Long createTime;
 
     private Long updateTime;
+    
+    private String remark;
 
     public Integer getId() {
         return id;
@@ -134,4 +136,14 @@ public class UserOrderDetail {
     public void setOrderExtent(String orderExtent) {
         this.orderExtent = orderExtent;
     }
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+    
+    
 }
