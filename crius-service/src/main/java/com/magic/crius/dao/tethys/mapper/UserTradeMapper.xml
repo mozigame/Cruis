@@ -68,7 +68,7 @@
    <update id="update" parameterType="com.magic.crius.po.UserTrade">
     update user_trade
     set status=#{status,jdbcType=INTEGER},
-    totalNum=#{totalNum,jdbcType=INTEGER}
+    total_num=#{totalNum,jdbcType=INTEGER}
     where 
     
      owner_id = #{ownerId,jdbcType=BIGINT} 
