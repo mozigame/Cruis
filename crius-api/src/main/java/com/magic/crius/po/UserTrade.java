@@ -24,6 +24,8 @@ public class UserTrade {
     private Long ownerId;
 
     private Integer pdate;
+    
+    private Integer status;
 
     public Integer getId() {
         return id;
@@ -104,4 +106,15 @@ public class UserTrade {
     public void setPdate(Integer pdate) {
         this.pdate = pdate;
     }
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+    
+    
+    
 }
