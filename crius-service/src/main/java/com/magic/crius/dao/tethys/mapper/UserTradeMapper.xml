@@ -19,16 +19,7 @@
   </sql>
 
 
-    <insert id="insert" parameterType="com.magic.crius.po.UserTrade">
-        insert into user_trade (user_id, trade_id,
-          trade_num, total_num, trade_time,
-          trade_type, actionType, owner_id,
-          pdate)
-        values ( #{userId,jdbcType=INTEGER}, #{tradeId,jdbcType=INTEGER},
-          #{tradeNum,jdbcType=INTEGER}, #{totalNum,jdbcType=INTEGER}, #{tradeTime,jdbcType=BIGINT},
-          #{tradeType,jdbcType=INTEGER}, #{actiontype,jdbcType=INTEGER}, #{ownerId,jdbcType=INTEGER},
-          #{pdate,jdbcType=INTEGER})
-    </insert>
+   
 
     <!--批量添加-->
     <insert id="insert">
