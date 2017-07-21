@@ -70,9 +70,8 @@
     set status=#{status,jdbcType=INTEGER},
     total_num=#{totalNum,jdbcType=INTEGER}
     where 
-    
-     owner_id = #{ownerId,jdbcType=BIGINT} 
-     and user_id = #{userId,jdbcType=BIGINT} 
+     user_id = #{userId,jdbcType=BIGINT} 
+     and owner_id = #{ownerId,jdbcType=BIGINT} 
      and trade_id=#{tradeId,jdbcType=INTEGER}
    </update>
 </mapper>
