@@ -44,7 +44,7 @@ public class UserTradeServiceImpl implements UserTradeService {
 	@Override
 	public boolean updateTradeStatus4Failed(List<UserTrade> userTrades) {
 		for(UserTrade trade:userTrades){
-			userTradeDbService.updateTradeStatus(trade);
+			userTradeDbService.updateTradeStatus4Failed(trade);
 		}
 		return true;
 	}

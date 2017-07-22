@@ -46,7 +46,19 @@ public class UserTradeDbServiceImpl implements UserTradeDbService {
 	        return false;
 	}
 
-	@Override
+    @Override
+    public boolean updateTradeStatus4Failed(UserTrade userTrade) {
+        try {
+            userTradeMapper.update("updateTradeStatus4Failed",new String[]{"param"}, new Object[]{userTrade});
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
 	public boolean saveTrade(UserTrade userTrade) {
 		// TODO Auto-generated method stub
 		try {

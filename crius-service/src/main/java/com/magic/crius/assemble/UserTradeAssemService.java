@@ -62,7 +62,7 @@ public class UserTradeAssemService {
         	return false;
         }
         logger.info("batchUpdate updateTradeStatus4Failed size : " + userTrades.size() );
-        return userTradeService.updateTradeList(userTrades);
+        return userTradeService.updateTradeStatus4Failed(userTrades);
 
     }
 

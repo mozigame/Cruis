@@ -72,6 +72,14 @@
     where 
      user_id = #{userId,jdbcType=BIGINT} 
      and owner_id = #{ownerId,jdbcType=BIGINT} 
-     and trade_id=#{tradeId,jdbcType=INTEGER}
+     and trade_id=#{tradeId,jdbcType=BIGINT}
    </update>
+
+
+    <update id="updateTradeStatus4Failed">
+        update user_trade
+        set status=#{param.status,jdbcType=INTEGER}
+        where
+         trade_id=#{param.tradeId,jdbcType=BIGINT}
+    </update>
 </mapper>
