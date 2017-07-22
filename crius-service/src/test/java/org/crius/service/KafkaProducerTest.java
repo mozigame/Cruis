@@ -567,6 +567,20 @@ public class KafkaProducerTest {
         }
     }
 
+    @Test
+    public void testUserTrade() {
+        for (int i = 0; i < 2; i++) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("ownerId",9999);
+            jsonObject.put("userId",9999);
+            jsonObject.put("orderId",9999);
+
+
+            template.send("USER_TRADE", JSON.toJSONString(jsonObject));
+            System.out.println(JSON.toJSONString(jsonObject));
+        }
+    }
+
 
 
     @Test
