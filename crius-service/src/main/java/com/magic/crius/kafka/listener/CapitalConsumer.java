@@ -1,9 +1,13 @@
 package com.magic.crius.kafka.listener;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import com.google.common.collect.Lists;
+import com.magic.crius.assemble.*;
+import com.magic.crius.po.UserTrade;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.log4j.Logger;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -11,18 +15,6 @@ import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.magic.crius.assemble.BaseOrderReqAssemService;
-import com.magic.crius.assemble.CashbackReqAssemService;
-import com.magic.crius.assemble.DealerRewardReqAssemService;
-import com.magic.crius.assemble.DiscountReqAssemService;
-import com.magic.crius.assemble.JpReqAssemService;
-import com.magic.crius.assemble.OnlChargeReqAssemService;
-import com.magic.crius.assemble.OperateChargeReqAssemService;
-import com.magic.crius.assemble.OperateWithDrawReqAssemService;
-import com.magic.crius.assemble.PreCmpChargeReqAssemService;
-import com.magic.crius.assemble.PreWithdrawReqAssemService;
-import com.magic.crius.assemble.RiskEventRecordAssemService;
-import com.magic.crius.assemble.UserLevelAssemService;
 import com.magic.crius.enums.KafkaConf;
 import com.magic.crius.scheduled.consumer.BillInfoConsumer;
 import com.magic.crius.vo.AgentBillReq;
@@ -96,6 +88,9 @@ public class CapitalConsumer {
     
     @Resource
     private BillInfoConsumer billInfoConsumer;
+
+    @Resource
+    private UserTradeAssemService userTradeAssemService;
 
     @KafkaListener(topics = {"plutus", "hera"}, group = KafkaConf.CAPITAL_GROUP)
     public void listen(ConsumerRecord<?, ?> record) {
@@ -214,6 +209,22 @@ public class CapitalConsumer {
                 lotteryReq.setProduceTime(System.currentTimeMillis());
                 lotteryReq.setOrderExtent(convertLotteryExt(lotteryReq));
                 baseGameReqAssemService.procKafkaData(lotteryReq);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @KafkaListener(topics = {"USER_TRADE"}, group = KafkaConf.CAPITAL_GROUP)
+    public void userTradeStatus(ConsumerRecord<?, ?> record) {
+        try {
+            Optional<?> kafkaMessage = Optional.ofNullable(record.value());
+            if (kafkaMessage.isPresent()) {
+                logger.info("get kafka data :>>>  " + record.toString());
+                UserTrade object = JSON.parseObject(record.value().toString(), UserTrade.class);
+                List<UserTrade> userTrades = Lists.newArrayList(object);
+                userTradeAssemService.updateTradeStatus4Failed(userTrades);
             }
         } catch (Exception e) {
             e.printStackTrace();

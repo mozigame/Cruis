@@ -57,6 +57,15 @@ public class UserTradeAssemService {
       
     }
 
+    public boolean updateTradeStatus4Failed(List<UserTrade> userTrades) {
+        if (userTrades==null||userTrades.isEmpty()) {
+        	return false;
+        }
+        logger.info("batchUpdate updateTradeStatus4Failed size : " + userTrades.size() );
+        return userTradeService.updateTradeList(userTrades);
+
+    }
+
     public UserTrade assembleUserTrade(CashbackReq req) {
         UserTrade userTrade = new UserTrade();
         userTrade.setOwnerId(req.getOwnerId());
@@ -150,6 +159,8 @@ public class UserTradeAssemService {
         userTrade.setTradeType(ActionType.ZHUAN_RU.getStatus());
         userTrade.setActiontype(ActionType.CHONG_ZHI.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
+
+        userTrade.setStatus(100);
         return userTrade;
     }
 
@@ -167,6 +178,8 @@ public class UserTradeAssemService {
         //todo 存取类型
         userTrade.setActiontype(ActionType.TI_KUANG.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
+
+        userTrade.setStatus(100);
         return userTrade;
     }
 

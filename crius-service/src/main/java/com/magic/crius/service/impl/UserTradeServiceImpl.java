@@ -35,14 +35,19 @@ public class UserTradeServiceImpl implements UserTradeService {
 	public boolean updateTradeList(List<UserTrade> userTrades) {
 		// TODO Auto-generated method stub
 		for(UserTrade trade:userTrades){
-			trade.setStatus(100);
 			userTradeDbService.updateTradeStatus(trade);
 		}
 		
 		return true;
 	}
 
-	
-    
-    
+	@Override
+	public boolean updateTradeStatus4Failed(List<UserTrade> userTrades) {
+		for(UserTrade trade:userTrades){
+			userTradeDbService.updateTradeStatus(trade);
+		}
+		return true;
+	}
+
+
 }

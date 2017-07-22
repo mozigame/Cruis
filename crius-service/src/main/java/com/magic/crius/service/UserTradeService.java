@@ -15,4 +15,6 @@ public interface UserTradeService {
     boolean batchSave(List<UserTrade> userTrades,List<Long> userId);
     
     boolean updateTradeList(List<UserTrade> userTrades);
+
+    boolean updateTradeStatus4Failed(List<UserTrade> userTrades);
 }
