@@ -205,7 +205,7 @@ public class KafkaProducerTest {
          	eventRecordInfoMap.put("EventTimeNs", 12349234979l+i);
          	riskDataMap.put("EventRecordInfo", eventRecordInfoMap);
          	riskDataMap.put("EventInfos", mapList);
-         	record.setRiskData(riskDataMap);
+//         	record.setRiskData(riskDataMap);
          	JSONObject jsonObject = new JSONObject();
          	
 //            jsonObject.put(DATA, record);
