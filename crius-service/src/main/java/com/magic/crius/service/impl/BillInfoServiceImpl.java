@@ -226,6 +226,7 @@ public class BillInfoServiceImpl implements BillInfoService {
         proxyBillDetail.setReforwardAccount(agentBillReq.getRebateTotalAmount());
         proxyBillDetail.setEffectOrderCount(agentBillReq.getVaildBettTotalAmount());
         proxyBillDetail.setCost(agentBillReq.getCostTotalAmount());
+        proxyBillDetail.setRecordCost(agentBillReq.getCostTotalAmount());
         proxyBillDetail.setReforwardState(1);
         proxyBillDetail.setRecordReforwardAccount(agentBillReq.getRebateTotalAmount());
         //设置有效会员数量
