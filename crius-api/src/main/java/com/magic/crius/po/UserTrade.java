@@ -27,6 +27,8 @@ public class UserTrade {
     
     private Integer status;
 
+    private Long gameType;   //游戏类型
+
     public Integer getId() {
         return id;
     }
@@ -114,7 +116,12 @@ public class UserTrade {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-    
-    
-    
+
+    public Long getGameType() {
+        return gameType;
+    }
+
+    public void setGameType(Long gameType) {
+        this.gameType = gameType;
+    }
 }

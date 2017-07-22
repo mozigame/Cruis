@@ -29,12 +29,6 @@ public class CashbackReqAssemService {
 
     @Resource
     private CashbackReqService cashbackReqService;
-    /*会员反水详情*/
-    @Resource
-    private OwnerReforwardDetailAssemService ownerReforwardDetailAssemService;
-    /*账户交易明细*/
-    @Resource
-    private UserTradeAssemService userTradeAssemService;
 
     public void procKafkaData(CashbackReq req) {
         if (req.getReqId() != null && cashbackReqService.getByReqId(req.getReqId()) == null) {

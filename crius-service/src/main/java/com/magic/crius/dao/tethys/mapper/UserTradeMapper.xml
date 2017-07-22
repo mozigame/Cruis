@@ -12,6 +12,7 @@
         <result column="actionType" jdbcType="INTEGER" property="actiontype"/>
         <result column="owner_id" jdbcType="BIGINT" property="ownerId"/>
         <result column="pdate" jdbcType="INTEGER" property="pdate"/>
+        <result column="game_type" jdbcType="BIGINT" property="gameType"/>
     </resultMap>
     <sql id="Base_Column_List">
     Id, user_id, trade_id, trade_num, total_num, trade_time, trade_type, actionType, 
@@ -26,7 +27,7 @@
         insert into user_trade (user_id, trade_id,
         trade_num, total_num, trade_time,
         trade_type, actionType, owner_id,
-        pdate)
+        pdate,game_type)
         values
       
           ( #{userId,jdbcType=INTEGER},
@@ -37,7 +38,9 @@
             #{tradeType,jdbcType=INTEGER},
             #{actiontype,jdbcType=INTEGER},
             #{ownerId,jdbcType=INTEGER},
-            #{pdate,jdbcType=INTEGER})
+            #{pdate,jdbcType=INTEGER},
+            #{gameType,jdbcType=BIGINT}
+            )
       
 
     </insert>
@@ -47,7 +50,7 @@
         insert into user_trade (user_id, trade_id,
         trade_num, total_num, trade_time,
         trade_type, actionType, owner_id,
-        pdate)
+        pdate,game_type)
         values
         <foreach collection="list" item="param" separator=",">
           ( #{param.userId,jdbcType=INTEGER},
@@ -58,7 +61,9 @@
             #{param.tradeType,jdbcType=INTEGER},
             #{param.actiontype,jdbcType=INTEGER},
             #{param.ownerId,jdbcType=INTEGER},
-            #{param.pdate,jdbcType=INTEGER})
+            #{param.pdate,jdbcType=INTEGER},
+            #{param.gameType,jdbcType=BIGINT}
+            )
         </foreach>
 
     </insert>

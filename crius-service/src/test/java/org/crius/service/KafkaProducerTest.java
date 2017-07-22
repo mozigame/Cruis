@@ -57,7 +57,7 @@ public class KafkaProducerTest {
 
     @Test
     public void testCashback() {
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < 3; i++) {
             CashbackReq req = new CashbackReq();
             req.setReqId(System.currentTimeMillis() + i);
             req.setUserId(2000001L + i);

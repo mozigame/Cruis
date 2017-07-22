@@ -72,13 +72,12 @@ public class UserTradeAssemService {
         userTrade.setUserId(req.getUserId());
         userTrade.setTradeId(req.getBillId());
         userTrade.setTradeNum(req.getAmount());
-        //todo 账户余额
         userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
-        //todo 交易类型
         userTrade.setTradeType(ActionType.ZHUAN_CHU.getStatus());
         userTrade.setActiontype(ActionType.FANG_SHUI.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
+        userTrade.setGameType(req.getGamePlatformHalltypeId());
         return userTrade;
     }
 
@@ -88,10 +87,8 @@ public class UserTradeAssemService {
         userTrade.setUserId(req.getUserId());
         userTrade.setTradeId(req.getBillId());
         userTrade.setTradeNum(req.getOfferAmount());
-        //todo 账户余额
         userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
-        //todo 交易类型
         userTrade.setTradeType(ActionType.ZHUAN_CHU.getStatus());
         userTrade.setActiontype(ActionType.YOU_HUI.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
@@ -104,10 +101,8 @@ public class UserTradeAssemService {
         userTrade.setUserId(req.getUserId());
         userTrade.setTradeId(req.getBillId());
         userTrade.setTradeNum(req.getChargeAmount());
-        //todo 暂时为0
         userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
-        //todo 交易类型
         userTrade.setTradeType(ActionType.ZHUAN_RU.getStatus());
         userTrade.setActiontype(ActionType.CHONG_ZHI.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
@@ -120,10 +115,8 @@ public class UserTradeAssemService {
         userTrade.setUserId(userId);
         userTrade.setTradeId(billId);
         userTrade.setTradeNum(req.getChargeAmount());
-        //todo 账户余额
         userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
-        //todo 交易类型
         userTrade.setTradeType(ActionType.ZHUAN_RU.getStatus());
         userTrade.setActiontype(ActionType.CHONG_ZHI.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
@@ -136,10 +129,8 @@ public class UserTradeAssemService {
         userTrade.setUserId(userId);
         userTrade.setTradeId(billId);
         userTrade.setTradeNum(req.getAmount());
-        //todo 账户余额
         userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
-        //todo 交易类型
         userTrade.setTradeType(ActionType.ZHUAN_CHU.getStatus());
         userTrade.setActiontype(ActionType.TI_KUANG.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
@@ -152,14 +143,12 @@ public class UserTradeAssemService {
         userTrade.setUserId(req.getUserId());
         userTrade.setTradeId(req.getBillId());
         userTrade.setTradeNum(req.getChargeAmount());
-        //todo 账户余额
         userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
-        //todo 交易类型
         userTrade.setTradeType(ActionType.ZHUAN_RU.getStatus());
         userTrade.setActiontype(ActionType.CHONG_ZHI.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
-
+        //todo 状态改为100表示通过 枚举
         userTrade.setStatus(100);
         return userTrade;
     }
@@ -170,15 +159,12 @@ public class UserTradeAssemService {
         userTrade.setUserId(req.getUserId());
         userTrade.setTradeId(req.getBillId());
         userTrade.setTradeNum(req.getReqWithdrawAmount());
-        //todo 账户余额
         userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
-        //todo 交易类型
         userTrade.setTradeType(ActionType.ZHUAN_CHU.getStatus());
-        //todo 存取类型
         userTrade.setActiontype(ActionType.TI_KUANG.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
-
+        //todo 状态改为100表示通过
         userTrade.setStatus(100);
         return userTrade;
     }
