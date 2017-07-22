@@ -49,7 +49,7 @@ public class UserTradeDbServiceImpl implements UserTradeDbService {
     @Override
     public boolean updateTradeStatus4Failed(UserTrade userTrade) {
         try {
-            userTradeMapper.update("updateTradeStatus4Failed",new String[]{"param"}, new Object[]{userTrade});
+            userTradeMapper.update("updateTradeStatus4Failed",userTrade.getUserId(),new String[]{"param"}, new Object[]{userTrade});
 
             return true;
         } catch (Exception e) {
