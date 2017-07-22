@@ -223,6 +223,7 @@ public class CapitalConsumer {
             if (kafkaMessage.isPresent()) {
                 logger.info("get kafka data :>>>  " + record.toString());
                 UserTrade object = JSON.parseObject(record.value().toString(), UserTrade.class);
+                object.setStatus(13);
                 List<UserTrade> userTrades = Lists.newArrayList(object);
                 userTradeAssemService.updateTradeStatus4Failed(userTrades);
             }
