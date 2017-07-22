@@ -247,9 +247,9 @@ public class BillInfoServiceImpl implements BillInfoService {
                 proxyBillSummary2game.setOwnerId(agentBillReq.getOwnerId());
                 proxyBillSummary2game.setProxyId(agentBillReq.getAgentId());
                 proxyBillSummary2game.setOrderId(agentBillReq.getBillId().toString());
-                proxyBillSummary2game.setEffectOrderCount(agentBillReq.getVaildBettTotalAmount());
+                proxyBillSummary2game.setEffectOrderCount(agentHallBillVo.getVaildBettAmount());
 
-                proxyBillSummary2game.setIncome(agentBillReq.getPayoffTotalAmount());
+                proxyBillSummary2game.setIncome(agentHallBillVo.getPayoffAmount());
 
                 if (org.apache.commons.lang3.StringUtils.isNotEmpty(agentBillReq.getBillDate())){
                     proxyBillSummary2game.setPdate(Integer.parseInt(agentBillReq.getBillDate()));
