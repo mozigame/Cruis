@@ -3,6 +3,8 @@ package com.magic.crius.service.impl;
 import com.magic.crius.po.ProxyBillSummary2game;
 import com.magic.crius.service.ProxyBillSummary2gameService;
 import com.magic.crius.storage.db.ProxyBillSummary2gameDbService;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,6 +28,9 @@ public class ProxyBillSummary2gameServiceImpl implements ProxyBillSummary2gameSe
 
     @Override
     public boolean batchInsert(List<ProxyBillSummary2game> gameList) {
-        return proxyBillSummary2gameDbService.batchInsert(gameList) ;
+    	if(!CollectionUtils.isEmpty(gameList)){
+    		return proxyBillSummary2gameDbService.batchInsert(gameList) ;
+    	}
+    	return true;
     }
 }
