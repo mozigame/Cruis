@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.magic.api.commons.ApiLogger;
 import org.springframework.stereotype.Service;
 
 import com.magic.analysis.utils.StringUtils;
@@ -161,9 +162,12 @@ public class BillInfoServiceImpl implements BillInfoService {
     }
     
     private String getFactoryGameType(Long platformId, Long hallTypeId) {
-//    	String key=gameFactoryType+"-"+gameAbstractType;
-//		return gameInfoService.getGameTypeByFactoryMap().get(key);
-    	return String.valueOf(platformId);
+   	    /*String key=gameFactoryType+"-"+gameAbstractType;
+    	return gameInfoService.getGameTypeByFactoryMap().get(key);*/
+        String gameType = gameInfoService.getGameType(platformId+"",hallTypeId+"");
+        ApiLogger.info("platformId : " + platformId + " ; hallTypeId : " + hallTypeId + " ; gameType: " + gameType);
+   	    return gameType;
+    	//return String.valueOf(platformId);
 	}
 
 	private BillInfo assembleBillInfo(OwnerBillReq req){

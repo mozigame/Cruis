@@ -44,4 +44,7 @@ public class GameInfoMapper extends MyBatisDaoImpl<GameInfo, Long> {
         return true;
     }
 
+
+
+
 }

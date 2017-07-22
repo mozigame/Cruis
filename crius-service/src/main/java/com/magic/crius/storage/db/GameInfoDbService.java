@@ -20,9 +20,11 @@ public interface GameInfoDbService {
     
     /**
      * 
-     * @param gameFactoryType
-     * @param gameAbstractType
      * @return map<key=gameFactoryType+"-"+gameAbstractType, value=gameType>
      */
     Map<String, String> getGameTypeByFactoryMap();
+
+
+    String getGameType(String factoryType,String abstractType);
+
 }
