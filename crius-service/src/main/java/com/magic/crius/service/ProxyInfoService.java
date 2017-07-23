@@ -14,4 +14,13 @@ public interface ProxyInfoService {
     boolean batchInsert(List<ProxyInfo> infos);
 
     List<Long> getOwenrList();
+
+    /**
+     * 获取已经存在的代理的id列表
+     * @param proxyIds
+     * @return
+     */
+    List<Long> getExistIds(List<Long> proxyIds);
+
+    boolean update(ProxyInfo info);
 }

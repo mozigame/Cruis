@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset" name="Spring Application Context" removed="false">
+          <file>file://$MODULE_DIR$/../crius-service/src/main/java/com/magic/crius/kafka/config/CriusConsumerConfig.java</file>
+          <file>file://$MODULE_DIR$/../crius-service/src/main/java/com/magic/crius/kafka/config/CriusProducerConfig.java</file>
+          <file>file://$MODULE_DIR$/src/main/java/com/magic/crius/bootstrap/Application.java</file>
+          <file>file://$MODULE_DIR$/src/main/resources/commons/spring/codis-crius.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/commons/spring/db-crius.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/dev/db-shard-crius.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/test/db-shard-crius.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/prod/db-shard-crius.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/commons/spring/dubbo-consumer.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/commons/spring/jedis-crius.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/commons/spring/mongo-db-crius.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/commons/spring/mq-crius.xml</file>
+          <file>file://$MODULE_DIR$/src/main/resources/commons/spring/spring-main.xml</file>
+        </fileset>
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />

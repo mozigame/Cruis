@@ -28,4 +28,14 @@ public class ProxyInfoDbServiceImpl implements ProxyInfoDbService {
     public List<Long> getOwnerIdList() {
         return proxyInfoMapper.getOwnerIdList();
     }
+
+    @Override
+    public List<Long> getExistIds(List<Long> proxyIds) {
+        return proxyInfoMapper.getExistIds(proxyIds);
+    }
+
+    @Override
+    public boolean update(ProxyInfo info) {
+        return proxyInfoMapper.update(info) > 0;
+    }
 }

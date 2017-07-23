@@ -4,6 +4,7 @@ import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.po.ProxyInfo;
 import com.magic.crius.service.ProxyInfoService;
 import com.magic.crius.service.dubbo.CriusOutDubboService;
+import com.magic.crius.util.ThreadTaskPoolFactory;
 import com.magic.user.entity.User;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 /**
  * User: joey
@@ -28,21 +30,43 @@ public class ProxyInfoAssemService {
     @Resource
     private ProxyInfoService proxyInfoService;
 
+    private ExecutorService executorService = ThreadTaskPoolFactory.billInfoJobTaskPool;
+
 
     public void init(Date date) {
-        String hhStr = DateUtil.formatDateTime(date, "yyyyMMddHH");
-        Date endTime = DateUtil.parseDate(hhStr, "yyyyMMddHH");
-        Calendar startTime = Calendar.getInstance();
-        startTime.setTime(DateUtil.parseDate(hhStr, "yyyyMMddHH"));
-        startTime.add(Calendar.HOUR, -1);
-        batchSave(startTime.getTimeInMillis(), endTime.getTime());
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String hhStr = DateUtil.formatDateTime(date, "yyyyMMddHH");
+                    Date endTime = DateUtil.parseDate(hhStr, "yyyyMMddHH");
+                    Calendar startTime = Calendar.getInstance();
+                    startTime.setTime(DateUtil.parseDate(hhStr, "yyyyMMddHH"));
+                    startTime.add(Calendar.HOUR, -1);
+                    batchSave(startTime.getTimeInMillis(), endTime.getTime());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     public void batchSave(Long startTime, Long endTime) {
-        List<ProxyInfo> proxyInfos = new ArrayList<>();
         List<User> list = criusOutDubboService.getDateAgents(startTime, endTime); //获取账号系统中某个时间内的代理
         if (list != null && list.size() > 0) {
-            logger.info("get proxyInfoList ,size : " + list.size());
+            logger.info("get proxyInfoList ,size : " + list.size() + ", thread : " + Thread.currentThread().getName());
+
+            List<Long> findProxyIds = new ArrayList<>();
+            for (User user : list) {
+
+                findProxyIds.add(user.getUserId());
+            }
+
+            List<Long> existProxyIds = proxyInfoService.getExistIds(findProxyIds);
+            List<ProxyInfo> existProxyInfos = new ArrayList<>();
+            List<ProxyInfo> noExistProxyInfos = new ArrayList<>();
+
             for (User user : list) {
                 ProxyInfo proxyInfo = new ProxyInfo();
                 proxyInfo.setProxyId(user.getUserId());
@@ -51,11 +75,18 @@ public class ProxyInfoAssemService {
                 proxyInfo.setShareholderName(user.getOwnerName());
                 proxyInfo.setOwnerId(user.getOwnerId());
                 proxyInfo.setOwnerName(user.getOwnerName());
-                proxyInfos.add(proxyInfo);
+                if (existProxyIds.contains(user.getUserId())) {
+                    existProxyInfos.add(proxyInfo);
+                } else {
+                    noExistProxyInfos.add(proxyInfo);
+                }
             }
-            //todo
-            if (!proxyInfoService.batchInsert(proxyInfos)) {
+            //todo 插入不存在的代理信息
+            if (!proxyInfoService.batchInsert(noExistProxyInfos)) {
 
+            }
+            for (ProxyInfo info : existProxyInfos) {
+                proxyInfoService.update(info);
             }
         }
     }

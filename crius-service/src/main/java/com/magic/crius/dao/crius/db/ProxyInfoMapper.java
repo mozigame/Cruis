@@ -18,4 +18,13 @@ public interface ProxyInfoMapper {
 
     List<Long> getOwnerIdList();
 
+    /**
+     * 获取已经存在的代理的id列表
+     * @param proxyIds
+     * @return
+     */
+    List<Long> getExistIds(List<Long> proxyIds);
+
+    int update(ProxyInfo info);
+
 }
