@@ -112,18 +112,6 @@ public class CriusScheduler {
     private KafkaTemplate<Integer, String> kafkaTemplate;
 
     @Resource
-    private ProxyInfoService proxyInfoService;
-
-    @Resource(name = "criusJedisFactory")
-    private JedisFactory criusJedisFactory;
-
-    @Resource
-    private BillInfoService billInfoService;
-
-    @Resource
-    private ContractFeeService contractFeeService;
-
-    @Resource
     private MonthJobConsumer monthJobConsumer;
     /**
      * 公司入款

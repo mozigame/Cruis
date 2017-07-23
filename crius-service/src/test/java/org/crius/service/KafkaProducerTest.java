@@ -60,6 +60,7 @@ public class KafkaProducerTest {
         for (int i = 0; i < 1; i++) {
             CashbackReq req = new CashbackReq();
             req.setReqId(System.currentTimeMillis() + i);
+            req.setBillId(System.currentTimeMillis() + i);
             req.setUserId(2000001L + i);
             req.setAgentId(105094L);
             req.setOwnerId(10001L);
@@ -73,7 +74,10 @@ public class KafkaProducerTest {
             req.setGamePlatformId(100004L);
             req.setGamePlatformName("BBIN" + i);
             req.setProduceTime(System.currentTimeMillis());
+            req.setBalance(788L);
 
+            req.setGamePlatformHalltypeId(10001L);
+            req.setGamePlatformHalltypeName("MG电子3");
 
             JSONObject jsonObject = new JSONObject();
             jsonObject.put(DATA_TYPE, KafkaConf.DataType.PLUTUS_CAHSBACK.type());
