@@ -11,7 +11,7 @@ public class UserFlowMoneyDetail {
 
     private Long userId;
 
-    private Long merchantCode;   //商户号
+    private String merchantCode;   //商户号
 
     private String merchantName;    //商家名称
 
@@ -61,11 +61,11 @@ public class UserFlowMoneyDetail {
         this.userId = userId;
     }
 
-    public Long getMerchantCode() {
+    public String getMerchantCode() {
         return merchantCode;
     }
 
-    public void setMerchantCode(Long merchantCode) {
+    public void setMerchantCode(String merchantCode) {
         this.merchantCode = merchantCode;
     }
 

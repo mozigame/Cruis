@@ -36,7 +36,7 @@ public class UserFlowMoneyDetailAssemService {
         detail.setOwnerId(req.getOwnerId());
         detail.setUserId(req.getUserId());
         //用户充值填写商户信息
-        detail.setMerchantCode(req.getMerchantCode());
+        detail.setMerchantCode(req.getMerchantCode()+"");
         detail.setMerchantName(req.getMerchantName());
         detail.setOrderCount(req.getChargeAmount());
         //Todo 待确定

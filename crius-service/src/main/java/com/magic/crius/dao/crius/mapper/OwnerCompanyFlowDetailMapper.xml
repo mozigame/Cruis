@@ -6,8 +6,8 @@
         <result column="owner_id" jdbcType="BIGINT" property="ownerId"/>
         <result column="company_flow_money_count" jdbcType="BIGINT" property="companyFlowMoneyCount"/>
         <result column="company_flow_num" jdbcType="INTEGER" property="companyFlowNum"/>
-        <result column="account_code" jdbcType="BIGINT" property="accountCode"/>
-        <result column="account_num" jdbcType="BIGINT" property="accountNum"/>
+        <result column="account_code" jdbcType="VARCHAR" property="accountCode"/>
+        <result column="account_num" jdbcType="VARCHAR" property="accountNum"/>
         <result column="account_name" jdbcType="VARCHAR" property="accountName"/>
         <result column="bank_system_code" jdbcType="VARCHAR" property="bankSystemCode"/>
         <result column="bank_system_name" jdbcType="VARCHAR" property="bankSystemName"/>
@@ -22,7 +22,7 @@
           account_name, bank_system_code, bank_system_name,
           state, pdate)
         values (#{ownerId,jdbcType=BIGINT}, #{companyFlowMoneyCount,jdbcType=BIGINT},
-          #{companyFlowNum,jdbcType=INTEGER}, #{accountCode,jdbcType=BIGINT}, #{accountNum,jdbcType=BIGINT},
+          #{companyFlowNum,jdbcType=INTEGER}, #{accountCode,jdbcType=VARCHAR}, #{accountNum,jdbcType=VARCHAR},
           #{accountName,jdbcType=VARCHAR}, #{bankSystemCode,jdbcType=VARCHAR}, #{bankSystemName,jdbcType=VARCHAR},
           #{state,jdbcType=INTEGER}, #{pdate,jdbcType=INTEGER})
      </insert>
@@ -38,8 +38,8 @@
           (#{param.ownerId,jdbcType=BIGINT},
             #{param.companyFlowMoneyCount,jdbcType=BIGINT},
             #{param.companyFlowNum,jdbcType=INTEGER},
-            #{param.accountCode,jdbcType=BIGINT},
-            #{param.accountNum,jdbcType=BIGINT},
+            #{param.accountCode,jdbcType=VARCHAR},
+            #{param.accountNum,jdbcType=VARCHAR},
             #{param.accountName,jdbcType=VARCHAR},
             #{param.bankSystemCode,jdbcType=VARCHAR},
             #{param.bankSystemName,jdbcType=VARCHAR},
@@ -56,7 +56,7 @@
         set company_flow_money_count=company_flow_money_count + #{companyFlowMoneyCount,jdbcType=BIGINT},
         company_flow_num = company_flow_num + #{companyFlowNum,jdbcType=INTEGER}
         WHERE owner_id = #{ownerId,jdbcType=BIGINT}
-        and account_num =#{accountNum,jdbcType=BIGINT}
+        and account_num =#{accountNum,jdbcType=VARCHAR}
         and pdate = #{pdate,jdbcType=INTEGER}
     </update>
 

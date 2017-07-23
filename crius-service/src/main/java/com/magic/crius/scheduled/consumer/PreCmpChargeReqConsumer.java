@@ -4,12 +4,10 @@ import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.*;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
-import com.magic.crius.enums.SummaryKind;
 import com.magic.crius.po.*;
 import com.magic.crius.service.PreCmpChargeReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.util.CriusLog;
-import com.magic.crius.vo.OperateWithDrawReq;
 import com.magic.crius.vo.PreCmpChargeReq;
 import com.magic.user.vo.MemberConditionVo;
 import org.apache.log4j.Logger;
@@ -232,7 +230,7 @@ public class PreCmpChargeReqConsumer {
         flow.setState(0);
         flow.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         //TODO 暂时为0
-        flow.setAccountCode(0L);
+        flow.setAccountCode("0");
         flow.setBankSystemName(req.getInBankName());
         return flow;
     }

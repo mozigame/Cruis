@@ -22,11 +22,11 @@ public class OwnerCompanyFlowDetail {
     /**
      * 账户号
      */
-    private Long accountCode;
+    private String accountCode;
     /**
      * 卡号
      */
-    private Long accountNum;
+    private String accountNum;
     /**
      * 账户名称
      */
@@ -78,21 +78,6 @@ public class OwnerCompanyFlowDetail {
         this.companyFlowNum = companyFlowNum;
     }
 
-    public Long getAccountCode() {
-        return accountCode;
-    }
-
-    public void setAccountCode(Long accountCode) {
-        this.accountCode = accountCode;
-    }
-
-    public Long getAccountNum() {
-        return accountNum;
-    }
-
-    public void setAccountNum(Long accountNum) {
-        this.accountNum = accountNum;
-    }
 
     public String getAccountName() {
         return accountName;
@@ -104,6 +89,22 @@ public class OwnerCompanyFlowDetail {
 
     public String getBankSystemCode() {
         return bankSystemCode;
+    }
+
+    public String getAccountCode() {
+        return accountCode;
+    }
+
+    public void setAccountCode(String accountCode) {
+        this.accountCode = accountCode;
+    }
+
+    public String getAccountNum() {
+        return accountNum;
+    }
+
+    public void setAccountNum(String accountNum) {
+        this.accountNum = accountNum;
     }
 
     public void setBankSystemCode(String bankSystemCode) {

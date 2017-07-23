@@ -13,6 +13,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: com.magic:bc-query-api:1.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: commons-dbcp:commons-dbcp:1.4" level="project" />
     <orderEntry type="module" module-name="crius-service" />
     <orderEntry type="module" module-name="crius-api" />
     <orderEntry type="library" name="Maven: com.magic:magic-user-api:1.0.0-SNAPSHOT" level="project" />

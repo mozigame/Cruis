@@ -27,13 +27,13 @@ public class PreCmpChargeReq {
     @JSONField(name = "BankCode")
     private String bankCode;    //用户银行代号
     @JSONField(name = "BankNum")
-    private Long bankNum;   //用户银行卡号
+    private String bankNum;   //用户银行卡号
     @JSONField(name = "BankHolder")
     private String bankHolder;  //用户银行卡持有者名字
     @JSONField(name = "InBankCode")
     private String inBankCode;//转入公司账号的银行代号
     @JSONField(name = "InBankNum")
-    private Long inBankNum;//转入公司账号的银行卡号
+    private String inBankNum;//转入公司账号的银行卡号
     @JSONField(name = "InBankHolder")
     private String inBankHolder;//转入公司账号的银行卡持有者
     @JSONField(name = "InBankBranch")
@@ -129,12 +129,20 @@ public class PreCmpChargeReq {
         this.bankCode = bankCode;
     }
 
-    public Long getBankNum() {
+    public String getBankNum() {
         return bankNum;
     }
 
-    public void setBankNum(Long bankNum) {
+    public void setBankNum(String bankNum) {
         this.bankNum = bankNum;
+    }
+
+    public String getInBankNum() {
+        return inBankNum;
+    }
+
+    public void setInBankNum(String inBankNum) {
+        this.inBankNum = inBankNum;
     }
 
     public String getBankHolder() {
@@ -153,13 +161,6 @@ public class PreCmpChargeReq {
         this.inBankCode = inBankCode;
     }
 
-    public Long getInBankNum() {
-        return inBankNum;
-    }
-
-    public void setInBankNum(Long inBankNum) {
-        this.inBankNum = inBankNum;
-    }
 
     public String getInBankHolder() {
         return inBankHolder;
