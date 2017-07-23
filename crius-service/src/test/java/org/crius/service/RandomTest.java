@@ -27,6 +27,10 @@ public class RandomTest {
         System.out.println("124298765456787654567".length());
         System.out.println("1498446482049861267");
     }
+    @Test
+    public void mod() {
+        System.out.println(Math.abs(new Long(9359163).hashCode()) % 1024);
+    }
 
     @Test
     public void stringSplit() {
