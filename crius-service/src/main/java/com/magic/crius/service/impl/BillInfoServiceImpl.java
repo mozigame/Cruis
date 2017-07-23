@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.magic.api.commons.ApiLogger;
 import org.springframework.stereotype.Service;
 
 import com.magic.analysis.utils.StringUtils;
@@ -161,9 +162,12 @@ public class BillInfoServiceImpl implements BillInfoService {
     }
     
     private String getFactoryGameType(Long platformId, Long hallTypeId) {
-//    	String key=gameFactoryType+"-"+gameAbstractType;
-//		return gameInfoService.getGameTypeByFactoryMap().get(key);
-    	return String.valueOf(platformId);
+   	    /*String key=gameFactoryType+"-"+gameAbstractType;
+    	return gameInfoService.getGameTypeByFactoryMap().get(key);*/
+        String gameType = gameInfoService.getGameType(platformId+"",hallTypeId+"");
+        ApiLogger.info("platformId : " + platformId + " ; hallTypeId : " + hallTypeId + " ; gameType: " + gameType);
+   	    return gameType;
+    	//return String.valueOf(platformId);
 	}
 
 	private BillInfo assembleBillInfo(OwnerBillReq req){
@@ -222,6 +226,7 @@ public class BillInfoServiceImpl implements BillInfoService {
         proxyBillDetail.setReforwardAccount(agentBillReq.getRebateTotalAmount());
         proxyBillDetail.setEffectOrderCount(agentBillReq.getVaildBettTotalAmount());
         proxyBillDetail.setCost(agentBillReq.getCostTotalAmount());
+        proxyBillDetail.setRecordCost(agentBillReq.getCostTotalAmount());
         proxyBillDetail.setReforwardState(1);
         proxyBillDetail.setRecordReforwardAccount(agentBillReq.getRebateTotalAmount());
         //设置有效会员数量
@@ -243,9 +248,9 @@ public class BillInfoServiceImpl implements BillInfoService {
                 proxyBillSummary2game.setOwnerId(agentBillReq.getOwnerId());
                 proxyBillSummary2game.setProxyId(agentBillReq.getAgentId());
                 proxyBillSummary2game.setOrderId(agentBillReq.getBillId().toString());
-                proxyBillSummary2game.setEffectOrderCount(agentBillReq.getVaildBettTotalAmount());
+                proxyBillSummary2game.setEffectOrderCount(agentHallBillVo.getVaildBettAmount());
 
-                proxyBillSummary2game.setIncome(agentBillReq.getPayoffTotalAmount());
+                proxyBillSummary2game.setIncome(agentHallBillVo.getPayoffAmount());
 
                 if (org.apache.commons.lang3.StringUtils.isNotEmpty(agentBillReq.getBillDate())){
                     proxyBillSummary2game.setPdate(Integer.parseInt(agentBillReq.getBillDate()));

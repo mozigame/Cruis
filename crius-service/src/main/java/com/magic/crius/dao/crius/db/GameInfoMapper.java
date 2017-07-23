@@ -36,9 +36,15 @@ public interface GameInfoMapper {
     
     /**
      * 
-     * @param gameFactoryType
-     * @param gameAbstractType
      * @return map<key=gameFactoryType+"-"+gameAbstractType, value=gameType>
      */
     List<Map<String, String>> getGameTypeByFactoryAll();
+
+    /**
+     * 获取游戏类型
+     * @param factoryType
+     * @param abstractType
+     * @return
+     */
+    String getGameType(@Param("factoryType") String factoryType, @Param("abstractType") String abstractType);
 }

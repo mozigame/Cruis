@@ -52,11 +52,14 @@ public class GameInfoServiceImpl implements GameInfoService {
     
     /**
      * 
-     * @param gameFactoryType
-     * @param gameAbstractType
      * @return map<key=gameFactoryType+"-"+gameAbstractType, value=gameType>
      */
     public Map<String, String> getGameTypeByFactoryMap(){
     	return gameInfoDbService.getGameTypeByFactoryMap();
+    }
+
+    @Override
+    public String getGameType(String factoryType, String abstractType) {
+        return gameInfoDbService.getGameType(factoryType,abstractType);
     }
 }

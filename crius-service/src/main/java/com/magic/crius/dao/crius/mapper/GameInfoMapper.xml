@@ -83,4 +83,9 @@
 			select CONCAT(game_factory_type, '-', game_abstract_type) game_key, game_type
 			 from game_info  group by game_factory_type, game_abstract_type, game_type 
 	</select>
+
+    <select id="getGameType" resultType="string">
+        select DISTINCT game_type FROM game_info where game_abstract_type = #{abstractType} and game_factory_type = #{factoryType}
+    </select>
+
 </mapper>

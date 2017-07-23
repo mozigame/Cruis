@@ -63,8 +63,6 @@ public class GameInfoDbServiceImpl implements GameInfoDbService {
     
     /**
      * 
-     * @param gameFactoryType
-     * @param gameAbstractType
      * @return map<key=gameFactoryType+"-"+gameAbstractType, value=gameType>
      */
     public Map<String, String> getGameTypeByFactoryMap(){
@@ -74,5 +72,10 @@ public class GameInfoDbServiceImpl implements GameInfoDbService {
     		map.put(m.get("game_key"), m.get("game_type"));
     	}
     	return map;
+    }
+
+    @Override
+    public String getGameType(String factoryType, String abstractType) {
+        return criusGameInfoMapper.getGameType(factoryType,abstractType);
     }
 }
