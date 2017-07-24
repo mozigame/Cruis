@@ -55,10 +55,10 @@ public class KafkaProducerTest {
             req.setCurrency("人民币");
             req.setRate(75);
             req.setBankCode("ICBC");
-            req.setBankNum(13358820111029090L);
+           //req.setBankNum(13358820111029090L);
             req.setBankHolder("充值人");
             req.setInBankCode("CBC");
-            req.setInBankNum(95588201110329090L);
+            //req.setInBankNum(95588201110329090L);
             req.setInBankHolder("李磊");
             req.setInTime(System.currentTimeMillis());
             req.setProduceTime(System.currentTimeMillis());
