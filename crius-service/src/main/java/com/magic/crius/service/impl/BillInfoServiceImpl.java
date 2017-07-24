@@ -2,10 +2,18 @@ package com.magic.crius.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import com.alibaba.fastjson.JSONObject;
 import com.magic.api.commons.ApiLogger;
+import com.magic.commons.enginegw.service.ThriftFactory;
+import com.magic.config.thrift.base.CmdType;
+import com.magic.config.thrift.base.EGHeader;
+import com.magic.config.thrift.base.EGReq;
+import com.magic.config.thrift.base.EGResp;
+import com.magic.user.vo.AgentConfigVo;
 import org.springframework.stereotype.Service;
 
 import com.magic.analysis.utils.StringUtils;
@@ -70,6 +78,9 @@ public class BillInfoServiceImpl implements BillInfoService {
 
     @Resource
     private UserInfoService userInfoService;
+
+    @Resource
+    private ThriftFactory thriftFactory;
 
     @Override
     public boolean save(BillInfo billInfo) {
@@ -191,6 +202,42 @@ public class BillInfoServiceImpl implements BillInfoService {
         return billInfo;
     }
 
+    /**调用Jason Thrift接口**/
+    /**
+     * 获取代理参数配置信息
+     * @param uid 代理id
+     * @return
+     */
+    private AgentConfigVo getAgentConfig(long uid) {
+        String body = "{\"agentId\":" + uid + "}";
+        EGReq req = assembleEGReq(CmdType.CONFIG, 0x500043, body);
+        try {
+            EGResp resp = thriftFactory.call(req, "crius");
+            if (Optional.ofNullable(resp).filter(code -> code.getCode() == 0).isPresent()){
+                return JSONObject.parseObject(resp.getData(), AgentConfigVo.class);
+            }
+        }catch (Exception e){
+            ApiLogger.error(String.format("get agent config from thrift error. uid: %d", uid), e);
+        }
+        return null;
+    }
+    /**
+     * 组装thrift请求对象
+     *
+     * @param cmdType
+     * @param cmd
+     * @param body
+     * @return
+     */
+    private EGReq assembleEGReq(CmdType cmdType, int cmd, String body) {
+        EGReq req = new EGReq();
+        EGHeader header = new EGHeader();
+        header.setType(cmdType);
+        header.setCmd(cmd);
+        req.setHeader(header);
+        req.setBody(body);
+        return req;
+    }
 
     private BillInfo assembleBillInfo(AgentBillReq agentBillReq){
         BillInfo billInfo = new BillInfo();
@@ -198,17 +245,26 @@ public class BillInfoServiceImpl implements BillInfoService {
         billInfo.setProxyId(agentBillReq.getAgentId());
         billInfo.setOrderId(agentBillReq.getBillId().toString());
         billInfo.setOrderName(agentBillReq.getBillDate()+"月账单");
-        if (org.apache.commons.lang3.StringUtils.isNotEmpty(agentBillReq.getBillDate())){
-            billInfo.setPdate(Integer.parseInt(agentBillReq.getBillDate()));
+
+        //设置期数id和期数名称
+        if (agentBillReq.getSchemeId() != null)
+            billInfo.setPdate(Integer.parseInt(agentBillReq.getSchemeId().toString()));
+
+        if (org.apache.commons.lang3.StringUtils.isNotEmpty(agentBillReq.getSchemeName()))
+            billInfo.setPdateName(agentBillReq.getSchemeName());
+
+        // 代理的退佣方案12
+        AgentConfigVo agentConfigVo = getAgentConfig(agentBillReq.getAgentId());
+        if (agentConfigVo != null ){
+            billInfo.setSchemeCode(agentConfigVo.getReturnScheme().toString());
+            billInfo.setSchemeName(agentConfigVo.getReturnSchemeName());
         }
-        billInfo.setSchemeCode(agentBillReq.getSchemeId().toString());
-        billInfo.setSchemeName(agentBillReq.getSchemeName());
+
         billInfo.setAccount(agentBillReq.getCostTotalAmount());
         billInfo.setIncome(agentBillReq.getVaildBettTotalAmount());
         billInfo.setBillType(2);//1:业主;2:代理
         billInfo.setStartTime(agentBillReq.getBillStartTime());
         billInfo.setEndTime(agentBillReq.getBillEndTime());
-        billInfo.setPdateName(agentBillReq.getBillDate());
         billInfo.setStatus(1);//1:未处理
         return billInfo;
     }
@@ -218,9 +274,11 @@ public class BillInfoServiceImpl implements BillInfoService {
         proxyBillDetail.setOwnerId(agentBillReq.getOwnerId());
         proxyBillDetail.setProxyId(agentBillReq.getAgentId());
         proxyBillDetail.setOrderId(agentBillReq.getBillId());
-        if (org.apache.commons.lang3.StringUtils.isNotEmpty(agentBillReq.getBillDate())){
-            proxyBillDetail.setPdate(agentBillReq.getBillDate());
-        }
+
+        //设置期数id
+        if (agentBillReq.getSchemeId() != null)
+            proxyBillDetail.setPdate(agentBillReq.getSchemeId().toString());
+
         //proxyBillDetail.setUserNum();;
         proxyBillDetail.setIncome(agentBillReq.getPayoffTotalAmount());
         proxyBillDetail.setReforwardAccount(agentBillReq.getRebateTotalAmount());
@@ -252,9 +310,10 @@ public class BillInfoServiceImpl implements BillInfoService {
 
                 proxyBillSummary2game.setIncome(agentHallBillVo.getPayoffAmount());
 
-                if (org.apache.commons.lang3.StringUtils.isNotEmpty(agentBillReq.getBillDate())){
-                    proxyBillSummary2game.setPdate(Integer.parseInt(agentBillReq.getBillDate()));
-                }
+                //设置期数id
+                if (agentBillReq.getSchemeId() != null)
+                    proxyBillSummary2game.setPdate(Integer.parseInt(agentBillReq.getSchemeId().toString()));
+
                 gameType=this.getFactoryGameType(agentHallBillVo.getPlatformId(), agentHallBillVo.getHallTypeId());
                 proxyBillSummary2game.setGameType(gameType);
                 proxyBillSummary2game.setReforward(agentHallBillVo.getCashbackAmount());
@@ -276,9 +335,11 @@ public class BillInfoServiceImpl implements BillInfoService {
         proxyBillSummary2cost.setOwnerId(agentBillReq.getOwnerId());
         proxyBillSummary2cost.setProxyId(agentBillReq.getAgentId());
         proxyBillSummary2cost.setOrderId(agentBillReq.getBillId().toString());
-        if (org.apache.commons.lang3.StringUtils.isNotEmpty(agentBillReq.getBillDate())){
-            proxyBillSummary2cost.setPdate(Integer.parseInt(agentBillReq.getBillDate()));
-        }
+
+        //设置期数id
+        if (agentBillReq.getSchemeId() != null)
+            proxyBillSummary2cost.setPdate(Integer.parseInt(agentBillReq.getSchemeId().toString()));
+
         proxyBillSummary2cost.setCostType("1");//手续费
         proxyBillSummary2cost.setCostTypeName("手续费");
         proxyBillSummary2cost.setCost(agentBillReq.getFeeAmount());
@@ -288,9 +349,10 @@ public class BillInfoServiceImpl implements BillInfoService {
         proxyBillSummary2cost_1.setOwnerId(agentBillReq.getOwnerId());
         proxyBillSummary2cost_1.setProxyId(agentBillReq.getAgentId());
         proxyBillSummary2cost_1.setOrderId(agentBillReq.getBillId().toString());
-        if (org.apache.commons.lang3.StringUtils.isNotEmpty(agentBillReq.getBillDate())){
-            proxyBillSummary2cost_1.setPdate(Integer.parseInt(agentBillReq.getBillDate()));
-        }
+        //设置期数id
+        if (agentBillReq.getSchemeId() != null)
+            proxyBillSummary2cost_1.setPdate(Integer.parseInt(agentBillReq.getSchemeId().toString()));
+
         proxyBillSummary2cost_1.setCostType("2");//手续费
         proxyBillSummary2cost_1.setCostTypeName("优惠");
         proxyBillSummary2cost_1.setCost(agentBillReq.getDiscountAmount());

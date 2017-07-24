@@ -174,23 +174,29 @@ public class MonthJobConsumer {
                 StmlBillInfoReq stmlBillInfoReq_proxy = null;
                 for (Long ownerId : ownerList){
                     stmlBillInfoReq_proxy = new StmlBillInfoReq();
-                    // 获取上一期的期数
+                    // 获取上一期的期数 状态 0 已停用  1 未使用  2 已使用
                     BillingCycleVo billingCycleVo = getProxyLastBillCycle(ownerId);
-                    // 先数据库查，是否已存在改账单
+                   /* // 先数据库查，是否已存在改账单
                     BillInfo billInfo = new BillInfo();
                     billInfo.setStartTime(Long.parseLong(billingCycleVo.getStartTime()));
                     billInfo.setEndTime(Long.parseLong(billingCycleVo.getEndTime()));
                     billInfo.setBillType(2);//代理账单
                     billInfo.setOwnerId(ownerId);
                     billInfo.setPdate(Integer.parseInt(billingCycleVo.getStartTime().toString().substring(0,6)));
-                    boolean isexist = billInfoService.isExistBill(billInfo);
-                    if(!isexist){
+                    boolean isexist = billInfoService.isExistBill(billInfo);*/
+                   //判断期数状态未使用，则进行结算
+                    if (billingCycleVo.getStatus() == 1){
                         stmlBillInfoReq_proxy.setStartDay(Integer.parseInt(billingCycleVo.getStartTime()));
                         stmlBillInfoReq_proxy.setEndDay(Integer.parseInt(billingCycleVo.getEndTime()));
-                        stmlBillInfoReq_proxy.setBillType(2);
+                        stmlBillInfoReq_proxy.setBillType(2);//代理账单
                         stmlBillInfoReq_proxy.setOwnerId(ownerId);
+                        stmlBillInfoReq_proxy.setSchemeId(billingCycleVo.getId());//期数名称
+                        stmlBillInfoReq_proxy.setSchemeName(billingCycleVo.getCycleName());//期数名称
+                        stmlBillInfoReq_proxy.setBillDate(billingCycleVo.getStartTime().toString().substring(0,6));
                         EGResp egResp = MonthJobRun(stmlBillInfoReq_proxy);
                         ApiLogger.info("proxy : ownerId " + ownerId +" 返回报文： " + egResp);
+
+                        //TODO 结算完成，则修改期数状态为已使用
                     }
                 }
 
