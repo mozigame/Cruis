@@ -98,8 +98,8 @@
         update user_trade
         set status=#{param.status,jdbcType=INTEGER},trade_time=#{param.tradeTime,jdbcType=BIGINT}
         where
-          user_id = #{userId,jdbcType=BIGINT}
-          and owner_id = #{ownerId,jdbcType=BIGINT}
-          and trade_id=#{tradeId,jdbcType=BIGINT}
+          user_id = #{param.userId,jdbcType=BIGINT}
+          and owner_id = #{param.ownerId,jdbcType=BIGINT}
+          and trade_id=#{param.tradeId,jdbcType=BIGINT}
     </update>
 </mapper>
