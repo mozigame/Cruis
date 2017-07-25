@@ -4,10 +4,8 @@ import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.UserTradeService;
 import com.magic.crius.storage.db.UserTradeDbService;
 import org.springframework.stereotype.Service;
-import sun.plugin2.util.SystemUtil;
 
 import javax.annotation.Resource;
-import java.util.Collection;
 import java.util.List;
 
 /**
