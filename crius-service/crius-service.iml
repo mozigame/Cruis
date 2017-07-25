@@ -11,7 +11,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: com.magic:bc-query-api:1.0.0-SNAPSHOT" level="project" />
     <orderEntry type="module" module-name="crius-api" />
     <orderEntry type="library" name="Maven: com.magic:magic-user-api:1.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.magic.commons:model:1.0.0-SNAPSHOT" level="project" />
