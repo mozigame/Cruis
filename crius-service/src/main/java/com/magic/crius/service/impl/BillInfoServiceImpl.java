@@ -198,7 +198,7 @@ public class BillInfoServiceImpl implements BillInfoService {
         billInfo.setStartTime(req.getBillStartTime());
         billInfo.setEndTime(req.getBillEndTime());
         billInfo.setPdateName(req.getBillDate());
-        billInfo.setStatus(100);//1:未处理
+        billInfo.setStatus(1);//1:未处理
         return billInfo;
     }
 
