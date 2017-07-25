@@ -170,6 +170,26 @@ public class OwnerCompanyAccountDetailAssemService {
         account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
         return account;
     }
+    
+    
+    /**
+     * 会员扣款
+     * @param req
+     * @return
+     */
+    public OwnerCompanyAccountDetail assembleOwnerCompanyAccountDetail4TaxCount(PreWithdrawReq req) {
+        OwnerCompanyAccountDetail account = new OwnerCompanyAccountDetail();
+        account.setUserId(req.getUserId());
+        account.setOwnerId(req.getOwnerId());
+        account.setSummaryMoneyCount(req.getNeedPayAmount());
+        account.setSummaryUserNum(1);
+        //TODO 此处待确定
+        account.setSummaryType(KafkaConf.DataType.TAX_COUNT.type());
+        account.setSummaryTypeName(KafkaConf.DataType.TAX_COUNT.typeName());
+        account.setSummaryKind(SummaryKind.income.value());
+        account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
+        return account;
+    }
 
 	
 

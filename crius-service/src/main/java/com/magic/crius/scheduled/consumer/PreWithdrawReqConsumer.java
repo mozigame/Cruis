@@ -117,6 +117,8 @@ public class PreWithdrawReqConsumer {
                 details.add(assembleUserOutMoneyDetail(req));
                 /*公司账目汇总*/
                 ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req));
+                ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail4TaxCount(req));
+                
                 userTrades.add(userTradeAssemService.assembleUserTrade(req));
                 /*会员提款*/
                 if (memberConditionVoMap.get(req.getUserId()) == null) {
