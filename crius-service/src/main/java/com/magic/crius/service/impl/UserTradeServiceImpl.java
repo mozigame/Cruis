@@ -4,6 +4,7 @@ import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.UserTradeService;
 import com.magic.crius.storage.db.UserTradeDbService;
 import org.springframework.stereotype.Service;
+import sun.plugin2.util.SystemUtil;
 
 import javax.annotation.Resource;
 import java.util.Collection;
@@ -25,6 +26,8 @@ public class UserTradeServiceImpl implements UserTradeService {
         //return userTradeDbService.batchSave(userTrades, userIds);
         
         for(UserTrade trade:userTrades){
+			// 添加审核时间
+			trade.setTradeTime(System.currentTimeMillis());
 			userTradeDbService.saveTrade(trade);
 		}
 		
@@ -35,6 +38,8 @@ public class UserTradeServiceImpl implements UserTradeService {
 	public boolean updateTradeList(List<UserTrade> userTrades) {
 		// TODO Auto-generated method stub
 		for(UserTrade trade:userTrades){
+			// 添加审核时间
+			trade.setTradeTime(System.currentTimeMillis());
 			userTradeDbService.updateTradeStatus(trade);
 		}
 		
@@ -44,6 +49,8 @@ public class UserTradeServiceImpl implements UserTradeService {
 	@Override
 	public boolean updateTradeStatus4Failed(List<UserTrade> userTrades) {
 		for(UserTrade trade:userTrades){
+			// 添加审核时间
+			trade.setTradeTime(System.currentTimeMillis());
 			userTradeDbService.updateTradeStatus4Failed(trade);
 		}
 		return true;
