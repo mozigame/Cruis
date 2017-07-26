@@ -40,6 +40,10 @@ public class OwnerCompanyFlowDetail {
      */
     private String bankSystemName;
     /**
+     * 支付方式
+     */
+    private Integer payMethod;
+    /**
      * 状态
      */
     private Integer state;
@@ -133,5 +137,13 @@ public class OwnerCompanyFlowDetail {
 
     public void setPdate(Integer pdate) {
         this.pdate = pdate;
+    }
+
+    public Integer getPayMethod() {
+        return payMethod;
+    }
+
+    public void setPayMethod(Integer payMethod) {
+        this.payMethod = payMethod;
     }
 }

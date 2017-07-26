@@ -11,6 +11,7 @@
         <result column="account_name" jdbcType="VARCHAR" property="accountName"/>
         <result column="bank_system_code" jdbcType="VARCHAR" property="bankSystemCode"/>
         <result column="bank_system_name" jdbcType="VARCHAR" property="bankSystemName"/>
+        <result column="pay_method" jdbcType="INTEGER" property="payMethod"/>
         <result column="state" jdbcType="INTEGER" property="state"/>
         <result column="pdate" jdbcType="INTEGER" property="pdate"/>
     </resultMap>
@@ -19,11 +20,11 @@
     <insert id="insert" parameterType="com.magic.crius.po.OwnerCompanyFlowDetail">
         insert into owner_company_flow_detail (owner_id, company_flow_money_count,
           company_flow_num, account_code, account_num,
-          account_name, bank_system_code, bank_system_name,
+          account_name, bank_system_code, bank_system_name,pay_method,
           state, pdate)
         values (#{ownerId,jdbcType=BIGINT}, #{companyFlowMoneyCount,jdbcType=BIGINT},
           #{companyFlowNum,jdbcType=INTEGER}, #{accountCode,jdbcType=VARCHAR}, #{accountNum,jdbcType=VARCHAR},
-          #{accountName,jdbcType=VARCHAR}, #{bankSystemCode,jdbcType=VARCHAR}, #{bankSystemName,jdbcType=VARCHAR},
+          #{accountName,jdbcType=VARCHAR}, #{bankSystemCode,jdbcType=VARCHAR}, #{bankSystemName,jdbcType=VARCHAR},#{payMethod,jdbcType=INTEGER},
           #{state,jdbcType=INTEGER}, #{pdate,jdbcType=INTEGER})
      </insert>
 
@@ -31,7 +32,7 @@
     <insert id="batchInsert">
         insert into owner_company_flow_detail (owner_id, company_flow_money_count,
         company_flow_num, account_code, account_num,
-        account_name, bank_system_code, bank_system_name,
+        account_name, bank_system_code, bank_system_name,pay_method,
         state, pdate)
         values
         <foreach collection="list" item="param" separator=",">
@@ -43,6 +44,7 @@
             #{param.accountName,jdbcType=VARCHAR},
             #{param.bankSystemCode,jdbcType=VARCHAR},
             #{param.bankSystemName,jdbcType=VARCHAR},
+            #{param.payMethod,jdbcType=INTEGER},
             #{param.state,jdbcType=INTEGER},
             #{param.pdate,jdbcType=INTEGER})
         </foreach>

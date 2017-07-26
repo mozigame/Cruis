@@ -1,11 +1,9 @@
 package com.magic.crius.scheduled.consumer;
 
-import com.magic.analysis.enums.ActionType;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.*;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
-import com.magic.crius.enums.PayMethod;
 import com.magic.crius.po.*;
 import com.magic.crius.service.OnlChargeReqService;
 import com.magic.crius.service.RepairLockService;
@@ -107,7 +105,7 @@ public class OnlChargeReqConsumer {
      */
     private void flushData(Collection<OnlChargeReq> list) {
         if (list != null && list.size() > 0) {
-            List<OwnerOnlineFlowDetail> ownerOnlineFlowSummmaries = new ArrayList<>();
+            List<OwnerOnlineFlowDetail> ownerOnlineFlowDetails = new ArrayList<>();
             List<UserFlowMoneyDetail> userFlowMoneyDetails = new ArrayList<>();
             List<OwnerCompanyAccountDetail> ownerCompanyAccountDetails = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
@@ -115,7 +113,7 @@ public class OnlChargeReqConsumer {
             Map<Long, MemberConditionVo> memberConditionVoMap = new HashMap<>();
             for (OnlChargeReq req : list) {
                 /*线上入款汇总*/
-                ownerOnlineFlowSummmaries.add(assembleOwnerOnlineFlowDetail(req));
+                ownerOnlineFlowDetails.add(assembleOwnerOnlineFlowDetail(req));
                 /*会员入款详情*/
                 userFlowMoneyDetails.add(userFlowMoneyDetailAssemService.assembleUserFlowMoneyDetail(req));
                 /*公司账目汇总*/
@@ -134,7 +132,7 @@ public class OnlChargeReqConsumer {
                 /*成功的数据*/
                 sucReqs.add(assembleSucReq(req));
             }
-            ownerOnlineFlowDetailAssemService.batchSave(ownerOnlineFlowSummmaries);
+            ownerOnlineFlowDetailAssemService.batchSave(ownerOnlineFlowDetails);
             userFlowMoneyDetailAssemService.batchSave(userFlowMoneyDetails);
             ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
             userTradeAssemService.batchSave(userTrades);
