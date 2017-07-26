@@ -86,4 +86,15 @@
    <select id="getOwnerIdList" resultType="long" >
       SELECT DISTINCT owner_id FROM proxy_info
    </select>
+   
+   <select id="getProxyInfoList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from proxy_info
+        where proxy_id in 
+	      <foreach collection="proxyIdList" item="proxyId" index="index"
+	               open="(" close=")" separator=",">
+	        #{proxyId}
+	      </foreach>
+    </select>
 </mapper>

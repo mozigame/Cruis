@@ -1,8 +1,8 @@
 package com.magic.crius.service;
 
-import com.magic.crius.po.ProxyInfo;
-
 import java.util.List;
+
+import com.magic.crius.po.ProxyInfo;
 
 /**
  * User: joey
@@ -14,6 +14,8 @@ public interface ProxyInfoService {
     boolean batchInsert(List<ProxyInfo> infos);
 
     List<Long> getOwenrList();
+    
+    public List<ProxyInfo> getProxyInfoList(List<Long> proxyIdList );
 
     /**
      * 获取已经存在的代理的id列表

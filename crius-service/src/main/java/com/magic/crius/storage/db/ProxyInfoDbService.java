@@ -1,9 +1,8 @@
 package com.magic.crius.storage.db;
 
-import com.magic.crius.po.ProxyInfo;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+
+import com.magic.crius.po.ProxyInfo;
 
 /**
  * User: joey
@@ -15,6 +14,8 @@ public interface ProxyInfoDbService {
     boolean batchInsert(List<ProxyInfo> infos);
 
     List<Long> getOwnerIdList();
+    
+    List<ProxyInfo> getProxyInfoList(List<Long> proxyIdList); 
 
     /**
      * 获取已经存在的代理的id列表

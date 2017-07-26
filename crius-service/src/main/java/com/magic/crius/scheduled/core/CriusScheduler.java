@@ -244,6 +244,18 @@ public class CriusScheduler {
             e.printStackTrace();
         }
     }
+    
+    /**
+     * 定时获取代理列表入库
+     */
+    @Scheduled(fixedRate = proxyPullRate)
+    public void proxyListUpdateSyncSchedule() {
+        try {
+            proxyInfoAssemService.batchProxyInfoSync();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * 定时更新会员层级

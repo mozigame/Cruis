@@ -23,6 +23,10 @@ public class ProxyInfoDbServiceImpl implements ProxyInfoDbService {
     public boolean batchInsert(List<ProxyInfo> infos) {
         return proxyInfoMapper.batchInsert(infos) > 0;
     }
+    
+    public List<ProxyInfo> getProxyInfoList(List<Long> proxyIdList){
+    	return proxyInfoMapper.getProxyInfoList(proxyIdList);
+    }
 
     @Override
     public List<Long> getOwnerIdList() {

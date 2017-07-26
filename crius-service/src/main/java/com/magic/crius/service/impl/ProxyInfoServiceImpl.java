@@ -1,12 +1,14 @@
 package com.magic.crius.service.impl;
 
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
+
 import com.magic.crius.po.ProxyInfo;
 import com.magic.crius.service.ProxyInfoService;
 import com.magic.crius.storage.db.ProxyInfoDbService;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * User: joey
@@ -30,6 +32,9 @@ public class ProxyInfoServiceImpl implements ProxyInfoService {
         return proxyInfoDbService.getOwnerIdList();
     }
 
+    public List<ProxyInfo> getProxyInfoList(List<Long> proxyIdList ){
+    	return proxyInfoDbService.getProxyInfoList(proxyIdList);
+    }
     @Override
     public List<Long> getExistIds(List<Long> proxyIds) {
         return proxyInfoDbService.getExistIds(proxyIds);

@@ -34,4 +34,8 @@ public class CriusOutDubboService {
         }
         return null;
     }
+    
+    public List<User> getAgentListByPage(Integer offset, Integer count){
+    	return accountDubboService.getAgentListByPage(offset, count);
+    }
 }

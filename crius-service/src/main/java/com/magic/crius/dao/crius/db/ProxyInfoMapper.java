@@ -17,6 +17,8 @@ public interface ProxyInfoMapper {
     int batchInsert(@Param("list") List<ProxyInfo> infos);
 
     List<Long> getOwnerIdList();
+    
+    List<ProxyInfo> getProxyInfoList(@Param("proxyIdList")List<Long> proxyIdList ); 
 
     /**
      * 获取已经存在的代理的id列表

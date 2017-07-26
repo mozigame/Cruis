@@ -33,6 +33,8 @@ public class RedisConstants {
      */
     public static final String REDIS_USER_INFO_SYNC_PAGE="_userInfoSyncPage";
     
+    public static final String REDIS_PROXY_INFO_SYNC_PAGE="_proxyInfoSyncPage";
+    
 
     /**
      * @doc

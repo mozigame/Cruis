@@ -8,6 +8,7 @@ import java.util.Set;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.annotation.JSONField;
 
 public class RiskRecordReq {
 	public RiskRecordReq(){
@@ -73,19 +74,35 @@ public class RiskRecordReq {
 		this.eventInfos=mapList;
 	}
 
+	@JSONField(name = "RiskTypeId")
 	private Integer riskTypeId;
+	@JSONField(name = "RiskEventId")
 	private Integer riskEventId;
+	@JSONField(name = "RiskTime")
 	private Long riskTime;
+	@JSONField(name = "RiskEventTitle")
 	private String riskEventTitle;
+	@JSONField(name = "RiskInfoMsg")
 	private String riskInfoMsg;
+	@JSONField(name = "OwnerId")
 	private Long ownerId;
+	@JSONField(name = "EventTimeNs")
 	private Long eventTimeNs;
-	
+	@JSONField(name = "RiskData")
+	private Map<String, Object> riskData; 
 	private List<Map<String, Object>> eventInfos; 
 	
 	
 	
 	
+	public Map<String, Object> getRiskData() {
+		return riskData;
+	}
+
+	public void setRiskData(Map<String, Object> riskData) {
+		this.riskData = riskData;
+	}
+
 	public List<Map<String, Object>> getEventInfos() {
 		return eventInfos;
 	}
