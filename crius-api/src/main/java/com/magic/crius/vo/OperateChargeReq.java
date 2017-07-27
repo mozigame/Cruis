@@ -44,6 +44,28 @@ public class OperateChargeReq {
     @JSONField(name = "Balance")
     private Long balance;   //余额
 
+    @JSONField(name = "Balance")
+    private String DepRemark;//存款优惠备注
+
+    @JSONField(name = "Balance")
+    private String RemRemark ;//汇款优惠备注
+
+    public String getDepRemark() {
+        return DepRemark;
+    }
+
+    public void setDepRemark(String depRemark) {
+        DepRemark = depRemark;
+    }
+
+    public String getRemRemark() {
+        return RemRemark;
+    }
+
+    public void setRemRemark(String remRemark) {
+        RemRemark = remRemark;
+    }
+
     public Long getReqId() {
         return reqId;
     }

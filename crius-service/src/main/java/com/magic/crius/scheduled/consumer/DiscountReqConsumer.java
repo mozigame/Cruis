@@ -1,5 +1,6 @@
 package com.magic.crius.scheduled.consumer;
 
+import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
 import com.magic.crius.assemble.OwnerPreferentialDetailAssemService;
@@ -220,6 +221,8 @@ public class DiscountReqConsumer {
         detail.setPreferentialTypeName(req.getOfferTypeName());
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         detail.setCreateTime(req.getProduceTime());
+        ApiLogger.info("优惠备注： " + req.getRemark());
+        detail.setRemark(req.getRemark());//优惠备注
         return detail;
     }
 

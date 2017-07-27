@@ -38,6 +38,17 @@ public class DiscountReq {
     @JSONField(name = "Balance")
     private Long balance;   //余额
 
+    @JSONField(name = "Remark")
+    private String Remark;//优惠备注
+
+    public String getRemark() {
+        return Remark;
+    }
+
+    public void setRemark(String remark) {
+        Remark = remark;
+    }
+
     public Long getReqId() {
         return reqId;
     }
