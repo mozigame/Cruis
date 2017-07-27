@@ -31,7 +31,7 @@
         insert into user_preferential_detail ( owner_id, user_id,
         preferential_money_count, preferential_num,
         preferential_type, preferential_type_name,
-        pdate, create_time)
+        pdate, create_time,remark)
         values
         <foreach collection="list" item="param" separator=",">
             (#{param.ownerId,jdbcType=BIGINT},
