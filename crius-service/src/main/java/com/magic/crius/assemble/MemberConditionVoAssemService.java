@@ -57,7 +57,7 @@ public class MemberConditionVoAssemService {
         vo.setDepositCount(1);
         vo.setDepositMoney(req.getChargeAmount());
         vo.setLastDepositMoney(req.getChargeAmount());
-        vo.setMaxDepositMoney(req.getChargeAmount().intValue());
+        vo.setMaxDepositMoney(req.getChargeAmount());
         return vo;
     }
     /*会员存款*/
@@ -68,7 +68,7 @@ public class MemberConditionVoAssemService {
         vo.setDepositCount(1);
         vo.setDepositMoney(req.getChargeAmount());
         vo.setLastDepositMoney(req.getChargeAmount());
-        vo.setMaxDepositMoney(req.getChargeAmount().intValue());
+        vo.setMaxDepositMoney(req.getChargeAmount());
         return vo;
     }
     /*会员存款*/
@@ -79,7 +79,7 @@ public class MemberConditionVoAssemService {
         vo.setDepositCount(1);
         vo.setDepositMoney(req.getChargeAmount());
         vo.setLastDepositMoney(req.getChargeAmount());
-        vo.setMaxDepositMoney(req.getChargeAmount().intValue());
+        vo.setMaxDepositMoney(req.getChargeAmount());
         return vo;
     }
 
@@ -91,7 +91,7 @@ public class MemberConditionVoAssemService {
         vo.setWithdrawCount(1);
         vo.setWithdrawMoney(req.getRealWithdrawAmount());
         vo.setLastWithdrawMoney(req.getRealWithdrawAmount());
-        vo.setMaxWithdrawMoney(req.getRealWithdrawAmount().intValue());
+        vo.setMaxWithdrawMoney(req.getRealWithdrawAmount());
         return vo;
     }
     /*人工提款*/
@@ -103,7 +103,7 @@ public class MemberConditionVoAssemService {
         vo.setWithdrawCount(1);
         vo.setWithdrawMoney(req.getAmount());
         vo.setLastWithdrawMoney(req.getAmount());
-        vo.setMaxWithdrawMoney(req.getAmount().intValue());
+        vo.setMaxWithdrawMoney(req.getAmount());
         return vo;
     }
 
