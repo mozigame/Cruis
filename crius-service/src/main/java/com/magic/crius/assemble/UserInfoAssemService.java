@@ -191,7 +191,7 @@ public class UserInfoAssemService {
     		userLevel=(Long)CommUtils.nvl(member.getLevel(), 1l);
     		userInfo.setUserLevel(userLevel.intValue());
     		userInfo.setUpdateTime(new Date().getTime());
-    		userInfo.setType(0);//用户类型，默认为0
+    		userInfo.setType(5);//用户类型，默认为0
     		userList.add(userInfo);
     	}
     	this.userInfoService.batchInsert(userList);
