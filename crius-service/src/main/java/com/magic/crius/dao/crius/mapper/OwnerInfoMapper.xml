@@ -17,7 +17,7 @@
         select
         <include refid="Base_Column_List"/>
         from owner_info
-        where owner_id = #{ownerId,jdbcType=INTEGER}
+        where owner_id = #{ownerId,jdbcType=BIGINT}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from owner_info
