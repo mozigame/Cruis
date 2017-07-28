@@ -31,6 +31,7 @@ public class UserLevelAssemService {
 
 
     public void updateLevel(UserLevelReq userLevelReq) {
+    	logger.info("----updateLevel--userId="+userLevelReq.getUserId()+" userLevel="+userLevelReq.getLevelId());
         if (!memberConditionVoService.updateLevel(userLevelReq)) {
             logger.warn("update user level failed, param: " + JSON.toJSONString(userLevelReq));
         }
