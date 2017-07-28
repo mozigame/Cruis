@@ -20,6 +20,7 @@
             <list>
                 <ref bean="memberRegisterSucessMongoConsumer"></ref>
                 <ref bean="masterAddOwnerSuccessConsumer"></ref>
+                <ref bean="proxyAddSuccessConsumer"></ref>
             </list>
         </constructor-arg>
         <constructor-arg index="1" value="${mq.all.consumer.nameserver}"/>
