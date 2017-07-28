@@ -34,6 +34,9 @@ public class UserLevelAssemService {
         if (!memberConditionVoService.updateLevel(userLevelReq)) {
             logger.warn("update user level failed, param: " + JSON.toJSONString(userLevelReq));
         }
+        if (!userInfoService.updateLevel(userLevelReq.getUserId(), userLevelReq.getLevelId())) {
+        	logger.warn("update user_info level failed, param: " + JSON.toJSONString(userLevelReq));
+        }
     }
 
     /**
