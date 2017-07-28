@@ -13,7 +13,7 @@
   </sql>
 
     <!--根据业主ID查询基础信息-->
-    <select id="get" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <select id="get" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from owner_info
