@@ -23,6 +23,16 @@ public class UserPreferentialDetail {
 
     private Long createTime;
 
+    private String remark;//优惠的备注
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public Integer getId() {
         return id;
     }
