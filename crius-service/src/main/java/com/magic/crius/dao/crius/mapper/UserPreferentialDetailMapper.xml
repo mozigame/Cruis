@@ -11,6 +11,7 @@
         <result column="preferential_type_name" jdbcType="VARCHAR" property="preferentialTypeName"/>
         <result column="pdate" jdbcType="INTEGER" property="pdate"/>
         <result column="create_time" jdbcType="BIGINT" property="createTime"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
     </resultMap>
 
     <!--添加-->
@@ -18,11 +19,11 @@
         insert into user_preferential_detail ( owner_id, user_id,
           preferential_money_count, preferential_num,
           preferential_type, preferential_type_name,
-          pdate, create_time)
+          pdate, create_time,remark)
         values (#{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
           #{preferentialMoneyCount,jdbcType=BIGINT}, #{preferentialNum,jdbcType=INTEGER},
           #{preferentialType,jdbcType=INTEGER}, #{preferentialTypeName,jdbcType=VARCHAR},
-          #{pdate,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT})
+          #{pdate,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT},#{remark,jdbcType=VARCHAR})
     </insert>
 
     <!--批量添加-->
@@ -30,7 +31,7 @@
         insert into user_preferential_detail ( owner_id, user_id,
         preferential_money_count, preferential_num,
         preferential_type, preferential_type_name,
-        pdate, create_time)
+        pdate, create_time,remark)
         values
         <foreach collection="list" item="param" separator=",">
             (#{param.ownerId,jdbcType=BIGINT},
@@ -40,7 +41,8 @@
             #{param.preferentialType,jdbcType=INTEGER},
             #{param.preferentialTypeName,jdbcType=VARCHAR},
             #{param.pdate,jdbcType=INTEGER},
-            #{param.createTime,jdbcType=BIGINT})
+            #{param.createTime,jdbcType=BIGINT},
+            #{param.remark,jdbcType=VARCHAR})
         </foreach>
 
     </insert>
