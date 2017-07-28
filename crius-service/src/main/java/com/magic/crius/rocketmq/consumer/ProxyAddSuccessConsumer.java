@@ -49,9 +49,6 @@ public class ProxyAddSuccessConsumer implements Consumer {
             if (agentConditionVo != null ){
                 List<ProxyInfo> proxyInfos = new ArrayList<>();
                 ProxyInfo proxyInfo = new ProxyInfo();
-                if(StringUtils.isNotEmpty(agentConditionVo.getId()))
-                    proxyInfo.setId(Long.parseLong(agentConditionVo.getId()));
-
                 proxyInfo.setOwnerId(agentConditionVo.getOwnerId());
                 // 获取股东名称
                 OwnerInfo ownerInfo = ownerInfoService.get(agentConditionVo.getOwnerId());
