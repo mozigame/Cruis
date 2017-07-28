@@ -18,6 +18,7 @@
         <result column="handler_name" jdbcType="VARCHAR" property="handlerName"/>
         <result column="create_time" jdbcType="BIGINT" property="createTime"/>
         <result column="update_time" jdbcType="BIGINT" property="updateTime"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
     </resultMap>
 
     <insert id="insert" parameterType="com.magic.crius.po.UserFlowMoneyDetail">
@@ -26,13 +27,13 @@
           state, pay_method, flow_type,
           flow_id, order_id, pdate,
           handler_id, handler_name, create_time,
-          update_time)
+          update_time,remark)
         values (#{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
           #{merchantCode,jdbcType=VARCHAR}, #{merchantName,jdbcType=VARCHAR}, #{orderCount,jdbcType=BIGINT},
           #{state,jdbcType=INTEGER}, #{payMethod,jdbcType=INTEGER}, #{flowType,jdbcType=INTEGER},
           #{flowId,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{pdate,jdbcType=INTEGER},
           #{handlerId,jdbcType=BIGINT}, #{handlerName,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT},
-          #{updateTime,jdbcType=BIGINT})
+          #{updateTime,jdbcType=BIGINT},#{remark,jdbcType=VARCHAR})
     </insert>
 
     <!--批量添加-->
@@ -42,7 +43,7 @@
         state, pay_method, flow_type,
         flow_id, order_id, pdate,
         handler_id, handler_name, create_time,
-        update_time)
+        update_time,remark)
         values
         <foreach collection="list" item="param" separator=",">
           (#{param.ownerId,jdbcType=BIGINT},
@@ -59,7 +60,8 @@
             #{param.handlerId,jdbcType=BIGINT},
             #{param.handlerName,jdbcType=VARCHAR},
             #{param.createTime,jdbcType=BIGINT},
-            #{param.updateTime,jdbcType=BIGINT})
+            #{param.updateTime,jdbcType=BIGINT},
+            #{param.remark,jdbcType=VARCHAR})
         </foreach>
     </insert>
 

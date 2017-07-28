@@ -50,6 +50,7 @@ public class UserFlowMoneyDetailAssemService {
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         detail.setCreateTime(req.getProduceTime());
         detail.setUpdateTime(req.getProduceTime());
+        detail.setRemark(req.getRemark());
         return detail;
     }
 

@@ -44,6 +44,17 @@ public class OnlChargeReq {
     @JSONField(name = "Balance")
     private Long balance;   //余额
 
+    @JSONField(name = "Remark")
+    private String remark;//备注
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     public Long getReqId() {
         return reqId;
     }
