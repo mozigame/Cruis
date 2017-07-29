@@ -89,6 +89,7 @@ public class GameInfoAssemService {
     	try {
 			List<GameInfo> gameList=this.gameInfoService.findGameList(new GameInfo());
 			if(gameInfos.size()!=gameList.size()){//数据量不一样，说明有修改
+				logger.info("-----checkChange--gameInfos="+gameInfos.size()+" gameList="+gameList.size());
 				return true;
 			}
 			List<GameInfo> changeList=new ArrayList<>();
@@ -109,6 +110,7 @@ public class GameInfoAssemService {
 					newList.add(game);
 				}
 			}
+			logger.info("-----checkChange--gameList="+gameList.size()+" changeList="+changeList.size()+" newList="+newList.size());
 			if(newList.size()>0 || changeList.size()>0){//有修改或新增，表示有修改
 				return true;
 			}
