@@ -64,22 +64,22 @@ public class GameInfoAssemService {
                 GameInfo gameInfo = JSONObject.parseObject(obj1.toJSONString(), GameInfo.class);
                 gameInfos.add(gameInfo);
             }
-//            if (!gameInfoService.getLock()) {
-//                if (!gameInfoService.setLock()) {
-//                    logger.error("proc gameInfo set lock error");
-//                } else {
+            if (!gameInfoService.getLock()) {
+                if (!gameInfoService.setLock()) {
+                    logger.error("proc gameInfo set lock error");
+                } else {
                 	//检查是否有修改，有修改才对数据进行更新
                 	if(checkChange(gameInfos)){
 	                    //先清空游戏表
 	                    if (!gameInfoService.deleteAll()) {
 	                        logger.warn("delete gameInfos failed");
 	                    }
-	                    if (!gameInfoService.batchSave(gameInfos)) {
+	                    if (!batchSaveGame(gameInfos)) {
 	                        logger.warn("batchSave gameInfos failed");
 	                    }
                 	}
-//                }
-//            }
+                }
+            }
             logger.info("insert all gameInfo spend time " +(System.currentTimeMillis() - startTime));
 
         }
@@ -94,18 +94,20 @@ public class GameInfoAssemService {
     	int BATCH_SIZE=500;
     	List<GameInfo> list=new ArrayList<>();
     	boolean result=false;
-    	for(GameInfo game:list){
+    	for(GameInfo game:gameList){
     		list.add(game);
     		if(list.size()>BATCH_SIZE){
     			result=gameInfoService.batchSave(list);
     			if(!result){
     				return result;
     			}
+    			logger.info("-----batchSaveGame--gameList="+gameList.size()+" list="+list.size());
     			list.clear();
     		}
     	}
     	if(list.size()>0){
     		result=gameInfoService.batchSave(list);
+    		logger.info("-----batchSaveGame--gameList="+gameList.size()+" list="+list.size());
     	}
     	return result;
     }
