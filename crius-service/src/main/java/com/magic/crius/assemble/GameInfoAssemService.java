@@ -64,10 +64,10 @@ public class GameInfoAssemService {
                 GameInfo gameInfo = JSONObject.parseObject(obj1.toJSONString(), GameInfo.class);
                 gameInfos.add(gameInfo);
             }
-            if (!gameInfoService.getLock()) {
-                if (!gameInfoService.setLock()) {
-                    logger.error("proc gameInfo set lock error");
-                } else {
+//            if (!gameInfoService.getLock()) {
+//                if (!gameInfoService.setLock()) {
+//                    logger.error("proc gameInfo set lock error");
+//                } else {
                 	//检查是否有修改，有修改才对数据进行更新
                 	if(checkChange(gameInfos)){
 	                    //先清空游戏表
@@ -78,8 +78,8 @@ public class GameInfoAssemService {
 	                        logger.warn("batchSave gameInfos failed");
 	                    }
                 	}
-                }
-            }
+//                }
+//            }
             logger.info("insert all gameInfo spend time " +(System.currentTimeMillis() - startTime));
 
         }
