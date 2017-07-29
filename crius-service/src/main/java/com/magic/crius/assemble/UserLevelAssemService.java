@@ -15,12 +15,16 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.magic.api.commons.codis.JedisFactory;
 import com.magic.api.commons.tools.DateUtil;
+import com.magic.crius.constants.RedisConstants;
 import com.magic.crius.enums.KafkaConf;
 import com.magic.crius.service.MemberConditionVoService;
 import com.magic.crius.service.UserInfoService;
 import com.magic.crius.vo.UserLevelReq;
 import com.magic.user.vo.MemberConditionVo;
+
+import redis.clients.jedis.Jedis;
 
 /**
  * User: joey
@@ -44,6 +48,9 @@ public class UserLevelAssemService {
 
     private static final String DATA = "Data";
     private static final String DATA_TYPE = "DataType";
+    
+    @Resource(name = "criusJedisFactory")
+    private JedisFactory criusJedisFactory;
 
 
     public void updateLevel(UserLevelReq userLevelReq) {
@@ -54,8 +61,14 @@ public class UserLevelAssemService {
         
         if (!userInfoService.updateLevel(userLevelReq.getUserId(), userLevelReq.getLevelId())) {
         	logger.warn("update user_info level failed, param: " + JSON.toJSONString(userLevelReq));
-        	//处理失败，则延时1秒把消息放回KAFKA
-			resendMsg(userLevelReq);
+        	
+			Jedis jedis = criusJedisFactory.getInstance();
+        	Long count=jedis.incr(RedisConstants.REDIS_USER_LEVEL_UPDATE_COUNT+"_"+userLevelReq.getUserId());
+        	jedis.expire(RedisConstants.REDIS_USER_LEVEL_UPDATE_COUNT+"_"+userLevelReq.getUserId(), 60);//60秒存活时间
+        	if(count<=5){//用redis控制次数，超过5次不处理
+        		//处理失败，则延时1秒把消息放回KAFKA
+    			resendMsg(userLevelReq);
+        	}
         }
     }
     private static Timer timer = new Timer();

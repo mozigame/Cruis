@@ -35,6 +35,8 @@ public class RedisConstants {
     
     public static final String REDIS_PROXY_INFO_SYNC_PAGE="_proxyInfoSyncPage";
     
+    public static final String REDIS_USER_LEVEL_UPDATE_COUNT="_userLevelUCount";
+    
 
     /**
      * @doc
