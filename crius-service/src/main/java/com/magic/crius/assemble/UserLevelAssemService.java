@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Resource;
 
@@ -57,13 +58,13 @@ public class UserLevelAssemService {
 			resendMsg(userLevelReq);
         }
     }
-    
+    private static Timer timer = new Timer();
+    private static final AtomicInteger resendTaskCount=new AtomicInteger();
     /**
      * 处理失败，则延时1秒把消息放回KAFKA
      * @param userLevelReq
      */
 	private void resendMsg(UserLevelReq userLevelReq) {
-		Timer timer = new Timer();// 实例化Timer类
 		timer.schedule(new TimerTask() {
 			public void run() {
 				// 处理失败，则延时1秒把消息放回KAFKA
@@ -71,6 +72,7 @@ public class UserLevelAssemService {
 				jsonObject.put(DATA_TYPE, KafkaConf.DataType.UPDATE_USER_LEVEL.type());
 				jsonObject.put(DATA, userLevelReq);
 				template.send(TOPIC, jsonObject.toJSONString());
+				logger.info("----resendMsg count="+resendTaskCount.incrementAndGet()+" "+userLevelReq.getUserId());
 				this.cancel();
 			}
 		}, 1000);// 1秒
