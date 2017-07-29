@@ -196,7 +196,9 @@ public class BaseOrderReqConsumer {
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getUpdateDatetime()), "yyyyMMdd")));
         detail.setCreateTime(req.getBetDatetime());
         detail.setUpdateTime(req.getUpdateDatetime());
-        detail.setIsPaid(IsPaidType.parse(req.getIsPaid()).value());
+        if (req.getIsPaid() != null) {
+            detail.setIsPaid(IsPaidType.parse(req.getIsPaid()).value());
+        }
         detail.setOrderExtent(req.getOrderExtent().toJSONString());
         return detail;
     }
