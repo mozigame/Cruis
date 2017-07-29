@@ -6,7 +6,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  * User: joey
  * Date: 2017/5/29
  * Time: 17:01
- * 人工提现（成功）
+ * 人工提现（人工提出）（成功）
  */
 public class OperateWithDrawReq {
 

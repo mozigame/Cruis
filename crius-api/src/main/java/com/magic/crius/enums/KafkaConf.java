@@ -26,13 +26,13 @@ public class KafkaConf {
      * kafka消费的数据类型
      */
     public enum DataType {
-        PLUTUS_ONL_CHARGE(0x3001, "在线充值"),    // 在线充值 12289
+        PLUTUS_ONL_CHARGE(0x3001, "线上入款"),    // 线上入款 12289
         PLUTUS_CMP_CHARGE(0x3002, "公司入款"),    // 公司入款 12290
         PLUTUS_DISCOUNT(0x3003, "优惠赠送"),  // 优惠赠送   12291
-        PLUTUS_USER_WITHDRAW(0x3004, "用户提现"), // 用户提现   12292
-        PLUTUS_OPR_WITHDRAW(0x3005, "人工提现"),  // 人工提现   12293
+        PLUTUS_USER_WITHDRAW(0x3004, "会员出款"), // 会员出款   12292
+        PLUTUS_OPR_WITHDRAW(0x3005, "人工提出"),  // 人工提出   12293
         PLUTUS_OPR_CHARGE(0x3006, "人工入款"),    // 人工入款   12294
-        PLUTUS_CAHSBACK(0x3007, "返水"),  // 返水 12295
+        PLUTUS_CAHSBACK(0x3007, "给予返水"),  // 给予返水 12295
         PLUTUS_PAYOFF(0x3008, "派彩"),    // 派彩 12296
         PLUTUS_JP(0x3009, "彩金"),    // 彩金 12297
         PLUTUS_DS(0x300A, "打赏"),    //打赏  12298

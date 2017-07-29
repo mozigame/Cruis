@@ -17,7 +17,7 @@ public class UserTrade {
 
     private Long tradeTime; //交易时间
 
-    private Integer tradeType;  //交易类型
+    private Integer tradeType;  //交易类型,账变方式
 
     private Integer actiontype; //存取类型
 

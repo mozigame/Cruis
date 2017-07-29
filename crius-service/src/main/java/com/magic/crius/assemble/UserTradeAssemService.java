@@ -1,6 +1,7 @@
 package com.magic.crius.assemble;
 
 import com.magic.analysis.enums.ActionType;
+import com.magic.analysis.enums.SummaryType;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.UserTradeService;
@@ -89,7 +90,7 @@ public class UserTradeAssemService {
         userTrade.setTradeNum(req.getOfferAmount());
         userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
-        userTrade.setTradeType(ActionType.ZHUAN_CHU.getStatus());
+        userTrade.setTradeType(req.getOfferTypeId());
         userTrade.setActiontype(ActionType.YOU_HUI.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return userTrade;
@@ -103,7 +104,7 @@ public class UserTradeAssemService {
         userTrade.setTradeNum(req.getChargeAmount());
         userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
-        userTrade.setTradeType(ActionType.ZHUAN_RU.getStatus());
+        userTrade.setTradeType(SummaryType.ONLINE_CHARGE.getStatus());
         userTrade.setActiontype(ActionType.CHONG_ZHI.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return userTrade;
@@ -117,7 +118,7 @@ public class UserTradeAssemService {
         userTrade.setTradeNum(req.getChargeAmount());
         userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
-        userTrade.setTradeType(ActionType.ZHUAN_RU.getStatus());
+        userTrade.setTradeType(SummaryType.ARTIFICIAL_INTO_MOENY.getStatus());
         userTrade.setActiontype(ActionType.CHONG_ZHI.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return userTrade;
@@ -131,7 +132,7 @@ public class UserTradeAssemService {
         userTrade.setTradeNum(req.getAmount());
         userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
-        userTrade.setTradeType(ActionType.ZHUAN_CHU.getStatus());
+        userTrade.setTradeType(SummaryType.ARTIFICIAL_WITHDRAWAL.getStatus());
         userTrade.setActiontype(ActionType.TI_KUANG.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return userTrade;
@@ -145,7 +146,7 @@ public class UserTradeAssemService {
         userTrade.setTradeNum(req.getChargeAmount());
         userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
-        userTrade.setTradeType(ActionType.ZHUAN_RU.getStatus());
+        userTrade.setTradeType(SummaryType.COMPANY_INCOME.getStatus());
         userTrade.setActiontype(ActionType.CHONG_ZHI.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         //todo 状态改为100表示通过 枚举
@@ -161,7 +162,7 @@ public class UserTradeAssemService {
         userTrade.setTradeNum(req.getReqWithdrawAmount());
         userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
-        userTrade.setTradeType(ActionType.ZHUAN_CHU.getStatus());
+        userTrade.setTradeType(SummaryType.USER_OUT_MONEY.getStatus());
         userTrade.setActiontype(ActionType.TI_KUANG.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         //todo 状态改为100表示通过

@@ -6,7 +6,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  * User: joey
  * Date: 2017/5/29
  * Time: 16:42
- * 用户充值成功
+ * 用户充值成功(线上入款)
  */
 public class OnlChargeReq {
 

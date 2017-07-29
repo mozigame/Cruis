@@ -6,7 +6,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  * User: joey
  * Date: 2017/5/29
  * Time: 16:55
- * 用户提现（成功）
+ * 用户提现(会员出款)（成功）
  */
 public class PreWithdrawReq {
 
