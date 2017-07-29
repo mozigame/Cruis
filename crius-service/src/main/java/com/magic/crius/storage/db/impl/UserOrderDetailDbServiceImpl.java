@@ -32,6 +32,7 @@ public class UserOrderDetailDbServiceImpl implements UserOrderDetailDbService {
 
     @Override
     public boolean updatePaidStatus(UserOrderDetail detail) {
-        return criusUserOrderDetailMapper.updatePaidStatus(detail);
+//        return criusUserOrderDetailMapper.updatePaidStatus(detail);
+        return false;
     }
 }

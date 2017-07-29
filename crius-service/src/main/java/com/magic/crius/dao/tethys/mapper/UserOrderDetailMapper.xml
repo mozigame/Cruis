@@ -60,20 +60,4 @@
         </foreach>
     </insert>
 
-    <!--查询订单列表中存在并且未派彩的订单-->
-    <select id="findNoPaid">
-        select order_id from user_order_detail
-        where user_id = #{userId}
-	    and order_id = #{orderId}
-	    and is_paid = #{isPaid}
-    </select>
-
-    <!--修改订单派彩状态为已派彩-->
-    <update id="updatePaidStatus">
-        update user_order_detail
-          SET is_paid = #{param.isPaid,jdbcType=BIGINT}
-          WHERE user_id=#{param.userId,jdbcType=BIGINT}
-          AND order_id = #{param.orderId,jdbcType=INTEGER}
-    </update>
-
 </mapper>
