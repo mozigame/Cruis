@@ -1,6 +1,7 @@
 package com.magic.crius.storage.db.impl;
 
 import com.magic.crius.dao.tethys.db.UserOrderDetailMapper;
+import com.magic.crius.enums.IsPaidType;
 import com.magic.crius.po.UserOrderDetail;
 import com.magic.crius.storage.db.TethysUserOrderDetailDbService;
 import org.springframework.stereotype.Service;
@@ -32,11 +33,22 @@ public class TethysUserOrderDetailDbServiceImpl implements TethysUserOrderDetail
     }
 
     @Override
-    public List<Long> findNoPaidIds(List<UserOrderDetail> orderDetails, List<Long> userIds) {
+    public boolean updatePaid(UserOrderDetail orderDetail) {
+        try {
+            return userOrderDetailMapper.update("updatePaidStatus", orderDetail.getUserId(), new String[]{"param"}, new Object[]{orderDetail}) > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    public List<Long> findNoPaidIds(Collection<UserOrderDetail> orderDetails) {
         List<Long> result = new ArrayList<>();
-        for (int i=0;i<userIds.size();i++) {
+        for (UserOrderDetail orderDetail : orderDetails) {
             try {
-                Long orderId = (Long) userOrderDetailMapper.get("findNoPaid", userIds.get(i), new String[]{""}, new Object[]{});
+                Long orderId = (Long) userOrderDetailMapper.get("findNoPaid", orderDetail.getUserId(),
+                        new String[]{"userId", "orderId", "isPaid"}, new Object[]{orderDetail.getUserId(), orderDetail.getOrderId(), IsPaidType.noPaid.value()});
                 if (orderId != null) {
                     result.add(orderId);
                 }

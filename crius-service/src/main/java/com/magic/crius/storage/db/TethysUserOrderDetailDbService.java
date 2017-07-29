@@ -14,10 +14,17 @@ public interface TethysUserOrderDetailDbService {
 
     boolean batchSave(List<UserOrderDetail> userOrderDetails, List<Long> userIds);
 
+
     /**
-     * 获取未派彩或者未插入的订单Id列表
-     * @param userIds
+     * 更新派彩状态
+     * @param orderDetail
      * @return
      */
-    List<Long> findNoPaidIds(List<UserOrderDetail> orderDetails,List<Long> userIds);
+    boolean updatePaid(UserOrderDetail orderDetail);
+
+    /**
+     * 获取未派彩或者未插入的订单Id列表
+     * @return
+     */
+    List<Long> findNoPaidIds(Collection<UserOrderDetail> orderDetails);
 }

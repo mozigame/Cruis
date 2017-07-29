@@ -25,4 +25,9 @@ public class UserOrderDetailServiceImpl implements UserOrderDetailService {
     public boolean batchSave(List<UserOrderDetail> details) {
         return userOrderDetailDbService.batchSave(details);
     }
+
+    @Override
+    public boolean updatePaidStatus(UserOrderDetail detail) {
+        return userOrderDetailDbService.updatePaidStatus(detail);
+    }
 }

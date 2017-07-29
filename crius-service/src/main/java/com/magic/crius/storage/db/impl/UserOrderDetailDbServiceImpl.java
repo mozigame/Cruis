@@ -29,4 +29,9 @@ public class UserOrderDetailDbServiceImpl implements UserOrderDetailDbService {
         }
         return true;
     }
+
+    @Override
+    public boolean updatePaidStatus(UserOrderDetail detail) {
+        return criusUserOrderDetailMapper.updatePaidStatus(detail);
+    }
 }

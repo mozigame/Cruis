@@ -27,7 +27,12 @@ public class TethysUserOrderDetailServiceImpl implements TethysUserOrderDetailSe
     }
 
     @Override
-    public List<Long> findNoPaidIds(List<UserOrderDetail> orderDetails, List<Long> userIds) {
-        return tethysUserOrderDetailDbService.findNoPaidIds(orderDetails, userIds);
+    public boolean updatePaid(UserOrderDetail orderDetail) {
+        return tethysUserOrderDetailDbService.updatePaid(orderDetail);
+    }
+
+    @Override
+    public List<Long> findNoPaidIds(Collection<UserOrderDetail> orderDetails) {
+        return tethysUserOrderDetailDbService.findNoPaidIds(orderDetails);
     }
 }

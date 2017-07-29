@@ -10,12 +10,11 @@ import com.magic.crius.vo.BaseOrderReq;
 import com.magic.crius.vo.DealerRewardReq;
 import com.magic.crius.vo.JpReq;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: joey
@@ -25,46 +24,66 @@ import java.util.List;
 @Service
 public class UserOrderDetailAssemService {
 
+
+    private static final Logger log = Logger.getLogger(UserOrderDetailAssemService.class);
+
     @Resource
     private UserOrderDetailService userOrderDetailService;
     @Resource
     private TethysUserOrderDetailService tethysUserOrderDetailService;
 
     public boolean batchSave(List<UserOrderDetail> details) {
-        boolean flag = false;
-        if (userOrderDetailService.batchSave(details)) {
-            List<Long> userNoPaidIds = new ArrayList<>();
-            List<UserOrderDetail>  userOrderPaid = new ArrayList<>();
-            List<UserOrderDetail>  userOrderNoPaid = new ArrayList<>();
-            for (UserOrderDetail orderDetail : details) {
-                if (orderDetail.getIsPaid() == IsPaidType.noPay.value()) {
-                    userNoPaidIds.add(orderDetail.getUserId());
-                    userOrderNoPaid.add(orderDetail);
-                } else {
-                    userOrderPaid.add(orderDetail);
-                }
+        List<Long> insertUserIds = new ArrayList<>();
+        Map<Long, UserOrderDetail> userOrderPaid = new HashMap<>();
+        List<UserOrderDetail> insertOrder = new ArrayList<>();
+        List<UserOrderDetail> updateOrder = new ArrayList<>();
+        for (UserOrderDetail orderDetail : details) {
+            if (orderDetail.getIsPaid() == IsPaidType.noPaid.value()) {
+                insertUserIds.add(orderDetail.getUserId());
+                insertOrder.add(orderDetail);
+            } else {
+                userOrderPaid.put(orderDetail.getOrderId(), orderDetail);
             }
-//            for ()
-            //批量添加未派彩的数据
-            tethysUserOrderDetailService.batchSave(userOrderNoPaid, userNoPaidIds);
-
-            flag = true;
         }
-        return flag;
+
+        List<Long> existNoPaidIds = tethysUserOrderDetailService.findNoPaidIds(userOrderPaid.values());
+        for (Map.Entry<Long, UserOrderDetail> entry : userOrderPaid.entrySet()) {
+            if (existNoPaidIds.contains(entry.getKey())) {
+                updateOrder.add(entry.getValue());
+            } else {
+                insertUserIds.add(entry.getValue().getUserId());
+                insertOrder.add(entry.getValue());
+            }
+        }
+        /*
+         * 批量添加未派彩和派彩但未插入的数据
+         */
+        //tethys
+        tethysUserOrderDetailService.batchSave(insertOrder, insertUserIds);
+        //metis
+        userOrderDetailService.batchSave(insertOrder);
+        //修改订单的派彩状态
+        for (UserOrderDetail orderDetail : updateOrder) {
+            tethysUserOrderDetailService.updatePaid(orderDetail);
+            userOrderDetailService.updatePaidStatus(orderDetail);
+        }
+        log.info(String.format(" all order size : %d ,insert order size : %d, update order size : %d", details.size(), insertOrder.size(), updateOrder.size()));
+
+        return true;
     }
-    
+
     public boolean batchSaveDetails(List<UserOrderDetail> details) {
         boolean flag = false;
 
-		List<Long> userIds = new ArrayList<>();
-		for (UserOrderDetail orderDetail : details) {
-			userIds.add(orderDetail.getUserId());
-		}
-		tethysUserOrderDetailService.batchSave(details, userIds);
+        List<Long> userIds = new ArrayList<>();
+        for (UserOrderDetail orderDetail : details) {
+            userIds.add(orderDetail.getUserId());
+        }
+        tethysUserOrderDetailService.batchSave(details, userIds);
         return flag;
     }
-    
-    
+
+
     private UserOrderDetail assembleUserOrderDetail(BaseOrderReq req) {
         UserOrderDetail detail = new UserOrderDetail();
         detail.setOwnerId(req.getOwnerId());
@@ -103,7 +122,7 @@ public class UserOrderDetailAssemService {
         return detail;
     }
 
-	public UserOrderDetail assembleUserOrderDetail(JpReq req) {
+    public UserOrderDetail assembleUserOrderDetail(JpReq req) {
         // TODO Auto-generated method stub
         UserOrderDetail detail = new UserOrderDetail();
         detail.setOwnerId(req.getOwnerId());

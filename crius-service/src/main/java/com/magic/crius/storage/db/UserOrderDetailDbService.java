@@ -13,4 +13,12 @@ import java.util.List;
 public interface UserOrderDetailDbService {
 
     boolean batchSave(List<UserOrderDetail> details);
+
+
+    /**
+     * 修改派彩状态
+     * @param detail
+     * @return
+     */
+    boolean updatePaidStatus(UserOrderDetail detail);
 }

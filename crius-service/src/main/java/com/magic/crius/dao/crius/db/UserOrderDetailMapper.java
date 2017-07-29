@@ -15,4 +15,12 @@ public interface UserOrderDetailMapper {
     int insert(UserOrderDetail record);
 
     int batchInsert(@Param("list") List<UserOrderDetail> userOrderDetails);
+
+
+    /**
+     * 修改派彩状态
+     * @param detail
+     * @return
+     */
+    boolean updatePaidStatus(UserOrderDetail detail);
 }
