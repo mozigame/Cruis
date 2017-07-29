@@ -54,17 +54,58 @@
             )
         </foreach>
     </insert>
+    
+    <update id="updateBatch" >
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+				update game_info
+				    set game_name = #{item.gameName,jdbcType=VARCHAR},
+				      game_type = #{item.gameType,jdbcType=VARCHAR},
+				      game_type_name = #{item.gameTypeName,jdbcType=VARCHAR},
+				      game_factory_type = #{item.gameFactoryType,jdbcType=VARCHAR},
+				      game_factory_type_name = #{item.gameFactoryTypeName,jdbcType=VARCHAR},
+				      game_abstract_type = #{item.gameAbstractType,jdbcType=VARCHAR},
+				      game_abstract_type_name = #{item.gameAbstractTypeName,jdbcType=VARCHAR},
+				      create_time = #{item.createTime,jdbcType=BIGINT},
+				      update_time = #{item.updateTime,jdbcType=BIGINT}
+				    where game_id = #{gameId,jdbcType=VARCHAR}
+		 </foreach>
+    </update>
 
 
     <!--删除所有游戏信息-->
     <delete id="deleteAll">
         DELETE FROM game_info where 1=1
     </delete>
+    
+    <delete id="deleteByGameId">
+        DELETE FROM game_info where game_id in 
+         ( <foreach collection="list" item="id" separator="," >
+	            #{id,jdbcType=VARCHAR}
+	        </foreach>
+         )
+    </delete>
 
     <!--获取游戏详情-->
     <select id="get" parameterType="com.magic.crius.po.GameInfo" resultMap="BaseResultMap">
         select
          <include refid="Base_Column_List"></include>
+         from game_info
+        <where>
+            <if test="gameId != null and gameId > 0">
+                game_id = #{gameId}
+            </if>
+            <if test="gameFactoryType != null and gameFactoryType >0 ">
+                and game_factory_type=#{gameFactoryType}
+            </if>
+            <if test="gameAbstractType != null and gameAbstractType > 0">
+                and game_abstract_type=#{gameAbstractType}
+            </if>
+        </where>
+    </select>
+    
+    <select id="findGameList" parameterType="com.magic.crius.po.GameInfo" resultMap="BaseResultMap">
+        select game_id, game_name, game_type, game_type_name, game_factory_type, game_factory_type_name, 
+    		game_abstract_type, game_abstract_type_name
          from game_info
         <where>
             <if test="gameId != null and gameId > 0">

@@ -19,6 +19,10 @@ public interface GameInfoService {
      * @return
      */
     boolean batchSave(List<GameInfo> gameInfos);
+    
+    Long updateBatch(List<GameInfo> list);
+    
+    boolean deleteByGameId(List<String> gameIdList);
 
     /**
      * 删除全部游戏信息
@@ -44,6 +48,8 @@ public interface GameInfoService {
      * @return
      */
     GameInfo get(GameInfo gameInfo);
+    
+    List<GameInfo> findGameList(GameInfo info);
     
     /**
      * 

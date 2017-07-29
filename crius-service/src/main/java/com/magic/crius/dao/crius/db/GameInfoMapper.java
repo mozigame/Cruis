@@ -20,12 +20,18 @@ public interface GameInfoMapper {
      * @return
      */
     Long insertBatch(@Param("param") List<GameInfo> gameInfos);
+    
+    Long updateBatch(List<GameInfo> list);
+    
+    boolean deleteByGameId(List<String> gameIdList);
 
     /**
      * 删除所有
      * @return
      */
     boolean deleteAll();
+    
+   
 
     /**
      * 获取游戏详情
@@ -33,6 +39,8 @@ public interface GameInfoMapper {
      * @return
      */
     GameInfo get(GameInfo info);
+    
+    List<GameInfo> findGameList(GameInfo info); 
     
     /**
      * 

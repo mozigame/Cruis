@@ -55,10 +55,22 @@ public class GameInfoDbServiceImpl implements GameInfoDbService {
         }
         return true;
     }
+    
+    public Long updateBatch(List<GameInfo> list){
+    	return criusGameInfoMapper.updateBatch(list);
+    }
+    
+    public boolean deleteByGameId(List<String> gameIdList){
+    	return criusGameInfoMapper.deleteByGameId(gameIdList);
+    }
 
     @Override
     public GameInfo get(GameInfo gameInfo) {
         return criusGameInfoMapper.get(gameInfo);
+    }
+    
+    public List<GameInfo> findGameList(GameInfo info){
+    	return criusGameInfoMapper.findGameList(info);
     }
     
     /**

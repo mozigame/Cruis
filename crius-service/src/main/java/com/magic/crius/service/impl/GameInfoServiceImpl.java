@@ -24,6 +24,14 @@ public class GameInfoServiceImpl implements GameInfoService {
     private GameInfoDbService gameInfoDbService;
     @Resource
     private GameInfoRedisService gameInfoRedisService;
+    
+    public Long updateBatch(List<GameInfo> list){
+    	return gameInfoDbService.updateBatch(list);
+    }
+    
+    public boolean deleteByGameId(List<String> gameIdList){
+    	return gameInfoDbService.deleteByGameId(gameIdList);
+    }
 
     @Override
     public boolean batchSave(List<GameInfo> gameInfos) {
@@ -48,6 +56,10 @@ public class GameInfoServiceImpl implements GameInfoService {
     @Override
     public GameInfo get(GameInfo gameInfo) {
         return gameInfoDbService.get(gameInfo);
+    }
+    
+    public List<GameInfo> findGameList(GameInfo info){
+    	return gameInfoDbService.findGameList(info);
     }
     
     /**
