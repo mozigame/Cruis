@@ -25,4 +25,9 @@ public class TethysUserOrderDetailServiceImpl implements TethysUserOrderDetailSe
     public boolean batchSave(List<UserOrderDetail> userOrderDetails, List<Long> userIds) {
         return tethysUserOrderDetailDbService.batchSave(userOrderDetails,userIds);
     }
+
+    @Override
+    public List<Long> findNoPaidIds(List<UserOrderDetail> orderDetails, List<Long> userIds) {
+        return tethysUserOrderDetailDbService.findNoPaidIds(orderDetails, userIds);
+    }
 }

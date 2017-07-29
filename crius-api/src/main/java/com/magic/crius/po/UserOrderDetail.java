@@ -33,6 +33,9 @@ public class UserOrderDetail {
     
     private String remark;
 
+    private Integer isPaid; //是否已派彩
+
+
     public Integer getId() {
         return id;
     }
@@ -144,6 +147,12 @@ public class UserOrderDetail {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-    
-    
+
+    public Integer getIsPaid() {
+        return isPaid;
+    }
+
+    public void setIsPaid(Integer isPaid) {
+        this.isPaid = isPaid;
+    }
 }

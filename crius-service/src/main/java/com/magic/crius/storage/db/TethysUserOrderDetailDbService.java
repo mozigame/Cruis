@@ -13,4 +13,11 @@ import java.util.List;
 public interface TethysUserOrderDetailDbService {
 
     boolean batchSave(List<UserOrderDetail> userOrderDetails, List<Long> userIds);
+
+    /**
+     * 获取未派彩或者未插入的订单Id列表
+     * @param userIds
+     * @return
+     */
+    List<Long> findNoPaidIds(List<UserOrderDetail> orderDetails,List<Long> userIds);
 }
