@@ -74,7 +74,7 @@ public class GameInfoAssemService {
 	                    if (!gameInfoService.deleteAll()) {
 	                        logger.warn("delete gameInfos failed");
 	                    }
-	                    if (!gameInfoService.batchSave(gameInfos)) {
+	                    if (!batchSaveGame(gameInfos)) {
 	                        logger.warn("batchSave gameInfos failed");
 	                    }
                 	}
@@ -83,6 +83,31 @@ public class GameInfoAssemService {
             logger.info("insert all gameInfo spend time " +(System.currentTimeMillis() - startTime));
 
         }
+    }
+    
+    /**
+     * 对游戏按批次保存,每个批次500行
+     * @param gameList
+     * @return
+     */
+    private boolean batchSaveGame(List<GameInfo> gameList){
+    	int BATCH_SIZE=500;
+    	List<GameInfo> list=new ArrayList<>();
+    	boolean result=false;
+    	for(GameInfo game:list){
+    		list.add(game);
+    		if(list.size()>BATCH_SIZE){
+    			result=gameInfoService.batchSave(list);
+    			if(!result){
+    				return result;
+    			}
+    			list.clear();
+    		}
+    	}
+    	if(list.size()>0){
+    		result=gameInfoService.batchSave(list);
+    	}
+    	return result;
     }
     
     private boolean checkChange(List<GameInfo> gameInfos){
