@@ -69,7 +69,7 @@ public class GameInfoAssemService {
                     logger.error("proc gameInfo set lock error");
                 } else {
                 	//检查是否有修改，有修改才对数据进行更新
-                	if(!checkChange(gameInfos)){
+                	if(checkChange(gameInfos)){
 	                    //先清空游戏表
 	                    if (!gameInfoService.deleteAll()) {
 	                        logger.warn("delete gameInfos failed");
