@@ -4,6 +4,7 @@ import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.UserOrderDetailAssemService;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.constants.ScheduleConsumerConstants;
+import com.magic.crius.enums.IsPaidType;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.po.RepairLock;
 import com.magic.crius.po.UserOrderDetail;
@@ -18,7 +19,6 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import static com.magic.crius.constants.ScheduleConsumerConstants.POLL_TIME;
-import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
 
 /**
  * User: joey
@@ -188,6 +188,7 @@ public class BaseOrderReqConsumer {
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getUpdateDatetime()), "yyyyMMdd")));
         detail.setCreateTime(req.getBetDatetime());
         detail.setUpdateTime(req.getUpdateDatetime());
+        detail.setIsPaid(IsPaidType.parse(req.getIsPaid()).value());
         detail.setOrderExtent(req.getOrderExtent().toJSONString());
         return detail;
     }
@@ -200,3 +201,6 @@ public class BaseOrderReqConsumer {
         return sucReq;
     }
 }
+
+
+

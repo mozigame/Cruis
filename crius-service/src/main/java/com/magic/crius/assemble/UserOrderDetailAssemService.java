@@ -2,6 +2,7 @@ package com.magic.crius.assemble;
 
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.UserOrderDetailAssemService;
+import com.magic.crius.enums.IsPaidType;
 import com.magic.crius.po.UserOrderDetail;
 import com.magic.crius.service.TethysUserOrderDetailService;
 import com.magic.crius.service.UserOrderDetailService;
@@ -32,11 +33,21 @@ public class UserOrderDetailAssemService {
     public boolean batchSave(List<UserOrderDetail> details) {
         boolean flag = false;
         if (userOrderDetailService.batchSave(details)) {
-            List<Long> userIds = new ArrayList<>();
+            List<Long> userNoPaidIds = new ArrayList<>();
+            List<UserOrderDetail>  userOrderPaid = new ArrayList<>();
+            List<UserOrderDetail>  userOrderNoPaid = new ArrayList<>();
             for (UserOrderDetail orderDetail : details) {
-                userIds.add(orderDetail.getUserId());
+                if (orderDetail.getIsPaid() == IsPaidType.noPay.value()) {
+                    userNoPaidIds.add(orderDetail.getUserId());
+                    userOrderNoPaid.add(orderDetail);
+                } else {
+                    userOrderPaid.add(orderDetail);
+                }
             }
-            tethysUserOrderDetailService.batchSave(details, userIds);
+//            for ()
+            //批量添加未派彩的数据
+            tethysUserOrderDetailService.batchSave(userOrderNoPaid, userNoPaidIds);
+
             flag = true;
         }
         return flag;
@@ -50,8 +61,6 @@ public class UserOrderDetailAssemService {
 			userIds.add(orderDetail.getUserId());
 		}
 		tethysUserOrderDetailService.batchSave(details, userIds);
-		flag = true;
-
         return flag;
     }
     
@@ -75,41 +84,41 @@ public class UserOrderDetailAssemService {
     }
 
 
-	public UserOrderDetail assembleUserOrderDetail(DealerRewardReq req) {
-		// TODO Auto-generated method stub
-		 UserOrderDetail detail = new UserOrderDetail();
-	        detail.setOwnerId(req.getOwnerId());
-	        detail.setUserId(req.getUserId());
-	        detail.setGameId(String.valueOf(req.getGameId()));
-	        detail.setOrderId(req.getBillId());
-	        detail.setRemark("荷官打赏："+req.getRewardAmount());
-	        detail.setOrderCount(0l);
-	        detail.setEffectOrderCount(0l);
-	        detail.setPayOffCount(0l);
-	        //todo 订单状态
-	        detail.setOrderState(0);
-	        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getCreateTime()), "yyyyMMdd")));
-	        detail.setCreateTime(req.getCreateTime());
-	     
-	        return detail;
-	}
+    public UserOrderDetail assembleUserOrderDetail(DealerRewardReq req) {
+        // TODO Auto-generated method stub
+        UserOrderDetail detail = new UserOrderDetail();
+        detail.setOwnerId(req.getOwnerId());
+        detail.setUserId(req.getUserId());
+        detail.setGameId(String.valueOf(req.getGameId()));
+        detail.setOrderId(req.getBillId());
+        detail.setRemark("荷官打赏：" + req.getRewardAmount());
+        detail.setOrderCount(0L);
+        detail.setEffectOrderCount(0L);
+        detail.setPayOffCount(0L);
+        //todo 订单状态
+        detail.setOrderState(0);
+        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getCreateTime()), "yyyyMMdd")));
+        detail.setCreateTime(req.getCreateTime());
+
+        return detail;
+    }
 
 	public UserOrderDetail assembleUserOrderDetail(JpReq req) {
-		// TODO Auto-generated method stub
-		    UserOrderDetail detail = new UserOrderDetail();
-	        detail.setOwnerId(req.getOwnerId());
-	        detail.setUserId(req.getUserId());
-	        detail.setGameId(String.valueOf(req.getGameId()));
-	        detail.setOrderId(req.getBillId());
-	        detail.setRemark("Bonus彩金："+req.getJpType()==null?"":req.getJpType());
-	        detail.setOrderCount(0l);
-	        detail.setEffectOrderCount(0l);
-	        detail.setPayOffCount(req.getJpAmount());
-	        //todo 订单状态
-	        detail.setOrderState(0);
-	        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getCreateTime()), "yyyyMMdd")));
-	        detail.setCreateTime(req.getCreateTime());
-	     
-	        return detail;
-	}
+        // TODO Auto-generated method stub
+        UserOrderDetail detail = new UserOrderDetail();
+        detail.setOwnerId(req.getOwnerId());
+        detail.setUserId(req.getUserId());
+        detail.setGameId(String.valueOf(req.getGameId()));
+        detail.setOrderId(req.getBillId());
+        detail.setRemark("Bonus彩金：" + req.getJpType() == null ? "" : req.getJpType());
+        detail.setOrderCount(0L);
+        detail.setEffectOrderCount(0L);
+        detail.setPayOffCount(req.getJpAmount());
+        //todo 订单状态
+        detail.setOrderState(0);
+        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getCreateTime()), "yyyyMMdd")));
+        detail.setCreateTime(req.getCreateTime());
+
+        return detail;
+    }
 }

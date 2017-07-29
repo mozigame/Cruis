@@ -37,6 +37,8 @@ public class BaseOrderReq {
     private Long validBetAmount;    //有效投注金额
     private Long payoff;    //派彩金额
     private Long produceTime;  //
+    @JSONField(name = "is_paid")
+    private String isPaid; //是否已派彩
     //扩展消息
     private JSONObject orderExtent;
 
@@ -159,5 +161,13 @@ public class BaseOrderReq {
 
     public void setOrderExtent(JSONObject orderExtent) {
         this.orderExtent = orderExtent;
+    }
+
+    public String getIsPaid() {
+        return isPaid;
+    }
+
+    public void setIsPaid(String isPaid) {
+        this.isPaid = isPaid;
     }
 }

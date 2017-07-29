@@ -6,6 +6,7 @@ import com.magic.crius.storage.db.TethysUserOrderDetailDbService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -28,5 +29,21 @@ public class TethysUserOrderDetailDbServiceImpl implements TethysUserOrderDetail
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public List<Long> findNoPaidIds(List<UserOrderDetail> orderDetails, List<Long> userIds) {
+        List<Long> result = new ArrayList<>();
+        for (int i=0;i<userIds.size();i++) {
+            try {
+                Long orderId = (Long) userOrderDetailMapper.get("findNoPaid", userIds.get(i), new String[]{""}, new Object[]{});
+                if (orderId != null) {
+                    result.add(orderId);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
     }
 }
