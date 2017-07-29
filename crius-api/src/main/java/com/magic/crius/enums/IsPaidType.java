@@ -24,7 +24,7 @@ public enum IsPaidType {
             maps.put(type.getDes(), type);
     }
 
-    IsPaidType(int value, String des) {
+    IsPaidType(String des, int value) {
         this.value = value;
         this.des = des;
     }
