@@ -29,6 +29,37 @@ public class UserOutMoneyDetail {
 
     private Long updateTime;
 
+    private Long costAmount;//行政成本
+
+    private Long offerAmount;//优惠金额
+
+    private Long feeAmount;//手续费
+
+
+    public Long getCostAmount() {
+        return costAmount;
+    }
+
+    public void setCostAmount(Long costAmount) {
+        this.costAmount = costAmount;
+    }
+
+    public Long getOfferAmount() {
+        return offerAmount;
+    }
+
+    public void setOfferAmount(Long offerAmount) {
+        this.offerAmount = offerAmount;
+    }
+
+    public Long getFeeAmount() {
+        return feeAmount;
+    }
+
+    public void setFeeAmount(Long feeAmount) {
+        this.feeAmount = feeAmount;
+    }
+
     public Integer getId() {
         return id;
     }

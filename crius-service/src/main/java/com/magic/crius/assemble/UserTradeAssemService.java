@@ -91,6 +91,7 @@ public class UserTradeAssemService {
         userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
         userTrade.setTradeType(req.getOfferTypeId());
+        userTrade.setRemark(req.getRemark());
         userTrade.setActiontype(ActionType.YOU_HUI.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return userTrade;
@@ -117,6 +118,7 @@ public class UserTradeAssemService {
         userTrade.setTradeId(billId);
         userTrade.setTradeNum(req.getChargeAmount());
         userTrade.setTotalNum(req.getBalance());
+        userTrade.setRemark(req.getRemark());
         userTrade.setTradeTime(req.getProduceTime());
         userTrade.setTradeType(SummaryType.ARTIFICIAL_INTO_MOENY.getStatus());
         userTrade.setActiontype(ActionType.CHONG_ZHI.getStatus());
@@ -131,6 +133,7 @@ public class UserTradeAssemService {
         userTrade.setTradeId(billId);
         userTrade.setTradeNum(req.getAmount());
         userTrade.setTotalNum(req.getBalance());
+        userTrade.setRemark(req.getRemark());
         userTrade.setTradeTime(req.getProduceTime());
         userTrade.setTradeType(SummaryType.ARTIFICIAL_WITHDRAWAL.getStatus());
         userTrade.setActiontype(ActionType.TI_KUANG.getStatus());

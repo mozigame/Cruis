@@ -129,8 +129,8 @@ public class PreWithdrawReqConsumer {
 					ownerCompanyAccountDetails
 							.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail4TaxCount(req));
 				}
-               
-                
+
+
                 userTrades.add(userTradeAssemService.assembleUserTrade(req));
                 /*会员提款*/
                 if (memberConditionVoMap.get(req.getUserId()) == null) {
@@ -238,6 +238,11 @@ public class PreWithdrawReqConsumer {
         detail.setHandlerName(req.getHandlerName());
         detail.setCreateTime(req.getProduceTime());
         detail.setUpdateTime(req.getProduceTime());
+
+        //会员出款扣款
+        detail.setCostAmount(req.getCostAmount());
+        detail.setFeeAmount(req.getFeeAmount());
+        detail.setOfferAmount(req.getOfferAmount());
         return detail;
     }
 
