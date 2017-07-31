@@ -28,7 +28,6 @@ import static com.magic.crius.constants.ScheduleConsumerConstants.POLL_TIME;
 @Component
 public class BaseOrderReqConsumer {
 
-
     private static final Logger logger = Logger.getLogger(BaseOrderReqConsumer.class);
     private ExecutorService baseOrderTaskPool = new ThreadPoolExecutor(10, 20, 3, TimeUnit.SECONDS,
             new ArrayBlockingQueue<>(10), new ThreadPoolExecutor.DiscardPolicy());
