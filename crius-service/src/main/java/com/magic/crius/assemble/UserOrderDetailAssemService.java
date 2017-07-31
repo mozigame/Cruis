@@ -3,6 +3,7 @@ package com.magic.crius.assemble;
 import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.UserOrderDetailAssemService;
+import com.magic.crius.enums.IsPaidType;
 import com.magic.crius.po.UserOrderDetail;
 import com.magic.crius.service.TethysUserOrderDetailService;
 import com.magic.crius.service.UserOrderDetailService;
@@ -14,9 +15,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: joey
@@ -33,17 +32,43 @@ public class UserOrderDetailAssemService {
     private TethysUserOrderDetailService tethysUserOrderDetailService;
 
     public boolean batchSave(List<UserOrderDetail> details) {
-        logger.info("batch save userOrderDetail size : " + details.size());
-        boolean flag = false;
-        if (userOrderDetailService.batchSave(details)) {
-            List<Long> userIds = new ArrayList<>();
-            for (UserOrderDetail orderDetail : details) {
-                userIds.add(orderDetail.getUserId());
+        List<Long> insertUserIds = new ArrayList<>();
+        Map<Long, UserOrderDetail> userOrderPaid = new HashMap<>();
+        List<UserOrderDetail> insertOrder = new ArrayList<>();
+        List<UserOrderDetail> updateOrder = new ArrayList<>();
+        for (UserOrderDetail orderDetail : details) {
+            if (orderDetail.getIsPaid() == IsPaidType.noPaid.value()) {
+                insertUserIds.add(orderDetail.getUserId());
+                insertOrder.add(orderDetail);
+            } else {
+                userOrderPaid.put(orderDetail.getOrderId(), orderDetail);
             }
-            tethysUserOrderDetailService.batchSave(details, userIds);
-            flag = true;
         }
-        return flag;
+
+        List<Long> existNoPaidIds = tethysUserOrderDetailService.findNoPaidIds(userOrderPaid.values());
+        for (Map.Entry<Long, UserOrderDetail> entry : userOrderPaid.entrySet()) {
+            if (existNoPaidIds.contains(entry.getKey())) {
+                updateOrder.add(entry.getValue());
+            } else {
+                insertUserIds.add(entry.getValue().getUserId());
+                insertOrder.add(entry.getValue());
+            }
+        }
+        /*
+         * 批量添加未派彩和派彩但未插入的数据
+         */
+        //tethys
+        tethysUserOrderDetailService.batchSave(insertOrder, insertUserIds);
+        //metis
+        userOrderDetailService.batchSave(insertOrder);
+        //修改订单的派彩状态
+        for (UserOrderDetail orderDetail : updateOrder) {
+            tethysUserOrderDetailService.updatePaid(orderDetail);
+            userOrderDetailService.updatePaidStatus(orderDetail);
+        }
+        logger.info(String.format(" all order size : %d ,insert order size : %d, update order size : %d", details.size(), insertOrder.size(), updateOrder.size()));
+
+        return true;
     }
 
     public boolean batchSaveDetails(List<UserOrderDetail> details) {
@@ -87,9 +112,9 @@ public class UserOrderDetailAssemService {
         detail.setGameId(String.valueOf(req.getGameId()));
         detail.setOrderId(req.getBillId());
         detail.setRemark("荷官打赏：" + req.getRewardAmount());
-        detail.setOrderCount(0l);
-        detail.setEffectOrderCount(0l);
-        detail.setPayOffCount(0l);
+        detail.setOrderCount(0L);
+        detail.setEffectOrderCount(0L);
+        detail.setPayOffCount(0L);
         //todo 订单状态
         detail.setOrderState(0);
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getCreateTime()), "yyyyMMdd")));
@@ -106,8 +131,8 @@ public class UserOrderDetailAssemService {
         detail.setGameId(String.valueOf(req.getGameId()));
         detail.setOrderId(req.getBillId());
         detail.setRemark("Bonus彩金：" + req.getJpType() == null ? "" : req.getJpType());
-        detail.setOrderCount(0l);
-        detail.setEffectOrderCount(0l);
+        detail.setOrderCount(0L);
+        detail.setEffectOrderCount(0L);
         detail.setPayOffCount(req.getJpAmount());
         //todo 订单状态
         detail.setOrderState(0);
