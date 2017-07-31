@@ -41,7 +41,11 @@ public class GameInfoAssemService {
         gameInfoTaskPool.execute(new Runnable() {
             @Override
             public void run() {
-                getAllGames();
+                try {
+					getAllGames();
+				} catch (Exception e) {
+					 logger.error("----gameInfo.init--", e);
+				}
             }
         });
     }

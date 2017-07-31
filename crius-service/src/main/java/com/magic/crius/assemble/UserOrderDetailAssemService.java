@@ -34,7 +34,6 @@ public class UserOrderDetailAssemService {
 
     public boolean batchSave(List<UserOrderDetail> details) {
         logger.info("batch save userOrderDetail size : " + details.size());
-        System.out.println("batch save userOrderDetail size : " + details.size());
         boolean flag = false;
         if (userOrderDetailService.batchSave(details)) {
             List<Long> userIds = new ArrayList<>();

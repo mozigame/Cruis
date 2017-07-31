@@ -53,7 +53,11 @@ public class BaseOrderReqConsumer {
             baseOrderTaskPool.execute(new Runnable() {
                 @Override
                 public void run() {
-                    currentDataCalculate(date);
+                    try {
+						currentDataCalculate(date);
+					} catch (Exception e) {
+						logger.error("---detailCalculate--", e);
+					}
                 }
             });
         }
@@ -61,8 +65,12 @@ public class BaseOrderReqConsumer {
         baseOrderHistoryTaskPool.execute(new Runnable() {
             @Override
             public void run() {
-                repairCacheHistoryTask(date);
-                repairMongoAbnormal(date);
+                try {
+					repairCacheHistoryTask(date);
+					repairMongoAbnormal(date);
+				} catch (Exception e) {
+					logger.error("---detailCalculate-task--", e);
+				}
             }
         });
     }
@@ -93,7 +101,6 @@ public class BaseOrderReqConsumer {
      * @param list
      */
     private void flushData(Collection<BaseOrderReq> list) {
-    	System.out.println("batchflushData size : " + list.size());
         if (list != null && list.size() > 0) {
             List<UserOrderDetail> details=new ArrayList<>();
 			List<BaseOrderReq> sucReqs=new ArrayList<>();
@@ -108,7 +115,6 @@ public class BaseOrderReqConsumer {
 			} catch (Exception e) {
 				logger.error("------flushData--"+e.getMessage(), e);
 			}
-            System.out.println("batchflushData details : " + details.size()+" sucReqs="+sucReqs.size());
             userOrderDetailAssemService.batchSave(details);
             //todo 成功的id处理
             if (!baseOrderReqService.saveSuc(sucReqs)) {

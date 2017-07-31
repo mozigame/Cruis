@@ -55,7 +55,8 @@ public class ProxyInfoAssemService {
                     startTime.add(Calendar.HOUR, -1);
                     batchSave(startTime.getTimeInMillis(), endTime.getTime());
                 } catch (Exception e) {
-                    e.printStackTrace();
+//                    e.printStackTrace();
+                	logger.error("----proxyInfo-init---", e);
                 }
             }
         });
