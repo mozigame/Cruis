@@ -1,5 +1,6 @@
 package com.magic.crius.scheduled.consumer;
 
+import com.magic.api.commons.ApiLogger;
 import com.magic.crius.service.BillInfoService;
 import com.magic.crius.util.ThreadTaskPoolFactory;
 import com.magic.crius.vo.AgentBillReq;
@@ -44,8 +45,7 @@ public class BillInfoConsumer {
                 try {
 					billInfoService.save(agentBillReq);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					ApiLogger.error("---detailCalculate--", e);
 				}
             }
         });
@@ -62,8 +62,7 @@ public class BillInfoConsumer {
                 try {
 					billInfoService.save(ownerBillReq);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					ApiLogger.error("---detailCalculate-task--", e);
 				}
             }
         });

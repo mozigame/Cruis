@@ -1,5 +1,6 @@
 package com.magic.crius.scheduled.consumer;
 
+import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.*;
 import com.magic.crius.constants.CriusConstants;
@@ -67,7 +68,7 @@ public class OnlChargeReqConsumer {
                     try {
 						currentDataCalculate(date);
 					} catch (Exception e) {
-						logger.error("---detailCalculate--", e);
+						ApiLogger.error("---detailCalculate--", e);
 					}
                 }
             });
@@ -80,7 +81,7 @@ public class OnlChargeReqConsumer {
 					repairCacheHistoryTask(date);
 					repairMongoAbnormal(date);
 				} catch (Exception e) {
-					logger.error("---detailCalculate-task--", e);
+					ApiLogger.error("---detailCalculate-task--", e);
 				}
             }
         });

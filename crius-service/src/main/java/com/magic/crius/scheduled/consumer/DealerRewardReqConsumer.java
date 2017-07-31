@@ -19,6 +19,7 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
+import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.OwnerAwardDetailAssemService;
 import com.magic.crius.assemble.UserOrderDetailAssemService;
@@ -69,8 +70,7 @@ public class DealerRewardReqConsumer {
                     try {
 						currentDataCalculate(date);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						ApiLogger.error("---detailCalculate--", e);
 					}
                 }
             });
@@ -83,8 +83,7 @@ public class DealerRewardReqConsumer {
 					repairCacheHistoryTask(date);
 					repairMongoAbnormal(date);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					ApiLogger.error("---detailCalculate-task--", e);
 				}
             }
         });

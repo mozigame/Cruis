@@ -1,5 +1,6 @@
 package com.magic.crius.scheduled.consumer;
 
+import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.PrizeDetailAssemService;
 import com.magic.crius.assemble.UserOrderDetailAssemService;
@@ -57,8 +58,7 @@ public class JpReqConsumer {
                     try {
 						currentDataCalculate(date);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						ApiLogger.error("---detailCalculate--", e);
 					}
                 }
             });
@@ -71,8 +71,7 @@ public class JpReqConsumer {
 					repairCacheHistoryTask(date);
 					repairMongoAbnormal(date);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					ApiLogger.error("---detailCalculate-task--", e);
 				}
             }
         });
