@@ -186,7 +186,7 @@ public class OwnerCompanyAccountDetailAssemService {
         //TODO 此处待确定
         account.setSummaryType(KafkaConf.DataType.TAX_COUNT.type());
         account.setSummaryTypeName(KafkaConf.DataType.TAX_COUNT.typeName());
-        account.setSummaryKind(SummaryKind.outlay.value());
+        account.setSummaryKind(SummaryKind.income.value());
         account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
         return account;
     }

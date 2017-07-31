@@ -41,6 +41,39 @@ public class PreWithdrawReq {
     @JSONField(name = "Balance")
     private Long balance;   //余额
 
+    @JSONField(name = "CostAmount")
+    private Long costAmount;//行政成本
+
+    @JSONField(name = "OfferAmount")
+    private Long offerAmount;//优惠金额
+
+    @JSONField(name = "FeeAmount")
+    private Long feeAmount;//手续费
+
+
+    public Long getCostAmount() {
+        return costAmount;
+    }
+
+    public void setCostAmount(Long costAmount) {
+        this.costAmount = costAmount;
+    }
+
+    public Long getOfferAmount() {
+        return offerAmount;
+    }
+
+    public void setOfferAmount(Long offerAmount) {
+        this.offerAmount = offerAmount;
+    }
+
+    public Long getFeeAmount() {
+        return feeAmount;
+    }
+
+    public void setFeeAmount(Long feeAmount) {
+        this.feeAmount = feeAmount;
+    }
 
     public Long getReqId() {
         return reqId;
