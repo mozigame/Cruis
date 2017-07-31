@@ -41,7 +41,12 @@ public class BillInfoConsumer {
         billInfoJobTaskPool.execute(new Runnable() {
             @Override
             public void run() {
-                billInfoService.save(agentBillReq);
+                try {
+					billInfoService.save(agentBillReq);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
     }
@@ -54,7 +59,12 @@ public class BillInfoConsumer {
         billInfoJobTaskPool.execute(new Runnable() {
             @Override
             public void run() {
-                billInfoService.save(ownerBillReq);
+                try {
+					billInfoService.save(ownerBillReq);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
     }

@@ -64,7 +64,11 @@ public class MonthJobConsumer {
         MonthJobTaskPool.execute(new Runnable() {
             @Override
             public void run() {
-                RunJob();
+                try {
+					RunJob();
+				} catch (Exception e) {
+					ApiLogger.error("---doBillInfoJob--", e);
+				}
             }
         });
     }

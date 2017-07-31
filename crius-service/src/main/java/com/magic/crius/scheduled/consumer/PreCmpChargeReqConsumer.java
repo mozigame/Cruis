@@ -72,7 +72,11 @@ public class PreCmpChargeReqConsumer {
             preCmpChargeTaskPool.execute(new Runnable() {
                 @Override
                 public void run() {
-                    currentDataCalculate(date);
+                    try {
+						currentDataCalculate(date);
+					} catch (Exception e) {
+						logger.error("---detailCalculate--", e);
+					}
                 }
             });
         }
@@ -80,8 +84,12 @@ public class PreCmpChargeReqConsumer {
         preCmpChargeHistoryTaskPool.execute(new Runnable() {
             @Override
             public void run() {
-                repairCacheHistoryTask(date);
-                repairMongoAbnormal(date);
+                try {
+					repairCacheHistoryTask(date);
+					repairMongoAbnormal(date);
+				} catch (Exception e) {
+					logger.error("---detailCalculate-task--", e);
+				}
             }
         });
     }

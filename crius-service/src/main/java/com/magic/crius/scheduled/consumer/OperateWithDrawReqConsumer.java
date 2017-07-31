@@ -85,7 +85,11 @@ public class OperateWithDrawReqConsumer {
             operateWithDrawTaskPool.execute(new Runnable() {
                 @Override
                 public void run() {
-                    currentDataCalculate(date);
+                    try {
+						currentDataCalculate(date);
+					} catch (Exception e) {
+						logger.error("---detailCalculate--", e);
+					}
                 }
             });
         }
@@ -93,8 +97,12 @@ public class OperateWithDrawReqConsumer {
         operateWithDrawHistoryTaskPool.execute(new Runnable() {
             @Override
             public void run() {
-                repairCacheHistoryTask(date);
-                repairMongoAbnormal(date);
+                try {
+					repairCacheHistoryTask(date);
+					repairMongoAbnormal(date);
+				} catch (Exception e) {
+					logger.error("---detailCalculate-task--", e);
+				}
             }
         });
     }

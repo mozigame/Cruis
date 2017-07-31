@@ -66,7 +66,12 @@ public class DealerRewardReqConsumer {
             dealerRewardTaskPool.execute(new Runnable() {
                 @Override
                 public void run() {
-                    currentDataCalculate(date);
+                    try {
+						currentDataCalculate(date);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
                 }
             });
         }
@@ -74,8 +79,13 @@ public class DealerRewardReqConsumer {
         dealerRewardHistoryTaskPool.execute(new Runnable() {
             @Override
             public void run() {
-                repairCacheHistoryTask(date);
-                repairMongoAbnormal(date);
+                try {
+					repairCacheHistoryTask(date);
+					repairMongoAbnormal(date);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
     }
