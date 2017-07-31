@@ -48,7 +48,7 @@ public class GameInfoAssemService {
     
     private String getGameInfoStr(GameInfo gameInfo) throws Exception{
     	Map<String, Object> map;
-		map = JsonKit.parseToMap(gameInfo);
+		map = JsonKit.dataToMap(gameInfo);
 		return map.toString();
     }
 
