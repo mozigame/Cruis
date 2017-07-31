@@ -102,19 +102,13 @@ public class BaseOrderReqConsumer {
      */
     private void flushData(Collection<BaseOrderReq> list) {
         if (list != null && list.size() > 0) {
-            List<UserOrderDetail> details=new ArrayList<>();
-			List<BaseOrderReq> sucReqs=new ArrayList<>();
-			try {
-				details = new ArrayList<>();
-				sucReqs = new ArrayList<>();
-				for (BaseOrderReq req : list) {
-				    details.add(assembleUserOrderDetail(req));
-				    /*成功的数据*/
-				    sucReqs.add(assembleSucReq(req));
-				}
-			} catch (Exception e) {
-				logger.error("------flushData--"+e.getMessage(), e);
-			}
+            List<UserOrderDetail> details = new ArrayList<>();
+            List<BaseOrderReq> sucReqs = new ArrayList<>();
+            for (BaseOrderReq req : list) {
+                details.add(assembleUserOrderDetail(req));
+                    /*成功的数据*/
+                sucReqs.add(assembleSucReq(req));
+            }
             userOrderDetailAssemService.batchSave(details);
             //todo 成功的id处理
             if (!baseOrderReqService.saveSuc(sucReqs)) {
