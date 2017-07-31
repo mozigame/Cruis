@@ -67,8 +67,7 @@ public class DiscountReqConsumer {
                     try {
 						currentDataCalculate(date);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						ApiLogger.error("---detailCalculate--", e);
 					}
                 }
             });
@@ -81,8 +80,7 @@ public class DiscountReqConsumer {
 					repairCacheHistoryTask(date);
 					repairMongoAbnormal(date);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					ApiLogger.error("---detailCalculate-task--", e);
 				}
             }
         });

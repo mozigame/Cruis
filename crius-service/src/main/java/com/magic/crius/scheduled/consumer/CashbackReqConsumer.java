@@ -1,5 +1,6 @@
 package com.magic.crius.scheduled.consumer;
 
+import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
 import com.magic.crius.assemble.OwnerReforwardDetailAssemService;
@@ -65,8 +66,7 @@ public class CashbackReqConsumer {
                     try {
 						currentDataCalculate(date);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						ApiLogger.error("---detailCalculate--", e);
 					}
                 }
             });
@@ -79,8 +79,7 @@ public class CashbackReqConsumer {
 					repairCacheHistoryTask(date);
 					repairMongoAbnormal(date);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					ApiLogger.error("---detailCalculate-task--", e);
 				}
             }
         });
