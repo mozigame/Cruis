@@ -40,13 +40,20 @@ public class GameInfoAssemService {
     public void init() {
         gameInfoTaskPool.execute(new Runnable() {
             @Override
-            public void run() {
-                try {
-					getAllGames();
+			public void run() {
+				try {
+					logger.info("----gameInfo.init--start--");
+					if (!gameInfoService.getLock()) {//20分钟内控制(集群下)只有一个任务在执行
+						if (!gameInfoService.setLock()) {
+							logger.error("proc gameInfo set lock error");
+						} else {
+							getAllGames();
+						}
+					}
 				} catch (Exception e) {
-					 logger.error("----gameInfo.init--", e);
+					logger.error("----gameInfo.init--", e);
 				}
-            }
+			}
         });
     }
     
@@ -56,6 +63,9 @@ public class GameInfoAssemService {
 		return map.toString();
     }
 
+    /**
+     * 同步游戏数据
+     */
     public void getAllGames() {
         String body = "{\"api\":\"game_list\",\"status\":1}";
         EGResp resp = criusThirdThriftService.getAllGames(body, "account");
@@ -68,25 +78,27 @@ public class GameInfoAssemService {
                 GameInfo gameInfo = JSONObject.parseObject(obj1.toJSONString(), GameInfo.class);
                 gameInfos.add(gameInfo);
             }
-            if (!gameInfoService.getLock()) {
-                if (!gameInfoService.setLock()) {
-                    logger.error("proc gameInfo set lock error");
-                } else {
-                	//检查是否有修改，有修改才对数据进行更新
-                	if(checkChange(gameInfos)){
-	                    //先清空游戏表
-	                    if (!gameInfoService.deleteAll()) {
-	                        logger.warn("delete gameInfos failed");
-	                    }
-//	                    if (!batchSaveGame(gameInfos)) {
-	                    if(gameInfoService.batchSave(gameInfos)){
-	                        logger.warn("batchSave gameInfos failed");
-	                    }
-                	}
+           
+        	//检查是否有修改，有修改才对数据进行更新
+        	if(checkChange(gameInfos)){
+                //先清空游戏表
+                if (!gameInfoService.deleteAll()) {
+                    logger.warn("delete gameInfos failed");
                 }
-            }
+//	                    if (!batchSaveGame(gameInfos)) {
+                if(gameInfoService.batchSave(gameInfos)){
+                    logger.warn("batchSave gameInfos failed");
+                }
+        	}   
             logger.info("insert all gameInfo spend time " +(System.currentTimeMillis() - startTime));
-
+        }
+        else{
+        	if(resp!=null){
+        		logger.warn("----getAllGame--code="+resp.getCode()+" body="+body+" data="+resp.getData());
+        	}
+        	else{
+        		logger.error("----getAllGame--body="+body+" error:return null");
+        	}
         }
     }
     
