@@ -79,7 +79,7 @@ public class GameInfoAssemService {
 	                        logger.warn("delete gameInfos failed");
 	                    }
 //	                    if (!batchSaveGame(gameInfos)) {
-						if(gameInfoService.batchSave(gameInfos)){
+	                    if(gameInfoService.batchSave(gameInfos)){
 	                        logger.warn("batchSave gameInfos failed");
 	                    }
                 	}
