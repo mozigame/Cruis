@@ -1,6 +1,7 @@
 package com.magic.crius.scheduled.consumer;
 
 import com.magic.api.commons.tools.DateUtil;
+import com.magic.api.commons.utils.StringUtils;
 import com.magic.crius.assemble.UserOrderDetailAssemService;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.constants.ScheduleConsumerConstants;
@@ -197,7 +198,7 @@ public class BaseOrderReqConsumer {
         detail.setCreateTime(req.getBetDatetime());
         detail.setUpdateTime(req.getUpdateDatetime());
         if (req.getIsPaid() != null) {
-            detail.setIsPaid(IsPaidType.parse(req.getIsPaid()).value());
+            detail.setIsPaid(req.getIsPaid());
         }
         detail.setOrderExtent(req.getOrderExtent().toJSONString());
         return detail;

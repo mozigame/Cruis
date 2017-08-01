@@ -30,7 +30,7 @@ public class RandomTest {
     @Test
     public void mod() {
         System.out.println(0x300008);
-        System.out.println(Math.abs(new Long(9359163).hashCode()) % 1024);
+        System.out.println(Math.abs(new Long(14099962).hashCode()) % 1024);
     }
 
     @Test
@@ -352,4 +352,5 @@ public class RandomTest {
                 "315";
         System.out.println(str.replace("\n",","));
     }
+
 }
