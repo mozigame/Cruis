@@ -55,4 +55,11 @@ public interface GameInfoMapper {
      * @return
      */
     String getGameType(@Param("factoryType") String factoryType, @Param("abstractType") String abstractType);
+
+    /**
+     * 根据gameType拿取最大的gameId
+     * @param gameType
+     * @return
+     */
+    String getGameId(@Param("gameType") String gameType);
 }

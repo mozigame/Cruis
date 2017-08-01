@@ -64,4 +64,11 @@ public interface GameInfoService {
      * @return
      */
     String getGameType(String factoryType,String abstractType);
+
+    /**
+     * 根据gameType随机拿取最大的gameId
+     * @param gameType
+     * @return
+     */
+    String getGameId(String gameType);
 }

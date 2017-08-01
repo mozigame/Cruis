@@ -90,4 +90,9 @@ public class GameInfoDbServiceImpl implements GameInfoDbService {
     public String getGameType(String factoryType, String abstractType) {
         return criusGameInfoMapper.getGameType(factoryType,abstractType);
     }
+
+    @Override
+    public String getGameId(String gameType) {
+        return criusGameInfoMapper.getGameId(gameType);
+    }
 }

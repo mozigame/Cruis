@@ -74,4 +74,9 @@ public class GameInfoServiceImpl implements GameInfoService {
     public String getGameType(String factoryType, String abstractType) {
         return gameInfoDbService.getGameType(factoryType,abstractType);
     }
+
+    @Override
+    public String getGameId(String gameType) {
+        return gameInfoDbService.getGameId(gameType);
+    }
 }
