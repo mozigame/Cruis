@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.magic.analysis.utils.JsonKit;
 import com.magic.config.thrift.base.EGResp;
+import com.magic.crius.dao.tethys.db.GameInfoMapper;
 import com.magic.crius.po.GameInfo;
 import com.magic.crius.service.GameInfoService;
 import com.magic.crius.service.thrift.CriusThirdThriftService;
@@ -33,6 +34,9 @@ public class GameInfoAssemService {
     private CriusThirdThriftService criusThirdThriftService;
     @Resource
     private GameInfoService gameInfoService;
+    
+    @Resource(name = "tethysGameInfoMapper")
+    private GameInfoMapper tethysGameInfoMapper;
 
 
     private ExecutorService gameInfoTaskPool = Executors.newSingleThreadExecutor();
@@ -82,13 +86,8 @@ public class GameInfoAssemService {
         	//检查是否有修改，有修改才对数据进行更新
         	if(checkChange(gameInfos)){
                 //先清空游戏表
-                if (!gameInfoService.deleteAll()) {
-                    logger.warn("delete gameInfos failed");
-                }
-//	                    if (!batchSaveGame(gameInfos)) {
-                if(gameInfoService.batchSave(gameInfos)){
-                    logger.warn("batchSave gameInfos failed");
-                }
+        		deleteAll();
+	            batchSaveGame(gameInfos);
         	}   
             logger.info("insert all gameInfo spend time " +(System.currentTimeMillis() - startTime));
         }
@@ -102,31 +101,48 @@ public class GameInfoAssemService {
         }
     }
     
+    private void deleteAll(){
+    	//先清空游戏表
+        if (!gameInfoService.deleteAll()) {
+            logger.warn("delete gameInfos failed");
+        }
+        Long pk=null;
+        if(tethysGameInfoMapper.delete(pk)==0){
+        	logger.warn("delete gameInfos tethys failed");
+        }
+        
+    }
+    
     /**
      * 对游戏按批次保存,每个批次500行
      * @param gameList
      * @return
      */
-    private boolean batchSaveGame(List<GameInfo> gameList){
+    private void batchSaveGame(List<GameInfo> gameList){
     	int BATCH_SIZE=500;
     	List<GameInfo> list=new ArrayList<>();
-    	boolean result=false;
     	for(GameInfo game:gameList){
     		list.add(game);
-    		if(list.size()>BATCH_SIZE){
-    			result=gameInfoService.batchSave(list);
-    			if(!result){
-    				return result;
-    			}
-    			logger.info("-----batchSaveGame--gameList="+gameList.size()+" list="+list.size());
-    			list.clear();
-    		}
+			if (list.size() > BATCH_SIZE) {
+				if (!gameInfoService.batchSave(list)) {
+					logger.warn("batchSave gameInfos failed ");
+				}
+				if (tethysGameInfoMapper.insertBatch(list) == 0) {
+					logger.warn("tethys insertBatch gameInfos failed ");
+				}
+				logger.info("-----batchSaveGame--gameList=" + gameList.size() + " list=" + list.size());
+				list.clear();
+			}
     	}
     	if(list.size()>0){
-    		result=gameInfoService.batchSave(list);
+    		if (!gameInfoService.batchSave(list)) {
+				logger.warn("batchSave gameInfos failed ");
+			}
+    		if (tethysGameInfoMapper.insertBatch(list) == 0) {
+				logger.warn("tethys insertBatch gameInfos failed ");
+			}
     		logger.info("-----batchSaveGame--gameList="+gameList.size()+" list="+list.size());
     	}
-    	return result;
     }
     
     private boolean checkChange(List<GameInfo> gameInfos){
@@ -160,6 +176,7 @@ public class GameInfoAssemService {
 			}
 			return false;
 		} catch (Exception e) {
+			logger.error("-----checkChange--gameList="+gameInfos.size(), e);
 			return true;
 		}
     }
