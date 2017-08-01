@@ -103,7 +103,7 @@ public class RiskEventRecordAssemService {
     		detail=new RiskEventDetail();
     		detail.setRiskEventRecordId(riskEventRecord.getId());
     		detail.setUserId(getObjectLong(map.get("UserId")));map.remove("UserId");
-    		detail.setIp(getObjectInteger(map.get("Ip")));map.remove("Ip");
+    		detail.setIp(getObjectLong(map.get("Ip")));map.remove("Ip");
     		if(map.containsKey("Time")){
     			detail.setTime(getObjectLong(map.get("Time")));map.remove("Time");
     		}

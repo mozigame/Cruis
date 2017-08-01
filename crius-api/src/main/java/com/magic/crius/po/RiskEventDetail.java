@@ -10,7 +10,7 @@ public class RiskEventDetail {
 	private Long id;
 	private Long riskEventRecordId;
 	private Long userId;
-	private Integer ip;
+	private Long ip;
 	private Long time;
 	private String jsonData;
 	public Long getId() {
@@ -32,10 +32,10 @@ public class RiskEventDetail {
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-	public Integer getIp() {
+	public Long getIp() {
 		return ip;
 	}
-	public void setIp(Integer ip) {
+	public void setIp(Long ip) {
 		this.ip = ip;
 	}
 	public Long getTime() {
