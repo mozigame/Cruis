@@ -33,4 +33,11 @@ public interface GameInfoDbService {
 
     String getGameType(String factoryType,String abstractType);
 
+    /**
+     * 根据gameType拿取最大的gameId
+     * @param gameType
+     * @return
+     */
+    String getGameId(String gameType);
+
 }

@@ -5,6 +5,7 @@ import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.UserOrderDetailAssemService;
 import com.magic.crius.enums.IsPaidType;
 import com.magic.crius.po.UserOrderDetail;
+import com.magic.crius.service.GameInfoService;
 import com.magic.crius.service.TethysUserOrderDetailService;
 import com.magic.crius.service.UserOrderDetailService;
 import com.magic.crius.vo.BaseOrderReq;
@@ -30,6 +31,8 @@ public class UserOrderDetailAssemService {
     private UserOrderDetailService userOrderDetailService;
     @Resource
     private TethysUserOrderDetailService tethysUserOrderDetailService;
+    @Resource
+    private GameInfoService gameInfoService;
 
     public boolean batchSave(List<UserOrderDetail> details) {
         List<Long> insertUserIds = new ArrayList<>();
@@ -109,7 +112,8 @@ public class UserOrderDetailAssemService {
         UserOrderDetail detail = new UserOrderDetail();
         detail.setOwnerId(req.getOwnerId());
         detail.setUserId(req.getUserId());
-        detail.setGameId(String.valueOf(req.getGameId()));
+        //打赏的gameId是gameType，需要在数据库中拿到一个随机的gameId
+        detail.setGameId(gameInfoService.getGameId(req.getGameId() + ""));
         detail.setOrderId(req.getBillId());
         detail.setRemark("荷官打赏：" + req.getRewardAmount());
         detail.setOrderCount(0L);
