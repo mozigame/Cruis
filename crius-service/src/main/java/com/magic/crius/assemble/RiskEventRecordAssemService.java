@@ -52,6 +52,21 @@ public class RiskEventRecordAssemService {
 		}
 	}
 	
+	private Integer getObjectInteger(Object obj){
+		if(obj==null){
+			return null;
+		}
+		else if(obj instanceof Integer){
+			return (Integer) obj;
+		}
+		else if(obj instanceof Long){
+			return ((Long)obj).intValue();
+		}
+		else{
+			return Integer.parseInt((String)obj);
+		}
+	}
+	
 	private String getShort(String str, int size){
 		if(str!=null){
 			if(str.length()>size){
@@ -88,7 +103,7 @@ public class RiskEventRecordAssemService {
     		detail=new RiskEventDetail();
     		detail.setRiskEventRecordId(riskEventRecord.getId());
     		detail.setUserId(getObjectLong(map.get("UserId")));map.remove("UserId");
-    		detail.setIp((Integer)map.get("Ip"));map.remove("Ip");
+    		detail.setIp(getObjectInteger(map.get("Ip")));map.remove("Ip");
     		if(map.containsKey("Time")){
     			detail.setTime(getObjectLong(map.get("Time")));map.remove("Time");
     		}
