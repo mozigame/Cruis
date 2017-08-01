@@ -24,10 +24,31 @@ public class UserTrade {
     private Long ownerId;
 
     private Integer pdate;
-    
+
     private Integer status;
 
     private Long gameType;   //游戏类型
+
+    private String remark; // 资金记录的备注
+
+    @Override
+    public String toString() {
+        return "UserTrade{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", tradeId=" + tradeId +
+                ", tradeNum=" + tradeNum +
+                ", totalNum=" + totalNum +
+                ", tradeTime=" + tradeTime +
+                ", tradeType=" + tradeType +
+                ", actiontype=" + actiontype +
+                ", ownerId=" + ownerId +
+                ", pdate=" + pdate +
+                ", status=" + status +
+                ", gameType=" + gameType +
+                ", remark='" + remark + '\'' +
+                '}';
+    }
 
     public Integer getId() {
         return id;
@@ -109,13 +130,13 @@ public class UserTrade {
         this.pdate = pdate;
     }
 
-	public Integer getStatus() {
-		return status;
-	}
+    public Integer getStatus() {
+        return status;
+    }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
     public Long getGameType() {
         return gameType;
@@ -123,5 +144,13 @@ public class UserTrade {
 
     public void setGameType(Long gameType) {
         this.gameType = gameType;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

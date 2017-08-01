@@ -7,6 +7,9 @@
         <result column="user_id" jdbcType="BIGINT" property="userId"/>
         <result column="order_count" jdbcType="BIGINT" property="orderCount"/>
         <result column="tax_count" jdbcType="BIGINT" property="taxCount"/>
+        <result column="cost_amount" jdbcType="BIGINT" property="costAmount"/>
+        <result column="offer_amount" jdbcType="BIGINT" property="offerAmount"/>
+        <result column="fee_amount" jdbcType="BIGINT" property="feeAmount"/>
         <result column="state" jdbcType="INTEGER" property="state"/>
         <result column="order_id" jdbcType="BIGINT" property="orderId"/>
         <result column="pdate" jdbcType="INTEGER" property="pdate"/>
@@ -21,12 +24,13 @@
         insert into user_out_money_detail (owner_id, user_id,
           order_count, tax_count, state,
           order_id, pdate, handler_id,
-          handler_name, create_time, update_time
+          handler_name, create_time, update_time,cost_amount,offer_amount,fee_amount
           )
         values (#{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
           #{orderCount,jdbcType=BIGINT}, #{taxCount,jdbcType=BIGINT}, #{state,jdbcType=INTEGER},
           #{orderId,jdbcType=BIGINT}, #{pdate,jdbcType=INTEGER}, #{handlerId,jdbcType=BIGINT},
-          #{handlerName,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}
+          #{handlerName,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT},
+          #{costAmount,jdbcType=BIGINT}, #{offerAmount,jdbcType=BIGINT}, #{feeAmount,jdbcType=BIGINT}
           )
     </insert>
 
@@ -35,7 +39,7 @@
         insert into user_out_money_detail (owner_id, user_id,
         order_count, tax_count, state,
         order_id, pdate, handler_id,
-        handler_name, create_time, update_time
+        handler_name, create_time, update_time,cost_amount,offer_amount,fee_amount
         )
         values
         <foreach collection="list" item="param" separator=",">
@@ -49,7 +53,10 @@
             #{param.handlerId,jdbcType=BIGINT},
             #{param.handlerName,jdbcType=VARCHAR},
             #{param.createTime,jdbcType=BIGINT},
-            #{param.updateTime,jdbcType=BIGINT}
+            #{param.updateTime,jdbcType=BIGINT},
+            #{param.costAmount,jdbcType=BIGINT},
+            #{param.offerAmount,jdbcType=BIGINT},
+            #{param.feeAmount,jdbcType=BIGINT}
             )
         </foreach>
 
