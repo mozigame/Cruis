@@ -23,9 +23,6 @@ public class GameInfoDbServiceImpl implements GameInfoDbService {
 
     private static final Logger logger = Logger.getLogger(GameInfoDbServiceImpl.class);
 
-    @Resource(name = "tethysGameInfoMapper")
-    private GameInfoMapper tethysGameInfoMapper;
-
     @Resource(name = "criusGameInfoMapper")
     private com.magic.crius.dao.crius.db.GameInfoMapper criusGameInfoMapper;
 
@@ -36,14 +33,6 @@ public class GameInfoDbServiceImpl implements GameInfoDbService {
             return false;
         } else {
             logger.info("criusGameInfoMapper insert gameInfos success");
-        }
-        try {
-            if (!tethysGameInfoMapper.insertDelBatch(gameInfos)) {
-                logger.warn("tethysGameInfoMapper insert gameInfos failed ");
-            }
-        } catch (Exception e) {
-            logger.error("tethysGameInfoMapper insert gameInfos error ",e);
-            e.printStackTrace();
         }
         return true;
     }
