@@ -156,9 +156,12 @@ public class ProxyInfoAssemService {
                     noExistProxyInfos.add(proxyInfo);
                 }
             }
-            //todo 插入不存在的代理信息
-            if (!proxyInfoService.batchInsert(noExistProxyInfos)) {
-
+            
+            if(!CollectionUtils.isEmpty(noExistProxyInfos)){
+	            //todo 插入不存在的代理信息
+	            if (!proxyInfoService.batchInsert(noExistProxyInfos)) {
+	
+	            }
             }
             for (ProxyInfo info : existProxyInfos) {
                 proxyInfoService.update(info);
