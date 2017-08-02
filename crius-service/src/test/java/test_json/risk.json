@@ -1,0 +1,82 @@
+{
+    "RiskTypeId": 1,
+    "RiskEventId": 5,
+    "RiskTime": 1501340055783,
+    "RiskEventTitle": "同一IP下多人注册",
+    "OwnerId": 9359163,
+    "RiskInfoMsg": "紀錄<br>2017-07-29 22:52:07 : 10.1.10.92(7232801)<br>2017-07-29 22:53:06 : 10.1.10.92(4778501)<br>2017-07-29 22:54:15 : 10.1.10.92(15099954)",
+    "RiskData": {
+        "RiskEventInfo": {
+            "Id": 5,
+            "Risk_type": 1,
+            "Risk_type_name": "注>册",
+            "Risk_title": "同一IP下多人注册",
+            "Is_same_ip": 1,
+            "Login_users_condition": 1,
+            "Login_users": -1,
+            "Register_users_condition": 1,
+            "Register_users": 3,
+            "Time_interval_condition": 1,
+            "Time_interval": 300,
+            "Login_times_condition": 1,
+            "Login_times": -1,
+            "Deposit_times_condition": 1,
+            "Deposit_times": -1,
+            "Deposit_amount_condition": 1,
+            "Deposit_amount": -1,
+            "Withdraw_times_condition": 1,
+            "Withdraw_times": -1,
+            "Withdraw_amount_condition": 1,
+            "Withdraw_amount": -1,
+            "Create_time": 1500529656552,
+            "Creator": "worker_7"
+        },
+        "EventRecordInfo": {
+            "EventTimeNs": 1501340055783987700,
+            "RiskType": 1,
+            "RiskEventId": 5,
+            "OwnerId": 9359163
+        },
+        "EventInfos": [
+            {
+                "AgentId": 3890752,
+                "AgentName": "company_3_dl",
+                "UserId": 7232801,
+                "OwnerId": 9359163,
+                "OwnerName": "company_3",
+                "Ip": 3767840348,
+                "Time": 1501339927514,
+                "SourceUrl": "http://www.blr53889.com",
+                "StockId": 9359163,
+                "StockName": "company_3",
+                "UserName": "andy123456"
+            },
+            {
+                "AgentId": 3890752,
+                "AgentName": "company_3_dl",
+                "UserId": 4778501,
+                "OwnerId": 9359163,
+                "OwnerName": "company_3",
+                "Ip": 3187840348,
+                "Time": 1501339986815,
+                "SourceUrl": "http://www.blr53889.com",
+                "StockId": 9359163,
+                "StockName": "company_3",
+                "UserName": "andy111111"
+            },
+            {
+                "AgentId": 3890752,
+                "AgentName": "company_3_dl",
+                "UserId": 15099954,
+                "OwnerId": 9359163,
+                "OwnerName": "company_3",
+                "Ip": 41267840348,
+                "Time": 1501340055639,
+                "SourceUrl": "http://www.blr53889.com",
+                "StockId": 9359163,
+                "StockName": "company_3",
+                "UserName": "andy123"
+            }
+        ]
+    }
+}
