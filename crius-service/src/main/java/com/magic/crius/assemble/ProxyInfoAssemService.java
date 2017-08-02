@@ -5,14 +5,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
+import org.springframework.data.redis.core.BoundValueOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import com.magic.api.commons.codis.JedisFactory;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.constants.RedisConstants;
 import com.magic.crius.po.ProxyInfo;
@@ -20,8 +22,6 @@ import com.magic.crius.service.ProxyInfoService;
 import com.magic.crius.service.dubbo.CriusOutDubboService;
 import com.magic.crius.util.ThreadTaskPoolFactory;
 import com.magic.user.entity.User;
-
-import redis.clients.jedis.Jedis;
 
 /**
  * User: joey
@@ -36,11 +36,10 @@ public class ProxyInfoAssemService {
     private CriusOutDubboService criusOutDubboService;
     @Resource
     private ProxyInfoService proxyInfoService;
+    @Resource
+    private RedisTemplate redisTemplate;
 
     private ExecutorService executorService = ThreadTaskPoolFactory.billInfoJobTaskPool;
-    
-    @Resource(name = "criusJedisFactory")
-    private JedisFactory criusJedisFactory;
 
 
     public void init(Date date) {
@@ -71,9 +70,9 @@ public class ProxyInfoAssemService {
             public void run() {
 		    	Long page=null;
 		        try {
-		        	Jedis jedis = criusJedisFactory.getInstance();
-		        	page=jedis.incr(RedisConstants.REDIS_PROXY_INFO_SYNC_PAGE);
-		        	jedis.expire(RedisConstants.REDIS_PROXY_INFO_SYNC_PAGE,3*60*60);//3个小时存活时间
+		        	BoundValueOperations valueOper=redisTemplate.boundValueOps(RedisConstants.REDIS_PROXY_INFO_SYNC_PAGE);
+		        	page=valueOper.increment(1);
+		        	valueOper.expire(3*60*60, TimeUnit.SECONDS);//3个小时存活时间
 		        	int batchSize=200;
 		        	batchProxyInfoSyncTask(page.intValue(), batchSize);
 				} catch (Exception e) {
@@ -121,8 +120,7 @@ public class ProxyInfoAssemService {
     		}
     	}
     	else{
-    		Jedis jedis = criusJedisFactory.getInstance();
-    		jedis.del(RedisConstants.REDIS_PROXY_INFO_SYNC_PAGE);
+    		redisTemplate.delete(RedisConstants.REDIS_PROXY_INFO_SYNC_PAGE);
     		logger.info("batchProxyInfoSyncTask reset :" + RedisConstants.REDIS_PROXY_INFO_SYNC_PAGE+" page:"+page);
     	}
     }
