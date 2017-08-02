@@ -35,43 +35,16 @@ public class UserOrderDetailAssemService {
     private GameInfoService gameInfoService;
 
     public boolean batchSave(List<UserOrderDetail> details) {
-        List<Long> insertUserIds = new ArrayList<>();
-        Map<Long, UserOrderDetail> userOrderPaid = new HashMap<>();
-        List<UserOrderDetail> insertOrder = new ArrayList<>();
-        List<UserOrderDetail> updateOrder = new ArrayList<>();
-        for (UserOrderDetail orderDetail : details) {
-            if (orderDetail.getIsPaid()!=null && orderDetail.getIsPaid() == IsPaidType.noPaid.value()) {
-                insertUserIds.add(orderDetail.getUserId());
-                insertOrder.add(orderDetail);
-            } else {
-                userOrderPaid.put(orderDetail.getOrderId(), orderDetail);
+        boolean flag = false;
+        if (userOrderDetailService.batchSave(details)) {
+            List<Long> userIds = new ArrayList<>();
+            for (UserOrderDetail orderDetail : details) {
+                userIds.add(orderDetail.getUserId());
             }
+            tethysUserOrderDetailService.batchSave(details, userIds);
+            flag = true;
         }
-
-        List<Long> existNoPaidIds = tethysUserOrderDetailService.findNoPaidIds(userOrderPaid.values());
-        for (Map.Entry<Long, UserOrderDetail> entry : userOrderPaid.entrySet()) {
-            if (existNoPaidIds.contains(entry.getKey())) {
-                updateOrder.add(entry.getValue());
-            } else {
-                insertUserIds.add(entry.getValue().getUserId());
-                insertOrder.add(entry.getValue());
-            }
-        }
-        /*
-         * 批量添加未派彩和派彩但未插入的数据
-         */
-        //tethys
-        tethysUserOrderDetailService.batchSave(insertOrder, insertUserIds);
-        //metis
-        userOrderDetailService.batchSave(insertOrder);
-        //修改订单的派彩状态
-        for (UserOrderDetail orderDetail : updateOrder) {
-            tethysUserOrderDetailService.updatePaid(orderDetail);
-            userOrderDetailService.updatePaidStatus(orderDetail);
-        }
-        logger.info(String.format(" all order size : %d ,insert order size : %d, update order size : %d", details.size(), insertOrder.size(), updateOrder.size()));
-
-        return true;
+        return flag;
     }
 
     public boolean batchSaveDetails(List<UserOrderDetail> details) {
