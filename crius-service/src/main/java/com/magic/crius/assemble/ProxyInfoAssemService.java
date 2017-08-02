@@ -160,7 +160,7 @@ public class ProxyInfoAssemService {
             if(!CollectionUtils.isEmpty(noExistProxyInfos)){
 	            //todo 插入不存在的代理信息
 	            if (!proxyInfoService.batchInsert(noExistProxyInfos)) {
-	
+	            	logger.warn("batchSave startTime="+startTime+" endTime="+endTime+" noExistProxyInfos="+noExistProxyInfos.size());
 	            }
             }
             for (ProxyInfo info : existProxyInfos) {
