@@ -37,7 +37,7 @@ public class ProxyInfoAssemService {
     @Resource
     private ProxyInfoService proxyInfoService;
 
-    private ExecutorService executorService = ThreadTaskPoolFactory.billInfoJobTaskPool;
+    private ExecutorService executorService = ThreadTaskPoolFactory.coreThreadTaskPool;
     
     @Resource(name = "criusJedisFactory")
     private JedisFactory criusJedisFactory;

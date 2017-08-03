@@ -22,12 +22,12 @@ public class OperateWithDrawReqAssemService  {
     private OperateWithDrawReqService operateWithDrawReqService;
 
     public void procKafkaData(OperateWithDrawReq req) {
-        if (req.getReqId() != null && operateWithDrawReqService.getByReqId(req.getReqId()) == null) {
+        if (req.getReqId() != null) {
             if (!operateWithDrawReqService.save(req)) {
                 //todo
             }
         } else {
-            logger.warn("data not matching,"+ JSON.toJSONString(req));
+            logger.warn("reqId is null,"+ JSON.toJSONString(req));
         }
     }
 

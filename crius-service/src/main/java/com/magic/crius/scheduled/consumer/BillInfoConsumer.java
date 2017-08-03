@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class BillInfoConsumer {
 
-    private ExecutorService billInfoJobTaskPool = ThreadTaskPoolFactory.billInfoJobTaskPool;
+    private ExecutorService billInfoJobTaskPool = ThreadTaskPoolFactory.coreThreadTaskPool;
 
     @Resource
     private BillInfoService billInfoService;

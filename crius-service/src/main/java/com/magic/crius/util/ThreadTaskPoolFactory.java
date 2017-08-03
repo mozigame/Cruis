@@ -13,8 +13,21 @@ public class ThreadTaskPoolFactory {
     /**
      * 账单消费线程池
      */
-    public static ExecutorService billInfoJobTaskPool = new ThreadPoolExecutor(5, 20, 10, TimeUnit.SECONDS,
+    public static ExecutorService coreThreadTaskPool = new ThreadPoolExecutor(5, 15, 10, TimeUnit.SECONDS,
             new ArrayBlockingQueue<>(100), new ThreadPoolExecutor.CallerRunsPolicy());
+
+    /**
+     * kafka游戏消费线程池
+     */
+    public static ExecutorService kfGameThreadTaskPool = new ThreadPoolExecutor(10, 25, 10, TimeUnit.SECONDS,
+            new ArrayBlockingQueue<>(100), new ThreadPoolExecutor.CallerRunsPolicy());
+
+    /**
+     * kafka plutus消费线程池
+     */
+    public static ExecutorService kfPlutusThreadTaskPool = new ThreadPoolExecutor(5, 15, 10, TimeUnit.SECONDS,
+            new ArrayBlockingQueue<>(100), new ThreadPoolExecutor.CallerRunsPolicy());
+
 
 
 }

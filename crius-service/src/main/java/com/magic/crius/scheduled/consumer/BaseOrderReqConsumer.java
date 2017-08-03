@@ -177,6 +177,7 @@ public class BaseOrderReqConsumer {
      */
     private void mongoNoProc(Long startTime, Long endTime) {
         List<Long> reqIds = baseOrderReqService.getSucIds(startTime, endTime);
+        logger.info("baseOrder mongoNoProc ");
         if (reqIds != null && reqIds.size() > 0) {
             List<BaseOrderReq> withDrawReqs = baseOrderReqService.getNotProc(startTime, endTime, reqIds);
             flushData(withDrawReqs);

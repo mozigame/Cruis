@@ -36,7 +36,7 @@ import java.util.concurrent.*;
 @Component
 public class MonthJobConsumer {
 
-    private ExecutorService MonthJobTaskPool = ThreadTaskPoolFactory.billInfoJobTaskPool;
+    private ExecutorService MonthJobTaskPool = ThreadTaskPoolFactory.coreThreadTaskPool;
 
     @Resource
     private ThriftFactory thriftFactory;
