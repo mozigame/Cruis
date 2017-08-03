@@ -67,7 +67,7 @@ public class DiscountReqConsumer {
                     try {
 						currentDataCalculate(date);
 					} catch (Exception e) {
-						ApiLogger.error("---detailCalculate--", e);
+						ApiLogger.error("---detailCalculate-- discount", e);
 					}
                 }
             });
@@ -80,7 +80,7 @@ public class DiscountReqConsumer {
 					repairCacheHistoryTask(date);
 					repairMongoAbnormal(date);
 				} catch (Exception e) {
-					ApiLogger.error("---detailCalculate-task--", e);
+					ApiLogger.error("---detailCalculate-task-- discount", e);
 				}
             }
         });
@@ -95,13 +95,13 @@ public class DiscountReqConsumer {
         int countNum = 0;
         List<DiscountReq> reqList = discountReqService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            System.out.println("discountReqConsumer pop datas, size : "+reqList.size());
+            logger.info("currentDataCalculate discount pop datas, size : " + reqList.size());
             flushData(reqList);
             reqList = discountReqService.batchPopRedis(date);
             try {
                 Thread.sleep(CriusConstants.POLL_POP_SLEEP_TIME);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("--currentDataCalculate discount ,",e);
             }
         }
     }
@@ -153,6 +153,7 @@ public class DiscountReqConsumer {
         calendar.add(Calendar.HOUR, -1);
         List<DiscountReq> reqList = discountReqService.batchPopRedis(calendar.getTime());
         while (reqList != null && reqList.size() > 0) {
+            logger.info("------repairCacheHistoryTask ,discount , list : " + reqList.size());
             flushData(reqList);
             reqList = discountReqService.batchPopRedis(calendar.getTime());
         }
@@ -190,7 +191,10 @@ public class DiscountReqConsumer {
      */
     private void mongoFailed(Long startTime, Long endTime) {
         List<DiscountReq> failedReqs = discountReqService.getSaveFailed(startTime, endTime);
-        flushData(failedReqs);
+        if (failedReqs != null && failedReqs.size() > 0) {
+            logger.info("------mongoFailed ,discount , reqIds :"+ failedReqs.size()+" , startTime : "+ startTime+" endTime :" + endTime);
+            flushData(failedReqs);
+        }
     }
 
     /**
@@ -202,6 +206,7 @@ public class DiscountReqConsumer {
     private void mongoNoProc(Long startTime, Long endTime) {
         List<Long> reqIds = discountReqService.getSucIds(startTime, endTime);
         if (reqIds != null && reqIds.size() > 0) {
+            logger.info("------mongoNoProc ,discount , reqIds :"+ reqIds.size()+" , startTime : "+ startTime+" endTime :" + endTime);
             List<DiscountReq> withDrawReqs = discountReqService.getNotProc(startTime, endTime, reqIds);
             flushData(withDrawReqs);
         }

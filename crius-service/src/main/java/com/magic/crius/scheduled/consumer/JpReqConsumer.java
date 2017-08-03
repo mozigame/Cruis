@@ -58,7 +58,7 @@ public class JpReqConsumer {
                     try {
 						currentDataCalculate(date);
 					} catch (Exception e) {
-						ApiLogger.error("---detailCalculate--", e);
+						ApiLogger.error("---detailCalculate-- jp", e);
 					}
                 }
             });
@@ -71,7 +71,7 @@ public class JpReqConsumer {
 					repairCacheHistoryTask(date);
 					repairMongoAbnormal(date);
 				} catch (Exception e) {
-					ApiLogger.error("---detailCalculate-task--", e);
+					ApiLogger.error("---detailCalculate-task-- jp", e);
 				}
             }
         });
@@ -86,13 +86,13 @@ public class JpReqConsumer {
         int countNum = 0;
         List<JpReq> reqList = jpReqService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            System.out.println("jpReqConsumer pop datas, size : "+reqList.size());
+            logger.info("currentDataCalculate jp pop datas, size : " + reqList.size());
             flushData(reqList);
             reqList = jpReqService.batchPopRedis(date);
             try {
                 Thread.sleep(CriusConstants.POLL_POP_SLEEP_TIME);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("currentDataCalculate jp,", e);
             }
         }
     }
@@ -136,6 +136,7 @@ public class JpReqConsumer {
         calendar.add(Calendar.HOUR, -1);
         List<JpReq> reqList = jpReqService.batchPopRedis(calendar.getTime());
         while (reqList != null && reqList.size() > 0) {
+            logger.info("------repairCacheHistoryTask ,jp , list : " + reqList.size());
             flushData(reqList);
             reqList = jpReqService.batchPopRedis(calendar.getTime());
         }
@@ -173,7 +174,10 @@ public class JpReqConsumer {
      */
     private void mongoFailed(Long startTime, Long endTime) {
         List<JpReq> failedReqs = jpReqService.getSaveFailed(startTime, endTime);
-        flushData(failedReqs);
+        if (failedReqs != null && failedReqs.size() > 0) {
+            logger.info("------mongoFailed ,jp , reqIds :"+ failedReqs.size()+" , startTime : "+ startTime+" endTime :" + endTime);
+            flushData(failedReqs);
+        }
     }
 
     /**
@@ -185,6 +189,7 @@ public class JpReqConsumer {
     private void mongoNoProc(Long startTime, Long endTime) {
         List<Long> reqIds = jpReqService.getSucIds(startTime, endTime);
         if (reqIds != null && reqIds.size() > 0) {
+            logger.info("------mongoNoProc ,jp , reqIds :"+ reqIds.size()+" , startTime : "+ startTime+" endTime :" + endTime);
             List<JpReq> withDrawReqs = jpReqService.getNotProc(startTime, endTime, reqIds);
             flushData(withDrawReqs);
         }

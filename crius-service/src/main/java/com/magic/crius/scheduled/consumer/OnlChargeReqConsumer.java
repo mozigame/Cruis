@@ -68,7 +68,7 @@ public class OnlChargeReqConsumer {
                     try {
 						currentDataCalculate(date);
 					} catch (Exception e) {
-						ApiLogger.error("---detailCalculate--", e);
+						ApiLogger.error("---detailCalculate--onlCharge", e);
 					}
                 }
             });
@@ -81,7 +81,7 @@ public class OnlChargeReqConsumer {
 					repairCacheHistoryTask(date);
 					repairMongoAbnormal(date);
 				} catch (Exception e) {
-					ApiLogger.error("---detailCalculate-task--", e);
+					ApiLogger.error("---detailCalculate-task--onlCharge", e);
 				}
             }
         });
@@ -96,13 +96,13 @@ public class OnlChargeReqConsumer {
         int countNum = 0;
         List<OnlChargeReq> reqList = onlChargeService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            System.out.println("onlChargeReqConsumer pop datas, size : "+reqList.size());
+            logger.info("currentDataCalculate onlCharge pop datas, size : " + reqList.size());
             flushData(reqList);
             reqList = onlChargeService.batchPopRedis(date);
             try {
                 Thread.sleep(CriusConstants.POLL_POP_SLEEP_TIME);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("currentDataCalculate onlCharge ," , e);
             }
         }
     }
@@ -164,6 +164,7 @@ public class OnlChargeReqConsumer {
         calendar.add(Calendar.HOUR, -1);
         List<OnlChargeReq> reqList = onlChargeService.batchPopRedis(calendar.getTime());
         while (reqList != null && reqList.size() > 0) {
+            logger.info("------repairCacheHistoryTask ,onlCharge , list : " + reqList.size());
             flushData(reqList);
             reqList = onlChargeService.batchPopRedis(calendar.getTime());
         }
@@ -201,7 +202,10 @@ public class OnlChargeReqConsumer {
      */
     private void mongoFailed(Long startTime, Long endTime) {
         List<OnlChargeReq> failedReqs = onlChargeService.getSaveFailed(startTime, endTime);
-        flushData(failedReqs);
+        if (failedReqs != null && failedReqs.size() > 0) {
+            logger.info("------mongoFailed ,onlCharge , reqIds :"+ failedReqs.size()+" , startTime : "+ startTime+" endTime :" + endTime);
+            flushData(failedReqs);
+        }
     }
 
     /**
@@ -213,6 +217,7 @@ public class OnlChargeReqConsumer {
     private void mongoNoProc(Long startTime, Long endTime) {
         List<Long> reqIds = onlChargeService.getSucIds(startTime, endTime);
         if (reqIds != null && reqIds.size() > 0) {
+            logger.info("------mongoNoProc ,onlCharge , reqIds :"+ reqIds.size()+" , startTime : "+ startTime+" endTime :" + endTime);
             List<OnlChargeReq> withDrawReqs = onlChargeService.getNotProc(startTime, endTime, reqIds);
             flushData(withDrawReqs);
         }

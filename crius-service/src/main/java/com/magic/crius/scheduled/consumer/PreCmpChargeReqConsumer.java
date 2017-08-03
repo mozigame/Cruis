@@ -75,7 +75,7 @@ public class PreCmpChargeReqConsumer {
                     try {
 						currentDataCalculate(date);
 					} catch (Exception e) {
-						logger.error("---detailCalculate--", e);
+						logger.error("---detailCalculate--preCmpCharge", e);
 					}
                 }
             });
@@ -88,7 +88,7 @@ public class PreCmpChargeReqConsumer {
 					repairCacheHistoryTask(date);
 					repairMongoAbnormal(date);
 				} catch (Exception e) {
-					logger.error("---detailCalculate-task--", e);
+					logger.error("---detailCalculate-task--preCmpCharge", e);
 				}
             }
         });
@@ -103,13 +103,13 @@ public class PreCmpChargeReqConsumer {
         int countNum = 0;
         List<PreCmpChargeReq> reqList = preCmpChargeService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            System.out.println("preCmpChargeReqConsumer pop datas, size : "+reqList.size());
+            logger.info("currentDataCalculate preCmpCharge pop datas, size : " + reqList.size());
             flushData(reqList);
             reqList = preCmpChargeService.batchPopRedis(date);
             try {
                 Thread.sleep(CriusConstants.POLL_POP_SLEEP_TIME);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("currentDataCalculate--preCmpCharge, ",e);
             }
         }
     }
@@ -171,6 +171,7 @@ public class PreCmpChargeReqConsumer {
         calendar.add(Calendar.HOUR, -1);
         List<PreCmpChargeReq> reqList = preCmpChargeService.batchPopRedis(calendar.getTime());
         while (reqList != null && reqList.size() > 0) {
+            logger.info("------repairCacheHistoryTask ,preCmpCharge , list : " + reqList.size());
             flushData(reqList);
             reqList = preCmpChargeService.batchPopRedis(calendar.getTime());
         }
@@ -208,7 +209,10 @@ public class PreCmpChargeReqConsumer {
      */
     private void mongoFailed(Long startTime, Long endTime) {
         List<PreCmpChargeReq> failedReqs = preCmpChargeService.getSaveFailed(startTime, endTime);
-        flushData(failedReqs);
+        if (failedReqs != null && failedReqs.size() > 0) {
+            logger.info("------mongoFailed ,preCmpCharge, reqIds :"+ failedReqs.size()+" , startTime : "+ startTime+" endTime :" + endTime);
+            flushData(failedReqs);
+        }
     }
 
     /**
@@ -220,6 +224,7 @@ public class PreCmpChargeReqConsumer {
     private void mongoNoProc(Long startTime, Long endTime) {
         List<Long> reqIds = preCmpChargeService.getSucIds(startTime, endTime);
         if (reqIds != null && reqIds.size() > 0) {
+            logger.info("------mongoNoProc ,preCmpCharge , reqIds :"+ reqIds.size()+", startTime : "+ startTime+" endTime :" + endTime);
             List<PreCmpChargeReq> withDrawReqs = preCmpChargeService.getNotProc(startTime, endTime, reqIds);
             flushData(withDrawReqs);
         }

@@ -54,8 +54,7 @@ public class RiskrecKfConsumer {
                 riskEventRecordAssemService.procKafkaData(riskRecordReq);
             }
         } catch (Exception e) {
-            logger.error("----riskRecListen--", e);
-            e.printStackTrace();
+            logger.error("proceDate----riskRecListen error, ", e);
 
         }
     }

@@ -57,7 +57,7 @@ public class BaseOrderReqConsumer {
                     try {
 						currentDataCalculate(date);
 					} catch (Exception e) {
-						logger.error("---detailCalculate--", e);
+						logger.error("---detailCalculate baseOrder--", e);
 					}
                 }
             });
@@ -70,7 +70,7 @@ public class BaseOrderReqConsumer {
 					repairCacheHistoryTask(date);
 					repairMongoAbnormal(date);
 				} catch (Exception e) {
-					logger.error("---detailCalculate-task--", e);
+					logger.error("---detailCalculate-task-- baseOrder", e);
 				}
             }
         });
@@ -85,13 +85,13 @@ public class BaseOrderReqConsumer {
         int countNum = 0;
         List<BaseOrderReq> reqList = baseOrderReqService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            logger.info("baseOrderReqConsumer pop datas, size : " + reqList.size());
+            logger.info("currentDataCalculate baseOrder pop datas, size : " + reqList.size());
             flushData(reqList);
             reqList = baseOrderReqService.batchPopRedis(date);
             try {
                 Thread.sleep(CriusConstants.POLL_POP_SLEEP_TIME);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("--currentDataCalculate baseOrder--",e);
             }
         }
     }
@@ -129,6 +129,7 @@ public class BaseOrderReqConsumer {
         calendar.add(Calendar.HOUR, -1);
         List<BaseOrderReq> reqList = baseOrderReqService.batchPopRedis(calendar.getTime());
         while (reqList != null && reqList.size() > 0) {
+            logger.info("------repairCacheHistoryTask ,baseOrder , list : " + reqList.size());
             flushData(reqList);
             reqList = baseOrderReqService.batchPopRedis(calendar.getTime());
         }
@@ -166,7 +167,10 @@ public class BaseOrderReqConsumer {
      */
     private void mongoFailed(Long startTime, Long endTime) {
         List<BaseOrderReq> failedReqs = baseOrderReqService.getSaveFailed(startTime, endTime);
-        flushData(failedReqs);
+        if (failedReqs != null && failedReqs.size() > 0) {
+            logger.info("------mongoFailed ,baseOrder , reqIds :"+ failedReqs.size()+" , startTime : "+ startTime+" endTime :" + endTime);
+            flushData(failedReqs);
+        }
     }
 
     /**
@@ -177,8 +181,8 @@ public class BaseOrderReqConsumer {
      */
     private void mongoNoProc(Long startTime, Long endTime) {
         List<Long> reqIds = baseOrderReqService.getSucIds(startTime, endTime);
-        logger.info("baseOrder mongoNoProc ");
         if (reqIds != null && reqIds.size() > 0) {
+            logger.info("------mongoNoProc ,baseOrder , reqIds :"+ reqIds.size()+" , startTime : "+ startTime+" endTime :" + endTime);
             List<BaseOrderReq> withDrawReqs = baseOrderReqService.getNotProc(startTime, endTime, reqIds);
             flushData(withDrawReqs);
         }
