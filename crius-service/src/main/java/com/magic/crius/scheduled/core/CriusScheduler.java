@@ -1,10 +1,14 @@
 package com.magic.crius.scheduled.core;
 
-import java.util.Calendar;
-import java.util.Date;
-
-import javax.annotation.Resource;
-
+import com.magic.analysis.utils.DateKit;
+import com.magic.api.commons.ApiLogger;
+import com.magic.api.commons.tools.DateUtil;
+import com.magic.crius.assemble.GameInfoAssemService;
+import com.magic.crius.assemble.ProxyInfoAssemService;
+import com.magic.crius.assemble.UserInfoAssemService;
+import com.magic.crius.assemble.UserLevelAssemService;
+import com.magic.crius.scheduled.consumer.*;
+import com.magic.crius.service.RepairLockService;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -12,29 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
-import com.magic.analysis.utils.DateKit;
-import com.magic.api.commons.ApiLogger;
-import com.magic.api.commons.codis.JedisFactory;
-import com.magic.api.commons.tools.DateUtil;
-import com.magic.bc.query.service.ContractFeeService;
-import com.magic.crius.assemble.GameInfoAssemService;
-import com.magic.crius.assemble.ProxyInfoAssemService;
-import com.magic.crius.assemble.UserInfoAssemService;
-import com.magic.crius.assemble.UserLevelAssemService;
-import com.magic.crius.scheduled.consumer.BaseOrderReqConsumer;
-import com.magic.crius.scheduled.consumer.CashbackReqConsumer;
-import com.magic.crius.scheduled.consumer.DealerRewardReqConsumer;
-import com.magic.crius.scheduled.consumer.DiscountReqConsumer;
-import com.magic.crius.scheduled.consumer.JpReqConsumer;
-import com.magic.crius.scheduled.consumer.MonthJobConsumer;
-import com.magic.crius.scheduled.consumer.OnlChargeReqConsumer;
-import com.magic.crius.scheduled.consumer.OperateChargeReqConsumer;
-import com.magic.crius.scheduled.consumer.OperateWithDrawReqConsumer;
-import com.magic.crius.scheduled.consumer.PreCmpChargeReqConsumer;
-import com.magic.crius.scheduled.consumer.PreWithdrawReqConsumer;
-import com.magic.crius.service.BillInfoService;
-import com.magic.crius.service.ProxyInfoService;
-import com.magic.crius.service.RepairLockService;
+import javax.annotation.Resource;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * User: joey

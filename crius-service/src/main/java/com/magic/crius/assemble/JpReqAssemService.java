@@ -22,12 +22,12 @@ public class JpReqAssemService {
     private JpReqService jpReqService;
 
     public void procKafkaData(JpReq req) {
-        if (req.getReqId() != null && jpReqService.getByReqId(req.getReqId()) == null) {
+        if (req.getReqId() != null) {
             if (!jpReqService.save(req)) {
                 logger.error("save JpReq error,reqId : " + req.getReqId());
             }
         } else {
-            logger.warn("data not matching,"+ JSON.toJSONString(req));
+            logger.warn("reqId is null,"+ JSON.toJSONString(req));
         }
     }
 

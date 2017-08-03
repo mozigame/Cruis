@@ -1,0 +1,76 @@
+package com.magic.crius.kafka.listener;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.magic.crius.assemble.BaseOrderReqAssemService;
+import com.magic.crius.enums.KafkaConf;
+import com.magic.crius.util.ThreadTaskPoolFactory;
+import com.magic.crius.vo.LotteryReq;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.log4j.Logger;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+/**
+ * User: joey
+ * Date: 2017/8/3
+ * Time: 19:22
+ */
+@Component
+public class LotteryKfConsumer {
+
+    private static Logger logger = Logger.getLogger(LotteryKfConsumer.class);
+
+    private ExecutorService executorService = ThreadTaskPoolFactory.kfGameThreadTaskPool;
+    /*注单*/
+    @Resource
+    private BaseOrderReqAssemService baseGameReqAssemService;
+
+    /**
+     * LOTTERY
+     * @param record
+     */
+    @KafkaListener(topics = {"LOTTERY"}, group = KafkaConf.CAPITAL_GROUP)
+    public void lotteryListen(ConsumerRecord<?, ?> record) {
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                proceData(record);
+            }
+        });
+
+    }
+
+    private void proceData(ConsumerRecord<?, ?> record) {
+        try {
+            Optional<?> kafkaMessage = Optional.ofNullable(record.value());
+            if (kafkaMessage.isPresent()) {
+                logger.info("Thread : "+ Thread.currentThread().getName()+" ,get lottery kafka data :>>>  " + record.toString());
+                JSONObject object = JSON.parseObject(record.value().toString());
+                LotteryReq lotteryReq = JSON.parseObject(object.getString(KafkaConf.RECORD), LotteryReq.class);
+                lotteryReq.setReqId(lotteryReq.getBcBetId());
+                lotteryReq.setProduceTime(System.currentTimeMillis());
+                lotteryReq.setOrderExtent(convertLotteryExt(lotteryReq));
+                baseGameReqAssemService.procKafkaData(lotteryReq);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private JSONObject convertLotteryExt(LotteryReq req) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("detail", req.getDetail());
+        jsonObject.put("result", req.getResult());
+        jsonObject.put("lotteryType", req.getLotteryType());
+        jsonObject.put("playType", req.getPlayType());
+        jsonObject.put("gameCode", req.getGameCode());
+        return jsonObject;
+    }
+
+}

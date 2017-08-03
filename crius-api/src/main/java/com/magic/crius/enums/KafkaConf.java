@@ -19,6 +19,11 @@ public class KafkaConf {
     public static final String DATA_TYPE="DataType";
 
     public static final String CAPITAL_GROUP = "capital_group";
+    /**
+     * kafka 游戏中的数据
+     */
+    public static final String RECORD = "Record";
+
 
    
 

@@ -25,12 +25,12 @@ public class DealerRewardReqAssemService  {
     private OwnerAwardDetailAssemService ownerAwardDetailAssemService;
 
     public void procKafkaData(DealerRewardReq req) {
-        if (req.getReqId() != null && dealerRewardReqService.getByReqId(req.getReqId()) == null) {
+        if (req.getReqId() != null) {
             if (!dealerRewardReqService.save(req)) {
                 //todo
             }
         } else {
-            logger.warn("data not matching,"+ JSON.toJSONString(req));
+            logger.warn("reqId is null"+ JSON.toJSONString(req));
         }
     }
 
