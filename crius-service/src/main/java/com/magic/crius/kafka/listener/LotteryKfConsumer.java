@@ -2,6 +2,7 @@ package com.magic.crius.kafka.listener;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.magic.api.commons.ApiLogger;
 import com.magic.crius.assemble.BaseOrderReqAssemService;
 import com.magic.crius.enums.KafkaConf;
 import com.magic.crius.util.ThreadTaskPoolFactory;
@@ -59,7 +60,7 @@ public class LotteryKfConsumer {
                 baseGameReqAssemService.procKafkaData(lotteryReq);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            ApiLogger.error("proceData lottery error , ", e);
         }
     }
 

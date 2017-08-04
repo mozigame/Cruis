@@ -105,7 +105,7 @@ public class CriusScheduler {
         try {
             preCmpChargeReqConsumer.init(new Date());
         } catch (Exception e) {
-            e.printStackTrace();
+            ApiLogger.error("proceData Egame error , ", e);
         }
     }
 
@@ -244,7 +244,7 @@ public class CriusScheduler {
     /**
      * 定时更新会员层级
      */
-    @Scheduled(fixedRate = proxyPullRate)
+    @Scheduled(initialDelay = gameListPullInitDelay, fixedRate = proxyPullRate)
     public void userLevelUpdateSchedule() {
         try {
             userLevelAssemService.batchUpdateLevel(new Date());

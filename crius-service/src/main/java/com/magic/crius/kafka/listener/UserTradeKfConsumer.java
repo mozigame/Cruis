@@ -2,6 +2,7 @@ package com.magic.crius.kafka.listener;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
+import com.magic.api.commons.ApiLogger;
 import com.magic.crius.assemble.UserTradeAssemService;
 import com.magic.crius.enums.KafkaConf;
 import com.magic.crius.po.UserTrade;
@@ -52,7 +53,7 @@ public class UserTradeKfConsumer {
                 userTradeAssemService.updateTradeStatus4Failed(userTrades);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            ApiLogger.error("proceData userTrade error , ", e);
         }
     }
 }

@@ -66,7 +66,7 @@ public class CashbackReqConsumer {
                     try {
 						currentDataCalculate(date);
 					} catch (Exception e) {
-						ApiLogger.error("---detailCalculate--", e);
+						ApiLogger.error("---detailCalculate-- cashback", e);
 					}
                 }
             });
@@ -79,7 +79,7 @@ public class CashbackReqConsumer {
 					repairCacheHistoryTask(date);
 					repairMongoAbnormal(date);
 				} catch (Exception e) {
-					ApiLogger.error("---detailCalculate-task--", e);
+					ApiLogger.error("---detailCalculate-task-- cashback", e);
 				}
             }
         });
@@ -94,13 +94,13 @@ public class CashbackReqConsumer {
         int countNum = 0;
         List<CashbackReq> reqList = cashbackReqService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            System.out.println("cashbackReqConsumer pop datas, size : "+reqList.size());
+            logger.info("------currentDataCalculate ,cashback , list : " + reqList.size());
             flushData(reqList);
             reqList = cashbackReqService.batchPopRedis(date);
             try {
                 Thread.sleep(CriusConstants.POLL_POP_SLEEP_TIME);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("--currentDataCalculate dealerReward--",e);
             }
         }
     }
@@ -150,6 +150,7 @@ public class CashbackReqConsumer {
         calendar.add(Calendar.HOUR, -1);
         List<CashbackReq> reqList = cashbackReqService.batchPopRedis(calendar.getTime());
         while (reqList != null && reqList.size() > 0) {
+            logger.info("------repairCacheHistoryTask ,cashback , list : " + reqList.size());
             flushData(reqList);
             reqList = cashbackReqService.batchPopRedis(calendar.getTime());
         }
@@ -187,7 +188,10 @@ public class CashbackReqConsumer {
      */
     private void mongoFailed(Long startTime, Long endTime) {
         List<CashbackReq> failedReqs = cashbackReqService.getSaveFailed(startTime, endTime);
-        flushData(failedReqs);
+        if (failedReqs != null && failedReqs.size() > 0) {
+            logger.info("------mongoFailed ,cashback , startTime , reqIds :"+ failedReqs.size()+" : "+ startTime+" endTime :" + endTime);
+            flushData(failedReqs);
+        }
     }
 
     /**
@@ -199,6 +203,7 @@ public class CashbackReqConsumer {
     private void mongoNoProc(Long startTime, Long endTime) {
         List<Long> reqIds = cashbackReqService.getSucIds(startTime, endTime);
         if (reqIds != null && reqIds.size() > 0) {
+            logger.info("------mongoNoProc ,cashback , reqIds :"+ reqIds.size()+" , startTime : "+ startTime+" endTime :" + endTime);
             List<CashbackReq> withDrawReqs = cashbackReqService.getNotProc(startTime, endTime, reqIds);
             flushData(withDrawReqs);
         }

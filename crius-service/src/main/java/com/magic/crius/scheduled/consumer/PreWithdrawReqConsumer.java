@@ -69,7 +69,7 @@ public class PreWithdrawReqConsumer {
                     try {
 						currentDataCalculate(date);
 					} catch (Exception e) {
-						logger.error("---detailCalculate--", e);
+						logger.error("---detailCalculate--preWithDraw", e);
 					}
                 }
             });
@@ -82,7 +82,7 @@ public class PreWithdrawReqConsumer {
 					repairCacheHistoryTask(date);
 					repairMongoAbnormal(date);
 				} catch (Exception e) {
-					logger.error("---detailCalculate-task--", e);
+					logger.error("---detailCalculate-task--preWithDraw", e);
 				}
             }
         });
@@ -97,13 +97,13 @@ public class PreWithdrawReqConsumer {
         int countNum = 0;
         List<PreWithdrawReq> reqList = preWithdrawService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            System.out.println("preWithdrawReqConsumer pop datas, size : "+reqList.size());
+            logger.info("currentDataCalculate preWithDraw pop datas, size : " + reqList.size());
             flushData(reqList);
             reqList = preWithdrawService.batchPopRedis(date);
             try {
                 Thread.sleep(CriusConstants.POLL_POP_SLEEP_TIME);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("currentDataCalculate--preWithDraw , ", e);
             }
         }
     }
@@ -169,6 +169,7 @@ public class PreWithdrawReqConsumer {
         calendar.add(Calendar.HOUR, -1);
         List<PreWithdrawReq> reqList = preWithdrawService.batchPopRedis(calendar.getTime());
         while (reqList != null && reqList.size() > 0) {
+            logger.info("------repairCacheHistoryTask ,preWithDraw , list : " + reqList.size());
             flushData(reqList);
             reqList = preWithdrawService.batchPopRedis(calendar.getTime());
         }
@@ -206,7 +207,10 @@ public class PreWithdrawReqConsumer {
      */
     private void mongoFailed(Long startTime, Long endTime) {
         List<PreWithdrawReq> failedReqs = preWithdrawService.getSaveFailed(startTime, endTime);
-        flushData(failedReqs);
+        if (failedReqs != null && failedReqs.size() > 0) {
+            logger.info("------mongoFailed ,preWithDraw , reqIds :"+ failedReqs.size()+", startTime : "+ startTime+" endTime :" + endTime);
+            flushData(failedReqs);
+        }
     }
 
     /**
@@ -218,6 +222,7 @@ public class PreWithdrawReqConsumer {
     private void mongoNoProc(Long startTime, Long endTime) {
         List<Long> reqIds = preWithdrawService.getSucIds(startTime, endTime);
         if (reqIds != null && reqIds.size() > 0) {
+            logger.info("------mongoNoProc ,preWithDraw , reqIds :"+ reqIds.size()+" , startTime : "+ startTime+" endTime :" + endTime);
             List<PreWithdrawReq> withDrawReqs = preWithdrawService.getNotProc(startTime, endTime, reqIds);
             flushData(withDrawReqs);
         }

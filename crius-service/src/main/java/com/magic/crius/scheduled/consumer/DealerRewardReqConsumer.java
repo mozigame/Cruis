@@ -70,7 +70,7 @@ public class DealerRewardReqConsumer {
                     try {
 						currentDataCalculate(date);
 					} catch (Exception e) {
-						ApiLogger.error("---detailCalculate--", e);
+						ApiLogger.error("---detailCalculate-- dealerReward", e);
 					}
                 }
             });
@@ -83,7 +83,7 @@ public class DealerRewardReqConsumer {
 					repairCacheHistoryTask(date);
 					repairMongoAbnormal(date);
 				} catch (Exception e) {
-					ApiLogger.error("---detailCalculate-task--", e);
+					ApiLogger.error("---detailCalculate-task-- dealerReward", e);
 				}
             }
         });
@@ -98,13 +98,13 @@ public class DealerRewardReqConsumer {
         int countNum = 0;
         List<DealerRewardReq> reqList = dealerRewardReqService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            System.out.println("dealerReqConsumer pop datas, size : "+reqList.size());
+            logger.info("------currentDataCalculate ,dealerReward , list : " + reqList.size());
             flushData(reqList);
             reqList = dealerRewardReqService.batchPopRedis(date);
             try {
                 Thread.sleep(CriusConstants.POLL_POP_SLEEP_TIME);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("--currentDataCalculate dealerReward--",e);
             }
         }
     }
@@ -186,7 +186,10 @@ public class DealerRewardReqConsumer {
      */
     private void mongoFailed(Long startTime, Long endTime) {
         List<DealerRewardReq> failedReqs = dealerRewardReqService.getSaveFailed(startTime, endTime);
-        flushData(failedReqs);
+        if (failedReqs != null && failedReqs.size() > 0) {
+            logger.info("------mongoFailed ,dealerReward , reqIds :"+ failedReqs.size()+" , startTime : "+ startTime+" endTime :" + endTime);
+            flushData(failedReqs);
+        }
     }
 
     /**
@@ -198,6 +201,7 @@ public class DealerRewardReqConsumer {
     private void mongoNoProc(Long startTime, Long endTime) {
         List<Long> reqIds = dealerRewardReqService.getSucIds(startTime, endTime);
         if (reqIds != null && reqIds.size() > 0) {
+            logger.info("------mongoNoProc ,dealerReward , reqIds :"+ reqIds.size()+" , startTime : "+ startTime+" endTime :" + endTime);
             List<DealerRewardReq> withDrawReqs = dealerRewardReqService.getNotProc(startTime, endTime, reqIds);
             flushData(withDrawReqs);
         }
