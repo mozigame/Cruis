@@ -31,7 +31,7 @@ public class PlutusKfConsumer {
 
     private static Logger logger = Logger.getLogger(PlutusKfConsumer.class);
 
-    private ExecutorService executorService = ThreadTaskPoolFactory.kfPlutusThreadTaskPool;
+    private ExecutorService executorService = ThreadTaskPoolFactory.coreThreadTaskPool;
 
     /*公司入款（成功）*/
     @Resource

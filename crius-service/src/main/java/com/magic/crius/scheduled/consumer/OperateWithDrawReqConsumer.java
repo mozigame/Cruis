@@ -227,7 +227,7 @@ public class OperateWithDrawReqConsumer {
     private void mongoFailed(Long startTime, Long endTime) {
         List<OperateWithDrawReq> failedReqs = operateWithDrawReqService.getSaveFailed(startTime, endTime);
         if (failedReqs != null && failedReqs.size() > 0) {
-            logger.info("------mongoFailed ,operateWithDraw , reqIds :"+ failedReqs.size()+" , startTime : "+ startTime+" endTime :" + endTime);
+            logger.info("------mongoFailed ,operateWithDraw , reqIds.size :"+ failedReqs.size()+" , startTime : "+ startTime+" endTime :" + endTime);
             flushData(failedReqs);
         }
     }
@@ -241,7 +241,7 @@ public class OperateWithDrawReqConsumer {
     private void mongoNoProc(Long startTime, Long endTime) {
         List<Long> reqIds = operateWithDrawReqService.getSucIds(startTime, endTime);
         if (reqIds != null && reqIds.size() > 0) {
-            logger.info("------mongoNoProc ,operateWithDraw  , reqIds :"+ reqIds.size()+", startTime : "+ startTime+" endTime :" + endTime);
+            logger.info("------mongoNoProc ,operateWithDraw  , reqIds.size :"+ reqIds.size()+", startTime : "+ startTime+" endTime :" + endTime);
             List<OperateWithDrawReq> withDrawReqs = operateWithDrawReqService.getNotProc(startTime, endTime, reqIds);
             flushData(withDrawReqs);
         }

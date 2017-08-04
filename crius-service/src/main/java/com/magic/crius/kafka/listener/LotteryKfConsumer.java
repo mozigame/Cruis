@@ -27,7 +27,7 @@ public class LotteryKfConsumer {
 
     private static Logger logger = Logger.getLogger(LotteryKfConsumer.class);
 
-    private ExecutorService executorService = ThreadTaskPoolFactory.kfGameThreadTaskPool;
+    private ExecutorService executorService = ThreadTaskPoolFactory.coreThreadTaskPool;
     /*注单*/
     @Resource
     private BaseOrderReqAssemService baseGameReqAssemService;

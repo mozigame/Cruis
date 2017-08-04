@@ -171,7 +171,7 @@ public class PreCmpChargeReqConsumer {
         calendar.add(Calendar.HOUR, -1);
         List<PreCmpChargeReq> reqList = preCmpChargeService.batchPopRedis(calendar.getTime());
         while (reqList != null && reqList.size() > 0) {
-            logger.info("------repairCacheHistoryTask ,preCmpCharge , list : " + reqList.size());
+            logger.info("------repairCacheHistoryTask ,preCmpCharge , list.size : " + reqList.size());
             flushData(reqList);
             reqList = preCmpChargeService.batchPopRedis(calendar.getTime());
         }

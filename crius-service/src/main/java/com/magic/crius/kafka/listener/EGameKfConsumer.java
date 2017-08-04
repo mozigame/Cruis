@@ -27,7 +27,7 @@ public class EGameKfConsumer {
 
     private static Logger logger = Logger.getLogger(EGameKfConsumer.class);
 
-    private ExecutorService executorService = ThreadTaskPoolFactory.kfGameThreadTaskPool;
+    private ExecutorService executorService = ThreadTaskPoolFactory.coreThreadTaskPool;
     /*注单*/
     @Resource
     private BaseOrderReqAssemService baseGameReqAssemService;

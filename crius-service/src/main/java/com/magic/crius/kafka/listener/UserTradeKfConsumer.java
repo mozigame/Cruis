@@ -27,7 +27,7 @@ public class UserTradeKfConsumer {
 
     private static Logger logger = Logger.getLogger(UserTradeKfConsumer.class);
 
-    private ExecutorService executorService = ThreadTaskPoolFactory.kfPlutusThreadTaskPool;
+    private ExecutorService executorService = ThreadTaskPoolFactory.coreThreadTaskPool;
 
     @Resource
     private UserTradeAssemService userTradeAssemService;

@@ -26,7 +26,7 @@ public class RiskrecKfConsumer {
 
     private static Logger logger = Logger.getLogger(RiskrecKfConsumer.class);
 
-    private ExecutorService executorService = ThreadTaskPoolFactory.kfPlutusThreadTaskPool;
+    private ExecutorService executorService = ThreadTaskPoolFactory.coreThreadTaskPool;
 
     @Resource
     private RiskEventRecordAssemService riskEventRecordAssemService;

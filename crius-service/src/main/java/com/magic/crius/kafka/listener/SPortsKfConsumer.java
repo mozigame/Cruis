@@ -26,7 +26,7 @@ public class SPortsKfConsumer {
 
     private static Logger logger = Logger.getLogger(SPortsKfConsumer.class);
 
-    private ExecutorService executorService = ThreadTaskPoolFactory.kfGameThreadTaskPool;
+    private ExecutorService executorService = ThreadTaskPoolFactory.coreThreadTaskPool;
 
     /*注单*/
     @Resource
