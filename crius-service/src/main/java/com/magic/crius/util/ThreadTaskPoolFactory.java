@@ -19,7 +19,7 @@ public class ThreadTaskPoolFactory {
     /**
      * kafka游戏消费线程池
      */
-    public static ExecutorService kfGameThreadTaskPool = new ThreadPoolExecutor(10, 25, 10, TimeUnit.SECONDS,
+    public static ExecutorService kfGameThreadTaskPool = new ThreadPoolExecutor(5, 20, 10, TimeUnit.SECONDS,
             new ArrayBlockingQueue<>(100), new ThreadPoolExecutor.CallerRunsPolicy());
 
     /**

@@ -277,7 +277,7 @@ public class OperateWithDrawReqConsumer {
         detail.setCreateTime(req.getProduceTime());
         detail.setUpdateTime(req.getProduceTime());
 
-//        detail.setOutDetailType(req.getty);
+        detail.setOutDetailType(req.getWithdrawType()==null ? 0 : req.getWithdrawType());
         return detail;
     }
 

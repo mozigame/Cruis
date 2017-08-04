@@ -20,7 +20,6 @@
         <result column="update_time" jdbcType="BIGINT" property="updateTime"/>
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
 
-        <result column="flow_detail_type" jdbcType="INTEGER" property="flowDetailType"/>
     </resultMap>
 
     <insert id="insert" parameterType="com.magic.crius.po.UserFlowMoneyDetail">
@@ -29,15 +28,14 @@
           state, pay_method, flow_type,
           flow_id, order_id, pdate,
           handler_id, handler_name, create_time,
-          update_time,remark,
-          flow_detail_type)
+          update_time,remark)
         values (#{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
           #{merchantCode,jdbcType=VARCHAR}, #{merchantName,jdbcType=VARCHAR}, #{orderCount,jdbcType=BIGINT},
           #{state,jdbcType=INTEGER}, #{payMethod,jdbcType=INTEGER}, #{flowType,jdbcType=INTEGER},
           #{flowId,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{pdate,jdbcType=INTEGER},
           #{handlerId,jdbcType=BIGINT}, #{handlerName,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT},
-          #{updateTime,jdbcType=BIGINT},#{remark,jdbcType=VARCHAR},
-          #{flowDetailType,jdbcType=INTEGER}
+          #{updateTime,jdbcType=BIGINT},#{remark,jdbcType=VARCHAR}
+
           )
     </insert>
 
@@ -48,8 +46,7 @@
         state, pay_method, flow_type,
         flow_id, order_id, pdate,
         handler_id, handler_name, create_time,
-        update_time,remark,
-        flow_detail_type)
+        update_time,remark)
         values
         <foreach collection="list" item="param" separator=",">
           (#{param.ownerId,jdbcType=BIGINT},
@@ -67,8 +64,7 @@
             #{param.handlerName,jdbcType=VARCHAR},
             #{param.createTime,jdbcType=BIGINT},
             #{param.updateTime,jdbcType=BIGINT},
-            #{param.remark,jdbcType=VARCHAR},
-            #{flowDetailType,jdbcType=INTEGER}
+            #{param.remark,jdbcType=VARCHAR}
             )
         </foreach>
     </insert>
