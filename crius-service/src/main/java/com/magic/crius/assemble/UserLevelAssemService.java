@@ -2,7 +2,9 @@ package com.magic.crius.assemble;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -71,13 +73,27 @@ public class UserLevelAssemService {
 //        	}
         }
     }
-    private static Timer timer = new Timer();
+    
+    
+    private static Map<Integer, Timer> timerMap=new HashMap<>();
+    private static synchronized Timer getTime(Integer count){
+    	count=count%10;
+    	Timer timer=timerMap.get(count);
+    	if(timer==null){
+    		timer=new Timer(""+count);
+    		timerMap.put(count, timer);
+    	}
+    	return timer;
+    	
+    }
     private static final AtomicInteger resendTaskCount=new AtomicInteger();
     /**
      * 处理失败，则延时1秒把消息放回KAFKA
      * @param userLevelReq
      */
 	private void resendMsg(UserLevelReq userLevelReq) {
+		Integer count=resendTaskCount.get();
+		Timer timer=getTime(count);
 		timer.schedule(new TimerTask() {
 			public void run() {
 				// 处理失败，则延时1秒把消息放回KAFKA
@@ -97,12 +113,23 @@ public class UserLevelAssemService {
      * @param date
      */
     public void batchUpdateLevel(Date date) {
-        String hhStr = DateUtil.formatDateTime(date, "yyyyMMddHH");
-        Date endTime = DateUtil.parseDate(hhStr, "yyyyMMddHH");
-        Calendar startTime = Calendar.getInstance();
-        startTime.setTime(DateUtil.parseDate(hhStr, "yyyyMMddHH"));
-        startTime.add(Calendar.HOUR, -1);
-        rectifyLevel(startTime.getTimeInMillis(), endTime.getTime());
+    	
+    	String result = null;
+    	Jedis jedis = criusJedisFactory.getInstance();
+    	result=jedis.get(RedisConstants.USER_LEVEL_LOCK);
+    	logger.info("-----batchUpdateLevel--"+RedisConstants.USER_LEVEL_LOCK+"="+result);
+    	if(result==null){
+    		jedis.incr(RedisConstants.USER_LEVEL_LOCK);
+    		jedis.expire(RedisConstants.USER_LEVEL_LOCK,10*60);//10分钟存活时间
+    		
+    		String hhStr = DateUtil.formatDateTime(date, "yyyyMMddHH");
+            Date endTime = DateUtil.parseDate(hhStr, "yyyyMMddHH");
+            Calendar startTime = Calendar.getInstance();
+            startTime.setTime(DateUtil.parseDate(hhStr, "yyyyMMddHH"));
+            startTime.add(Calendar.HOUR, -1);
+            rectifyLevel(startTime.getTimeInMillis(), endTime.getTime());
+    	}
+        
     }
 
     /**

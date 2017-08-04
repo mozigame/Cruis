@@ -31,12 +31,12 @@ public class CashbackReqAssemService {
     private CashbackReqService cashbackReqService;
 
     public void procKafkaData(CashbackReq req) {
-        if (req.getReqId() != null && cashbackReqService.getByReqId(req.getReqId()) == null) {
+        if (req.getReqId() != null) {
             if (!cashbackReqService.save(req)) {
                 //todo
             }
         } else {
-            logger.warn("data not matching,"+ JSON.toJSONString(req));
+            logger.warn("reqId is null,"+ JSON.toJSONString(req));
         }
     }
 

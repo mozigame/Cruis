@@ -70,7 +70,7 @@ public class OperateChargeReqConsumer {
                     try {
 						currentDataCalculate(date);
 					} catch (Exception e) {
-						logger.error("---detailCalculate--", e);
+						logger.error("---detailCalculate--operateCharge", e);
 					}
                 }
             });
@@ -83,7 +83,7 @@ public class OperateChargeReqConsumer {
 					repairCacheHistoryTask(date);
 					repairMongoAbnormal(date);
 				} catch (Exception e) {
-					logger.error("---detailCalculate-task--", e);
+					logger.error("---detailCalculate-task--operateCharge", e);
 				}
             }
         });
@@ -98,13 +98,13 @@ public class OperateChargeReqConsumer {
         int countNum = 0;
         List<OperateChargeReq> reqList = operateChargeService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            logger.debug("operateChargeReqConsumer pop datas, size : "+reqList.size());
+            logger.info("currentDataCalculate operateCharge pop datas, size : " + reqList.size());
             flushData(reqList);
             reqList = operateChargeService.batchPopRedis(date);
             try {
                 Thread.sleep(CriusConstants.POLL_POP_SLEEP_TIME);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("currentDataCalculate--operateCharge",e);
             }
         }
     }
@@ -176,6 +176,7 @@ public class OperateChargeReqConsumer {
         calendar.add(Calendar.HOUR, -1);
         List<OperateChargeReq> reqList = operateChargeService.batchPopRedis(calendar.getTime());
         while (reqList != null && reqList.size() > 0) {
+            logger.info("------repairCacheHistoryTask ,operateCharge , list : " + reqList.size());
             flushData(reqList);
             reqList = operateChargeService.batchPopRedis(calendar.getTime());
         }
@@ -213,7 +214,10 @@ public class OperateChargeReqConsumer {
      */
     private void mongoFailed(Long startTime, Long endTime) {
         List<OperateChargeReq> failedReqs = operateChargeService.getSaveFailed(startTime, endTime);
-        flushData(failedReqs);
+        if (failedReqs != null && failedReqs.size() > 0) {
+            logger.info("------mongoFailed ,operateCharge , reqIds :"+ failedReqs.size()+" , startTime : "+ startTime+" endTime :" + endTime);
+            flushData(failedReqs);
+        }
     }
 
     /**
@@ -225,6 +229,7 @@ public class OperateChargeReqConsumer {
     private void mongoNoProc(Long startTime, Long endTime) {
         List<Long> reqIds = operateChargeService.getSucIds(startTime, endTime);
         if (reqIds != null && reqIds.size() > 0) {
+            logger.info("------mongoNoProc ,operateChareg , reqIds :"+ reqIds.size()+" , startTime : "+ startTime+" endTime :" + endTime);
             List<OperateChargeReq> withDrawReqs = operateChargeService.getNotProc(startTime, endTime, reqIds);
             flushData(withDrawReqs);
         }

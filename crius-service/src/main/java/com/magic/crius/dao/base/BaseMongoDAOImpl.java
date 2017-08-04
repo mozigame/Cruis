@@ -1,5 +1,6 @@
 package com.magic.crius.dao.base;
 
+import com.magic.api.commons.ApiLogger;
 import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.util.ReflectionUtils;
@@ -54,7 +55,7 @@ public abstract class BaseMongoDAOImpl<T> implements BaseMongoDAO<T> {
             getMongoTemplate().insert(objects, collectionName);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            ApiLogger.error("mongoDao save error, collectionName : "+ collectionName,e);
         }
         return false;
     }

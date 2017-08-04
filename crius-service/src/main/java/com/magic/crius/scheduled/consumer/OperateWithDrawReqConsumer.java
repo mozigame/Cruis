@@ -88,7 +88,7 @@ public class OperateWithDrawReqConsumer {
                     try {
 						currentDataCalculate(date);
 					} catch (Exception e) {
-						logger.error("---detailCalculate--", e);
+						logger.error("---detailCalculate--operateWithDraw", e);
 					}
                 }
             });
@@ -101,7 +101,7 @@ public class OperateWithDrawReqConsumer {
 					repairCacheHistoryTask(date);
 					repairMongoAbnormal(date);
 				} catch (Exception e) {
-					logger.error("---detailCalculate-task--", e);
+					logger.error("---detailCalculate-task--operateWithDraw", e);
 				}
             }
         });
@@ -116,13 +116,13 @@ public class OperateWithDrawReqConsumer {
         int countNum = 0;
         List<OperateWithDrawReq> reqList = operateWithDrawReqService.batchPopRedis(date);
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
-            System.out.println("operateWithDrawReqConsumer pop datas, size : "+reqList.size());
+            logger.info("currentDataCalculate operateWithDraw pop datas, size : " + reqList.size());
             flushData(reqList);
             reqList = operateWithDrawReqService.batchPopRedis(date);
             try {
                 Thread.sleep(CriusConstants.POLL_POP_SLEEP_TIME);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("--currentDataCalculate--operateWithDraw, ",e);
             }
         }
     }
@@ -226,7 +226,10 @@ public class OperateWithDrawReqConsumer {
      */
     private void mongoFailed(Long startTime, Long endTime) {
         List<OperateWithDrawReq> failedReqs = operateWithDrawReqService.getSaveFailed(startTime, endTime);
-        flushData(failedReqs);
+        if (failedReqs != null && failedReqs.size() > 0) {
+            logger.info("------mongoFailed ,operateWithDraw , reqIds :"+ failedReqs.size()+" , startTime : "+ startTime+" endTime :" + endTime);
+            flushData(failedReqs);
+        }
     }
 
     /**
@@ -238,6 +241,7 @@ public class OperateWithDrawReqConsumer {
     private void mongoNoProc(Long startTime, Long endTime) {
         List<Long> reqIds = operateWithDrawReqService.getSucIds(startTime, endTime);
         if (reqIds != null && reqIds.size() > 0) {
+            logger.info("------mongoNoProc ,operateWithDraw  , reqIds :"+ reqIds.size()+", startTime : "+ startTime+" endTime :" + endTime);
             List<OperateWithDrawReq> withDrawReqs = operateWithDrawReqService.getNotProc(startTime, endTime, reqIds);
             flushData(withDrawReqs);
         }

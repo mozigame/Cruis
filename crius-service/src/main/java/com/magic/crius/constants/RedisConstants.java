@@ -15,6 +15,7 @@ public class RedisConstants {
 
     /*定时拉取游戏列表的锁*/
     public static final String GAME_INFO_LOCK = "game_info_lock_";
+    public static final String USER_LEVEL_LOCK = "user_level_lock_";
     /* 20分钟 */
     public static final int GAME_INFO_LOCK_EXPIRE= 1200;
     /**

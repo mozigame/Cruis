@@ -47,7 +47,7 @@ public class RiskRecordReq {
 	
 	public RiskRecordReq(JSONObject object){
 //		object.getString(RECORD);
-		System.out.println(object);
+//		System.out.println(object);
 		this.riskTypeId=getObjectInt(object.get("RiskTypeId"));
 		this.riskEventId=getObjectInt(object.get("RiskEventId"));
 		this.riskEventTitle=(String)object.get("RiskEventTitle");
