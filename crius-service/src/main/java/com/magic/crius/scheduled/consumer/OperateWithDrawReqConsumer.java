@@ -276,7 +276,10 @@ public class OperateWithDrawReqConsumer {
         detail.setHandlerName(req.getHandlerName());
         detail.setCreateTime(req.getProduceTime());
         detail.setUpdateTime(req.getProduceTime());
-
+        //会员出款扣款
+        detail.setCostAmount(0L);
+        detail.setFeeAmount(0L);
+        detail.setOfferAmount(0L);  
         detail.setOutDetailType(req.getWithdrawType()==null ? 0 : req.getWithdrawType());
         return detail;
     }
