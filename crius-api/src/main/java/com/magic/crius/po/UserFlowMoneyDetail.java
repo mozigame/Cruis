@@ -39,6 +39,10 @@ public class UserFlowMoneyDetail {
 
     private String remark;//备注
 
+
+
+    private Integer flowDetailType; //入款详细类型
+
     public String getRemark() {
         return remark;
     }
@@ -173,5 +177,13 @@ public class UserFlowMoneyDetail {
 
     public void setUpdateTime(Long updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getFlowDetailType() {
+        return flowDetailType;
+    }
+
+    public void setFlowDetailType(Integer flowDetailType) {
+        this.flowDetailType = flowDetailType;
     }
 }

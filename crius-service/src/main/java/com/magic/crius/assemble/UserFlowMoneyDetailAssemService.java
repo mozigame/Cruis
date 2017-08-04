@@ -79,7 +79,7 @@ public class UserFlowMoneyDetailAssemService {
         return detail;
     }
     
-    public UserFlowMoneyDetail assembleUserFlowMoneyDetail(OperateChargeReq req,Long userId) {
+    public UserFlowMoneyDetail assembleUserFlowMoneyDetail(OperateChargeReq req,Long userId, Long billId) {
         UserFlowMoneyDetail detail = new UserFlowMoneyDetail();
         detail.setOwnerId(req.getOwnerId());
         detail.setUserId(userId);
@@ -92,13 +92,15 @@ public class UserFlowMoneyDetailAssemService {
         detail.setFlowId(req.getReqId());
         //TODO 待确定
         detail.setFlowType(ActionType.CHONG_ZHI.getStatus());
-        detail.setOrderId(req.getReqId());
+        detail.setOrderId(billId);
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         //审核人名称
         detail.setHandlerId(req.getHandlerId());
         detail.setHandlerName(req.getHandlerName());
         detail.setCreateTime(req.getProduceTime());
         detail.setUpdateTime(req.getProduceTime());
+        // todo 新加type，由kevin提供
+        detail.setFlowDetailType(req.getType() == null ? 0 : req.getType());
         return detail;
     }
 }

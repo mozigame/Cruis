@@ -50,7 +50,7 @@ public class UserTradeAssemService {
     
     
     public boolean batchUpdate(List<UserTrade> userTrades) {
-        if (userTrades==null||userTrades.isEmpty()) {
+        if (userTrades==null||userTrades.size()==0) {
         	return false;
         }
         logger.info("batchUpdate userTrade size : " + userTrades.size() );
@@ -59,7 +59,7 @@ public class UserTradeAssemService {
     }
 
     public boolean updateTradeStatus4Failed(List<UserTrade> userTrades) {
-        if (userTrades==null||userTrades.isEmpty()) {
+        if (userTrades==null||userTrades.size()==0) {
         	return false;
         }
         logger.info("batchUpdate updateTradeStatus4Failed size : " + userTrades.size() );

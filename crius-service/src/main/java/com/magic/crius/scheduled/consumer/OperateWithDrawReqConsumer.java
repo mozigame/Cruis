@@ -151,7 +151,7 @@ public class OperateWithDrawReqConsumer {
                     for (int i = 0; i < req.getUserIds().length; i++) {
                         userTrades.add(userTradeAssemService.assembleUserTrade(req, req.getUserIds()[i], req.getBillIds()[i]));
                         ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req,req.getUserIds()[i]));
-                        userOutMoneyDetails.add(assembleUserOutMoneyDetail(req,req.getUserIds()[i]));
+                        userOutMoneyDetails.add(assembleUserOutMoneyDetail(req, req.getUserIds()[i], req.getBillIds()[i]));
                         ownerOperateOutDetails.add(assembleOwnerOperateOutDetail(req));
                         /*会员提款*/
                         if (memberConditionVoMap.get(req.getUserIds()[i]) == null) {
@@ -262,7 +262,7 @@ public class OperateWithDrawReqConsumer {
     
    
     
-    private UserOutMoneyDetail assembleUserOutMoneyDetail(OperateWithDrawReq req,Long userId) {
+    private UserOutMoneyDetail assembleUserOutMoneyDetail(OperateWithDrawReq req,Long userId, Long billId) {
         UserOutMoneyDetail detail = new UserOutMoneyDetail();
         detail.setOwnerId(req.getOwnerId());
         detail.setUserId(userId);
@@ -270,12 +270,14 @@ public class OperateWithDrawReqConsumer {
         
         //TODO 待定
         detail.setState(1);
-        detail.setOrderId(req.getReqId());
+        detail.setOrderId(billId);
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         detail.setHandlerId(req.getHandlerId());
         detail.setHandlerName(req.getHandlerName());
         detail.setCreateTime(req.getProduceTime());
         detail.setUpdateTime(req.getProduceTime());
+
+//        detail.setOutDetailType(req.getty);
         return detail;
     }
 

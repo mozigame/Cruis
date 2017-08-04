@@ -22,7 +22,7 @@ public class OperateWithDrawReqAssemService  {
     private OperateWithDrawReqService operateWithDrawReqService;
 
     public void procKafkaData(OperateWithDrawReq req) {
-        if (req.getReqId() != null) {
+        if (req.getReqId() != null && operateWithDrawReqService.getByReqId(req.getReqId()) == null) {
             if (!operateWithDrawReqService.save(req)) {
                 //todo
             }

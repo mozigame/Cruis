@@ -22,7 +22,7 @@ public class BaseOrderReqAssemService {
     private BaseOrderReqService baseOrderReqService;
 
     public void procKafkaData(BaseOrderReq req) {
-        if (req.getReqId() != null) {
+        if (req.getReqId() != null && baseOrderReqService.getByReqId(req.getReqId()) == null) {
             if (!baseOrderReqService.save(req)) {
                 //todo
             }

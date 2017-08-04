@@ -23,7 +23,7 @@ public class DiscountReqAssemService  {
     private DiscountReqService discountReqService;
 
     public void procKafkaData(DiscountReq req) {
-        if (req.getReqId() != null) {
+        if (req.getReqId() != null && discountReqService.getByReqId(req.getReqId()) == null) {
             if (!discountReqService.save(req)) {
                 CriusLog.error("save OnlChargeReq error,reqId : " + req.getReqId());
             }

@@ -25,7 +25,7 @@ public class PreWithdrawReqAssemService {
     private PreWithdrawReqService preWithdrawService;
 
     public void procKafkaData(PreWithdrawReq req) {
-        if (req.getReqId() != null) {
+        if (req.getReqId() != null && preWithdrawService.getByReqId(req.getReqId()) == null) {
             if (!preWithdrawService.save(req)) {
                 logger.error("save PreWithdrawReq error,reqId : " + req.getReqId());
             }

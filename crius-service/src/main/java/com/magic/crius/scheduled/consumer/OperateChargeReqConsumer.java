@@ -135,7 +135,7 @@ public class OperateChargeReqConsumer {
                     for (int i = 0; i < req.getUserIds().length; i++) {
                         userTrades.add(userTradeAssemService.assembleUserTrade(req, req.getUserIds()[i], req.getBillIds()[i]));
                         ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req,req.getUserIds()[i]));
-                        userFlowMoneyDetails.add(userFlowMoneyDetailAssemService.assembleUserFlowMoneyDetail(req,req.getUserIds()[i]));
+                        userFlowMoneyDetails.add(userFlowMoneyDetailAssemService.assembleUserFlowMoneyDetail(req, req.getUserIds()[i], req.getBillIds()[i]));
                         ownerOperateFlowSummmaries.add(assembleOwnerOperateFlowDetail(req));
                         /*会员入款*/
                         if (memberConditionVoMap.get(req.getUserIds()[i]) == null) {

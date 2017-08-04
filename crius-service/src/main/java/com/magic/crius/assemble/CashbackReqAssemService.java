@@ -31,7 +31,7 @@ public class CashbackReqAssemService {
     private CashbackReqService cashbackReqService;
 
     public void procKafkaData(CashbackReq req) {
-        if (req.getReqId() != null) {
+        if (req.getReqId() != null && cashbackReqService.getByReqId(req.getReqId()) == null) {
             if (!cashbackReqService.save(req)) {
                 //todo
             }

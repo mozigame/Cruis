@@ -24,7 +24,7 @@ public class OperateChargeReqAssemService  {
     private OperateChargeReqService operateChargeService;
 
     public void procKafkaData(OperateChargeReq req) {
-        if (req.getReqId() != null) {
+        if (req.getReqId() != null && operateChargeService.getByReqId(req.getReqId()) == null) {
             if (!operateChargeService.save(req)) {
                 logger.error("save OperateChargeReq error,reqId : " + req.getReqId());
             }

@@ -36,6 +36,9 @@ public class UserOutMoneyDetail {
     private Long feeAmount;//手续费
 
 
+
+    private Integer outDetailType;//出款详细类型
+
     public Long getCostAmount() {
         return costAmount;
     }
@@ -154,5 +157,13 @@ public class UserOutMoneyDetail {
 
     public void setUpdateTime(Long updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getOutDetailType() {
+        return outDetailType;
+    }
+
+    public void setOutDetailType(Integer outDetailType) {
+        this.outDetailType = outDetailType;
     }
 }

@@ -23,7 +23,7 @@ public class PreCmpChargeReqAssemService {
     private PreCmpChargeReqService preCmpChargeService;
 
     public void procKafkaData(PreCmpChargeReq req) {
-        if (req.getReqId() != null) {
+        if (req.getReqId() != null && preCmpChargeService.getByReqId(req.getReqId()) == null) {
             if (!preCmpChargeService.savePreCmpCharge(req)) {
                 logger.error("save PreCmpCharge error,reqId : " + req.getReqId());
             }

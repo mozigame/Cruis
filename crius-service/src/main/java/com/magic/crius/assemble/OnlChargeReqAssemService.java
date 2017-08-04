@@ -23,7 +23,7 @@ public class OnlChargeReqAssemService  {
     private OnlChargeReqService onlChargeService;
 
     public void procKafkaData(OnlChargeReq req) {
-        if (req.getReqId() != null ) {
+        if (req.getReqId() != null && onlChargeService.getByReqId(req.getReqId()) == null) {
             if (!onlChargeService.save(req)) {
                 logger.error("save OnlChargeReq error,reqId : " + req.getReqId());
             }
