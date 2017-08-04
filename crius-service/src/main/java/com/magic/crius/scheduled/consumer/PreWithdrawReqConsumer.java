@@ -240,9 +240,9 @@ public class PreWithdrawReqConsumer {
         detail.setUpdateTime(req.getProduceTime());
 
         //会员出款扣款
-        detail.setCostAmount(req.getCostAmount());
-        detail.setFeeAmount(req.getFeeAmount());
-        detail.setOfferAmount(req.getOfferAmount());
+        detail.setCostAmount(req.getCostAmount() == null ? 0: req.getCostAmount());
+        detail.setFeeAmount(req.getFeeAmount() == null ? 0: req.getFeeAmount());
+        detail.setOfferAmount(req.getOfferAmount() == null ? 0: req.getOfferAmount());
         return detail;
     }
 
