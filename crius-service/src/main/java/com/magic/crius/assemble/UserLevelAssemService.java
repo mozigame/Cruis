@@ -64,13 +64,13 @@ public class UserLevelAssemService {
         if (!userInfoService.updateLevel(userLevelReq.getUserId(), userLevelReq.getLevelId())) {
         	logger.warn("update user_info level failed, param: " + JSON.toJSONString(userLevelReq));
         	
-//			Jedis jedis = criusJedisFactory.getInstance();
-//        	Long count=jedis.incr(RedisConstants.REDIS_USER_LEVEL_UPDATE_COUNT+"_"+userLevelReq.getUserId());
-//        	jedis.expire(RedisConstants.REDIS_USER_LEVEL_UPDATE_COUNT+"_"+userLevelReq.getUserId(), 60);//60秒存活时间
-//        	if(count<=5){//用redis控制次数，超过5次不处理
-//        		//处理失败，则延时1秒把消息放回KAFKA
-//    			resendMsg(userLevelReq);
-//        	}
+			Jedis jedis = criusJedisFactory.getInstance();
+        	Long count=jedis.incr(RedisConstants.REDIS_USER_LEVEL_UPDATE_COUNT+"_"+userLevelReq.getUserId());
+        	jedis.expire(RedisConstants.REDIS_USER_LEVEL_UPDATE_COUNT+"_"+userLevelReq.getUserId(), 60);//60秒存活时间
+        	if(count<=5){//用redis控制次数，超过5次不处理
+        		//处理失败，则延时1秒把消息放回KAFKA
+    			resendMsg(userLevelReq);
+        	}
         }
     }
     

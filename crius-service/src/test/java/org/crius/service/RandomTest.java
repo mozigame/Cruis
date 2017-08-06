@@ -31,7 +31,7 @@ public class RandomTest {
     @Test
     public void mod() {
         System.out.println(0x300008);
-        System.out.println(Math.abs(new Long(14099962).hashCode()) % 1024);
+        System.out.println(Math.abs(new Long(5910923).hashCode()) % 1024);
     }
 
     @Test
