@@ -12,6 +12,7 @@ import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.po.*;
 import com.magic.crius.service.OperateChargeReqService;
 import com.magic.crius.service.RepairLockService;
+import com.magic.crius.util.PropertiesLoad;
 import com.magic.crius.vo.OnlChargeReq;
 import com.magic.crius.vo.OperateChargeReq;
 import com.magic.user.vo.MemberConditionVo;
@@ -81,7 +82,10 @@ public class OperateChargeReqConsumer {
             public void run() {
                 try {
 					repairCacheHistoryTask(date);
-					repairMongoAbnormal(date);
+                    if (PropertiesLoad.repairScheduleFlag()) {
+                        logger.info("----repairMongoAbnormal operateCharge");
+                        repairMongoAbnormal(date);
+                    }
 				} catch (Exception e) {
 					logger.error("---detailCalculate-task--operateCharge", e);
 				}

@@ -8,6 +8,7 @@ import com.magic.crius.po.*;
 import com.magic.crius.service.PreCmpChargeReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.util.CriusLog;
+import com.magic.crius.util.PropertiesLoad;
 import com.magic.crius.vo.PreCmpChargeReq;
 import com.magic.user.vo.MemberConditionVo;
 import org.apache.log4j.Logger;
@@ -86,7 +87,10 @@ public class PreCmpChargeReqConsumer {
             public void run() {
                 try {
 					repairCacheHistoryTask(date);
-					repairMongoAbnormal(date);
+                    if (PropertiesLoad.repairScheduleFlag()) {
+                        logger.info("----repairMongoAbnormal preCmpCharge");
+                        repairMongoAbnormal(date);
+                    }
 				} catch (Exception e) {
 					logger.error("---detailCalculate-task--preCmpCharge", e);
 				}

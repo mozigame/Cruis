@@ -2,6 +2,7 @@ package com.magic.crius.assemble;
 
 import com.alibaba.fastjson.JSON;
 import com.magic.crius.service.PreCmpChargeReqService;
+import com.magic.crius.util.PropertiesLoad;
 import com.magic.crius.vo.PreCmpChargeReq;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -23,10 +24,20 @@ public class PreCmpChargeReqAssemService {
     private PreCmpChargeReqService preCmpChargeService;
 
     public void procKafkaData(PreCmpChargeReq req) {
-        if (req.getReqId() != null && preCmpChargeService.getByReqId(req.getReqId()) == null) {
-            if (!preCmpChargeService.savePreCmpCharge(req)) {
-                logger.error("save PreCmpCharge error,reqId : " + req.getReqId());
+        if (req.getReqId() != null) {
+            if (PropertiesLoad.checkMongoResId()) {
+                logger.info("save PreCmpCharge checkReqId : "+ req.getReqId());
+                if (preCmpChargeService.getByReqId(req.getReqId()) == null) {
+                    if (!preCmpChargeService.savePreCmpCharge(req)) {
+                        logger.error("save PreCmpCharge error,reqId : " + req.getReqId());
+                    }
+                }
+            } else {
+                if (!preCmpChargeService.savePreCmpCharge(req)) {
+                    logger.error("save PreCmpCharge error,reqId : " + req.getReqId());
+                }
             }
+
         } else {
             logger.warn("reqId is null,"+ JSON.toJSONString(req));
         }

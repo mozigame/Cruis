@@ -2,6 +2,7 @@ package com.magic.crius.assemble;
 
 import com.alibaba.fastjson.JSON;
 import com.magic.crius.service.DealerRewardReqService;
+import com.magic.crius.util.PropertiesLoad;
 import com.magic.crius.vo.DealerRewardReq;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -25,9 +26,18 @@ public class DealerRewardReqAssemService  {
     private OwnerAwardDetailAssemService ownerAwardDetailAssemService;
 
     public void procKafkaData(DealerRewardReq req) {
-        if (req.getReqId() != null && dealerRewardReqService.getByReqId(req.getReqId()) == null) {
-            if (!dealerRewardReqService.save(req)) {
-                //todo
+        if (req.getReqId() != null) {
+            if (PropertiesLoad.checkMongoResId()) {
+                logger.info("save DealerRewardReq checkReqId : "+ req.getReqId());
+                if (dealerRewardReqService.getByReqId(req.getReqId()) == null) {
+                    if (!dealerRewardReqService.save(req)) {
+                        logger.error("save DealerRewardReq error,reqId : " + req.getReqId());
+                    }
+                }
+            } else {
+                if (!dealerRewardReqService.save(req)) {
+                    logger.error("save DealerRewardReq error,reqId : " + req.getReqId());
+                }
             }
         } else {
             logger.warn("reqId is null"+ JSON.toJSONString(req));

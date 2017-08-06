@@ -8,6 +8,7 @@ import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.po.*;
 import com.magic.crius.service.OnlChargeReqService;
 import com.magic.crius.service.RepairLockService;
+import com.magic.crius.util.PropertiesLoad;
 import com.magic.crius.vo.OnlChargeReq;
 import com.magic.user.vo.MemberConditionVo;
 import org.apache.log4j.Logger;
@@ -79,7 +80,10 @@ public class OnlChargeReqConsumer {
             public void run() {
                 try {
 					repairCacheHistoryTask(date);
-					repairMongoAbnormal(date);
+                    if (PropertiesLoad.repairScheduleFlag()) {
+                        logger.info("----repairMongoAbnormal onlCharge");
+                        repairMongoAbnormal(date);
+                    }
 				} catch (Exception e) {
 					ApiLogger.error("---detailCalculate-task--onlCharge", e);
 				}

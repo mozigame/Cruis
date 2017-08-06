@@ -3,6 +3,7 @@ package com.magic.crius.assemble;
 import com.alibaba.fastjson.JSON;
 import com.magic.crius.service.DiscountReqService;
 import com.magic.crius.util.CriusLog;
+import com.magic.crius.util.PropertiesLoad;
 import com.magic.crius.vo.DiscountReq;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -23,13 +24,23 @@ public class DiscountReqAssemService  {
     private DiscountReqService discountReqService;
 
     public void procKafkaData(DiscountReq req) {
-        if (req.getReqId() != null && discountReqService.getByReqId(req.getReqId()) == null) {
-            if (!discountReqService.save(req)) {
-                CriusLog.error("save OnlChargeReq error,reqId : " + req.getReqId());
+        if (req.getReqId() != null) {
+            if (PropertiesLoad.checkMongoResId()) {
+                logger.info("save DiscountReq checkReqId : "+ req.getReqId());
+                if (discountReqService.getByReqId(req.getReqId()) == null) {
+                    if (!discountReqService.save(req)) {
+                        logger.error("save Discount error,reqId : " + req.getReqId());
+                    }
+                }
+            } else {
+                if (!discountReqService.save(req)) {
+                    logger.error("save Discount error,reqId : " + req.getReqId());
+                }
             }
         } else {
             logger.warn("reqId is null,"+ JSON.toJSONString(req));
         }
+
     }
 
 }

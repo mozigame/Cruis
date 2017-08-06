@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
+import com.magic.crius.util.PropertiesLoad;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
@@ -99,7 +100,10 @@ public class OperateWithDrawReqConsumer {
             public void run() {
                 try {
 					repairCacheHistoryTask(date);
-					repairMongoAbnormal(date);
+                    if (PropertiesLoad.repairScheduleFlag()) {
+                        logger.info("----repairMongoAbnormal operateWithDraw");
+                        repairMongoAbnormal(date);
+                    }
 				} catch (Exception e) {
 					logger.error("---detailCalculate-task--operateWithDraw", e);
 				}

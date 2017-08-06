@@ -12,6 +12,8 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import static com.magic.crius.util.PropertiesLoad.getConfigProp;
+
 @Configuration
 @ComponentScan({"com.magic"})
 @EnableAspectJAutoProxy
@@ -27,6 +29,7 @@ public class Application {
 
     private static final Logger logger = Logger.getLogger(Application.class);
     public static void main(String[] args) {
+            System.out.println(getConfigProp("repair.mongo.flag", false));
         logger.info("start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         System.setProperty("user.timezone","America/New_York");
         SpringApplication.run(Application.class, args);

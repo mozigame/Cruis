@@ -13,6 +13,7 @@ import com.magic.crius.po.RepairLock;
 import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.CashbackReqService;
 import com.magic.crius.service.RepairLockService;
+import com.magic.crius.util.PropertiesLoad;
 import com.magic.crius.vo.CashbackReq;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -77,7 +78,10 @@ public class CashbackReqConsumer {
             public void run() {
                 try {
 					repairCacheHistoryTask(date);
-					repairMongoAbnormal(date);
+                    if (PropertiesLoad.repairScheduleFlag()) {
+                        logger.info("----repairMongoAbnormal cashback");
+                        repairMongoAbnormal(date);
+                    }
 				} catch (Exception e) {
 					ApiLogger.error("---detailCalculate-task-- cashback", e);
 				}

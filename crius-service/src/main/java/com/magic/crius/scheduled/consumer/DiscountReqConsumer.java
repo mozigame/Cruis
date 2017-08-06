@@ -11,6 +11,7 @@ import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.po.*;
 import com.magic.crius.service.DiscountReqService;
 import com.magic.crius.service.RepairLockService;
+import com.magic.crius.util.PropertiesLoad;
 import com.magic.crius.vo.DiscountReq;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -78,7 +79,10 @@ public class DiscountReqConsumer {
             public void run() {
                 try {
 					repairCacheHistoryTask(date);
-					repairMongoAbnormal(date);
+                    if (PropertiesLoad.repairScheduleFlag()) {
+                        logger.info("----repairMongoAbnormal discount");
+                        repairMongoAbnormal(date);
+                    }
 				} catch (Exception e) {
 					ApiLogger.error("---detailCalculate-task-- discount", e);
 				}

@@ -2,6 +2,7 @@ package com.magic.crius.assemble;
 
 import com.alibaba.fastjson.JSON;
 import com.magic.crius.service.OnlChargeReqService;
+import com.magic.crius.util.PropertiesLoad;
 import com.magic.crius.vo.OnlChargeReq;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -23,9 +24,18 @@ public class OnlChargeReqAssemService  {
     private OnlChargeReqService onlChargeService;
 
     public void procKafkaData(OnlChargeReq req) {
-        if (req.getReqId() != null && onlChargeService.getByReqId(req.getReqId()) == null) {
-            if (!onlChargeService.save(req)) {
-                logger.error("save OnlChargeReq error,reqId : " + req.getReqId());
+        if (req.getReqId() != null) {
+            if (PropertiesLoad.checkMongoResId()) {
+                logger.info("save OnlChargeReq checkReqId : "+ req.getReqId());
+                if (onlChargeService.getByReqId(req.getReqId()) == null) {
+                    if (!onlChargeService.save(req)) {
+                        logger.error("save OnlChargeReq error,reqId : " + req.getReqId());
+                    }
+                }
+            } else {
+                if (!onlChargeService.save(req)) {
+                    logger.error("save OnlChargeReq error,reqId : " + req.getReqId());
+                }
             }
         } else {
             logger.warn("reqId is null,"+ JSON.toJSONString(req));

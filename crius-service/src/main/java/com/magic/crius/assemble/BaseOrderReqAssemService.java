@@ -3,6 +3,7 @@ package com.magic.crius.assemble;
 import com.alibaba.fastjson.JSON;
 import com.magic.api.commons.ApiLogger;
 import com.magic.crius.service.BaseOrderReqService;
+import com.magic.crius.util.PropertiesLoad;
 import com.magic.crius.vo.BaseOrderReq;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -22,9 +23,18 @@ public class BaseOrderReqAssemService {
     private BaseOrderReqService baseOrderReqService;
 
     public void procKafkaData(BaseOrderReq req) {
-        if (req.getReqId() != null && baseOrderReqService.getByReqId(req.getReqId()) == null) {
-            if (!baseOrderReqService.save(req)) {
-                //todo
+        if (req.getReqId() != null) {
+            if (PropertiesLoad.checkOrderMongoResId()) {
+                logger.info("save BaseOrderReq checkReqId : "+ req.getReqId());
+                if (baseOrderReqService.getByReqId(req.getReqId()) == null) {
+                    if (!baseOrderReqService.save(req)) {
+                        logger.error("save BaseOrderReq error,reqId : " + req.getReqId());
+                    }
+                }
+            } else {
+                if (!baseOrderReqService.save(req)) {
+                    logger.error("save BaseOrderReq error,reqId : " + req.getReqId());
+                }
             }
         } else {
             logger.warn("data not matching,"+ JSON.toJSONString(req));

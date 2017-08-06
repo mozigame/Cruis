@@ -9,6 +9,7 @@ import com.magic.crius.assemble.UserTradeAssemService;
 import com.magic.crius.po.OwnerReforwardDetail;
 import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.CashbackReqService;
+import com.magic.crius.util.PropertiesLoad;
 import com.magic.crius.vo.CashbackReq;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -31,10 +32,20 @@ public class CashbackReqAssemService {
     private CashbackReqService cashbackReqService;
 
     public void procKafkaData(CashbackReq req) {
-        if (req.getReqId() != null && cashbackReqService.getByReqId(req.getReqId()) == null) {
-            if (!cashbackReqService.save(req)) {
-                //todo
+        if (req.getReqId() != null) {
+            if (PropertiesLoad.checkMongoResId()) {
+                logger.info("save CashbackReq checkReqId : "+ req.getReqId());
+                if (cashbackReqService.getByReqId(req.getReqId()) == null) {
+                    if (!cashbackReqService.save(req)) {
+                        logger.error("save CashbackReq error,reqId : " + req.getReqId());
+                    }
+                }
+            } else {
+                if (!cashbackReqService.save(req)) {
+                    logger.error("save CashbackReq error,reqId : " + req.getReqId());
+                }
             }
+
         } else {
             logger.warn("reqId is null,"+ JSON.toJSONString(req));
         }

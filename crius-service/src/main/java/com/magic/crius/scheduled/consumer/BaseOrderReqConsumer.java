@@ -11,6 +11,7 @@ import com.magic.crius.po.RepairLock;
 import com.magic.crius.po.UserOrderDetail;
 import com.magic.crius.service.BaseOrderReqService;
 import com.magic.crius.service.RepairLockService;
+import com.magic.crius.util.PropertiesLoad;
 import com.magic.crius.vo.BaseOrderReq;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
@@ -68,7 +69,10 @@ public class BaseOrderReqConsumer {
             public void run() {
                 try {
 					repairCacheHistoryTask(date);
-//					repairMongoAbnormal(date);
+                    if (PropertiesLoad.repairOrderScheduleFlag()) {
+                        logger.info("----repairMongoAbnormal BaseOrderReq");
+                        repairMongoAbnormal(date);
+                    }
 				} catch (Exception e) {
 					logger.error("---detailCalculate-task-- baseOrder", e);
 				}
