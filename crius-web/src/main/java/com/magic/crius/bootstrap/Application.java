@@ -29,7 +29,6 @@ public class Application {
 
     private static final Logger logger = Logger.getLogger(Application.class);
     public static void main(String[] args) {
-            System.out.println(getConfigProp("repair.mongo.flag", false));
         logger.info("start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         System.setProperty("user.timezone","America/New_York");
         SpringApplication.run(Application.class, args);
