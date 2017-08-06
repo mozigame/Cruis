@@ -68,7 +68,7 @@ public class BaseOrderReqConsumer {
             public void run() {
                 try {
 					repairCacheHistoryTask(date);
-					repairMongoAbnormal(date);
+//					repairMongoAbnormal(date);
 				} catch (Exception e) {
 					logger.error("---detailCalculate-task-- baseOrder", e);
 				}

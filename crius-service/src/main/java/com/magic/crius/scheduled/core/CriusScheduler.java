@@ -32,7 +32,7 @@ public class CriusScheduler {
     /**
      * 处理redis数据的间隔时间
      */
-    private static final int cacheFlushRate = 1000 * 60;
+    private static final int cacheFlushRate = 1000 * 60 * 3;
     /**
      * 拉取代理列表的时间间隔
      */
