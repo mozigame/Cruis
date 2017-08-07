@@ -110,6 +110,9 @@ public class RiskEventRecordAssemService {
     		else if(map.containsKey("ProduceTime")){
     			detail.setTime(getObjectLong(map.get("ProduceTime")));map.remove("ProduceTime");
     		}
+    		if(detail.getIp()!=null){
+    			detail.setId(detail.getIp().intValue()+0l);//把IP转成整型
+    		}
     		detail.setUserName((String)map.get("UserName"));map.remove("UserName");
     		detail.setJsonData(JsonUtils.toJsonStringTrimNull(map));
     		detailList.add(detail);
