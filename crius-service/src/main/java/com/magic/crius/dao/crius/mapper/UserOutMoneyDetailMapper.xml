@@ -62,7 +62,7 @@
             #{param.costAmount,jdbcType=BIGINT},
             #{param.offerAmount,jdbcType=BIGINT},
             #{param.feeAmount,jdbcType=BIGINT},
-            #{outDetailType,jdbcType=INTEGER }
+            #{param.outDetailType,jdbcType=INTEGER }
             )
         </foreach>
 

@@ -68,7 +68,7 @@
             #{param.createTime,jdbcType=BIGINT},
             #{param.updateTime,jdbcType=BIGINT},
             #{param.remark,jdbcType=VARCHAR},
-            #{flowDetailType,jdbcType=INTEGER}
+            #{param.flowDetailType,jdbcType=INTEGER}
             )
         </foreach>
     </insert>
