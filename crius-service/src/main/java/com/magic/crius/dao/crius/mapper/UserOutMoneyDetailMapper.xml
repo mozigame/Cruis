@@ -18,6 +18,7 @@
         <result column="create_time" jdbcType="BIGINT" property="createTime"/>
         <result column="update_time" jdbcType="BIGINT" property="updateTime"/>
 
+        <result column="out_detail_type" jdbcType="INTEGER" property="outDetailType"/>
     </resultMap>
 
 
@@ -25,13 +26,15 @@
         insert into user_out_money_detail (owner_id, user_id,
           order_count, tax_count, state,
           order_id, pdate, handler_id,
-          handler_name, create_time, update_time,cost_amount,offer_amount,fee_amount
+          handler_name, create_time, update_time,cost_amount,offer_amount,fee_amount,
+          out_detail_type
           )
         values (#{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
           #{orderCount,jdbcType=BIGINT}, #{taxCount,jdbcType=BIGINT}, #{state,jdbcType=INTEGER},
           #{orderId,jdbcType=BIGINT}, #{pdate,jdbcType=INTEGER}, #{handlerId,jdbcType=BIGINT},
           #{handlerName,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT},
-          #{costAmount,jdbcType=BIGINT}, #{offerAmount,jdbcType=BIGINT}, #{feeAmount,jdbcType=BIGINT} }
+          #{costAmount,jdbcType=BIGINT}, #{offerAmount,jdbcType=BIGINT}, #{feeAmount,jdbcType=BIGINT},
+          #{outDetailType,jdbcType=INTEGER }
           )
     </insert>
 
@@ -40,7 +43,8 @@
         insert into user_out_money_detail (owner_id, user_id,
         order_count, tax_count, state,
         order_id, pdate, handler_id,
-        handler_name, create_time, update_time,cost_amount,offer_amount,fee_amount
+        handler_name, create_time, update_time,cost_amount,offer_amount,fee_amount,
+        out_detail_type
         )
         values
         <foreach collection="list" item="param" separator=",">
@@ -57,7 +61,8 @@
             #{param.updateTime,jdbcType=BIGINT},
             #{param.costAmount,jdbcType=BIGINT},
             #{param.offerAmount,jdbcType=BIGINT},
-            #{param.feeAmount,jdbcType=BIGINT}
+            #{param.feeAmount,jdbcType=BIGINT},
+            #{outDetailType,jdbcType=INTEGER }
             )
         </foreach>
 
