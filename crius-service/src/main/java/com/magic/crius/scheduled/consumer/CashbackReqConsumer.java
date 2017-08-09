@@ -123,10 +123,15 @@ public class CashbackReqConsumer {
             for (CashbackReq req : list) {
                 /*反水详情*/
                 ownerReforwardDetailHashMap.add(assembleOwnerReforwardDetail(req));
-                /*公司账目汇总*/
-                ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req));
-                /*账户交易明细*/
-                userTrades.add(userTradeAssemService.assembleUserTrade(req));
+                /*
+                 * 如果返水金额大于0 返水有意义
+                 */
+                if (req.getAmount() > 0) {
+                    /*公司账目汇总*/
+                    ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req));
+                    /*账户交易明细*/
+                    userTrades.add(userTradeAssemService.assembleUserTrade(req));
+                }
 
                 /*成功的数据*/
                 sucReqs.add(assembleSucReq(req));

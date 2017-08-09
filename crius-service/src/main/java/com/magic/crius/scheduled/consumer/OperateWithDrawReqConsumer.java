@@ -155,7 +155,7 @@ public class OperateWithDrawReqConsumer {
                     for (int i = 0; i < req.getUserIds().length; i++) {
                         userTrades.add(userTradeAssemService.assembleUserTrade(req, req.getUserIds()[i], req.getBillIds()[i]));
                         ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req,req.getUserIds()[i]));
-                        userOutMoneyDetails.add(assembleUserOutMoneyDetail(req, req.getUserIds()[i], req.getBillIds()[i]));
+                        userOutMoneyDetails.add(userOutMoneyDetailAssemService.assembleUserOutMoneyDetail(req, req.getUserIds()[i], req.getBillIds()[i]));
                         ownerOperateOutDetails.add(assembleOwnerOperateOutDetail(req));
                         /*会员提款*/
                         if (memberConditionVoMap.get(req.getUserIds()[i]) == null) {
@@ -264,30 +264,6 @@ public class OperateWithDrawReqConsumer {
         return detail;
     }
     
-   
-    
-    private UserOutMoneyDetail assembleUserOutMoneyDetail(OperateWithDrawReq req,Long userId, Long billId) {
-        UserOutMoneyDetail detail = new UserOutMoneyDetail();
-        detail.setOwnerId(req.getOwnerId());
-        detail.setUserId(userId);
-        detail.setOrderCount(req.getAmount());
-        
-        //TODO 待定
-        detail.setState(1);
-        detail.setOrderId(billId);
-        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
-        detail.setHandlerId(req.getHandlerId());
-        detail.setHandlerName(req.getHandlerName());
-        detail.setCreateTime(req.getProduceTime());
-        detail.setUpdateTime(req.getProduceTime());
-        //会员出款扣款
-        detail.setCostAmount(0L);
-        detail.setFeeAmount(0L);
-        detail.setOfferAmount(0L);  
-        detail.setOutDetailType(req.getWithdrawType()==null ? 0 : req.getWithdrawType());
-        return detail;
-    }
-
     private OperateWithDrawReq assembleSucReq(OperateWithDrawReq req) {
         OperateWithDrawReq sucReq = new OperateWithDrawReq();
         sucReq.setReqId(req.getReqId());

@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.magic.analysis.enums.SummaryType;
 import org.springframework.stereotype.Service;
 
 import com.magic.analysis.enums.ActionType;
@@ -41,8 +42,8 @@ public class UserFlowMoneyDetailAssemService {
         detail.setOrderCount(req.getChargeAmount());
         //Todo 待确定
         detail.setState(0);
-        //todo kevin 提供
-        detail.setPayMethod(req.getChargeType());
+        //todo kevin 提供,公司入款、线上入款自己定义，人工入款由kevin提供
+        detail.setPayMethod(SummaryType.ONLINE_CHARGE.getStatus());
         detail.setFlowId(req.getBillId());
         //TODO 待确定
         detail.setFlowType(ActionType.CHONG_ZHI.getStatus());
@@ -64,8 +65,8 @@ public class UserFlowMoneyDetailAssemService {
         detail.setOrderCount(req.getChargeAmount());
         //Todo 待确定
         detail.setState(1);
-        //todo kevin 提供
-        detail.setPayMethod(req.getChargeType());
+        //todo kevin 提供,公司入款、线上入款自己定义，人工入款由kevin提供
+        detail.setPayMethod(SummaryType.COMPANY_INCOME.getStatus());
         detail.setFlowId(req.getBillId());
         //TODO 待确定
         detail.setFlowType(ActionType.CHONG_ZHI.getStatus());

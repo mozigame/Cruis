@@ -126,7 +126,7 @@ public class PreWithdrawReqConsumer {
             Map<Long, MemberConditionVo> memberConditionVoMap = new HashMap<>();
             for (PreWithdrawReq req : list) {
                 /*会员出款明细*/
-                details.add(assembleUserOutMoneyDetail(req));
+                details.add(userOutMoneyDetailAssemService.assembleUserOutMoneyDetail(req));
                 /*公司账目汇总*/
                 ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req));
 				if (req.getNeedPayAmount() != null && req.getNeedPayAmount() > 0) {
@@ -230,29 +230,6 @@ public class PreWithdrawReqConsumer {
             List<PreWithdrawReq> withDrawReqs = preWithdrawService.getNotProc(startTime, endTime, reqIds);
             flushData(withDrawReqs);
         }
-    }
-
-    private UserOutMoneyDetail assembleUserOutMoneyDetail(PreWithdrawReq req) {
-        UserOutMoneyDetail detail = new UserOutMoneyDetail();
-        detail.setOwnerId(req.getOwnerId());
-        detail.setUserId(req.getUserId());
-        detail.setOrderCount(req.getRealWithdrawAmount());
-        //TODO kevin提供
-        detail.setTaxCount(req.getNeedPayAmount());
-        //TODO 待定
-        detail.setState(0);
-        detail.setOrderId(req.getBillId());
-        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
-        detail.setHandlerId(req.getHandlerId());
-        detail.setHandlerName(req.getHandlerName());
-        detail.setCreateTime(req.getProduceTime());
-        detail.setUpdateTime(req.getProduceTime());
-
-        //会员出款扣款
-        detail.setCostAmount(req.getCostAmount() == null ? 0: req.getCostAmount());
-        detail.setFeeAmount(req.getFeeAmount() == null ? 0: req.getFeeAmount());
-        detail.setOfferAmount(req.getOfferAmount() == null ? 0: req.getOfferAmount());
-        return detail;
     }
 
     private PreWithdrawReq assembleSucReq(PreWithdrawReq req) {
