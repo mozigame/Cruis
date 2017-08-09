@@ -42,8 +42,8 @@ public class UserFlowMoneyDetailAssemService {
         detail.setOrderCount(req.getChargeAmount());
         //Todo 待确定
         detail.setState(0);
-        //todo kevin 提供,公司入款、线上入款自己定义，人工入款由kevin提供
-        detail.setPayMethod(SummaryType.ONLINE_CHARGE.getStatus());
+        //todo kevin 提供
+        detail.setPayMethod(req.getChargeType());
         detail.setFlowId(req.getBillId());
         //TODO 待确定
         detail.setFlowType(ActionType.CHONG_ZHI.getStatus());
@@ -52,6 +52,9 @@ public class UserFlowMoneyDetailAssemService {
         detail.setCreateTime(req.getProduceTime());
         detail.setUpdateTime(req.getProduceTime());
         detail.setRemark(req.getRemark());
+
+        //todo kevin 提供,公司入款、线上入款自己定义，人工入款由kevin提供
+        detail.setFlowDetailType(SummaryType.ONLINE_CHARGE.getStatus());
         return detail;
     }
 
@@ -65,8 +68,8 @@ public class UserFlowMoneyDetailAssemService {
         detail.setOrderCount(req.getChargeAmount());
         //Todo 待确定
         detail.setState(1);
-        //todo kevin 提供,公司入款、线上入款自己定义，人工入款由kevin提供
-        detail.setPayMethod(SummaryType.COMPANY_INCOME.getStatus());
+        //todo kevin 提供
+        detail.setPayMethod(req.getChargeType());
         detail.setFlowId(req.getBillId());
         //TODO 待确定
         detail.setFlowType(ActionType.CHONG_ZHI.getStatus());
@@ -77,6 +80,9 @@ public class UserFlowMoneyDetailAssemService {
         detail.setHandlerName(req.getHandlerName());
         detail.setCreateTime(req.getProduceTime());
         detail.setUpdateTime(req.getProduceTime());
+
+        //todo kevin 提供,公司入款、线上入款自己定义，人工入款由kevin提供
+        detail.setFlowDetailType(SummaryType.COMPANY_INCOME.getStatus());
         return detail;
     }
     

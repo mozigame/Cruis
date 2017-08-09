@@ -54,6 +54,7 @@ public class UserOutMoneyDetailAssemService {
         detail.setCostAmount(0L);
         detail.setFeeAmount(0L);
         detail.setOfferAmount(0L);
+
         //todo 人工出款由kevin提供
         detail.setOutDetailType(req.getWithdrawType()==null ? 0 : req.getWithdrawType());
         return detail;
@@ -84,6 +85,7 @@ public class UserOutMoneyDetailAssemService {
         detail.setCostAmount(req.getCostAmount() == null ? 0: req.getCostAmount());
         detail.setFeeAmount(req.getFeeAmount() == null ? 0: req.getFeeAmount());
         detail.setOfferAmount(req.getOfferAmount() == null ? 0: req.getOfferAmount());
+
         //todo kevin 提供,会员出款自己定义，人工出款由kevin提供
         detail.setOutDetailType(SummaryType.USER_OUT_MONEY.getStatus());
         return detail;
