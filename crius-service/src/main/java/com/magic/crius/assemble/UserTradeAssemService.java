@@ -1,6 +1,7 @@
 package com.magic.crius.assemble;
 
 import com.magic.analysis.enums.ActionType;
+import com.magic.analysis.enums.FlowType;
 import com.magic.analysis.enums.SummaryType;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.po.UserTrade;
@@ -123,6 +124,9 @@ public class UserTradeAssemService {
         userTrade.setTradeType(SummaryType.ARTIFICIAL_INTO_MOENY.getStatus());
         userTrade.setActiontype(ActionType.CHONG_ZHI.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
+
+        FlowType flowType = FlowType.getState(req.getType() == null ? 0 : req.getType());
+        userTrade.setRemark(flowType == null ? "" : flowType.getMethodName());
         return userTrade;
     }
 
@@ -138,6 +142,9 @@ public class UserTradeAssemService {
         userTrade.setTradeType(SummaryType.ARTIFICIAL_WITHDRAWAL.getStatus());
         userTrade.setActiontype(ActionType.TI_KUANG.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
+
+        FlowType flowType = FlowType.getState(req.getWithdrawType() == null ? 0 : req.getWithdrawType());
+        userTrade.setRemark(flowType == null ? "" : flowType.getMethodName());
         return userTrade;
     }
 
