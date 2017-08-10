@@ -14,6 +14,6 @@ public interface UserTradeSummaryMapper {
 
     int update(UserTradeSummary summary);
 
-    List<UserTradeSummary> getSummaryTypeList(@Param("list") Collection<UserTradeSummary> summaries);
+    List<UserTradeSummary> getSummaryTypeList(@Param("list") Collection<UserTradeSummary> summaries, Long ownerId, Integer summaryType );
 
 }

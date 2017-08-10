@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -32,6 +33,7 @@ public class UserTradeSummaryDbServiceImpl implements UserTradeSummaryDbService 
 
     @Override
     public List<UserTradeSummary> getSummaryTypeList(Collection<UserTradeSummary> summaries) {
-        return userTradeSummaryMapper.getSummaryTypeList(summaries);
+        UserTradeSummary summary = summaries.iterator().next();
+        return userTradeSummaryMapper.getSummaryTypeList(summaries, summary.getOwnerId(), summary.getSummaryType());
     }
 }

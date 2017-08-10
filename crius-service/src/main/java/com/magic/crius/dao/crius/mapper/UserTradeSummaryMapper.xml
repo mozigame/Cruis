@@ -193,8 +193,8 @@
             owner_id,
             max_money
         from user_trade_summary
-        where owner_id = #{list[0].ownerId,jdbcType=BIGINT}
-        AND summary_type = #{list[0].summaryType,jdbcType=INTEGER}
+        where owner_id = #{ownerId,jdbcType=BIGINT}
+        AND summary_type = #{summaryType,jdbcType=INTEGER}
         AND user_id in (
         <foreach collection="list" item="param" separator=",">
             #{param.userId}
