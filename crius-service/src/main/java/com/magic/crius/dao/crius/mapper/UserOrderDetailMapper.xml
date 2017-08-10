@@ -71,12 +71,4 @@
           update_time = #{updateTime,jdbcType=BIGINT}
         where Id = #{id,jdbcType=INTEGER}
     </update>
-
-    <!--修改订单派彩状态为已派彩-->
-    <update id="updatePaidStatus">
-        update user_order_detail
-          SET is_paid = #{param.isPaid,jdbcType=BIGINT}
-          WHERE user_id=#{param.userId,jdbcType=BIGINT}
-          AND order_id = #{param.orderId,jdbcType=INTEGER}
-    </update>
 </mapper>

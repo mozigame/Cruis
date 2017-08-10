@@ -2,10 +2,7 @@ package com.magic.crius.scheduled.consumer;
 
 import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
-import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
-import com.magic.crius.assemble.OwnerPreferentialDetailAssemService;
-import com.magic.crius.assemble.UserPreferentialDetailAssemService;
-import com.magic.crius.assemble.UserTradeAssemService;
+import com.magic.crius.assemble.*;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.po.*;
@@ -54,6 +51,8 @@ public class DiscountReqConsumer {
     @Resource
     private UserTradeAssemService userTradeAssemService;
 
+    @Resource
+    private UserTradeSummaryAssemService userTradeSummaryAssemService;
 
     public void init(Date date) {
         detailCalculate(date);
@@ -122,6 +121,7 @@ public class DiscountReqConsumer {
             List<OwnerCompanyAccountDetail> ownerCompanyAccountDetails = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
             List<DiscountReq> sucReqs = new ArrayList<>();
+            Map<Long, UserTradeSummary> userTradeSummaries = new HashMap<>();
             for (DiscountReq req : list) {
                 /*业主优惠汇总*/
                 ownerOnlineFlowDetailMap.add(assembleOwnerPreferentialDetail(req));
@@ -134,11 +134,24 @@ public class DiscountReqConsumer {
                 /*成功的数据*/
                 sucReqs.add(assembleSucReq(req));
 
+                /*个人资金汇总*/
+                if (userTradeSummaries.get(req.getUserId()) == null) {
+                    userTradeSummaries.put(req.getUserId(), userTradeSummaryAssemService.assembleUserTradeSummary(req));
+                } else {
+                    UserTradeSummary summary = userTradeSummaries.get(req.getUserId());
+                    summary.setTotalCount(summary.getTotalCount() + 1);
+                    summary.setTotalMoney(summary.getTotalMoney() + req.getOfferAmount());
+                    if (summary.getMaxMoney() < req.getOfferAmount()) {
+                        summary.setMaxMoney(req.getOfferAmount());
+                    }
+                }
+
             }
             ownerPreferentialDetailAssemService.batchSave(ownerOnlineFlowDetailMap);
             userPreferentialDetailAssemService.batchSave(userPreferentialDetailHashMap);
             ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
             userTradeAssemService.batchSave(userTrades);
+            userTradeSummaryAssemService.batchSave(userTradeSummaries);
             //todo 成功的id处理
             if (!discountReqService.saveSuc(sucReqs)) {
 

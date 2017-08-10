@@ -1,10 +1,7 @@
 package com.magic.crius.scheduled.consumer;
 
 import com.magic.api.commons.tools.DateUtil;
-import com.magic.crius.assemble.MemberConditionVoAssemService;
-import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
-import com.magic.crius.assemble.UserOutMoneyDetailAssemService;
-import com.magic.crius.assemble.UserTradeAssemService;
+import com.magic.crius.assemble.*;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.po.*;
@@ -55,7 +52,8 @@ public class PreWithdrawReqConsumer {
     private UserTradeAssemService userTradeAssemService;
     @Resource
     private MemberConditionVoAssemService memberConditionVoAssemService;
-
+    @Resource
+    private UserTradeSummaryAssemService userTradeSummaryAssemService;
 
     public void init(Date date) {
         detailCalculate(date);
@@ -124,6 +122,7 @@ public class PreWithdrawReqConsumer {
             List<UserTrade> userTrades = new ArrayList<>();
             List<PreWithdrawReq> sucReqs = new ArrayList<>();
             Map<Long, MemberConditionVo> memberConditionVoMap = new HashMap<>();
+            Map<Long, UserTradeSummary> userTradeSummaries = new HashMap<>();
             for (PreWithdrawReq req : list) {
                 /*会员出款明细*/
                 details.add(userOutMoneyDetailAssemService.assembleUserOutMoneyDetail(req));
@@ -145,6 +144,17 @@ public class PreWithdrawReqConsumer {
                     vo.setWithdrawMoney(vo.getWithdrawMoney() + req.getRealWithdrawAmount());
                 }
 
+                 /*个人资金汇总*/
+                if (userTradeSummaries.get(req.getUserId()) == null) {
+                    userTradeSummaries.put(req.getUserId(), userTradeSummaryAssemService.assembleUserTradeSummary(req));
+                } else {
+                    UserTradeSummary summary = userTradeSummaries.get(req.getUserId());
+                    summary.setTotalCount(summary.getTotalCount() + 1);
+                    summary.setTotalMoney(summary.getTotalMoney() + req.getRealWithdrawAmount());
+                    if (summary.getMaxMoney() < req.getRealWithdrawAmount()) {
+                        summary.setMaxMoney(req.getRealWithdrawAmount());
+                    }
+                }
 
                 /*成功的数据*/
                 sucReqs.add(assembleSucReq(req));
@@ -154,6 +164,7 @@ public class PreWithdrawReqConsumer {
           
             memberConditionVoAssemService.batchWithdraw(memberConditionVoMap.values());
             ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
+            userTradeSummaryAssemService.batchSave(userTradeSummaries);
             //todo  添加成功id
             if (!preWithdrawService.saveSuc(sucReqs)) {
 

@@ -2,11 +2,7 @@ package com.magic.crius.scheduled.consumer;
 
 import com.magic.analysis.enums.ActionType;
 import com.magic.api.commons.tools.DateUtil;
-import com.magic.crius.assemble.MemberConditionVoAssemService;
-import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
-import com.magic.crius.assemble.OwnerOperateFlowDetailAssemService;
-import com.magic.crius.assemble.UserFlowMoneyDetailAssemService;
-import com.magic.crius.assemble.UserTradeAssemService;
+import com.magic.crius.assemble.*;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.po.*;
@@ -56,7 +52,8 @@ public class OperateChargeReqConsumer {
     private UserTradeAssemService userTradeAssemService;
     @Resource
     private MemberConditionVoAssemService memberConditionVoAssemService;
-
+    @Resource
+    private UserTradeSummaryAssemService userTradeSummaryAssemService;
 
     public void init(Date date) {
         detailCalculate(date);
@@ -127,6 +124,7 @@ public class OperateChargeReqConsumer {
             List<UserTrade> userTrades = new ArrayList<>();
             List<OperateChargeReq> sucReqs = new ArrayList<>();
             Map<Long, MemberConditionVo> memberConditionVoMap = new HashMap<>();
+            Map<Long, UserTradeSummary> userTradeSummaries = new HashMap<>();
             for (OperateChargeReq req : list) {
                 /*
                  * 人工入款汇总
@@ -149,6 +147,18 @@ public class OperateChargeReqConsumer {
                             vo.setDepositCount(vo.getDepositCount() + 1);
                             vo.setDepositMoney(vo.getDepositMoney() + req.getChargeAmount());
                         }
+
+                        /*个人资金汇总*/
+                        if (userTradeSummaries.get(req.getUserIds()[i]) == null) {
+                            userTradeSummaries.put(req.getUserIds()[i], userTradeSummaryAssemService.assembleUserTradeSummary(req, req.getUserIds()[i]));
+                        } else {
+                            UserTradeSummary summary = userTradeSummaries.get(req.getUserIds()[i]);
+                            summary.setTotalCount(summary.getTotalCount() + 1);
+                            summary.setTotalMoney(summary.getTotalMoney() + req.getChargeAmount());
+                            if (summary.getMaxMoney() < req.getChargeAmount()) {
+                                summary.setMaxMoney(req.getChargeAmount());
+                            }
+                        }
                     }
                 }
 
@@ -162,6 +172,7 @@ public class OperateChargeReqConsumer {
             memberConditionVoAssemService.batchRecharge(memberConditionVoMap.values());
             userFlowMoneyDetailAssemService.batchSave(userFlowMoneyDetails);
             userTradeAssemService.batchSave(userTrades);
+            userTradeSummaryAssemService.batchSave(userTradeSummaries);
             //todo 成功的id处理
             if (!operateChargeService.saveSuc(sucReqs)) {
 

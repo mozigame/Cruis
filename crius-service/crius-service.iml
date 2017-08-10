@@ -5,7 +5,7 @@
       <configuration />
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -78,6 +78,24 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:4.3.8.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: javax.servlet:javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:druid:1.0.16" level="project" />
+    <orderEntry type="module-library">
+      <library name="Maven: com.alibaba:jconsole:1.8.0">
+        <CLASSES>
+          <root url="jar://C:/Program Files/Java/jdk1.8.0_77/jre/../lib/jconsole.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="Maven: com.alibaba:tools:1.8.0">
+        <CLASSES>
+          <root url="jar://C:/Program Files/Java/jdk1.8.0_77/jre/../lib/tools.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:5.1.30" level="project" />
     <orderEntry type="library" name="Maven: com.drewnoakes:metadata-extractor:2.8.1" level="project" />
     <orderEntry type="library" name="Maven: com.adobe.xmp:xmpcore:5.1.2" level="project" />
@@ -95,6 +113,10 @@
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-mongodb:1.10.3.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-commons:1.13.3.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:jcl-over-slf4j:1.7.24" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-redis:1.8.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.data:spring-data-keyvalue:1.2.3.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-oxm:4.3.8.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-context-support:4.3.8.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: com.magic.commons:codis:1.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: io.codis.jodis:jodis:0.3.0" level="project" />
     <orderEntry type="library" name="Maven: redis.clients:jedis:2.8.0" level="project" />

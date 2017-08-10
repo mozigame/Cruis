@@ -25,6 +25,11 @@ public class UserPreferentialDetail {
 
     private String remark;//优惠的备注
 
+
+
+
+    private Long orderId;   //优惠订单
+
     public String getRemark() {
         return remark;
     }
@@ -103,5 +108,13 @@ public class UserPreferentialDetail {
 
     public void setCreateTime(Long createTime) {
         this.createTime = createTime;
+    }
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 }

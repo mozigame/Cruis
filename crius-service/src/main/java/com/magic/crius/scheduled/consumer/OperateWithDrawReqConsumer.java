@@ -18,23 +18,15 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
+import com.magic.crius.assemble.*;
+import com.magic.crius.po.*;
 import com.magic.crius.util.PropertiesLoad;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.magic.api.commons.tools.DateUtil;
-import com.magic.crius.assemble.MemberConditionVoAssemService;
-import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
-import com.magic.crius.assemble.OwnerOperateOutDetailAssemService;
-import com.magic.crius.assemble.UserOutMoneyDetailAssemService;
-import com.magic.crius.assemble.UserTradeAssemService;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.enums.MongoCollections;
-import com.magic.crius.po.OwnerCompanyAccountDetail;
-import com.magic.crius.po.OwnerOperateOutDetail;
-import com.magic.crius.po.RepairLock;
-import com.magic.crius.po.UserOutMoneyDetail;
-import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.OperateWithDrawReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.vo.OperateWithDrawReq;
@@ -75,6 +67,8 @@ public class OperateWithDrawReqConsumer {
     @Resource
     private MemberConditionVoAssemService memberConditionVoAssemService;
 
+    @Resource
+    private UserTradeSummaryAssemService userTradeSummaryAssemService;
 
     public void init(Date date) {
         detailCalculate(date);
@@ -144,6 +138,7 @@ public class OperateWithDrawReqConsumer {
             List<UserTrade> userTrades = new ArrayList<>();
             List<OperateWithDrawReq> sucReqs = new ArrayList<>();
             Map<Long, MemberConditionVo> memberConditionVoMap = new HashMap<>();
+            Map<Long, UserTradeSummary> userTradeSummaries = new HashMap<>();
             for (OperateWithDrawReq req : list) {
                 /*人工出款详情*/
                
@@ -165,6 +160,18 @@ public class OperateWithDrawReqConsumer {
                             vo.setWithdrawCount(vo.getWithdrawCount() + 1);
                             vo.setWithdrawMoney(vo.getWithdrawMoney() + req.getAmount());
                         }
+
+                        /*个人资金汇总*/
+                        if (userTradeSummaries.get(req.getUserIds()[i]) == null) {
+                            userTradeSummaries.put(req.getUserIds()[i], userTradeSummaryAssemService.assembleUserTradeSummary(req, req.getUserIds()[i]));
+                        } else {
+                            UserTradeSummary summary = userTradeSummaries.get(req.getUserIds()[i]);
+                            summary.setTotalCount(summary.getTotalCount() + 1);
+                            summary.setTotalMoney(summary.getTotalMoney() + req.getAmount());
+                            if (summary.getMaxMoney() < req.getAmount()) {
+                                summary.setMaxMoney(req.getAmount());
+                            }
+                        }
                     }
                 }
                 /*成功的数据*/
@@ -175,6 +182,7 @@ public class OperateWithDrawReqConsumer {
             memberConditionVoAssemService.batchWithdraw(memberConditionVoMap.values());
             userTradeAssemService.batchSave(userTrades);
             userOutMoneyDetailAssemService.batchSave(userOutMoneyDetails);
+            userTradeSummaryAssemService.batchSave(userTradeSummaries);
 
             if (operateWithDrawReqService.saveSuc(sucReqs)) {
                 //todo 修改状态

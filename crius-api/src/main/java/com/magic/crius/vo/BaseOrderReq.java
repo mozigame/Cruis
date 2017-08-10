@@ -37,7 +37,7 @@ public class BaseOrderReq {
     private Long validBetAmount;    //有效投注金额
     private Long payoff;    //派彩金额
     private Long produceTime;  //
-    @JSONField(name = "is_paid")
+    @JSONField(name = "flag")
     private Integer isPaid; //是否已派彩
     //扩展消息
     private JSONObject orderExtent;

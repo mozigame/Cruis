@@ -54,6 +54,8 @@ public class OnlChargeReqConsumer {
     private UserTradeAssemService userTradeAssemService;
     @Resource
     private MemberConditionVoAssemService memberConditionVoAssemService;
+    @Resource
+    private UserTradeSummaryAssemService userTradeSummaryAssemService;
 
 
     public void init(Date date) {
@@ -124,6 +126,7 @@ public class OnlChargeReqConsumer {
             List<UserTrade> userTrades = new ArrayList<>();
             List<OnlChargeReq> sucReqs = new ArrayList<>();
             Map<Long, MemberConditionVo> memberConditionVoMap = new HashMap<>();
+            Map<Long, UserTradeSummary> userTradeSummaries = new HashMap<>();
             for (OnlChargeReq req : list) {
                 /*线上入款汇总*/
                 ownerOnlineFlowDetails.add(assembleOwnerOnlineFlowDetail(req));
@@ -133,6 +136,8 @@ public class OnlChargeReqConsumer {
                 ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req));
                 /*账户交易明细*/
                 userTrades.add(userTradeAssemService.assembleUserTrade(req));
+
+
                 /*会员入款*/
                 if (memberConditionVoMap.get(req.getUserId()) == null) {
                     memberConditionVoMap.put(req.getUserId(), memberConditionVoAssemService.assembleDepositMVo(req));
@@ -140,6 +145,18 @@ public class OnlChargeReqConsumer {
                     MemberConditionVo vo  = memberConditionVoMap.get(req.getUserId());
                     vo.setDepositCount(vo.getDepositCount() + 1);
                     vo.setDepositMoney(vo.getDepositMoney() + req.getChargeAmount());
+                }
+
+                    /*个人资金汇总*/
+                if (userTradeSummaries.get(req.getUserId()) == null) {
+                    userTradeSummaries.put(req.getUserId(), userTradeSummaryAssemService.assembleUserTradeSummary(req));
+                } else {
+                    UserTradeSummary summary = userTradeSummaries.get(req.getUserId());
+                    summary.setTotalCount(summary.getTotalCount() + 1);
+                    summary.setTotalMoney(summary.getTotalMoney() + req.getChargeAmount());
+                    if (summary.getMaxMoney() < req.getChargeAmount()) {
+                        summary.setMaxMoney(req.getChargeAmount());
+                    }
                 }
 
                 /*成功的数据*/
@@ -150,6 +167,7 @@ public class OnlChargeReqConsumer {
             ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
             userTradeAssemService.batchSave(userTrades);
             memberConditionVoAssemService.batchRecharge(memberConditionVoMap.values());
+            userTradeSummaryAssemService.batchSave(userTradeSummaries);
             //todo 成功的id处理
             if (!onlChargeService.saveSuc(sucReqs)) {
 

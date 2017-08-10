@@ -52,6 +52,8 @@ public class PreCmpChargeReqConsumer {
     private MemberConditionVoAssemService memberConditionVoAssemService;
     @Resource
     private UserFlowMoneyDetailAssemService userFlowMoneyDetailAssemService;
+    @Resource
+    private UserTradeSummaryAssemService userTradeSummaryAssemService;
 
 
     public void procKafkaData(PreCmpChargeReq req) {
@@ -132,6 +134,7 @@ public class PreCmpChargeReqConsumer {
             List<UserTrade> userTrades = new ArrayList<>();
             List<PreCmpChargeReq> sucReqs = new ArrayList<>();
             Map<Long, MemberConditionVo> memberConditionVoMap = new HashMap<>();
+            Map<Long, UserTradeSummary> userTradeSummaries = new HashMap<>();
             for (PreCmpChargeReq req : list) {
                 /*公司入款明细*/
                 ownerCompanyFlowDetails.add(assembleOwnerCompanyFlowDetail(req));
@@ -149,6 +152,17 @@ public class PreCmpChargeReqConsumer {
                     vo.setDepositCount(vo.getDepositCount() + 1);
                     vo.setDepositMoney(vo.getDepositMoney() + req.getChargeAmount());
                 }
+                /*个人资金汇总*/
+                if (userTradeSummaries.get(req.getUserId()) == null) {
+                    userTradeSummaries.put(req.getUserId(), userTradeSummaryAssemService.assembleUserTradeSummary(req));
+                } else {
+                    UserTradeSummary summary = userTradeSummaries.get(req.getUserId());
+                    summary.setTotalCount(summary.getTotalCount() + 1);
+                    summary.setTotalMoney(summary.getTotalMoney() + req.getChargeAmount());
+                    if (summary.getMaxMoney() < req.getChargeAmount()) {
+                        summary.setMaxMoney(req.getChargeAmount());
+                    }
+                }
 
                 sucReqs.add(assembleSucReq(req));
             }
@@ -157,6 +171,7 @@ public class PreCmpChargeReqConsumer {
             userFlowMoneyDetailAssemService.batchSave(userFlowMoneyDetails);
             memberConditionVoAssemService.batchRecharge(memberConditionVoMap.values());
             userTradeAssemService.batchUpdate(userTrades);
+            userTradeSummaryAssemService.batchSave(userTradeSummaries);
             //todo 成功的id处理
             if (!preCmpChargeService.saveSuc(sucReqs)) {
 
