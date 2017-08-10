@@ -10,10 +10,10 @@ import java.util.List;
 @Component
 public interface UserTradeSummaryMapper {
 
-    int batchInsert(@Param("list") List<UserTradeSummary> summaries);
+    int batchInsert(@Param("list") Collection<UserTradeSummary> summaries);
 
     int update(UserTradeSummary summary);
 
-    List<UserTradeSummary> getSummaryTypeList(@Param("list") Collection<UserTradeSummary> summaries, Long ownerId, Integer summaryType );
+    List<UserTradeSummary> getSummaryTypeList(@Param("list") Collection<UserTradeSummary> summaries,@Param("ownerId") Long ownerId,@Param("summaryType") Integer summaryType );
 
 }

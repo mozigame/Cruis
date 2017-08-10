@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface UserTradeSummaryService {
 
-    boolean batchInsert(List<UserTradeSummary> summaries);
+    boolean batchInsert(Collection<UserTradeSummary> summaries);
 
     boolean update(UserTradeSummary summary);
 

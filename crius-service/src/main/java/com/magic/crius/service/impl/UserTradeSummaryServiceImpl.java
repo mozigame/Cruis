@@ -21,7 +21,7 @@ public class UserTradeSummaryServiceImpl implements UserTradeSummaryService {
     private UserTradeSummaryDbService userTradeSummaryDbService;
 
     @Override
-    public boolean batchInsert(List<UserTradeSummary> summaries) {
+    public boolean batchInsert(Collection<UserTradeSummary> summaries) {
         return userTradeSummaryDbService.batchInsert(summaries);
     }
 

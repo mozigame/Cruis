@@ -31,25 +31,31 @@ public class UserTradeSummaryAssemService {
             List<UserTradeSummary> noExistList = new ArrayList<>();
             Set<Long> userIds = summaries.keySet();
 
-            for (UserTradeSummary summary : existList) {
-                if (userIds.contains(summary.getUserId())) {
-                    if (summary.getMaxMoney() < summaries.get(summary.getUserId()).getMaxMoney()) {
-                        summary.setMaxMoney(summaries.get(summary.getUserId()).getMaxMoney());
-                    } else {
-                        noExistList.add(summaries.get(summary.getUserId()));
+            if (existList != null && existList.size() > 0) {
+                for (UserTradeSummary summary : existList) {
+                    if (userIds.contains(summary.getUserId())) {
+                        if (summary.getMaxMoney() < summaries.get(summary.getUserId()).getMaxMoney()) {
+                            summary.setMaxMoney(summaries.get(summary.getUserId()).getMaxMoney());
+                        } else {
+                            noExistList.add(summaries.get(summary.getUserId()));
+                        }
                     }
                 }
+                int updateCount = 0;
+                for (UserTradeSummary summary : existList) {
+                    boolean updateResult = userTradeSummaryService.update(summary);
+                    updateCount += updateResult ? 1 : 0;
+                }
+                ApiLogger.info("update userTradeSummary count : " + updateCount);
+                boolean insertResult = userTradeSummaryService.batchInsert(noExistList);
+                ApiLogger.info(String.format("insert userTradeSummary count : %d, result : %b ", noExistList.size(), insertResult));
+            } else {
+                boolean insertResult = userTradeSummaryService.batchInsert(summaries.values());
+                ApiLogger.info(String.format("userTrade no exist ,insert userTradeSummary count : %d, result : %b ", noExistList.size(), insertResult));
             }
 
-            int updateCount = 0;
-            for (UserTradeSummary summary : existList) {
-                boolean updateResult = userTradeSummaryService.update(summary);
-                updateCount += updateResult ? 1 : 0;
-            }
-            ApiLogger.info("update userTradeSummary count : " + updateCount);
 
-            boolean insertResult = userTradeSummaryService.batchInsert(noExistList);
-            ApiLogger.info(String.format("insert userTradeSummary count : %d, result : %b ", noExistList.size(), insertResult));
+
             return true;
         } catch (Exception e) {
             ApiLogger.error("batch save userTrade summary error:", e);

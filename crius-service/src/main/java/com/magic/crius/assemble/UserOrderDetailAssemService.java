@@ -65,9 +65,11 @@ public class UserOrderDetailAssemService {
         //metis
         userOrderDetailService.batchSave(insertOrder);
         //修改订单的派彩状态
-        for (UserOrderDetail orderDetail : updateOrder) {
-            tethysUserOrderDetailService.updatePaid(orderDetail);
-            userOrderDetailService.updatePaidStatus(orderDetail);
+        if (updateOrder.size() > 0) {
+            for (UserOrderDetail orderDetail : updateOrder) {
+                tethysUserOrderDetailService.updatePaid(orderDetail);
+                userOrderDetailService.updatePaidStatus(orderDetail);
+            }
         }
         logger.info(String.format(" all order size : %d ,insert order size : %d, update order size : %d", details.size(), insertOrder.size(), updateOrder.size()));
 
