@@ -13,6 +13,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 
@@ -52,7 +53,6 @@ public class EGameKfConsumer {
                 logger.info("Thread : "+ Thread.currentThread().getName()+" ,get egame kafka data :>>>  " + record.toString());
                 JSONObject object = JSON.parseObject(record.value().toString());
                 EGameReq eGameReq = JSON.parseObject(object.getString(KafkaConf.RECORD), EGameReq.class);
-                eGameReq.setReqId(eGameReq.getBcBetId());
                 eGameReq.setProduceTime(System.currentTimeMillis());
                 eGameReq.setOrderExtent(convertEGameExt(eGameReq));
                 baseGameReqAssemService.procKafkaData(eGameReq);

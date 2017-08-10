@@ -11,7 +11,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  */
 public class BaseOrderReq {
 
-
+    @JSONField(name = "req_id")
     private Long reqId;
     @JSONField(name = "user_id")
     private Long userId;
