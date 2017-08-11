@@ -32,20 +32,20 @@ public class CriusScheduler {
     /**
      * 处理redis数据的间隔时间
      */
-    private final int cacheFlushRate = 1000 * 60 * 3;
+    private final int cacheFlushRate = 180000;   //3分钟
     /**
      * 拉取代理列表的时间间隔
      */
-    private final int proxyPullRate = 1000 * 60 * 60;
+    private final int proxyPullRate = 3600000;  //一小时
 
     /**
      * 拉取游戏列表的时间间隔
      */
-    private final int gameListPullRate = 1000 * 60 * 60 * 2;
+    private final int gameListPullRate = 7200000; //两小时
     /**
      * 拉取游戏列表的延时时长
      */
-    private final int gameListPullInitDelay = 1000 * 30;
+    private final int gameListPullInitDelay = 30000;    //30秒
 
     /*用户充值成功*/
     @Resource

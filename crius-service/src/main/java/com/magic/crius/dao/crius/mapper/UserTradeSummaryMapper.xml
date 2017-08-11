@@ -176,8 +176,8 @@
     <update id="update" parameterType="com.magic.crius.po.UserTradeSummary">
         update user_trade_summary
         set
-          total_money = #{totalMoney,jdbcType=BIGINT},
-          total_count = #{totalCount,jdbcType=INTEGER},
+          total_money = total_money + #{totalMoney,jdbcType=BIGINT},
+          total_count = total_count + #{totalCount,jdbcType=INTEGER},
           update_time = #{updateTime,jdbcType=BIGINT},
           last_money = #{lastMoney,jdbcType=BIGINT},
           max_money = #{maxMoney,jdbcType=BIGINT}
