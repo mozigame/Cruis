@@ -215,7 +215,7 @@ public class OnlChargeReqConsumer {
         repairLock.setCollectionName(MongoCollections.onlChargeReq.name());
         repairLock.setValue(CriusConstants.REPAIR_LOCK_VALUE);
         if (repairLockService.save(repairLock)) {
-            mongoFailed(startDate.getTimeInMillis(), endDate.getTime());
+//            mongoFailed(startDate.getTimeInMillis(), endDate.getTime());
             mongoNoProc(startDate.getTimeInMillis(), endDate.getTime(), hhDate);
         }
 
