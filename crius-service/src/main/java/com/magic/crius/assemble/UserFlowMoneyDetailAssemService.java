@@ -68,6 +68,15 @@ public class UserFlowMoneyDetailAssemService {
         if (StringUtils.isNotBlank(req.getHandlerName())){
             detail.setHandlerName(req.getHandlerName());
         }
+
+        if (req.getPaySystemCode()!=null){
+            detail.setPaySystemCode(req.getPaySystemCode());
+        }
+
+        if (StringUtils.isNotBlank(req.getPaySystemName())){
+            detail.setPaySystemName(req.getPaySystemName());
+        }
+
         return detail;
     }
 
