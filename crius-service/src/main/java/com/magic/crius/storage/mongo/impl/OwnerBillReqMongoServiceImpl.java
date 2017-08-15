@@ -78,19 +78,9 @@ public class OwnerBillReqMongoServiceImpl implements OwnerBillReqMongoService {
     }
 
     @Override
-    public List<OwnerBillReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
-        try {
-            ownerBillReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.ownerBillReq.name());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
     public List<OwnerBillReq> getSaveFailed(Long startTime, Long endTime) {
         try {
-            ownerBillReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.ownerBillReq.name());
+            return ownerBillReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.ownerBillReq.name());
         } catch (Exception e) {
             e.printStackTrace();
         }

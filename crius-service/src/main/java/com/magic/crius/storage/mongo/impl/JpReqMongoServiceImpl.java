@@ -82,7 +82,7 @@ public class JpReqMongoServiceImpl implements JpReqMongoService {
     @Override
     public List<JpReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
         try {
-            jpReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.jpReq.name(), pageable);
+            return jpReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.jpReq.name(), pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -92,7 +92,7 @@ public class JpReqMongoServiceImpl implements JpReqMongoService {
     @Override
     public List<JpReq> getSaveFailed(Long startTime, Long endTime) {
         try {
-            jpReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.jpReq.name());
+            return jpReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.jpReq.name());
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -80,19 +80,9 @@ public class AgentBillReqMongoServiceImpl implements AgentBillReqMongoService {
     }
 
     @Override
-    public List<AgentBillReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
-        try {
-            agentBillReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.agentBillReq.name());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
     public List<AgentBillReq> getSaveFailed(Long startTime, Long endTime) {
         try {
-            agentBillReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.agentBillReq.name());
+            return agentBillReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.agentBillReq.name());
         } catch (Exception e) {
             e.printStackTrace();
         }

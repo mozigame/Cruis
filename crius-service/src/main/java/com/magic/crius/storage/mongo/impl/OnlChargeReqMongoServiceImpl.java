@@ -81,7 +81,7 @@ public class OnlChargeReqMongoServiceImpl implements OnlChargeReqMongoService {
     @Override
     public List<OnlChargeReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
         try {
-            onlChargeMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.onlChargeReq.name(), pageable);
+            return onlChargeMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.onlChargeReq.name(), pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,7 +91,7 @@ public class OnlChargeReqMongoServiceImpl implements OnlChargeReqMongoService {
     @Override
     public List<OnlChargeReq> getSaveFailed(Long startTime, Long endTime) {
         try {
-            onlChargeMongoDao.getSaveFailed(startTime, endTime, MongoCollections.onlChargeReq.name());
+            return onlChargeMongoDao.getSaveFailed(startTime, endTime, MongoCollections.onlChargeReq.name());
         } catch (Exception e) {
             e.printStackTrace();
         }

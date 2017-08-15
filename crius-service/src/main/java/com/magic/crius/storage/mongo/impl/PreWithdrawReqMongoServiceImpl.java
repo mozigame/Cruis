@@ -81,7 +81,7 @@ public class PreWithdrawReqMongoServiceImpl implements PreWithdrawReqMongoServic
     @Override
     public List<PreWithdrawReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
         try {
-            preWithdrawMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.preWithdrawReq.name(), pageable);
+            return preWithdrawMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.preWithdrawReq.name(), pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,7 +91,7 @@ public class PreWithdrawReqMongoServiceImpl implements PreWithdrawReqMongoServic
     @Override
     public List<PreWithdrawReq> getSaveFailed(Long startTime, Long endTime) {
         try {
-            preWithdrawMongoDao.getSaveFailed(startTime, endTime, MongoCollections.preWithdrawReq.name());
+            return preWithdrawMongoDao.getSaveFailed(startTime, endTime, MongoCollections.preWithdrawReq.name());
         } catch (Exception e) {
             e.printStackTrace();
         }

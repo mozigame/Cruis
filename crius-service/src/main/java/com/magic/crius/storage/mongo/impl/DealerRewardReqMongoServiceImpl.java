@@ -74,7 +74,7 @@ public class DealerRewardReqMongoServiceImpl implements DealerRewardReqMongoServ
     @Override
     public List<DealerRewardReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
         try {
-            dealerRewardReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.dealerRewardReq.name(), pageable);
+            return dealerRewardReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.dealerRewardReq.name(), pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -84,7 +84,7 @@ public class DealerRewardReqMongoServiceImpl implements DealerRewardReqMongoServ
     @Override
     public List<DealerRewardReq> getSaveFailed(Long startTime, Long endTime) {
         try {
-            dealerRewardReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.dealerRewardReq.name());
+            return dealerRewardReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.dealerRewardReq.name());
         } catch (Exception e) {
             e.printStackTrace();
         }

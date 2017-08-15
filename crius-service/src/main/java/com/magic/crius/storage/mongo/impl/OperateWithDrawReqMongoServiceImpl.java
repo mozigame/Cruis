@@ -84,7 +84,7 @@ public class OperateWithDrawReqMongoServiceImpl implements OperateWithDrawReqMon
     @Override
     public List<OperateWithDrawReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
         try {
-            operateWithDrawReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.operateWithDrawReq.name(), pageable);
+            return operateWithDrawReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.operateWithDrawReq.name(), pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -94,7 +94,7 @@ public class OperateWithDrawReqMongoServiceImpl implements OperateWithDrawReqMon
     @Override
     public List<OperateWithDrawReq> getSaveFailed(Long startTime, Long endTime) {
         try {
-            operateWithDrawReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.operateWithDrawReq.name());
+            return operateWithDrawReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.operateWithDrawReq.name());
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -46,14 +46,6 @@ public interface AgentBillReqMongoService {
      */
     List<Long> getSucIds(Long startTime, Long endTime);
 
-    /**
-     * 获取固定时间内未处理的数据
-     * @param startTime
-     * @param endTime
-     * @param reqIds
-     * @return
-     */
-    List<AgentBillReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds);
 
     /**
      * 获取固定时间内处理失败的数据

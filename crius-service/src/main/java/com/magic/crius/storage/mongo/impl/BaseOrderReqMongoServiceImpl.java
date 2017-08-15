@@ -70,7 +70,7 @@ public class BaseOrderReqMongoServiceImpl implements BaseOrderReqMongoService {
     @Override
     public List<BaseOrderReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
         try {
-            baseOrderReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.baseOrderReq.name(), pageable);
+            return baseOrderReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.baseOrderReq.name(), pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,7 +80,7 @@ public class BaseOrderReqMongoServiceImpl implements BaseOrderReqMongoService {
     @Override
     public List<BaseOrderReq> getSaveFailed(Long startTime, Long endTime) {
         try {
-            baseOrderReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.baseOrderReq.name());
+            return baseOrderReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.baseOrderReq.name());
         } catch (Exception e) {
             e.printStackTrace();
         }

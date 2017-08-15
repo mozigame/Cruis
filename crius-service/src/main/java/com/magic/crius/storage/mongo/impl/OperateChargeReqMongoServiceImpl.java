@@ -70,7 +70,7 @@ public class OperateChargeReqMongoServiceImpl implements OperateChargeReqMongoSe
     @Override
     public List<OperateChargeReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
         try {
-            operateChargeMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.operateChargeReq.name(), pageable);
+            return operateChargeMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.operateChargeReq.name(), pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,7 +80,7 @@ public class OperateChargeReqMongoServiceImpl implements OperateChargeReqMongoSe
     @Override
     public List<OperateChargeReq> getSaveFailed(Long startTime, Long endTime) {
         try {
-            operateChargeMongoDao.getSaveFailed(startTime, endTime, MongoCollections.operateChargeReq.name());
+            return operateChargeMongoDao.getSaveFailed(startTime, endTime, MongoCollections.operateChargeReq.name());
         } catch (Exception e) {
             e.printStackTrace();
         }
