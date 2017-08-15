@@ -40,10 +40,9 @@
           #{flowId,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{pdate,jdbcType=INTEGER},
           #{handlerId,jdbcType=BIGINT}, #{handlerName,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT},
           #{updateTime,jdbcType=BIGINT},#{remark,jdbcType=VARCHAR},
-          #{flowDetailType,jdbcType=INTEGER},
-          #{paySystemCode,jdbcType=INTEGER},
-          #{paySystemName,jdbcType=VARCHAR}
+          #{flowDetailType,jdbcType=INTEGER}
           )
+
     </insert>
 
     <!--批量添加-->
@@ -75,9 +74,7 @@
             #{param.createTime,jdbcType=BIGINT},
             #{param.updateTime,jdbcType=BIGINT},
             #{param.remark,jdbcType=VARCHAR},
-            #{param.flowDetailType,jdbcType=INTEGER},
-            #{paySystemCode,jdbcType=INTEGER},
-            #{paySystemName,jdbcType=VARCHAR}
+            #{param.flowDetailType,jdbcType=INTEGER}
             )
         </foreach>
     </insert>
