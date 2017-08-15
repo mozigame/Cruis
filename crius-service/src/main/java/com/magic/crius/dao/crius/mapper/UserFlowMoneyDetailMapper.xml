@@ -31,9 +31,7 @@
           flow_id, order_id, pdate,
           handler_id, handler_name, create_time,
           update_time,remark,
-          flow_detail_type,
-          pay_system_code,
-          pay_system_name)
+          flow_detail_type)
         values (#{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
           #{merchantCode,jdbcType=VARCHAR}, #{merchantName,jdbcType=VARCHAR}, #{orderCount,jdbcType=BIGINT},
           #{state,jdbcType=INTEGER}, #{payMethod,jdbcType=INTEGER}, #{flowType,jdbcType=INTEGER},
@@ -53,9 +51,7 @@
         flow_id, order_id, pdate,
         handler_id, handler_name, create_time,
         update_time,remark,
-        flow_detail_type,
-        pay_system_code,
-        pay_system_name)
+        flow_detail_type)
         values
         <foreach collection="list" item="param" separator=",">
           (#{param.ownerId,jdbcType=BIGINT},
