@@ -39,6 +39,15 @@ public class UserFlowMoneyDetail {
 
     private String remark;//备注
 
+    /**
+     * paySystemCode
+     */
+    private Integer paySystemCode;
+
+    /**
+     * paySystemName
+     */
+    private String paySystemName;
 
 
     private Integer flowDetailType; //入款详细类型
@@ -185,5 +194,35 @@ public class UserFlowMoneyDetail {
 
     public void setFlowDetailType(Integer flowDetailType) {
         this.flowDetailType = flowDetailType;
+    }
+
+    /**
+     * getter for paySystemCode
+     */
+
+    public Integer getPaySystemCode() {
+        return paySystemCode;
+    }
+
+    /**
+     * setter for paySystemCode
+     */
+    public void setPaySystemCode(Integer paySystemCode) {
+        this.paySystemCode = paySystemCode;
+    }
+
+    /**
+     * getter for paySystemName
+     */
+
+    public String getPaySystemName() {
+        return paySystemName;
+    }
+
+    /**
+     * setter for paySystemName
+     */
+    public void setPaySystemName(String paySystemName) {
+        this.paySystemName = paySystemName;
     }
 }
