@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
+import com.alibaba.fastjson.JSON;
 import com.magic.crius.constants.RedisConstants;
 import com.magic.crius.service.BaseReqService;
 import com.magic.crius.storage.db.SpringDataPageable;
@@ -207,22 +208,19 @@ public class DealerRewardReqConsumer {
      * @param startTime
      * @param endTime
      */
-    private void mongoNoProc(Long startTime, Long endTime,String hhDate) {
+    private void mongoNoProc(Long startTime, Long endTime, String hhDate) {
         List<Long> reqIds = dealerRewardReqService.getSucIds(startTime, endTime);
-        if (reqIds != null && reqIds.size() > 0) {
+        SpringDataPageable pageable = new SpringDataPageable();
+        pageable.setSort(new Sort("reqId"));
+        pageable.setPagesize(CriusConstants.MONGO_NO_PROC_SIZE);
+        pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_DS, hhDate)));
 
-            SpringDataPageable pageable = new SpringDataPageable();
-            pageable.setSort(new Sort("reqId"));
-            pageable.setPagesize(CriusConstants.MONGO_NO_PROC_SIZE);
+        List<DealerRewardReq> withDrawReqs = dealerRewardReqService.getNotProc(startTime, endTime, reqIds, pageable);
+        while (withDrawReqs != null && withDrawReqs.size() > 0) {
+            logger.info("------mongoNoProc ,dealerReward , noProcSize: " + withDrawReqs.size() + " , startTime : " + startTime + " endTime :" + endTime);
+            flushData(withDrawReqs);
             pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_DS, hhDate)));
-
-            List<DealerRewardReq> withDrawReqs = dealerRewardReqService.getNotProc(startTime, endTime, reqIds, pageable);
-            while (withDrawReqs != null && withDrawReqs.size() > 0) {
-                logger.info("------mongoNoProc ,dealerReward , sucReqIds.size :"+ reqIds.size()+", noProcSize: "+withDrawReqs.size()+" , startTime : "+ startTime+" endTime :" + endTime);
-                flushData(withDrawReqs);
-                pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_DS, hhDate)));
-                withDrawReqs = dealerRewardReqService.getNotProc(startTime, endTime, reqIds, pageable);
-            }
+            withDrawReqs = dealerRewardReqService.getNotProc(startTime, endTime, reqIds, pageable);
         }
     }
 

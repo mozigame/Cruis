@@ -1,5 +1,6 @@
 package com.magic.crius.scheduled.consumer;
 
+import com.alibaba.fastjson.JSON;
 import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
@@ -218,18 +219,16 @@ public class CashbackReqConsumer {
      */
     private void mongoNoProc(Long startTime, Long endTime, String hhDate) {
         List<Long> reqIds = cashbackReqService.getSucIds(startTime, endTime);
-        if (reqIds != null && reqIds.size() > 0) {
-            SpringDataPageable pageable = new SpringDataPageable();
-            pageable.setSort(new Sort("reqId"));
-            pageable.setPagesize(CriusConstants.MONGO_NO_PROC_SIZE);
+        SpringDataPageable pageable = new SpringDataPageable();
+        pageable.setSort(new Sort("reqId"));
+        pageable.setPagesize(CriusConstants.MONGO_NO_PROC_SIZE);
+        pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_CAHSBACK, hhDate)));
+        List<CashbackReq> notProcDrawReqs = cashbackReqService.getNotProc(startTime, endTime, reqIds, pageable);
+        while (notProcDrawReqs != null && notProcDrawReqs.size() > 0) {
+            logger.info("------mongoNoProc ,cashback ,noProcReqIds :" + notProcDrawReqs.size() + " , startTime : " + startTime + " endTime :" + endTime);
+            flushData(notProcDrawReqs);
             pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_CAHSBACK, hhDate)));
-            List<CashbackReq> notProcDrawReqs = cashbackReqService.getNotProc(startTime, endTime, reqIds, pageable);
-            while (notProcDrawReqs != null && notProcDrawReqs.size() > 0) {
-                logger.info("------mongoNoProc ,cashback , sucIds.size : "+reqIds.size()+", noProcReqIds :"+ notProcDrawReqs.size()+" , startTime : "+ startTime+" endTime :" + endTime);
-                flushData(notProcDrawReqs);
-                pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_CAHSBACK, hhDate)));
-                notProcDrawReqs = cashbackReqService.getNotProc(startTime, endTime, reqIds, pageable);
-            }
+            notProcDrawReqs = cashbackReqService.getNotProc(startTime, endTime, reqIds, pageable);
         }
     }
 

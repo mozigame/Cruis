@@ -243,19 +243,18 @@ public class PreWithdrawReqConsumer {
      */
     private void mongoNoProc(Long startTime, Long endTime, String hhDate) {
         List<Long> reqIds = preWithdrawService.getSucIds(startTime, endTime);
-        if (reqIds != null && reqIds.size() > 0) {
-            SpringDataPageable pageable = new SpringDataPageable();
-            pageable.setSort(new Sort("reqId"));
-            pageable.setPagesize(CriusConstants.MONGO_NO_PROC_SIZE);
+        SpringDataPageable pageable = new SpringDataPageable();
+        pageable.setSort(new Sort("reqId"));
+        pageable.setPagesize(CriusConstants.MONGO_NO_PROC_SIZE);
+        pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_USER_WITHDRAW, hhDate)));
+        List<PreWithdrawReq> withDrawReqs = preWithdrawService.getNotProc(startTime, endTime, reqIds, pageable);
+        while (withDrawReqs != null && withDrawReqs.size() > 0) {
+            logger.info("------mongoNoProc ,preWithDraw , noProcSize : " + withDrawReqs.size() + ", startTime : " + startTime + " endTime :" + endTime);
+            flushData(withDrawReqs);
             pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_USER_WITHDRAW, hhDate)));
-            List<PreWithdrawReq> withDrawReqs = preWithdrawService.getNotProc(startTime, endTime, reqIds, pageable);
-            while (withDrawReqs!=null && withDrawReqs.size()>0) {
-                logger.info("------mongoNoProc ,preWithDraw , sucReqIds :"+ reqIds.size()+" , noProcSize : "+withDrawReqs.size()+", startTime : "+ startTime+" endTime :" + endTime);
-                flushData(withDrawReqs);
-                pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_USER_WITHDRAW, hhDate)));
-                withDrawReqs = preWithdrawService.getNotProc(startTime, endTime, reqIds, pageable);
-            }
+            withDrawReqs = preWithdrawService.getNotProc(startTime, endTime, reqIds, pageable);
         }
+
     }
 
     private PreWithdrawReq assembleSucReq(PreWithdrawReq req) {

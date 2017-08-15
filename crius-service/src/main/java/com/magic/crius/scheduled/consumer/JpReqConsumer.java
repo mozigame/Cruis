@@ -1,5 +1,6 @@
 package com.magic.crius.scheduled.consumer;
 
+import com.alibaba.fastjson.JSON;
 import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.PrizeDetailAssemService;
@@ -199,19 +200,17 @@ public class JpReqConsumer {
      */
     private void mongoNoProc(Long startTime, Long endTime, String hhDate) {
         List<Long> reqIds = jpReqService.getSucIds(startTime, endTime);
-        if (reqIds != null && reqIds.size() > 0) {
 
-            SpringDataPageable pageable = new SpringDataPageable();
-            pageable.setSort(new Sort("reqId"));
-            pageable.setPagesize(CriusConstants.MONGO_NO_PROC_SIZE);
+        SpringDataPageable pageable = new SpringDataPageable();
+        pageable.setSort(new Sort("reqId"));
+        pageable.setPagesize(CriusConstants.MONGO_NO_PROC_SIZE);
+        pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_JP, hhDate)));
+        List<JpReq> withDrawReqs = jpReqService.getNotProc(startTime, endTime, reqIds, pageable);
+        while (withDrawReqs != null && withDrawReqs.size() > 0) {
+            logger.info("------mongoNoProc ,jp ,  noProcSize : " + withDrawReqs.size() + " , startTime : " + startTime + " endTime :" + endTime);
+            flushData(withDrawReqs);
             pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_JP, hhDate)));
-            List<JpReq> withDrawReqs = jpReqService.getNotProc(startTime, endTime, reqIds, pageable);
-            while (withDrawReqs != null && withDrawReqs.size() > 0) {
-                logger.info("------mongoNoProc ,jp , sucReqIds :" + reqIds.size() + ", noProcSize : " + withDrawReqs.size() + " , startTime : " + startTime + " endTime :" + endTime);
-                flushData(withDrawReqs);
-                pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_JP, hhDate)));
-                withDrawReqs = jpReqService.getNotProc(startTime, endTime, reqIds, pageable);
-            }
+            withDrawReqs = jpReqService.getNotProc(startTime, endTime, reqIds, pageable);
 
         }
     }

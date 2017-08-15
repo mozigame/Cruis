@@ -259,18 +259,16 @@ public class OperateWithDrawReqConsumer {
      */
     private void mongoNoProc(Long startTime, Long endTime, String hhDate) {
         List<Long> reqIds = operateWithDrawReqService.getSucIds(startTime, endTime);
-        if (reqIds != null && reqIds.size() > 0) {
-            SpringDataPageable pageable = new SpringDataPageable();
-            pageable.setSort(new Sort("reqId"));
-            pageable.setPagesize(CriusConstants.MONGO_NO_PROC_SIZE);
+        SpringDataPageable pageable = new SpringDataPageable();
+        pageable.setSort(new Sort("reqId"));
+        pageable.setPagesize(CriusConstants.MONGO_NO_PROC_SIZE);
+        pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_OPR_WITHDRAW, hhDate)));
+        List<OperateWithDrawReq> withDrawReqs = operateWithDrawReqService.getNotProc(startTime, endTime, reqIds, pageable);
+        while (withDrawReqs != null && withDrawReqs.size() > 0) {
+            logger.info("------mongoNoProc ,operateWithDraw  , noProcSize : " + withDrawReqs.size() + ", startTime : " + startTime + " endTime :" + endTime);
+            flushData(withDrawReqs);
             pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_OPR_WITHDRAW, hhDate)));
-            List<OperateWithDrawReq> withDrawReqs = operateWithDrawReqService.getNotProc(startTime, endTime, reqIds, pageable);
-            while (withDrawReqs != null && withDrawReqs.size() > 0) {
-                logger.info("------mongoNoProc ,operateWithDraw  , sucReqIds.size :"+ reqIds.size()+", noProcSize : "+withDrawReqs.size()+", startTime : "+ startTime+" endTime :" + endTime);
-                flushData(withDrawReqs);
-                pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_OPR_WITHDRAW, hhDate)));
-                withDrawReqs = operateWithDrawReqService.getNotProc(startTime, endTime, reqIds, pageable);
-            }
+            withDrawReqs = operateWithDrawReqService.getNotProc(startTime, endTime, reqIds, pageable);
         }
     }
 
