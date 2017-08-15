@@ -2,6 +2,7 @@ package com.magic.crius.dao.crius.db;
 
 import java.util.List;
 
+import com.magic.api.commons.model.Page;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -48,6 +49,13 @@ public interface UserInfoMapper {
     public int batchInsert(List<UserInfo> list);
     
     public int updateByPrimaryKey(UserInfo userInfo);
+
+    /**
+     * 根据层级获取用户列表
+     * @param userInfo
+     * @return
+     */
+    List<UserInfo> findUserLevel(@Param("param") UserInfo userInfo, @Param("offset") Integer offset, @Param("limit") Integer limit);
 
    
 

@@ -1,5 +1,6 @@
 package com.magic.crius.storage.db.impl;
 
+import com.magic.api.commons.model.Page;
 import com.magic.crius.dao.crius.db.UserInfoMapper;
 import com.magic.crius.po.UserInfo;
 import com.magic.crius.storage.db.UserInfoDbService;
@@ -57,4 +58,10 @@ public class UserInfoDbServiceImpl implements UserInfoDbService {
     		List<Long> proxyIdList){
 		return userInfoMapper.findUserInfoList(userIdList, proxyIdList);
 	}
+
+    @Override
+    public List<UserInfo> findUserLevel(UserInfo userInfo, Page page) {
+        Integer offset = (page.getPageNo() - 1) * page.getPageSize();
+        return userInfoMapper.findUserLevel(userInfo, offset, page.getPageSize());
+    }
 }

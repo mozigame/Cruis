@@ -27,24 +27,24 @@
         from user_info
         where user_id = #{userId,jdbcType=INTEGER}
     </select>
-    
+
     <select id="findUserInfoList" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from user_info
         where user_id in
-	      <foreach collection="userIdList" item="userId" index="index"
-	               open="(" close=")" separator=",">
-	        #{userId}
-	      </foreach>
-	      
-	      and proxy_id in 
-	      <foreach collection="proxyIdList" item="proxyId" index="index"
-	               open="(" close=")" separator=",">
-	        #{proxyId}
-	      </foreach>
+        <foreach collection="userIdList" item="userId" index="index"
+                 open="(" close=")" separator=",">
+            #{userId}
+        </foreach>
+
+        and proxy_id in
+        <foreach collection="proxyIdList" item="proxyId" index="index"
+                 open="(" close=")" separator=",">
+            #{proxyId}
+        </foreach>
     </select>
-    
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
         delete from user_info
         where user_id = #{userId,jdbcType=INTEGER}
@@ -71,21 +71,21 @@
         shareholder_id, shareholder_name, user_level,
         create_time, update_time, owner_name, type
         )
-         values
+        values
         <foreach collection="list" item="param" separator=",">
-          (#{param.ownerId,jdbcType=BIGINT}
-          	, #{param.userId,jdbcType=BIGINT}
-          	, #{param.userAccount,jdbcType=VARCHAR}
-	        , #{param.proxyId,jdbcType=BIGINT}
-	        , #{param.proxyName,jdbcType=VARCHAR}
-	        , #{param.shareholderId,jdbcType=BIGINT}
-	        , #{param.shareholderName,jdbcType=VARCHAR}
-	        , #{param.userLevel,jdbcType=INTEGER}
-	        , #{param.createTime,jdbcType=BIGINT}
-	        , #{param.updateTime,jdbcType=BIGINT}
-	        , #{param.ownerName,jdbcType=VARCHAR}
-	        , #{param.type,jdbcType=INTEGER}
-	        )
+            (#{param.ownerId,jdbcType=BIGINT}
+            , #{param.userId,jdbcType=BIGINT}
+            , #{param.userAccount,jdbcType=VARCHAR}
+            , #{param.proxyId,jdbcType=BIGINT}
+            , #{param.proxyName,jdbcType=VARCHAR}
+            , #{param.shareholderId,jdbcType=BIGINT}
+            , #{param.shareholderName,jdbcType=VARCHAR}
+            , #{param.userLevel,jdbcType=INTEGER}
+            , #{param.createTime,jdbcType=BIGINT}
+            , #{param.updateTime,jdbcType=BIGINT}
+            , #{param.ownerName,jdbcType=VARCHAR}
+            , #{param.type,jdbcType=INTEGER}
+            )
         </foreach>
     </insert>
 
@@ -146,32 +146,43 @@
   </update>
 
     <!--修改会员层级-->
-    <update id="updateLevel" >
+    <update id="updateLevel">
         UPDATE user_info
         SET user_level = #{userLevel,jdbcType=INTEGER}
         WHERE user_id = #{userId,jdbcType=BIGINT}
     </update>
-    
-    
+
+
     <select id="getSummaryNum" resultType="int" parameterType="com.magic.crius.po.UserInfo">
-    select  count(distinct user_id)  as userCount
-    from user_info
-    where 1=1
-     <if test="ownerId != null">
-       and  owner_id = #{ownerId,jdbcType=BIGINT}  
-      </if>
-      <if test="proxyId != null">
-      and  proxy_id = #{proxyId,jdbcType=BIGINT}
-    </if>
-      
-    
-   
-  </select>
-  
-  <select id="getProxyNum" resultType="int" parameterType="com.magic.crius.po.UserInfo">
-    select  count(proxy_id)  as userCount
-    from proxy_info
-    where owner_id = #{ownerId,jdbcType=BIGINT}  
-   
-  </select>
+        select count(distinct user_id) as userCount
+        from user_info
+        where 1=1
+        <if test="ownerId != null">
+            and owner_id = #{ownerId,jdbcType=BIGINT}
+        </if>
+        <if test="proxyId != null">
+            and proxy_id = #{proxyId,jdbcType=BIGINT}
+        </if>
+
+
+    </select>
+
+    <select id="getProxyNum" resultType="int">
+        select  count(proxy_id)  as userCount
+        from proxy_info
+        where owner_id = #{ownerId,jdbcType=BIGINT}
+
+      </select>
+
+    <!--根据层级获取用户-->
+    <select id="findUserLevel" resultType="com.magic.crius.po.UserInfo" parameterType="com.magic.crius.po.UserInfo">
+        SELECT
+        <include refid="Base_Column_List"/>
+        from user_info
+        WHERE user_level = ${param.userLevel}
+        <if test="offset != null and offset >= 0">
+            limit #{offset},#{limit}
+        </if>
+
+    </select>
 </mapper>

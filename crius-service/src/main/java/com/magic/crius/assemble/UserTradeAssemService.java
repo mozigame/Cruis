@@ -2,6 +2,7 @@ package com.magic.crius.assemble;
 
 import com.magic.analysis.enums.ActionType;
 import com.magic.analysis.enums.FlowType;
+import com.magic.analysis.enums.OutType;
 import com.magic.analysis.enums.SummaryType;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.po.UserTrade;
@@ -109,6 +110,8 @@ public class UserTradeAssemService {
         userTrade.setTradeType(SummaryType.ONLINE_CHARGE.getStatus());
         userTrade.setActiontype(ActionType.CHONG_ZHI.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
+
+        userTrade.setRemark(SummaryType.ONLINE_CHARGE.getStatusName());
         return userTrade;
     }
 
@@ -143,7 +146,7 @@ public class UserTradeAssemService {
         userTrade.setActiontype(ActionType.TI_KUANG.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
 
-        FlowType flowType = FlowType.getState(req.getWithdrawType() == null ? 0 : req.getWithdrawType());
+        OutType flowType = OutType.getState(req.getWithdrawType() == null ? 0 : req.getWithdrawType());
         userTrade.setRemark(flowType == null ? "" : flowType.getMethodName());
         return userTrade;
     }
@@ -161,6 +164,8 @@ public class UserTradeAssemService {
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         //todo 状态改为100表示通过 枚举
         userTrade.setStatus(100);
+
+        userTrade.setRemark(SummaryType.COMPANY_INCOME.getStatusName());
         return userTrade;
     }
 
@@ -177,6 +182,8 @@ public class UserTradeAssemService {
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         //todo 状态改为100表示通过
         userTrade.setStatus(100);
+
+        userTrade.setRemark(SummaryType.USER_OUT_MONEY.getStatusName());
         return userTrade;
     }
 

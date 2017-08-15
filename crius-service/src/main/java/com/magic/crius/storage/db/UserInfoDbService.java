@@ -1,5 +1,6 @@
 package com.magic.crius.storage.db;
 
+import com.magic.api.commons.model.Page;
 import com.magic.crius.po.UserInfo;
 
 import java.util.List;
@@ -35,5 +36,12 @@ public interface UserInfoDbService {
      * @return
      */
     List<UserInfo> findUserInfoList(List<Long> userIdList,
-    		List<Long> proxyIdList);;
+    		List<Long> proxyIdList);
+
+    /**
+     * 根据层级获取用户列表
+     * @param userInfo
+     * @return
+     */
+    List<UserInfo> findUserLevel(UserInfo userInfo, Page page);
 }

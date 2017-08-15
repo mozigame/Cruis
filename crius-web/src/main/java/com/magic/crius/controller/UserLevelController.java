@@ -1,5 +1,7 @@
 package com.magic.crius.controller;
 
+import com.magic.api.commons.core.auth.Access;
+import com.magic.api.commons.model.Page;
 import com.magic.crius.assemble.UserLevelAssemService;
 import com.magic.crius.vo.UserLevelReq;
 import org.apache.ibatis.annotations.Param;
@@ -43,5 +45,17 @@ public class UserLevelController {
         req.setUserId(userId);
         req.setLevelId(level);
         userLevelAssemService.updateLevel(req);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/rectifyLevelInvalid", method = RequestMethod.POST)
+    public void rectifyLevelInvalid(
+            @RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
+            @RequestParam(name = "count", required = false, defaultValue = "100") Integer count
+    ) {
+        Page pageObj = new Page();
+        pageObj.setPageNo(page);
+        pageObj.setPageSize(count);
+        userLevelAssemService.rectifyLevelInvalid(pageObj);
     }
 }

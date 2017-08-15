@@ -1,16 +1,15 @@
 package com.magic.crius.assemble;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.Resource;
 
+import com.google.common.collect.Lists;
+import com.magic.api.commons.ApiLogger;
+import com.magic.api.commons.model.Page;
+import com.magic.crius.po.UserInfo;
+import com.magic.crius.service.thrift.CriusThirdThriftService;
 import org.apache.log4j.Logger;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -42,6 +41,8 @@ public class UserLevelAssemService {
     private MemberConditionVoService memberConditionVoService;
     @Resource
     private UserInfoService userInfoService;
+    @Resource
+    private CriusThirdThriftService criusThirdThriftService;
     
     @Resource(name = "kafkaTemplate")
     private KafkaTemplate<Integer, String> template;
@@ -153,5 +154,28 @@ public class UserLevelAssemService {
         }
     }
 
+    /**
+     * 纠正为0 的用户层级
+     */
+    public void rectifyLevelInvalid(Page page) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserLevel(0);
+        List<UserInfo> userInfos = userInfoService.findUserLevel(userInfo, page);
+        if (userInfos != null && userInfos.size() > 0) {
+            int count =0;
+            List<Long> invalidUserIds = Lists.newArrayList();
+            for (UserInfo info : userInfos) {
+                long level = criusThirdThriftService.getMemberLevel(info.getUserId());
+                if (level > 0) {
+                    if (userInfoService.updateLevel(info.getUserId(), level)) {
+                        count++;
+                    }
+                } else {
+                    invalidUserIds.add(info.getUserId());
+                }
+            }
+            ApiLogger.info(String.format("rectifyLevelInvalid finished, count : %d, invalidUserIds : %s", count, JSON.toJSONString(invalidUserIds)));
+        }
+    }
 
 }

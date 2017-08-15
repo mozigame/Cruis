@@ -1,5 +1,6 @@
 package com.magic.crius.service.impl;
 
+import com.magic.api.commons.model.Page;
 import com.magic.crius.po.UserInfo;
 import com.magic.crius.service.UserInfoService;
 import com.magic.crius.storage.db.UserInfoDbService;
@@ -62,5 +63,10 @@ public class UserInfoServiceImpl implements UserInfoService {
     public List<UserInfo> findUserInfoList(List<Long> userIdList,
     		List<Long> proxyIdList){
     	return userInfoDbService.findUserInfoList(userIdList, proxyIdList);
+    }
+
+    @Override
+    public List<UserInfo> findUserLevel(UserInfo userInfo, Page page) {
+        return userInfoDbService.findUserLevel(userInfo, page);
     }
 }
