@@ -204,13 +204,9 @@ public class CashbackReqConsumer {
      */
     private void mongoFailed(Long startTime, Long endTime) {
         List<CashbackReq> failedReqs = cashbackReqService.getSaveFailed(startTime, endTime);
-        while (failedReqs != null && failedReqs.size() > 0) {
-            logger.info("------mongoFailed ,cashback , startTime , reqIds.size :"+ failedReqs.size()+" : "+ startTime+" endTime :" + endTime);
-            flushData(failedReqs);
-            failedReqs = cashbackReqService.getSaveFailed(startTime, endTime);
-        }
         if (failedReqs != null && failedReqs.size() > 0) {
-
+            logger.info("------mongoFailed ,cashback , startTime , reqIds :"+ failedReqs.size()+" : "+ startTime+" endTime :" + endTime);
+            flushData(failedReqs);
         }
     }
 
