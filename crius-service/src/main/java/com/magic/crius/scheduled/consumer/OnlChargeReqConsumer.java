@@ -4,14 +4,18 @@ import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.*;
 import com.magic.crius.constants.CriusConstants;
+import com.magic.crius.constants.RedisConstants;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.po.*;
+import com.magic.crius.service.BaseReqService;
 import com.magic.crius.service.OnlChargeReqService;
 import com.magic.crius.service.RepairLockService;
+import com.magic.crius.storage.db.SpringDataPageable;
 import com.magic.crius.util.PropertiesLoad;
 import com.magic.crius.vo.OnlChargeReq;
 import com.magic.user.vo.MemberConditionVo;
 import org.apache.log4j.Logger;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -56,7 +60,8 @@ public class OnlChargeReqConsumer {
     private MemberConditionVoAssemService memberConditionVoAssemService;
     @Resource
     private UserTradeSummaryAssemService userTradeSummaryAssemService;
-
+    @Resource
+    private BaseReqService baseReqService;
 
     public void init(Date date) {
         detailCalculate(date);
@@ -211,7 +216,7 @@ public class OnlChargeReqConsumer {
         repairLock.setValue(CriusConstants.REPAIR_LOCK_VALUE);
         if (repairLockService.save(repairLock)) {
             mongoFailed(startDate.getTimeInMillis(), endDate.getTime());
-            mongoNoProc(startDate.getTimeInMillis(), endDate.getTime());
+            mongoNoProc(startDate.getTimeInMillis(), endDate.getTime(), hhDate);
         }
 
     }
@@ -236,12 +241,20 @@ public class OnlChargeReqConsumer {
      * @param startTime
      * @param endTime
      */
-    private void mongoNoProc(Long startTime, Long endTime) {
+    private void mongoNoProc(Long startTime, Long endTime, String hhDate) {
         List<Long> reqIds = onlChargeService.getSucIds(startTime, endTime);
         if (reqIds != null && reqIds.size() > 0) {
-            logger.info("------mongoNoProc ,onlCharge , reqIds :"+ reqIds.size()+" , startTime : "+ startTime+" endTime :" + endTime);
-            List<OnlChargeReq> withDrawReqs = onlChargeService.getNotProc(startTime, endTime, reqIds);
-            flushData(withDrawReqs);
+            SpringDataPageable pageable = new SpringDataPageable();
+            pageable.setSort(new Sort("reqId"));
+            pageable.setPagesize(CriusConstants.MONGO_NO_PROC_SIZE);
+            pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_ONL_CHARGE, hhDate)));
+            List<OnlChargeReq> withDrawReqs = onlChargeService.getNotProc(startTime, endTime, reqIds, pageable);
+            while (withDrawReqs != null && withDrawReqs.size() > 0) {
+                logger.info("------mongoNoProc ,onlCharge , reqIds :"+ reqIds.size()+" , startTime : "+ startTime+" endTime :" + endTime);
+                flushData(withDrawReqs);
+                pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_ONL_CHARGE, hhDate)));
+                withDrawReqs = onlChargeService.getNotProc(startTime, endTime, reqIds, pageable);
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package com.magic.crius.service;
 
 import com.magic.crius.vo.BaseOrderReq;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Collection;
 import java.util.Date;
@@ -56,7 +57,7 @@ public interface BaseOrderReqService {
      * @param reqIds
      * @return
      */
-    List<BaseOrderReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds);
+    List<BaseOrderReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable);
 
     /**
      * 获取一段时间内处理失败的数据
@@ -65,4 +66,5 @@ public interface BaseOrderReqService {
      * @return
      */
     List<BaseOrderReq> getSaveFailed(Long startTime, Long endTime);
+
 }

@@ -1,5 +1,6 @@
 package com.magic.crius.dao.base;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
@@ -104,7 +105,7 @@ public interface BaseMongoDAO<T> {
      * @param reqIds
      * @return
      */
-    List<T> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, String collectionName);
+    List<T> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, String collectionName, Pageable pageable);
 
     /**
      * 获取固定时间内处理失败的数据

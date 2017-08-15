@@ -4,16 +4,20 @@ import com.magic.api.commons.tools.DateUtil;
 import com.magic.api.commons.utils.StringUtils;
 import com.magic.crius.assemble.UserOrderDetailAssemService;
 import com.magic.crius.constants.CriusConstants;
+import com.magic.crius.constants.RedisConstants;
 import com.magic.crius.constants.ScheduleConsumerConstants;
 import com.magic.crius.enums.IsPaidType;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.po.RepairLock;
 import com.magic.crius.po.UserOrderDetail;
 import com.magic.crius.service.BaseOrderReqService;
+import com.magic.crius.service.BaseReqService;
 import com.magic.crius.service.RepairLockService;
+import com.magic.crius.storage.db.SpringDataPageable;
 import com.magic.crius.util.PropertiesLoad;
 import com.magic.crius.vo.BaseOrderReq;
 import org.apache.log4j.Logger;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -43,6 +47,9 @@ public class BaseOrderReqConsumer {
     private BaseOrderReqService baseOrderReqService;
     @Resource
     private UserOrderDetailAssemService userOrderDetailAssemService;
+
+    @Resource
+    private BaseReqService baseReqService;
 
 
     public void init(Date date) {
@@ -158,7 +165,7 @@ public class BaseOrderReqConsumer {
         repairLock.setValue(CriusConstants.REPAIR_LOCK_VALUE);
         if (repairLockService.save(repairLock)) {
             mongoFailed(startDate.getTimeInMillis(), endDate.getTime());
-            mongoNoProc(startDate.getTimeInMillis(), endDate.getTime());
+            mongoNoProc(startDate.getTimeInMillis(), endDate.getTime(), hhDate);
         }
 
     }
@@ -183,12 +190,21 @@ public class BaseOrderReqConsumer {
      * @param startTime
      * @param endTime
      */
-    private void mongoNoProc(Long startTime, Long endTime) {
+    private void mongoNoProc(Long startTime, Long endTime, String hhDate) {
         List<Long> reqIds = baseOrderReqService.getSucIds(startTime, endTime);
         if (reqIds != null && reqIds.size() > 0) {
-            logger.info("------mongoNoProc ,baseOrder , reqIds :"+ reqIds.size()+" , startTime : "+ startTime+" endTime :" + endTime);
-            List<BaseOrderReq> withDrawReqs = baseOrderReqService.getNotProc(startTime, endTime, reqIds);
-            flushData(withDrawReqs);
+            SpringDataPageable pageable = new SpringDataPageable();
+            pageable.setSort(new Sort("reqId"));
+            pageable.setPagesize(CriusConstants.MONGO_NO_PROC_SIZE);
+            pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_BASE_GAME, hhDate)));
+
+            List<BaseOrderReq> withDrawReqs = baseOrderReqService.getNotProc(startTime, endTime, reqIds, pageable);
+            while (withDrawReqs != null && withDrawReqs.size() > 0) {
+                logger.info("------start mongoNoProc ,baseOrder , sucReqIds.size :"+ reqIds.size()+" , noProcReqIds.size : "+ withDrawReqs.size()+", startTime : "+ startTime+" endTime :" + endTime);
+                flushData(withDrawReqs);
+                pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_BASE_GAME, hhDate)));
+                withDrawReqs = baseOrderReqService.getNotProc(startTime, endTime, reqIds, pageable);
+            }
         }
     }
 

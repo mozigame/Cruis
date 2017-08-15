@@ -5,6 +5,7 @@ import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.storage.mongo.PreWithdrawReqMongoService;
 import com.magic.crius.vo.PreWithdrawReq;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -78,9 +79,9 @@ public class PreWithdrawReqMongoServiceImpl implements PreWithdrawReqMongoServic
     }
 
     @Override
-    public List<PreWithdrawReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
+    public List<PreWithdrawReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
         try {
-            preWithdrawMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.preWithdrawReq.name());
+            preWithdrawMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.preWithdrawReq.name(), pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }

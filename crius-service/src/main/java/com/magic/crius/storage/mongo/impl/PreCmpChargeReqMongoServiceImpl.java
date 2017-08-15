@@ -7,6 +7,7 @@ import com.magic.crius.storage.mongo.PreCmpChargeReqMongoService;
 import com.magic.crius.vo.PreCmpChargeReq;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -48,7 +49,7 @@ public class PreCmpChargeReqMongoServiceImpl implements PreCmpChargeReqMongoServ
     @Override
     public boolean saveFailedData(PreCmpChargeReq preCmpChargeReq) {
         try {
-            return preCmpChargeMongoDao.save(preCmpChargeReq, MongoCollectionFlag.MONGO_FAILED.collName("preCmpChargeReq")) != null;
+            return preCmpChargeMongoDao.save(preCmpChargeReq, MongoCollectionFlag.MONGO_FAILED.collName(MongoCollections.preCmpChargeReq.name())) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,17 +81,7 @@ public class PreCmpChargeReqMongoServiceImpl implements PreCmpChargeReqMongoServ
     @Override
     public List<Long> getSucIds(Long startTime, Long endTime) {
         try {
-            List<Long> reqIds = new ArrayList<>();
-            BasicDBObject condition = new BasicDBObject();
-            condition.append("produceTime", new BasicDBObject("$gte", startTime));
-            condition.append("produceTime", new BasicDBObject("$lt", endTime));
-            BasicDBObject keys = new BasicDBObject();
-            Iterator<DBObject> iterator = preCmpChargeMongoDao.getMongoTemplate().getCollection(MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.preCmpChargeReq.name())).find(condition, keys);
-            while (iterator.hasNext()) {
-                Long reqId = (Long) iterator.next().get("reqId");
-                reqIds.add(reqId);
-            }
-            return reqIds;
+            return preCmpChargeMongoDao.getSucIds(startTime, endTime, MongoCollections.preCmpChargeReq.name());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -98,12 +89,9 @@ public class PreCmpChargeReqMongoServiceImpl implements PreCmpChargeReqMongoServ
     }
 
     @Override
-    public List<PreCmpChargeReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
+    public List<PreCmpChargeReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
         try {
-            Query query = new Query();
-            query.addCriteria(new Criteria("reqId").nin(reqIds));
-            query.addCriteria(new Criteria("produceTime").gte(startTime).lt(endTime));
-            return preCmpChargeMongoDao.find(query);
+            return preCmpChargeMongoDao.getNotProc(startTime,endTime, reqIds,MongoCollections.preCmpChargeReq.name(), pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -113,9 +101,7 @@ public class PreCmpChargeReqMongoServiceImpl implements PreCmpChargeReqMongoServ
     @Override
     public List<PreCmpChargeReq> getSaveFailed(Long startTime, Long endTime) {
         try {
-            Query query = new Query();
-            query.addCriteria(new Criteria("produceTime").gte(startTime).lt(endTime));
-            return preCmpChargeMongoDao.find(query, MongoCollectionFlag.MONGO_FAILED.collName(MongoCollections.preCmpChargeReq.name()));
+            return preCmpChargeMongoDao.getSaveFailed(startTime,endTime,MongoCollections.preCmpChargeReq.name());
         } catch (Exception e) {
             e.printStackTrace();
         }

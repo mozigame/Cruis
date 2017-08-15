@@ -4,6 +4,7 @@ import com.magic.crius.service.JpReqService;
 import com.magic.crius.storage.mongo.JpReqMongoService;
 import com.magic.crius.storage.redis.JpReqRedisService;
 import com.magic.crius.vo.JpReq;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -52,8 +53,8 @@ public class JpReqServiceImpl implements JpReqService {
     }
 
     @Override
-    public List<JpReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
-        return jpReqMongoService.getNotProc(startTime, endTime, reqIds);
+    public List<JpReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
+        return jpReqMongoService.getNotProc(startTime, endTime, reqIds, pageable);
     }
 
     @Override

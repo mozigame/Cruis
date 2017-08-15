@@ -30,6 +30,25 @@ public class ScheduleConsumerConstants {
     public static int POLL_TIME;
 
 
+    /**
+     * 处理redis数据的间隔时间
+     */
+    public static final int cacheFlushRate = 180000;   //3分钟
+    /**
+     * 拉取代理列表的时间间隔
+     */
+    public static final int proxyPullRate = 3600000;  //一小时
+
+    /**
+     * 拉取游戏列表的时间间隔
+     */
+    public static final int gameListPullRate = 7200000; //两小时
+    /**
+     * 拉取游戏列表的延时时长
+     */
+    public static final int gameListPullInitDelay = 30000;    //30秒
+
+
     @PostConstruct
     public void init() {
         THREAD_SIZE = threadSize;

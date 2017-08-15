@@ -10,7 +10,7 @@ import java.util.List;
  * Date: 2017/6/5
  * Time: 16:41
  */
-public interface CashbackReqRedisService {
+public interface CashbackReqRedisService{
 
     /**
      * @param req
@@ -24,4 +24,6 @@ public interface CashbackReqRedisService {
      * @return
      */
     List<CashbackReq> batchPop(Date date);
+
+
 }

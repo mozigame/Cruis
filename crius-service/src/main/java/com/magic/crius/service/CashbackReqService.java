@@ -1,6 +1,7 @@
 package com.magic.crius.service;
 
 import com.magic.crius.vo.CashbackReq;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Collection;
 import java.util.Date;
@@ -55,7 +56,7 @@ public interface CashbackReqService {
      * @param reqIds
      * @return
      */
-    List<CashbackReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds);
+    List<CashbackReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable);
 
     /**
      * 获取一段时间内处理失败的数据
@@ -64,4 +65,5 @@ public interface CashbackReqService {
      * @return
      */
     List<CashbackReq> getSaveFailed(Long startTime, Long endTime);
+
 }

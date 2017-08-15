@@ -4,6 +4,7 @@ import com.magic.crius.service.CashbackReqService;
 import com.magic.crius.storage.mongo.CashbackReqMongoService;
 import com.magic.crius.storage.redis.CashbackReqRedisService;
 import com.magic.crius.vo.CashbackReq;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,6 +24,7 @@ public class CashbackReqServiceImpl implements CashbackReqService {
     private CashbackReqMongoService cashbackReqMongoService;
     @Resource
     private CashbackReqRedisService cashbackReqRedisService;
+
 
     @Override
     public boolean save(CashbackReq req) {
@@ -56,12 +58,13 @@ public class CashbackReqServiceImpl implements CashbackReqService {
     }
 
     @Override
-    public List<CashbackReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
-        return cashbackReqMongoService.getNotProc(startTime, endTime, reqIds);
+    public List<CashbackReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
+        return cashbackReqMongoService.getNotProc(startTime, endTime, reqIds, pageable);
     }
 
     @Override
     public List<CashbackReq> getSaveFailed(Long startTime, Long endTime) {
         return cashbackReqMongoService.getSaveFailed(startTime, endTime);
     }
+
 }

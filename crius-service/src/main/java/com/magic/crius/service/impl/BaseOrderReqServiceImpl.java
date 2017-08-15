@@ -4,6 +4,7 @@ import com.magic.crius.service.BaseOrderReqService;
 import com.magic.crius.storage.mongo.BaseOrderReqMongoService;
 import com.magic.crius.storage.redis.BaseOrderReqRedisService;
 import com.magic.crius.vo.BaseOrderReq;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -51,8 +52,8 @@ public class BaseOrderReqServiceImpl implements BaseOrderReqService {
     }
 
     @Override
-    public List<BaseOrderReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
-        return baseOrderReqMongoService.getNotProc(startTime, endTime, reqIds);
+    public List<BaseOrderReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
+        return baseOrderReqMongoService.getNotProc(startTime, endTime, reqIds, pageable);
     }
 
     @Override

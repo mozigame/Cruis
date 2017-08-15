@@ -5,6 +5,7 @@ import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.storage.mongo.BaseOrderReqMongoService;
 import com.magic.crius.vo.BaseOrderReq;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -67,9 +68,9 @@ public class BaseOrderReqMongoServiceImpl implements BaseOrderReqMongoService {
     }
 
     @Override
-    public List<BaseOrderReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
+    public List<BaseOrderReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
         try {
-            baseOrderReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.baseOrderReq.name());
+            baseOrderReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.baseOrderReq.name(), pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }

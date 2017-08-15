@@ -4,6 +4,7 @@ import com.magic.crius.service.PreCmpChargeReqService;
 import com.magic.crius.storage.mongo.PreCmpChargeReqMongoService;
 import com.magic.crius.storage.redis.PreCmpChargeReqRedisService;
 import com.magic.crius.vo.PreCmpChargeReq;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -53,8 +54,8 @@ public class PreCmpChargeReqServiceImpl implements PreCmpChargeReqService {
     }
 
     @Override
-    public List<PreCmpChargeReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
-        return preCmpChargeMongoService.getNotProc(startTime, endTime, reqIds);
+    public List<PreCmpChargeReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
+        return preCmpChargeMongoService.getNotProc(startTime, endTime, reqIds, pageable);
     }
 
     @Override

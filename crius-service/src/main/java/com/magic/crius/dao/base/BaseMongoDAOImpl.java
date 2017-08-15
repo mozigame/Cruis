@@ -7,6 +7,7 @@ import com.magic.crius.util.ReflectionUtils;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -87,8 +88,7 @@ public abstract class BaseMongoDAOImpl<T> implements BaseMongoDAO<T> {
     public List<Long> getSucIds(Long startTime, Long endTime, String collectionName) {
         List<Long> reqIds = new ArrayList<>();
         BasicDBObject condition = new BasicDBObject();
-        condition.append("produceTime", new BasicDBObject("$gte", startTime));
-        condition.append("produceTime", new BasicDBObject("$lt", endTime));
+        condition.append("produceTime", new BasicDBObject("$gte", startTime).append("$lt", endTime));
         BasicDBObject keys = new BasicDBObject();
         keys.append("reqId", 1);
         Iterator<DBObject> iterator = getMongoTemplate().getCollection(MongoCollectionFlag.SAVE_SUC.collName(collectionName)).find(condition, keys);
@@ -100,10 +100,14 @@ public abstract class BaseMongoDAOImpl<T> implements BaseMongoDAO<T> {
     }
 
     @Override
-    public List<T> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, String collectionName) {
+    public List<T> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, String collectionName, Pageable pageable) {
         Query query = new Query();
         query.addCriteria(new Criteria("reqId").nin(reqIds));
         query.addCriteria(new Criteria("produceTime").gte(startTime).lt(endTime));
+        if (pageable != null) {
+            query.skip(pageable.getOffset()).limit(pageable.getPageSize());
+            query.with(pageable.getSort());
+        }
         return find(query,collectionName);
     }
 

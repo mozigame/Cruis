@@ -5,6 +5,7 @@ import com.magic.crius.storage.mongo.OnlChargeReqMongoService;
 import com.magic.crius.storage.redis.OnlChargeReqRedisService;
 import com.magic.crius.vo.OnlChargeReq;
 import com.magic.crius.vo.PreCmpChargeReq;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -52,8 +53,8 @@ public class OnlChargeReqServiceImpl implements OnlChargeReqService {
     }
 
     @Override
-    public List<OnlChargeReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
-        return onlChargeMongoService.getNotProc(startTime, endTime, reqIds);
+    public List<OnlChargeReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
+        return onlChargeMongoService.getNotProc(startTime, endTime, reqIds, pageable);
     }
 
     @Override

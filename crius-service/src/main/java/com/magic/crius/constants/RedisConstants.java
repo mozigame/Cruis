@@ -24,7 +24,7 @@ public class RedisConstants {
     public static final int BATCH_POP_NUM = 1000;
 
     public static final String OWNER_BILL_KEY = "OWNER_BILL_KEY";
-    
+
     /**
      * 同步用户数据每页批量
      */
@@ -33,11 +33,21 @@ public class RedisConstants {
      * 同步用户数据的页数
      */
     public static final String REDIS_USER_INFO_SYNC_PAGE="_userInfoSyncPage";
-    
+
     public static final String REDIS_PROXY_INFO_SYNC_PAGE="_proxyInfoSyncPage";
-    
+
     public static final String REDIS_USER_LEVEL_UPDATE_COUNT="_userLevelUCount";
-    
+
+
+    public static final String NO_PROC_PAGE="no_p_";
+    /**
+     * 获取未处理的数据的页码
+     * @param prefix
+     * @return
+     */
+    public static String getNoProcPage(CLEAR_PREFIX prefix, String hhDate) {
+        return NO_PROC_PAGE + prefix.key() + hhDate;
+    }
 
     /**
      * @doc

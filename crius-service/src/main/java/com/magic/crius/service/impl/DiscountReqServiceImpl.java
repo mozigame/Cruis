@@ -4,6 +4,7 @@ import com.magic.crius.service.DiscountReqService;
 import com.magic.crius.storage.mongo.DiscountReqMongoService;
 import com.magic.crius.storage.redis.DiscountReqRedisService;
 import com.magic.crius.vo.DiscountReq;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -51,8 +52,8 @@ public class DiscountReqServiceImpl implements DiscountReqService {
     }
 
     @Override
-    public List<DiscountReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
-        return discountReqMongoService.getNotProc(startTime, endTime, reqIds);
+    public List<DiscountReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
+        return discountReqMongoService.getNotProc(startTime, endTime, reqIds, pageable);
     }
 
     @Override

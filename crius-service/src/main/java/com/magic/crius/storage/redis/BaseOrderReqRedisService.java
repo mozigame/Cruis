@@ -10,7 +10,7 @@ import java.util.List;
  * Date: 2017/6/8
  * Time: 19:22
  */
-public interface BaseOrderReqRedisService {
+public interface BaseOrderReqRedisService{
 
 
     /**

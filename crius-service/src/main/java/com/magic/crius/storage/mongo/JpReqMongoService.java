@@ -1,6 +1,7 @@
 package com.magic.crius.storage.mongo;
 
 import com.magic.crius.vo.JpReq;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Collection;
 import java.util.List;
@@ -55,7 +56,7 @@ public interface JpReqMongoService {
      * @param reqIds
      * @return
      */
-    List<JpReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds);
+    List<JpReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable);
 
     /**
      * 获取固定时间内处理失败的数据

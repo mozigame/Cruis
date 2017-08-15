@@ -5,6 +5,7 @@ import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.storage.mongo.OperateChargeReqMongoService;
 import com.magic.crius.vo.OperateChargeReq;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -67,9 +68,9 @@ public class OperateChargeReqMongoServiceImpl implements OperateChargeReqMongoSe
     }
 
     @Override
-    public List<OperateChargeReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
+    public List<OperateChargeReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
         try {
-            operateChargeMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.operateChargeReq.name());
+            operateChargeMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.operateChargeReq.name(), pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }

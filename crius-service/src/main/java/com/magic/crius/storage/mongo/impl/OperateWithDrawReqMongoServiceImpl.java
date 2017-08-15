@@ -9,6 +9,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -81,9 +82,9 @@ public class OperateWithDrawReqMongoServiceImpl implements OperateWithDrawReqMon
     }
 
     @Override
-    public List<OperateWithDrawReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
+    public List<OperateWithDrawReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
         try {
-            operateWithDrawReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.operateWithDrawReq.name());
+            operateWithDrawReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.operateWithDrawReq.name(), pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }

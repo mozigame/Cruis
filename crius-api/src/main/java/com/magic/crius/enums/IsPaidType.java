@@ -11,8 +11,8 @@ import java.util.Map;
  */
 public enum IsPaidType {
 
-    noPaid(1),  //未派彩
-    paid(2);    //已派彩
+    paid(1),    //已派彩
+    noPaid(2);  //未派彩
 
     private int value;
 

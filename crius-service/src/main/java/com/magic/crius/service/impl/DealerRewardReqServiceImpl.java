@@ -4,6 +4,7 @@ import com.magic.crius.service.DealerRewardReqService;
 import com.magic.crius.storage.mongo.DealerRewardReqMongoService;
 import com.magic.crius.storage.redis.DealerRewardReqRedisService;
 import com.magic.crius.vo.DealerRewardReq;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -51,8 +52,8 @@ public class DealerRewardReqServiceImpl implements DealerRewardReqService {
     }
 
     @Override
-    public List<DealerRewardReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
-        return dealerRewardReqMongoService.getNotProc(startTime, endTime, reqIds);
+    public List<DealerRewardReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
+        return dealerRewardReqMongoService.getNotProc(startTime, endTime, reqIds, pageable);
     }
 
     @Override

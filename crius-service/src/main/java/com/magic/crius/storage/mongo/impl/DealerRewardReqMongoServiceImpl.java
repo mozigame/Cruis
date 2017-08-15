@@ -7,6 +7,7 @@ import com.magic.crius.storage.mongo.DealerRewardReqMongoService;
 import com.magic.crius.vo.DealerRewardReq;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -71,9 +72,9 @@ public class DealerRewardReqMongoServiceImpl implements DealerRewardReqMongoServ
     }
 
     @Override
-    public List<DealerRewardReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
+    public List<DealerRewardReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
         try {
-            dealerRewardReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.dealerRewardReq.name());
+            dealerRewardReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.dealerRewardReq.name(), pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }

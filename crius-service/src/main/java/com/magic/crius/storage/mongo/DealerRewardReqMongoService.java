@@ -2,6 +2,7 @@ package com.magic.crius.storage.mongo;
 
 import com.magic.crius.vo.DealerRewardReq;
 import com.magic.crius.vo.JpReq;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Collection;
 import java.util.List;
@@ -49,7 +50,7 @@ public interface DealerRewardReqMongoService {
      * @param reqIds
      * @return
      */
-    List<DealerRewardReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds);
+    List<DealerRewardReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable);
 
     /**
      * 获取固定时间内处理失败的数据

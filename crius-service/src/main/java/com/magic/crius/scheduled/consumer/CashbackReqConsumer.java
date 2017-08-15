@@ -6,16 +6,21 @@ import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
 import com.magic.crius.assemble.OwnerReforwardDetailAssemService;
 import com.magic.crius.assemble.UserTradeAssemService;
 import com.magic.crius.constants.CriusConstants;
+import com.magic.crius.constants.RedisConstants;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.po.OwnerCompanyAccountDetail;
 import com.magic.crius.po.OwnerReforwardDetail;
 import com.magic.crius.po.RepairLock;
 import com.magic.crius.po.UserTrade;
+import com.magic.crius.service.BaseReqService;
 import com.magic.crius.service.CashbackReqService;
 import com.magic.crius.service.RepairLockService;
+import com.magic.crius.storage.db.SpringDataPageable;
+import com.magic.crius.storage.redis.BaseReqRedisService;
 import com.magic.crius.util.PropertiesLoad;
 import com.magic.crius.vo.CashbackReq;
 import org.apache.log4j.Logger;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -52,6 +57,8 @@ public class CashbackReqConsumer {
     /*账户交易明细*/
     @Resource
     private UserTradeAssemService userTradeAssemService;
+    @Resource
+    private BaseReqService baseReqService;
 
 
     public void init(Date date) {
@@ -184,7 +191,7 @@ public class CashbackReqConsumer {
         repairLock.setValue(CriusConstants.REPAIR_LOCK_VALUE);
         if (repairLockService.save(repairLock)) {
             mongoFailed(startDate.getTimeInMillis(), endDate.getTime());
-            mongoNoProc(startDate.getTimeInMillis(), endDate.getTime());
+            mongoNoProc(startDate.getTimeInMillis(), endDate.getTime(), hhDate);
         }
 
     }
@@ -197,9 +204,13 @@ public class CashbackReqConsumer {
      */
     private void mongoFailed(Long startTime, Long endTime) {
         List<CashbackReq> failedReqs = cashbackReqService.getSaveFailed(startTime, endTime);
-        if (failedReqs != null && failedReqs.size() > 0) {
-            logger.info("------mongoFailed ,cashback , startTime , reqIds :"+ failedReqs.size()+" : "+ startTime+" endTime :" + endTime);
+        while (failedReqs != null && failedReqs.size() > 0) {
+            logger.info("------mongoFailed ,cashback , startTime , reqIds.size :"+ failedReqs.size()+" : "+ startTime+" endTime :" + endTime);
             flushData(failedReqs);
+            failedReqs = cashbackReqService.getSaveFailed(startTime, endTime);
+        }
+        if (failedReqs != null && failedReqs.size() > 0) {
+
         }
     }
 
@@ -209,12 +220,20 @@ public class CashbackReqConsumer {
      * @param startTime
      * @param endTime
      */
-    private void mongoNoProc(Long startTime, Long endTime) {
+    private void mongoNoProc(Long startTime, Long endTime, String hhDate) {
         List<Long> reqIds = cashbackReqService.getSucIds(startTime, endTime);
         if (reqIds != null && reqIds.size() > 0) {
-            logger.info("------mongoNoProc ,cashback , reqIds :"+ reqIds.size()+" , startTime : "+ startTime+" endTime :" + endTime);
-            List<CashbackReq> withDrawReqs = cashbackReqService.getNotProc(startTime, endTime, reqIds);
-            flushData(withDrawReqs);
+            SpringDataPageable pageable = new SpringDataPageable();
+            pageable.setSort(new Sort("reqId"));
+            pageable.setPagesize(CriusConstants.MONGO_NO_PROC_SIZE);
+            pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_CAHSBACK, hhDate)));
+            List<CashbackReq> notProcDrawReqs = cashbackReqService.getNotProc(startTime, endTime, reqIds, pageable);
+            while (notProcDrawReqs != null && notProcDrawReqs.size() > 0) {
+                logger.info("------mongoNoProc ,cashback , sucIds.size : "+reqIds.size()+", noProcReqIds :"+ notProcDrawReqs.size()+" , startTime : "+ startTime+" endTime :" + endTime);
+                flushData(notProcDrawReqs);
+                pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_CAHSBACK, hhDate)));
+                notProcDrawReqs = cashbackReqService.getNotProc(startTime, endTime, reqIds, pageable);
+            }
         }
     }
 

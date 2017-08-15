@@ -4,6 +4,7 @@ import com.magic.crius.service.PreWithdrawReqService;
 import com.magic.crius.storage.mongo.PreWithdrawReqMongoService;
 import com.magic.crius.storage.redis.PreWithdrawReqRedisService;
 import com.magic.crius.vo.PreWithdrawReq;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -51,8 +52,8 @@ public class PreWithdrawReqServiceImpl implements PreWithdrawReqService {
     }
 
     @Override
-    public List<PreWithdrawReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
-        return preWithdrawMongoService.getNotProc(startTime, endTime, reqIds);
+    public List<PreWithdrawReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
+        return preWithdrawMongoService.getNotProc(startTime, endTime, reqIds, pageable);
     }
 
     @Override

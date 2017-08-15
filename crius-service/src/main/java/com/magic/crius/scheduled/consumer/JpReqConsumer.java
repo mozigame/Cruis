@@ -5,13 +5,17 @@ import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.PrizeDetailAssemService;
 import com.magic.crius.assemble.UserOrderDetailAssemService;
 import com.magic.crius.constants.CriusConstants;
+import com.magic.crius.constants.RedisConstants;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.po.*;
+import com.magic.crius.service.BaseReqService;
 import com.magic.crius.service.JpReqService;
 import com.magic.crius.service.RepairLockService;
+import com.magic.crius.storage.db.SpringDataPageable;
 import com.magic.crius.util.PropertiesLoad;
 import com.magic.crius.vo.JpReq;
 import org.apache.log4j.Logger;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -44,6 +48,9 @@ public class JpReqConsumer {
     
     @Resource
     private UserOrderDetailAssemService userOrderDetailAssemService;
+
+    @Resource
+    private BaseReqService baseReqService;
 
 
     public void init(Date date) {
@@ -165,7 +172,7 @@ public class JpReqConsumer {
         repairLock.setValue(CriusConstants.REPAIR_LOCK_VALUE);
         if (repairLockService.save(repairLock)) {
             mongoFailed(startDate.getTimeInMillis(), endDate.getTime());
-            mongoNoProc(startDate.getTimeInMillis(), endDate.getTime());
+            mongoNoProc(startDate.getTimeInMillis(), endDate.getTime(), hhDate);
         }
 
     }
@@ -190,12 +197,22 @@ public class JpReqConsumer {
      * @param startTime
      * @param endTime
      */
-    private void mongoNoProc(Long startTime, Long endTime) {
+    private void mongoNoProc(Long startTime, Long endTime, String hhDate) {
         List<Long> reqIds = jpReqService.getSucIds(startTime, endTime);
         if (reqIds != null && reqIds.size() > 0) {
-            logger.info("------mongoNoProc ,jp , reqIds :"+ reqIds.size()+" , startTime : "+ startTime+" endTime :" + endTime);
-            List<JpReq> withDrawReqs = jpReqService.getNotProc(startTime, endTime, reqIds);
-            flushData(withDrawReqs);
+
+            SpringDataPageable pageable = new SpringDataPageable();
+            pageable.setSort(new Sort("reqId"));
+            pageable.setPagesize(CriusConstants.MONGO_NO_PROC_SIZE);
+            pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_JP, hhDate)));
+            List<JpReq> withDrawReqs = jpReqService.getNotProc(startTime, endTime, reqIds, pageable);
+            while (withDrawReqs != null && withDrawReqs.size() > 0) {
+                logger.info("------mongoNoProc ,jp , sucReqIds :" + reqIds.size() + ", noProcSize : " + withDrawReqs.size() + " , startTime : " + startTime + " endTime :" + endTime);
+                flushData(withDrawReqs);
+                pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_JP, hhDate)));
+                withDrawReqs = jpReqService.getNotProc(startTime, endTime, reqIds, pageable);
+            }
+
         }
     }
 

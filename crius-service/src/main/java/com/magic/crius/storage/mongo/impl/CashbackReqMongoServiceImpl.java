@@ -7,6 +7,7 @@ import com.magic.crius.storage.mongo.CashbackReqMongoService;
 import com.magic.crius.vo.CashbackReq;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -81,9 +82,9 @@ public class CashbackReqMongoServiceImpl implements CashbackReqMongoService {
     }
 
     @Override
-    public List<CashbackReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
+    public List<CashbackReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
         try {
-            cashbackReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.cashbackReq.name());
+            return cashbackReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.cashbackReq.name(), pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -93,7 +94,7 @@ public class CashbackReqMongoServiceImpl implements CashbackReqMongoService {
     @Override
     public List<CashbackReq> getSaveFailed(Long startTime, Long endTime) {
         try {
-            cashbackReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.cashbackReq.name());
+            return cashbackReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.cashbackReq.name());
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -13,4 +13,8 @@ public class CriusConstants {
     public static final int REPAIR_LOCK_VALUE = 1;
 
     public static final int POLL_POP_SLEEP_TIME = 5000;
+    /**
+     * mongo中未处理数据的批量处理条数
+     */
+    public static final int MONGO_NO_PROC_SIZE = 500;
 }

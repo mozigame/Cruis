@@ -1,6 +1,7 @@
 package com.magic.crius.service;
 
 import com.magic.crius.vo.DealerRewardReq;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Collection;
 import java.util.Date;
@@ -47,7 +48,7 @@ public interface DealerRewardReqService {
      * @param reqIds
      * @return
      */
-    List<DealerRewardReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds);
+    List<DealerRewardReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable);
 
     /**
      * 获取一段时间内处理失败的数据

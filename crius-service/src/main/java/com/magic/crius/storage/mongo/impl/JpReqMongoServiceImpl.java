@@ -5,6 +5,7 @@ import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.storage.mongo.JpReqMongoService;
 import com.magic.crius.vo.JpReq;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -79,9 +80,9 @@ public class JpReqMongoServiceImpl implements JpReqMongoService {
     }
 
     @Override
-    public List<JpReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds) {
+    public List<JpReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
         try {
-            jpReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.jpReq.name());
+            jpReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.jpReq.name(), pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }
