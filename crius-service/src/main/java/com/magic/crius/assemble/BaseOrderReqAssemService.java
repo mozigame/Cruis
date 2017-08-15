@@ -2,6 +2,7 @@ package com.magic.crius.assemble;
 
 import com.alibaba.fastjson.JSON;
 import com.magic.api.commons.ApiLogger;
+import com.magic.crius.enums.IsPaidType;
 import com.magic.crius.service.BaseOrderReqService;
 import com.magic.crius.util.PropertiesLoad;
 import com.magic.crius.vo.BaseOrderReq;
@@ -23,6 +24,8 @@ public class BaseOrderReqAssemService {
     private BaseOrderReqService baseOrderReqService;
 
     public void procKafkaData(BaseOrderReq req) {
+        //todo 默认为未派彩，之后修复
+        req.setIsPaid(IsPaidType.noPaid.value());
         if (req.getReqId() != null) {
             if (PropertiesLoad.checkOrderMongoResId()) {
                 logger.info("save BaseOrderReq checkReqId : "+ req.getReqId());

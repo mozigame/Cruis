@@ -40,7 +40,7 @@ public class UserOrderDetailAssemService {
         List<UserOrderDetail> insertOrder = new ArrayList<>();
         List<UserOrderDetail> updateOrder = new ArrayList<>();
         for (UserOrderDetail orderDetail : details) {
-            if (orderDetail.getIsPaid() == IsPaidType.noPaid.value()) {
+            if (orderDetail.getIsPaid() != null && orderDetail.getIsPaid() == IsPaidType.noPaid.value()) {
                 insertUserIds.add(orderDetail.getUserId());
                 insertOrder.add(orderDetail);
             } else {
