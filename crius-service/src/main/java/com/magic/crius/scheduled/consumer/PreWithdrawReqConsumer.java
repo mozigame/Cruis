@@ -108,12 +108,12 @@ public class PreWithdrawReqConsumer {
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
             logger.info("currentDataCalculate preWithDraw pop datas, size : " + reqList.size());
             flushData(reqList);
-            reqList = preWithdrawService.batchPopRedis(date);
             try {
                 Thread.sleep(CriusConstants.POLL_POP_SLEEP_TIME);
             } catch (InterruptedException e) {
                 logger.error("currentDataCalculate--preWithDraw , ", e);
             }
+            reqList = preWithdrawService.batchPopRedis(date);
         }
     }
 

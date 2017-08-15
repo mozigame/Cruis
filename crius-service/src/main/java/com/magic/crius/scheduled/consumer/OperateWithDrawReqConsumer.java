@@ -123,12 +123,13 @@ public class OperateWithDrawReqConsumer {
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
             logger.info("currentDataCalculate operateWithDraw pop datas, size : " + reqList.size());
             flushData(reqList);
-            reqList = operateWithDrawReqService.batchPopRedis(date);
             try {
                 Thread.sleep(CriusConstants.POLL_POP_SLEEP_TIME);
             } catch (InterruptedException e) {
                 logger.error("--currentDataCalculate--operateWithDraw, ",e);
             }
+            reqList = operateWithDrawReqService.batchPopRedis(date);
+
         }
     }
 

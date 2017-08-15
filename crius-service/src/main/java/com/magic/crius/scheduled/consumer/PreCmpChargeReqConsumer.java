@@ -116,12 +116,13 @@ public class PreCmpChargeReqConsumer {
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
             logger.info("currentDataCalculate preCmpCharge pop datas, size : " + reqList.size());
             flushData(reqList);
-            reqList = preCmpChargeService.batchPopRedis(date);
             try {
                 Thread.sleep(CriusConstants.POLL_POP_SLEEP_TIME);
             } catch (InterruptedException e) {
                 logger.error("currentDataCalculate--preCmpCharge, ",e);
             }
+            reqList = preCmpChargeService.batchPopRedis(date);
+
         }
     }
 

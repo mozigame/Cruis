@@ -108,12 +108,13 @@ public class OperateChargeReqConsumer {
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
             logger.info("currentDataCalculate operateCharge pop datas, size : " + reqList.size());
             flushData(reqList);
-            reqList = operateChargeService.batchPopRedis(date);
             try {
                 Thread.sleep(CriusConstants.POLL_POP_SLEEP_TIME);
             } catch (InterruptedException e) {
                 logger.error("currentDataCalculate--operateCharge",e);
             }
+            reqList = operateChargeService.batchPopRedis(date);
+
         }
     }
 
