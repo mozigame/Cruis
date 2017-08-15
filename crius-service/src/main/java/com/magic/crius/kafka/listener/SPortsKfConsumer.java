@@ -52,6 +52,7 @@ public class SPortsKfConsumer {
                 logger.info("Thread : "+ Thread.currentThread().getName()+" ,get sprorts kafka data :>>>  " + record.toString());
                 JSONObject object = JSON.parseObject(record.value().toString());
                 SportReq sportReq = JSON.parseObject(object.getString(KafkaConf.RECORD), SportReq.class);
+                sportReq.setReqId(sportReq.getBcBetId());
                 sportReq.setProduceTime(System.currentTimeMillis());
                 sportReq.setOrderExtent(convertSportExt(sportReq));
                 baseGameReqAssemService.procKafkaData(sportReq);
