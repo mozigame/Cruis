@@ -1,5 +1,7 @@
 package com.magic.crius.po;
 
+import com.alibaba.fastjson.JSONObject;
+
 /**
  * 会员入款明细
  */
@@ -225,4 +227,10 @@ public class UserFlowMoneyDetail {
     public void setPaySystemName(String paySystemName) {
         this.paySystemName = paySystemName;
     }
+
+    @Override
+    public String toString(){
+        return JSONObject.toJSONString(this);
+    }
+
 }

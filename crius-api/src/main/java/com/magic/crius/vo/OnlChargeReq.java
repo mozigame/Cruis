@@ -1,5 +1,6 @@
 package com.magic.crius.vo;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 
 /**
@@ -228,4 +229,11 @@ public class OnlChargeReq {
     public void setHandlerName(String handlerName) {
         this.handlerName = handlerName;
     }
+
+
+    @Override
+    public String toString(){
+        return JSONObject.toJSONString(this);
+    }
+
 }
