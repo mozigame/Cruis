@@ -40,7 +40,9 @@
           #{flowId,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{pdate,jdbcType=INTEGER},
           #{handlerId,jdbcType=BIGINT}, #{handlerName,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT},
           #{updateTime,jdbcType=BIGINT},#{remark,jdbcType=VARCHAR},
-          #{flowDetailType,jdbcType=INTEGER}
+          #{flowDetailType,jdbcType=INTEGER},
+          #{paySystemCode,jdbcType=INTEGER},
+          #{paySystemName,jdbcType=VARCHAR}
           )
 
     </insert>
@@ -74,7 +76,9 @@
             #{param.createTime,jdbcType=BIGINT},
             #{param.updateTime,jdbcType=BIGINT},
             #{param.remark,jdbcType=VARCHAR},
-            #{param.flowDetailType,jdbcType=INTEGER}
+            #{param.flowDetailType,jdbcType=INTEGER},
+            #{param.paySystemCode,jdbcType=INTEGER},
+            #{param.paySystemName,jdbcType=VARCHAR}
             )
         </foreach>
     </insert>

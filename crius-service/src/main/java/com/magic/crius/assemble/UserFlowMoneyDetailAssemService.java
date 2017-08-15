@@ -76,7 +76,10 @@ public class UserFlowMoneyDetailAssemService {
         if (StringUtils.isNotBlank(req.getPaySystemName())){
             detail.setPaySystemName(req.getPaySystemName());
         }
-
+        if (logger.isDebugEnabled()){
+            logger.debug("assembleUserFlowMoneyDetail::detail = " + detail
+                + ", req = " + req);
+        }
         return detail;
     }
 
