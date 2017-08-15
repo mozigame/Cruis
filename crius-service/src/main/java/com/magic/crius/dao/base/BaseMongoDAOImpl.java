@@ -102,7 +102,9 @@ public abstract class BaseMongoDAOImpl<T> implements BaseMongoDAO<T> {
     @Override
     public List<T> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, String collectionName, Pageable pageable) {
         Query query = new Query();
-        query.addCriteria(new Criteria("reqId").nin(reqIds));
+        if (reqIds != null && reqIds.size() > 0) {
+            query.addCriteria(new Criteria("reqId").nin(reqIds));
+        }
         query.addCriteria(new Criteria("produceTime").gte(startTime).lt(endTime));
         if (pageable != null) {
             query.skip(pageable.getOffset()).limit(pageable.getPageSize());
