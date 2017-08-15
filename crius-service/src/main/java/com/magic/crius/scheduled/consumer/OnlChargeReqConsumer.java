@@ -243,19 +243,18 @@ public class OnlChargeReqConsumer {
      */
     private void mongoNoProc(Long startTime, Long endTime, String hhDate) {
         List<Long> reqIds = onlChargeService.getSucIds(startTime, endTime);
-        if (reqIds != null && reqIds.size() > 0) {
-            SpringDataPageable pageable = new SpringDataPageable();
-            pageable.setSort(new Sort("reqId"));
-            pageable.setPagesize(CriusConstants.MONGO_NO_PROC_SIZE);
+        SpringDataPageable pageable = new SpringDataPageable();
+        pageable.setSort(new Sort("reqId"));
+        pageable.setPagesize(CriusConstants.MONGO_NO_PROC_SIZE);
+        pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_ONL_CHARGE, hhDate)));
+        List<OnlChargeReq> withDrawReqs = onlChargeService.getNotProc(startTime, endTime, reqIds, pageable);
+        while (withDrawReqs != null && withDrawReqs.size() > 0) {
+            logger.info("------mongoNoProc ,onlCharge , noProcSize : "+withDrawReqs.size()+",startTime : " + startTime + " endTime :" + endTime);
+            flushData(withDrawReqs);
             pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_ONL_CHARGE, hhDate)));
-            List<OnlChargeReq> withDrawReqs = onlChargeService.getNotProc(startTime, endTime, reqIds, pageable);
-            while (withDrawReqs != null && withDrawReqs.size() > 0) {
-                logger.info("------mongoNoProc ,onlCharge , reqIds :"+ reqIds.size()+" , startTime : "+ startTime+" endTime :" + endTime);
-                flushData(withDrawReqs);
-                pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_ONL_CHARGE, hhDate)));
-                withDrawReqs = onlChargeService.getNotProc(startTime, endTime, reqIds, pageable);
-            }
+            withDrawReqs = onlChargeService.getNotProc(startTime, endTime, reqIds, pageable);
         }
+
     }
 
     private OwnerOnlineFlowDetail assembleOwnerOnlineFlowDetail(OnlChargeReq req) {
