@@ -1,9 +1,6 @@
 package com.magic.crius.assemble;
 
-import com.magic.analysis.enums.ActionType;
-import com.magic.analysis.enums.FlowType;
-import com.magic.analysis.enums.OutType;
-import com.magic.analysis.enums.SummaryType;
+import com.magic.analysis.enums.*;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.po.UserTrade;
 import com.magic.crius.service.UserTradeService;
@@ -93,9 +90,10 @@ public class UserTradeAssemService {
         userTrade.setTotalNum(req.getBalance());
         userTrade.setTradeTime(req.getProduceTime());
         userTrade.setTradeType(req.getOfferTypeId());
-        userTrade.setRemark(req.getRemark());
         userTrade.setActiontype(ActionType.YOU_HUI.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
+
+        userTrade.setRemark(PreferentialTypeEnum.getState(req.getOfferTypeId()).getFlowTypeName());
         return userTrade;
     }
 
