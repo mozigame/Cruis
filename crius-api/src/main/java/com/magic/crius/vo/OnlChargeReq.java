@@ -47,6 +47,22 @@ public class OnlChargeReq {
     @JSONField(name = "Remark")
     private String remark;//备注
 
+    /**
+     * 处理用户id
+     */
+    @JSONField(name = "HandlerId")
+    private String handlerId;
+
+    /**
+     * 处理人Name
+     */
+    @JSONField(name = "HandlerName")
+    private String handlerName;
+
+
+
+
+
     public String getRemark() {
         return remark;
     }
@@ -181,5 +197,35 @@ public class OnlChargeReq {
 
     public void setBalance(Long balance) {
         this.balance = balance;
+    }
+
+    /**
+     * getter for handlerId
+     */
+
+    public String getHandlerId() {
+        return handlerId;
+    }
+
+    /**
+     * setter for handlerId
+     */
+    public void setHandlerId(String handlerId) {
+        this.handlerId = handlerId;
+    }
+
+    /**
+     * getter for handlerName
+     */
+
+    public String getHandlerName() {
+        return handlerName;
+    }
+
+    /**
+     * setter for handlerName
+     */
+    public void setHandlerName(String handlerName) {
+        this.handlerName = handlerName;
     }
 }

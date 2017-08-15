@@ -6,6 +6,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import com.magic.analysis.enums.SummaryType;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.magic.analysis.enums.ActionType;
@@ -24,6 +26,9 @@ import com.magic.crius.vo.PreCmpChargeReq;
  */
 @Service
 public class UserFlowMoneyDetailAssemService {
+
+    private static final Logger logger = Logger.getLogger(UserFlowMoneyDetailAssemService.class);
+
 
     @Resource
     private UserFlowMoneyDetailService userFlowMoneyDetailService;
@@ -55,7 +60,26 @@ public class UserFlowMoneyDetailAssemService {
 
         //todo kevin 提供,公司入款、线上入款自己定义，人工入款由kevin提供
         detail.setFlowDetailType(SummaryType.ONLINE_CHARGE.getStatus());
+
+
+        //
+        disposeHandlerId(req, detail);
+
+        if (StringUtils.isNotBlank(req.getHandlerName())){
+            detail.setHandlerName(req.getHandlerName());
+        }
         return detail;
+    }
+
+    private void disposeHandlerId(OnlChargeReq req, UserFlowMoneyDetail detail) {
+        try{
+            if (StringUtils.isNotBlank(req.getHandlerId())){
+                detail.setHandlerId(Long.parseLong(req.getHandlerId()));
+            }
+        }catch (Exception e){
+            logger.error("disposeHandlerId::error::req = " + req.getHandlerId(),e);
+        }
+
     }
 
     public UserFlowMoneyDetail assembleUserFlowMoneyDetail(PreCmpChargeReq req) {
@@ -85,12 +109,12 @@ public class UserFlowMoneyDetailAssemService {
         detail.setFlowDetailType(SummaryType.COMPANY_INCOME.getStatus());
         return detail;
     }
-    
+
     public UserFlowMoneyDetail assembleUserFlowMoneyDetail(OperateChargeReq req,Long userId, Long billId) {
         UserFlowMoneyDetail detail = new UserFlowMoneyDetail();
         detail.setOwnerId(req.getOwnerId());
         detail.setUserId(userId);
-       
+
         detail.setOrderCount(req.getChargeAmount());
         //Todo 待确定
         detail.setState(1);
