@@ -49,6 +49,11 @@ public class CashbackReq {
     @JSONField(name = "GamePlatformHalltypeName")
     private String gamePlatformHalltypeName;
 
+    /**
+     * 消费时间
+     */
+    private Long consumerTime;
+
     public Long getReqId() {
         return reqId;
     }
@@ -191,5 +196,13 @@ public class CashbackReq {
 
     public void setGamePlatformHalltypeName(String gamePlatformHalltypeName) {
         this.gamePlatformHalltypeName = gamePlatformHalltypeName;
+    }
+
+    public Long getConsumerTime() {
+        return consumerTime;
+    }
+
+    public void setConsumerTime(Long consumerTime) {
+        this.consumerTime = consumerTime;
     }
 }

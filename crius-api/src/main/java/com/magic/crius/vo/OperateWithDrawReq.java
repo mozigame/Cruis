@@ -38,6 +38,12 @@ public class OperateWithDrawReq {
     @JSONField(name = "Balance")
     private Long balance;   //余额
 
+
+    /**
+     * 消费时间
+     */
+    private Long consumerTime;
+
     public Long getReqId() {
         return reqId;
     }
@@ -140,5 +146,13 @@ public class OperateWithDrawReq {
 
     public void setBalance(Long balance) {
         this.balance = balance;
+    }
+
+    public Long getConsumerTime() {
+        return consumerTime;
+    }
+
+    public void setConsumerTime(Long consumerTime) {
+        this.consumerTime = consumerTime;
     }
 }

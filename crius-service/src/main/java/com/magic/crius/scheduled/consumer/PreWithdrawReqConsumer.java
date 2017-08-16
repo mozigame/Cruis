@@ -21,8 +21,8 @@ import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.*;
 
-import static com.magic.crius.constants.ScheduleConsumerConstants.POLL_TIME;
-import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
+import static com.magic.crius.constants.CriusInitConstants.POLL_TIME;
+import static com.magic.crius.constants.CriusInitConstants.THREAD_SIZE;
 
 /**
  * User: joey

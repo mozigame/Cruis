@@ -64,6 +64,11 @@ public class PreCmpChargeReq {
     @JSONField(name = "InBankName")
     private String inBankName;  //银行名称
 
+    /**
+     * 消费时间
+     */
+    private Long consumerTime;
+
 
     public Long getReqId() {
         return reqId;
@@ -256,5 +261,13 @@ public class PreCmpChargeReq {
 
     public void setInBankName(String inBankName) {
         this.inBankName = inBankName;
+    }
+
+    public Long getConsumerTime() {
+        return consumerTime;
+    }
+
+    public void setConsumerTime(Long consumerTime) {
+        this.consumerTime = consumerTime;
     }
 }

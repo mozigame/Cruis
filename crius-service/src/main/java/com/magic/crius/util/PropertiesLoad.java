@@ -17,6 +17,10 @@ public class PropertiesLoad {
 
     private static Properties configProp = null;
     private static final String configPath = "crius-config.properties";
+    /**
+     * 是否定时读取配置文件
+     */
+    private static boolean readProperties = true;
 
     private static void loadConfig() {
         FileInputStream in = null;
@@ -53,7 +57,7 @@ public class PropertiesLoad {
 
                 Thread configLoader = new Thread(new Runnable() {
                     public void run() {
-                        while (true) {
+                        while (readProperties) {
                             loadConfig();
                             try {
                                 // reload every 5 min

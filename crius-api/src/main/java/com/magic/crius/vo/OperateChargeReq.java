@@ -50,6 +50,11 @@ public class OperateChargeReq {
     @JSONField(name = "RemRemark")
     private String RemRemark ;//汇款优惠备注
 
+    /**
+     * 消费时间
+     */
+    private Long consumerTime;
+
     public String getDepRemark() {
         return DepRemark;
     }
@@ -192,5 +197,13 @@ public class OperateChargeReq {
 
     public void setBalance(Long balance) {
         this.balance = balance;
+    }
+
+    public Long getConsumerTime() {
+        return consumerTime;
+    }
+
+    public void setConsumerTime(Long consumerTime) {
+        this.consumerTime = consumerTime;
     }
 }

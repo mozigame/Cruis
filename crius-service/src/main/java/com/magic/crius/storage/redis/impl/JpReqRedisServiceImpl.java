@@ -32,7 +32,7 @@ public class JpReqRedisServiceImpl implements JpReqRedisService {
     public boolean save(JpReq req) {
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_JP.key(DateUtil.formatDateTime(new Date(req.getProduceTime()), DateUtil.format_yyyyMMddHH));
+            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_JP.key(DateUtil.formatDateTime(new Date(req.getConsumerTime()), DateUtil.format_yyyyMMddHH));
             Long result = jedis.lpush(key, JSON.toJSONString(req));
             jedis.expire(key, RedisConstants.EXPIRE_THREE_HOUR);
             ApiLogger.debug("JpReq save , key : "+key);

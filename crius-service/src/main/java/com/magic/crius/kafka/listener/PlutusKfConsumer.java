@@ -102,36 +102,37 @@ public class PlutusKfConsumer {
         switch (type) {
             case PLUTUS_ONL_CHARGE:
                 OnlChargeReq onlChargeReq = JSON.parseObject(object.getString(KafkaConf.DATA), OnlChargeReq.class);
+                onlChargeReq.setConsumerTime(System.currentTimeMillis());
                 onlChargeReqAssemService.procKafkaData(onlChargeReq);
                 break;
             case PLUTUS_CMP_CHARGE:
                 PreCmpChargeReq preCmpChargeReq = JSON.parseObject(object.getString(KafkaConf.DATA), PreCmpChargeReq.class);
-                preCmpChargeReq.setProduceTime(System.currentTimeMillis());
+                preCmpChargeReq.setConsumerTime(System.currentTimeMillis());
                 preCmpChargeReqAssemService.procKafkaData(preCmpChargeReq);
                 break;
             case PLUTUS_DISCOUNT:
                 DiscountReq discountReq = JSON.parseObject(object.getString(KafkaConf.DATA), DiscountReq.class);
-                discountReq.setProduceTime(System.currentTimeMillis());
+                discountReq.setConsumerTime(System.currentTimeMillis());
                 discountReqAssemService.procKafkaData(discountReq);
                 break;
             case PLUTUS_USER_WITHDRAW:
                 PreWithdrawReq preWithdrawReq = JSON.parseObject(object.getString(KafkaConf.DATA), PreWithdrawReq.class);
-                preWithdrawReq.setProduceTime(System.currentTimeMillis());
+                preWithdrawReq.setConsumerTime(System.currentTimeMillis());
                 preWithdrawReqAssemService.procKafkaData(preWithdrawReq);
                 break;
             case PLUTUS_OPR_WITHDRAW:
                 OperateWithDrawReq operateWithDrawReq = JSON.parseObject(object.getString(KafkaConf.DATA), OperateWithDrawReq.class);
-                operateWithDrawReq.setProduceTime(System.currentTimeMillis());
+                operateWithDrawReq.setConsumerTime(System.currentTimeMillis());
                 operateWithDrawReqAssemService.procKafkaData(operateWithDrawReq);
                 break;
             case PLUTUS_OPR_CHARGE:
                 OperateChargeReq operateChargeReq = JSON.parseObject(object.getString(KafkaConf.DATA), OperateChargeReq.class);
-                operateChargeReq.setProduceTime(System.currentTimeMillis());
+                operateChargeReq.setConsumerTime(System.currentTimeMillis());
                 operateChargeReqAssemService.procKafkaData(operateChargeReq);
                 break;
             case PLUTUS_CAHSBACK:
                 CashbackReq payoffReq = JSON.parseObject(object.getString(KafkaConf.DATA), CashbackReq.class);
-                payoffReq.setProduceTime(System.currentTimeMillis());
+                payoffReq.setConsumerTime(System.currentTimeMillis());
                 cashbackReqAssemService.procKafkaData(payoffReq);
                 break;
             case PLUTUS_PAYOFF:
@@ -139,12 +140,12 @@ public class PlutusKfConsumer {
                 break;
             case PLUTUS_JP:
                 JpReq jpReq = JSON.parseObject(object.getString(KafkaConf.DATA), JpReq.class);
-                jpReq.setProduceTime(System.currentTimeMillis());
+                jpReq.setConsumerTime(System.currentTimeMillis());
                 jpReqAssemService.procKafkaData(jpReq);
                 break;
             case PLUTUS_DS:
                 DealerRewardReq dealerRewardReq = JSON.parseObject(object.getString(KafkaConf.DATA), DealerRewardReq.class);
-                dealerRewardReq.setProduceTime(System.currentTimeMillis());
+                dealerRewardReq.setConsumerTime(System.currentTimeMillis());
                 dealerRewardReqAssemService.procKafkaData(dealerRewardReq);
                 break;
             case UPDATE_USER_LEVEL:

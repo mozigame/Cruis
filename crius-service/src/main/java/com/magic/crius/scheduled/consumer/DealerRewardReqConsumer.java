@@ -1,7 +1,7 @@
 package com.magic.crius.scheduled.consumer;
 
-import static com.magic.crius.constants.ScheduleConsumerConstants.POLL_TIME;
-import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
+import static com.magic.crius.constants.CriusInitConstants.POLL_TIME;
+import static com.magic.crius.constants.CriusInitConstants.THREAD_SIZE;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
-import com.alibaba.fastjson.JSON;
 import com.magic.crius.constants.RedisConstants;
 import com.magic.crius.service.BaseReqService;
 import com.magic.crius.storage.db.SpringDataPageable;

@@ -1,19 +1,9 @@
 package com.magic.crius.scheduled.core;
 
 import com.magic.analysis.utils.DateKit;
-import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
-import com.magic.crius.assemble.GameInfoAssemService;
-import com.magic.crius.assemble.ProxyInfoAssemService;
-import com.magic.crius.assemble.UserInfoAssemService;
-import com.magic.crius.assemble.UserLevelAssemService;
-import com.magic.crius.constants.ScheduleConsumerConstants;
-import com.magic.crius.scheduled.consumer.*;
-import com.magic.crius.service.RepairLockService;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
@@ -28,6 +18,7 @@ import java.util.Date;
  * 定时筛洗数据
  */
 //@Service
+@Deprecated
 public class CriusScheduler {
 
 

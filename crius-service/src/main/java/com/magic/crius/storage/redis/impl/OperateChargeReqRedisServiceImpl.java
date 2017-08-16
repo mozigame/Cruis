@@ -31,7 +31,7 @@ public class OperateChargeReqRedisServiceImpl implements OperateChargeReqRedisSe
     public boolean save(OperateChargeReq operateChargeReq) {
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_OPR_CHARGE.key(DateUtil.formatDateTime(new Date(operateChargeReq.getProduceTime()), DateUtil.format_yyyyMMddHH));
+            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_OPR_CHARGE.key(DateUtil.formatDateTime(new Date(operateChargeReq.getConsumerTime()), DateUtil.format_yyyyMMddHH));
             Long result = jedis.lpush(key, JSON.toJSONString(operateChargeReq));
             jedis.expire(key, RedisConstants.EXPIRE_THREE_HOUR);
             ApiLogger.debug("OperateChargeReq save , key : "+key);

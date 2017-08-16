@@ -21,4 +21,19 @@ public class BaseReqServiceImpl implements BaseReqService{
     public int getNoProcPage(String key) {
         return baseReqRedisService.getNoProcPage(key);
     }
+
+    @Override
+    public boolean getScheduleSwitch() {
+        return baseReqRedisService.getScheduleSwitch();
+    }
+
+    @Override
+    public void setScheduleSwitch() {
+        baseReqRedisService.setScheduleSwitch();
+    }
+
+    @Override
+    public void delScheduleSwitch() {
+        baseReqRedisService.delScheduleSwitch();
+    }
 }

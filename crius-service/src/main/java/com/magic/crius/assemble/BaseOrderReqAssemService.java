@@ -24,8 +24,6 @@ public class BaseOrderReqAssemService {
     private BaseOrderReqService baseOrderReqService;
 
     public void procKafkaData(BaseOrderReq req) {
-        //todo 默认为未派彩，之后修复
-        req.setIsPaid(IsPaidType.noPaid.value());
         if (req.getReqId() != null) {
             if (PropertiesLoad.checkOrderMongoResId()) {
                 logger.info("save BaseOrderReq checkReqId : "+ req.getReqId());
@@ -33,6 +31,8 @@ public class BaseOrderReqAssemService {
                     if (!baseOrderReqService.save(req)) {
                         logger.error("save BaseOrderReq error,reqId : " + req.getReqId());
                     }
+                } else {
+                    logger.warn("save BaseOrderReq failed, reqId has exist, reqId : "+ req.getReqId());
                 }
             } else {
                 if (!baseOrderReqService.save(req)) {

@@ -1,9 +1,11 @@
 package com.magic.crius.constants;
 
+import com.magic.crius.service.BaseReqService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 /**
  * User: joey
@@ -12,7 +14,10 @@ import javax.annotation.PostConstruct;
  * 初始化配置参数
  */
 @Component
-public class ScheduleConsumerConstants {
+public class CriusInitConstants {
+
+    @Resource
+    private BaseReqService baseReqService;
 
     @Value("${pop.cache.thread.size:2}")
     private int threadSize;
@@ -53,6 +58,8 @@ public class ScheduleConsumerConstants {
     public void init() {
         THREAD_SIZE = threadSize;
         POLL_TIME = pollTime;
+        //初始化定时任务开关
+        baseReqService.setScheduleSwitch();
     }
 
 }

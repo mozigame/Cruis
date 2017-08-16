@@ -53,9 +53,9 @@ public class EGameKfConsumer {
                 logger.info("Thread : "+ Thread.currentThread().getName()+" ,get egame kafka data :>>>  " + record.toString());
                 JSONObject object = JSON.parseObject(record.value().toString());
                 EGameReq eGameReq = JSON.parseObject(object.getString(KafkaConf.RECORD), EGameReq.class);
-                eGameReq.setReqId(eGameReq.getBcBetId());
-                eGameReq.setProduceTime(System.currentTimeMillis());
+                eGameReq.setProduceTime(eGameReq.getInsertDatetime());
                 eGameReq.setOrderExtent(convertEGameExt(eGameReq));
+                eGameReq.setConsumerTime(System.currentTimeMillis());
                 baseGameReqAssemService.procKafkaData(eGameReq);
             }
         } catch (Exception e) {

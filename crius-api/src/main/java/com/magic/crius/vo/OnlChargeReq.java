@@ -61,7 +61,10 @@ public class OnlChargeReq {
     private String handlerName;
 
 
-
+    /**
+     * 消费时间
+     */
+    private Long consumerTime;
 
 
     public String getRemark() {
@@ -236,4 +239,11 @@ public class OnlChargeReq {
         return JSONObject.toJSONString(this);
     }
 
+    public Long getConsumerTime() {
+        return consumerTime;
+    }
+
+    public void setConsumerTime(Long consumerTime) {
+        this.consumerTime = consumerTime;
+    }
 }
