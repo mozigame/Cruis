@@ -39,7 +39,12 @@ public class BaseReqRedisServiceImpl implements BaseReqRedisService {
         try {
             Jedis jedis = criusJedisFactory.getInstance();
             String result = jedis.get(RedisConstants.SCHEDULE_SWITCH);
-            return StringUtils.isNotBlank(result);
+            if (StringUtils.isNotBlank(result)) {
+                ApiLogger.debug("getScheduleSwitch success, result : " + result);
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception e) {
             ApiLogger.error("getScheduleSwitch error" , e);
         }
@@ -50,6 +55,7 @@ public class BaseReqRedisServiceImpl implements BaseReqRedisService {
     public void setScheduleSwitch() {
         try {
             criusJedisFactory.getInstance().incr(RedisConstants.SCHEDULE_SWITCH);
+            ApiLogger.info("setScheduleSwitch success");
         } catch (Exception e) {
             ApiLogger.error("setScheduleSwitch error" , e);
         }
@@ -63,6 +69,8 @@ public class BaseReqRedisServiceImpl implements BaseReqRedisService {
             if (result == null || result == 0) {
                 ApiLogger.warn("delScheduleSwitch failed");
                 jedis.del(RedisConstants.SCHEDULE_SWITCH);
+            } else {
+                ApiLogger.info("delScheduleSwitch success");
             }
         } catch (Exception e) {
             ApiLogger.error("getScheduleSwitch error" , e);

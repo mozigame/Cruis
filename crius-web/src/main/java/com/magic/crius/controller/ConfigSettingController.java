@@ -4,6 +4,8 @@ import com.magic.crius.service.BaseReqService;
 import com.magic.crius.storage.redis.BaseReqRedisService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 
@@ -20,8 +22,10 @@ public class ConfigSettingController {
     @Resource
     private BaseReqService baseReqService;
 
-    @RequestMapping("/delScheduleSwitch")
-    public void delScheduleSwitch() {
+    @RequestMapping(value = "/delScheduleSwitch", method = RequestMethod.POST)
+    @ResponseBody
+    public String delScheduleSwitch() {
         baseReqService.delScheduleSwitch();
+        return "true";
     }
 }
