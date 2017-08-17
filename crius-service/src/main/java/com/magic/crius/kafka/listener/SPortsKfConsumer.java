@@ -52,9 +52,9 @@ public class SPortsKfConsumer {
                 logger.info("Thread : "+ Thread.currentThread().getName()+" ,get sprorts kafka data :>>>  " + record.toString());
                 JSONObject object = JSON.parseObject(record.value().toString());
                 SportReq sportReq = JSON.parseObject(object.getString(KafkaConf.RECORD), SportReq.class);
-                sportReq.setReqId(sportReq.getBcBetId());
-                sportReq.setProduceTime(System.currentTimeMillis());
+                sportReq.setProduceTime(sportReq.getInsertDatetime());
                 sportReq.setOrderExtent(convertSportExt(sportReq));
+                sportReq.setConsumerTime(System.currentTimeMillis());
                 baseGameReqAssemService.procKafkaData(sportReq);
             }
         } catch (Exception e) {

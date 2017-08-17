@@ -51,6 +51,12 @@ public class PreWithdrawReq {
     private Long feeAmount;//手续费
 
 
+    /**
+     * 消费时间
+     */
+    private Long consumerTime;
+
+
     public Long getCostAmount() {
         return costAmount;
     }
@@ -185,5 +191,13 @@ public class PreWithdrawReq {
 
     public void setBalance(Long balance) {
         this.balance = balance;
+    }
+
+    public Long getConsumerTime() {
+        return consumerTime;
+    }
+
+    public void setConsumerTime(Long consumerTime) {
+        this.consumerTime = consumerTime;
     }
 }

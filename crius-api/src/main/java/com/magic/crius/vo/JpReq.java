@@ -44,6 +44,12 @@ public class JpReq {
     @JSONField(name = "Balance")
     private Long balance;   //余额
 
+    /**
+     * 消费时间
+     */
+    private Long consumerTime;
+
+
     public Long getBillId() {
         return billId;
     }
@@ -172,7 +178,15 @@ public class JpReq {
         this.balance = balance;
     }
 
-	@Override
+    public Long getConsumerTime() {
+        return consumerTime;
+    }
+
+    public void setConsumerTime(Long consumerTime) {
+        this.consumerTime = consumerTime;
+    }
+
+    @Override
 	public String toString() {
 		return "JpReq [reqId=" + reqId + ", billId=" + billId + ", userId=" + userId + ", agentId=" + agentId
 				+ ", ownerId=" + ownerId + ", jpType=" + jpType + ", jpAmount=" + jpAmount + ", createTime="

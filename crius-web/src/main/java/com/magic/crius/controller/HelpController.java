@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
  * Time: 0:48
  */
 @Controller
-@RequestMapping("/help")
+@RequestMapping("/v1/crius/help")
 public class HelpController {
 
     private static final Logger logger = Logger.getLogger(HelpController.class);

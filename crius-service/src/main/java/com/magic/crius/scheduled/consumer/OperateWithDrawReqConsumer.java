@@ -1,7 +1,7 @@
 package com.magic.crius.scheduled.consumer;
 
-import static com.magic.crius.constants.ScheduleConsumerConstants.POLL_TIME;
-import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
+import static com.magic.crius.constants.CriusInitConstants.POLL_TIME;
+import static com.magic.crius.constants.CriusInitConstants.THREAD_SIZE;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,7 +34,6 @@ import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.service.OperateWithDrawReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.vo.OperateWithDrawReq;
-import com.magic.crius.vo.PreWithdrawReq;
 import com.magic.user.vo.MemberConditionVo;
 
 /**

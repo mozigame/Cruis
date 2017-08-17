@@ -13,4 +13,20 @@ public interface BaseReqService {
      * @return
      */
     int getNoProcPage(String key);
+
+    /**
+     * 获取是否执行定时任务开关
+     */
+    boolean getScheduleSwitch();
+
+
+    /**
+     * 设置是否执行定时任务开关
+     */
+    void setScheduleSwitch();
+
+    /**
+     * 删除是否执行定时任务的开关
+     */
+    void delScheduleSwitch();
 }

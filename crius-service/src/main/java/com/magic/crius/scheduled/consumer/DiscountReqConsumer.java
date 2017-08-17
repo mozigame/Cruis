@@ -1,6 +1,5 @@
 package com.magic.crius.scheduled.consumer;
 
-import com.alibaba.fastjson.JSON;
 import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.*;
@@ -22,8 +21,8 @@ import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.*;
 
-import static com.magic.crius.constants.ScheduleConsumerConstants.POLL_TIME;
-import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
+import static com.magic.crius.constants.CriusInitConstants.POLL_TIME;
+import static com.magic.crius.constants.CriusInitConstants.THREAD_SIZE;
 
 /**
  * User: joey
@@ -265,7 +264,6 @@ public class DiscountReqConsumer {
         detail.setPreferentialTypeName(req.getOfferTypeName());
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         detail.setCreateTime(req.getProduceTime());
-        ApiLogger.info("优惠备注： " + req.getRemark());
         detail.setRemark(req.getRemark());//优惠备注
         return detail;
     }
@@ -275,6 +273,7 @@ public class DiscountReqConsumer {
         DiscountReq sucReq = new DiscountReq();
         sucReq.setReqId(req.getReqId());
         sucReq.setProduceTime(req.getProduceTime());
+        sucReq.setConsumerTime(req.getConsumerTime());
         return sucReq;
     }
 }

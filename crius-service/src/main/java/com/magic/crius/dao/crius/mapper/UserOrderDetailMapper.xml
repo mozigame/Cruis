@@ -14,6 +14,8 @@
         <result column="pdate" jdbcType="INTEGER" property="pdate"/>
         <result column="create_time" jdbcType="BIGINT" property="createTime"/>
         <result column="update_time" jdbcType="BIGINT" property="updateTime"/>
+
+        <result column="is_paid" jdbcType="INTEGER" property="isPaid"/>
     </resultMap>
 
 
@@ -21,12 +23,14 @@
         insert into user_order_detail ( owner_id, user_id,
           game_id, order_id, order_count,
           effect_order_count, pay_off_count, order_state,
-          pdate, create_time, update_time
+          pdate, create_time, update_time,
+          is_paid
           )
         values ( #{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
           #{gameId,jdbcType=VARCHAR}, #{orderId,jdbcType=INTEGER}, #{orderCount,jdbcType=BIGINT},
           #{effectOrderCount,jdbcType=BIGINT}, #{payOffCount,jdbcType=BIGINT}, #{orderState,jdbcType=INTEGER},
-          #{pdate,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}
+          #{pdate,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT},
+          #{isPaid,jdbcType=INTEGER}
           )
     </insert>
 
@@ -35,7 +39,8 @@
         insert into user_order_detail ( owner_id, user_id,
         game_id, order_id, order_count,
         effect_order_count, pay_off_count, order_state,
-        pdate, create_time, update_time
+        pdate, create_time, update_time,
+        is_paid
         )
         values
         <foreach collection="list" item="param" separator=",">
@@ -49,7 +54,8 @@
             #{param.orderState,jdbcType=INTEGER},
             #{param.pdate,jdbcType=INTEGER},
             #{param.createTime,jdbcType=BIGINT},
-            #{param.updateTime,jdbcType=BIGINT}
+            #{param.updateTime,jdbcType=BIGINT},
+            #{param.isPaid,jdbcType=INTEGER}
             )
         </foreach>
 
@@ -70,5 +76,21 @@
           create_time = #{createTime,jdbcType=BIGINT},
           update_time = #{updateTime,jdbcType=BIGINT}
         where Id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--查询订单列表中存在并且未派彩的订单-->
+    <select id="findNoPaid">
+        select order_id from user_order_detail
+        where user_id = #{userId}
+        and order_id = #{orderId}
+        and is_paid = #{isPaid}
+    </select>
+
+    <!--修改订单派彩状态为已派彩-->
+    <update id="updatePaidStatus">
+        update user_order_detail
+          SET is_paid = #{param.isPaid,jdbcType=BIGINT}
+          WHERE user_id=#{param.userId,jdbcType=BIGINT}
+          AND order_id = #{param.orderId,jdbcType=INTEGER}
     </update>
 </mapper>

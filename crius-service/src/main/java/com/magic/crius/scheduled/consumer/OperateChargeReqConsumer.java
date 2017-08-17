@@ -1,6 +1,5 @@
 package com.magic.crius.scheduled.consumer;
 
-import com.magic.analysis.enums.ActionType;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.*;
 import com.magic.crius.constants.CriusConstants;
@@ -12,7 +11,6 @@ import com.magic.crius.service.OperateChargeReqService;
 import com.magic.crius.service.RepairLockService;
 import com.magic.crius.storage.db.SpringDataPageable;
 import com.magic.crius.util.PropertiesLoad;
-import com.magic.crius.vo.OnlChargeReq;
 import com.magic.crius.vo.OperateChargeReq;
 import com.magic.user.vo.MemberConditionVo;
 import org.apache.log4j.Logger;
@@ -23,8 +21,8 @@ import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.*;
 
-import static com.magic.crius.constants.ScheduleConsumerConstants.POLL_TIME;
-import static com.magic.crius.constants.ScheduleConsumerConstants.THREAD_SIZE;
+import static com.magic.crius.constants.CriusInitConstants.POLL_TIME;
+import static com.magic.crius.constants.CriusInitConstants.THREAD_SIZE;
 
 /**
  * User: joey

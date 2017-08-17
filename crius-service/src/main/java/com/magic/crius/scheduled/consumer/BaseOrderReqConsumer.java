@@ -1,13 +1,10 @@
 package com.magic.crius.scheduled.consumer;
 
-import com.alibaba.fastjson.JSON;
 import com.magic.api.commons.tools.DateUtil;
-import com.magic.api.commons.utils.StringUtils;
 import com.magic.crius.assemble.UserOrderDetailAssemService;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.constants.RedisConstants;
-import com.magic.crius.constants.ScheduleConsumerConstants;
-import com.magic.crius.enums.IsPaidType;
+import com.magic.crius.constants.CriusInitConstants;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.po.RepairLock;
 import com.magic.crius.po.UserOrderDetail;
@@ -25,7 +22,7 @@ import javax.annotation.Resource;
 import java.util.*;
 import java.util.concurrent.*;
 
-import static com.magic.crius.constants.ScheduleConsumerConstants.POLL_TIME;
+import static com.magic.crius.constants.CriusInitConstants.POLL_TIME;
 
 /**
  * User: joey
@@ -59,7 +56,7 @@ public class BaseOrderReqConsumer {
 
 
     private void detailCalculate(Date date) {
-        for (int i = 0; i < ScheduleConsumerConstants.THREAD_SIZE; i++) {
+        for (int i = 0; i < CriusInitConstants.THREAD_SIZE; i++) {
             baseOrderTaskPool.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -233,6 +230,7 @@ public class BaseOrderReqConsumer {
         BaseOrderReq sucReq = new BaseOrderReq();
         sucReq.setReqId(req.getReqId());
         sucReq.setProduceTime(req.getProduceTime());
+        sucReq.setConsumerTime(req.getConsumerTime());
         return sucReq;
     }
 }

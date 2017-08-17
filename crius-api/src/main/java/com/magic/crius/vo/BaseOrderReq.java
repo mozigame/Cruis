@@ -43,6 +43,12 @@ public class BaseOrderReq {
     private JSONObject orderExtent;
 
 
+    /**
+     * 消费时间
+     */
+    private Long consumerTime;
+
+
     public Long getUserId() {
         return userId;
     }
@@ -169,5 +175,13 @@ public class BaseOrderReq {
 
     public void setIsPaid(Integer isPaid) {
         this.isPaid = isPaid;
+    }
+
+    public Long getConsumerTime() {
+        return consumerTime;
+    }
+
+    public void setConsumerTime(Long consumerTime) {
+        this.consumerTime = consumerTime;
     }
 }

@@ -33,7 +33,7 @@ public class PreCmpChargeReqRedisServiceImpl implements PreCmpChargeReqRedisServ
         	
         	ApiLogger.debug("PreCmpChargeReqRedisServiceImpl : ");
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_CMP_CHARGE.key(DateUtil.formatDateTime(new Date(preCmpChargeReq.getProduceTime()), DateUtil.format_yyyyMMddHH));
+            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_CMP_CHARGE.key(DateUtil.formatDateTime(new Date(preCmpChargeReq.getConsumerTime()), DateUtil.format_yyyyMMddHH));
             Long result = jedis.lpush(key, JSON.toJSONString(preCmpChargeReq));
             ApiLogger.debug("json result :"+JSON.toJSONString(preCmpChargeReq));
             ApiLogger.debug("result :"+result);

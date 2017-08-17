@@ -55,9 +55,9 @@ public class VGameKfConsumer {
                 logger.info("Thread : "+ Thread.currentThread().getName()+" ,get vgame kafka data :>>>  " + record.toString());
                 JSONObject object = JSON.parseObject(record.value().toString());
                 VGameReq vGameReq = JSON.parseObject(object.getString(KafkaConf.RECORD), VGameReq.class);
-                vGameReq.setReqId(vGameReq.getBcBetId());
-                vGameReq.setProduceTime(System.currentTimeMillis());
+                vGameReq.setProduceTime(vGameReq.getInsertDatetime());
                 vGameReq.setOrderExtent(convertVGameExt(vGameReq));
+                vGameReq.setConsumerTime(System.currentTimeMillis());
                 baseGameReqAssemService.procKafkaData(vGameReq);
             }
         } catch (Exception e) {

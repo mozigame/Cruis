@@ -46,8 +46,8 @@
           total_count, create_time, update_time,
           last_money, max_money)
         values
-        (
-        <foreach collection="list" item="param" separator="," >
+
+        <foreach collection="list" item="param" separator="," open="(" close=")" >
             #{param.ownerId,jdbcType=BIGINT},
             #{param.userId,jdbcType=BIGINT},
             #{param.flowType,jdbcType=INTEGER},
@@ -59,7 +59,7 @@
             #{param.lastMoney,jdbcType=BIGINT},
             #{param.maxMoney,jdbcType=BIGINT}
         </foreach>
-        )
+
     </insert>
 
     <insert id="insertSelective" parameterType="com.magic.crius.po.UserTradeSummary">

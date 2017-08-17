@@ -11,7 +11,7 @@
               <property name="minIdle" value="20"/>
               <property name="maxTotal" value="60"/>
               <property name="blockWhenExhausted" value="1"/>
-              <property name="maxWaitMillis" value="6000"/>
+              <property name="maxWaitMillis" value="20000"/>
               <property name="lifo" value="false"/>
 
               <property name="testOnBorrow" value="false"/>

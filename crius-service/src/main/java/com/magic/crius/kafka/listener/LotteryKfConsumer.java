@@ -54,9 +54,9 @@ public class LotteryKfConsumer {
                 logger.info("Thread : "+ Thread.currentThread().getName()+" ,get lottery kafka data :>>>  " + record.toString());
                 JSONObject object = JSON.parseObject(record.value().toString());
                 LotteryReq lotteryReq = JSON.parseObject(object.getString(KafkaConf.RECORD), LotteryReq.class);
-                lotteryReq.setReqId(lotteryReq.getBcBetId());
-                lotteryReq.setProduceTime(System.currentTimeMillis());
+                lotteryReq.setProduceTime(lotteryReq.getInsertDatetime());
                 lotteryReq.setOrderExtent(convertLotteryExt(lotteryReq));
+                lotteryReq.setConsumerTime(System.currentTimeMillis());
                 baseGameReqAssemService.procKafkaData(lotteryReq);
             }
         } catch (Exception e) {

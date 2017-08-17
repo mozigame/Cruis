@@ -32,7 +32,7 @@ public class OnlChargeReqRedisServiceImpl implements OnlChargeReqRedisService {
     public boolean save(OnlChargeReq onlChargeReq) {
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_ONL_CHARGE.key(DateUtil.formatDateTime(new Date(onlChargeReq.getProduceTime()), DateUtil.format_yyyyMMddHH));
+            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_ONL_CHARGE.key(DateUtil.formatDateTime(new Date(onlChargeReq.getConsumerTime()), DateUtil.format_yyyyMMddHH));
             Long result = jedis.lpush(key, JSON.toJSONString(onlChargeReq));
             jedis.expire(key, RedisConstants.EXPIRE_THREE_HOUR);
             ApiLogger.debug("OnlChargeReq save , key : "+key);

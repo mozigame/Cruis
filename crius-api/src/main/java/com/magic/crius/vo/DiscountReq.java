@@ -41,6 +41,11 @@ public class DiscountReq {
     @JSONField(name = "Remark")
     private String Remark;//优惠备注
 
+    /**
+     * 消费时间
+     */
+    private Long consumerTime;
+
     public String getRemark() {
         return Remark;
     }
@@ -151,5 +156,13 @@ public class DiscountReq {
 
     public void setBalance(Long balance) {
         this.balance = balance;
+    }
+
+    public Long getConsumerTime() {
+        return consumerTime;
+    }
+
+    public void setConsumerTime(Long consumerTime) {
+        this.consumerTime = consumerTime;
     }
 }

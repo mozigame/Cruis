@@ -38,8 +38,10 @@ public class RedisConstants {
 
     public static final String REDIS_USER_LEVEL_UPDATE_COUNT="_userLevelUCount";
 
-
-    public static final String NO_PROC_PAGE="no_p_";
+    /**
+     * 获取未处理的数据的页码
+     */
+    private static final String NO_PROC_PAGE="no_p_";
     /**
      * 获取未处理的数据的页码
      * @param prefix
@@ -48,6 +50,12 @@ public class RedisConstants {
     public static String getNoProcPage(CLEAR_PREFIX prefix, String hhDate) {
         return NO_PROC_PAGE + prefix.key() + hhDate;
     }
+
+    /**
+     * 是否执行定时任务
+     */
+    public static final String SCHEDULE_SWITCH="cri_sche_switch";
+
 
     /**
      * @doc
