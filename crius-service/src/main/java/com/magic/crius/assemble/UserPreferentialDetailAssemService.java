@@ -70,7 +70,7 @@ public class UserPreferentialDetailAssemService {
      * @return
      */
     public String repairUserPreferential(String idList) {
-        if (StringUtils.isNotBlank(idList)) {
+        if (StringUtils.isBlank(idList)) {
             throw new RuntimeException("repairUserPreferential::idList error");
         }
         Map<String, Object> result = new HashMap<>();
