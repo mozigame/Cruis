@@ -26,9 +26,15 @@ public class UserPreferentialDetail {
     private String remark;//优惠的备注
 
 
+    /**
+     * billId
+     */
+    private String billId;
 
-
-    private Long orderId;   //优惠订单
+    /**
+     * reqId
+     */
+    private String reqId;
 
     public String getRemark() {
         return remark;
@@ -110,11 +116,34 @@ public class UserPreferentialDetail {
         this.createTime = createTime;
     }
 
-    public Long getOrderId() {
-        return orderId;
+
+    /**
+     * getter for billId
+     */
+
+    public String getBillId() {
+        return billId;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    /**
+     * setter for billId
+     */
+    public void setBillId(String billId) {
+        this.billId = billId;
+    }
+
+    /**
+     * getter for reqId
+     */
+
+    public String getReqId() {
+        return reqId;
+    }
+
+    /**
+     * setter for reqId
+     */
+    public void setReqId(String reqId) {
+        this.reqId = reqId;
     }
 }
