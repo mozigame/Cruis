@@ -48,22 +48,38 @@ public class UserOrderDetailAssemService {
             }
         }
 
-        List<Long> existNoPaidIds = tethysUserOrderDetailService.findNoPaidIds(userOrderPaid.values());
+        List<UserOrderDetail> existNoPaidIds = tethysUserOrderDetailService.findNoPaidIds(userOrderPaid.values());
         for (Map.Entry<Long, UserOrderDetail> entry : userOrderPaid.entrySet()) {
-            if (existNoPaidIds.contains(entry.getKey())) {
-                updateOrder.add(entry.getValue());
-            } else {
+            UserOrderDetail detail = null;
+            for (UserOrderDetail _detail : existNoPaidIds) {
+                if (_detail.getOrderId().equals(entry.getKey())) {
+                    if (_detail.getIsPaid() == IsPaidType.noPaid.value()) {
+                        updateOrder.add(entry.getValue());
+                        detail = _detail;
+                        break;
+                    } else {
+                        detail = _detail;
+                        break;
+                    }
+                }
+            }
+            if (detail == null) {
                 insertUserIds.add(entry.getValue().getUserId());
                 insertOrder.add(entry.getValue());
+            }else{
+                existNoPaidIds.remove(detail);
             }
+
         }
         /*
          * 批量添加未派彩和派彩但未插入的数据
          */
         //tethys
-        tethysUserOrderDetailService.batchSave(insertOrder, insertUserIds);
-        //metis
-        userOrderDetailService.batchSave(insertOrder);
+        if (insertOrder.size() > 0) {
+            tethysUserOrderDetailService.batchSave(insertOrder, insertUserIds);
+            //metis
+            userOrderDetailService.batchSave(insertOrder);
+        }
         //修改订单的派彩状态
         if (updateOrder.size() > 0) {
             for (UserOrderDetail orderDetail : updateOrder) {

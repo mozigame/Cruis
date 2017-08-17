@@ -3,7 +3,7 @@ package org.crius.service;
 import com.magic.api.commons.utils.StringUtils;
 import org.junit.Test;
 
-import java.util.Random;
+import java.util.*;
 
 /**
  * User: joey
@@ -107,6 +107,37 @@ public class RandomTest {
         String aas [] =as.split("\n");
         for (int i=0;i<aas.length;i++) {
             System.out.print(aas[i]+",");
+        }
+
+    }
+
+
+    @Test
+    public void listRem() {
+        List<Long> list = new ArrayList<>();
+        list.add(1L);
+        list.add(2L);
+        list.add(3L);
+        list.add(4L);
+        list.add(5L);
+
+        Map<Long, Long> map =new HashMap<>();
+        map.put(1L,1L);
+        map.put(2L,2L);
+        map.put(3L,3L);
+        map.put(4L,4L);
+        map.put(5L,5L);
+        for (Map.Entry<Long, Long> entry : map.entrySet()) {
+            Long idP = 0L;
+            for (Long id : list) {
+                if (entry.getValue().equals(id)) {
+                    idP = id;
+                    break;
+                }
+            }
+            if (idP > 0) {
+                list.remove(idP);
+            }
         }
 
     }

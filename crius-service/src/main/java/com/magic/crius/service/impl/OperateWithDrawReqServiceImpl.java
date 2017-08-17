@@ -30,11 +30,12 @@ public class OperateWithDrawReqServiceImpl implements OperateWithDrawReqService 
 
     @Override
     public boolean save(OperateWithDrawReq req) {
-        if (!operateWithDrawReqMongoService.save(req)) {
+        if (operateWithDrawReqMongoService.save(req)) {
+            if (!operateWithDrawReqRedisService.save(req)) {
+                logger.warn("operateWithDrawReq insert redis failed,reqId : " + req.getReqId());
+            }
+        } else {
             operateWithDrawReqMongoService.saveFailedData(req);
-        }
-        if (!operateWithDrawReqRedisService.save(req)) {
-            logger.warn("operateWithDrawReq insert redis failed,reqId : " + req.getReqId());
         }
         return true;
     }

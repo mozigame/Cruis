@@ -435,35 +435,39 @@ public class KafkaProducerTest {
 
     @Test
     public void testSportReq() {
-        for (int i = 0; i < 2; i++) {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("DataType", KafkaConf.DataType.PLUTUS_SPORT.type());
-            SportReq req = new SportReq();
-            req.setReqId(System.currentTimeMillis() + i);
-            req.setUserId(2000001L + i);
-            req.setOwnerId(10001L);
-            //req.setBetId(System.currentTimeMillis() + i);
-            req.setBcBetId(System.currentTimeMillis() + i * 100);
-            req.setGameId(100L +i);
-            req.setInsertDatetime(System.currentTimeMillis());
-            req.setUpdateDatetime(System.currentTimeMillis());
-            req.setBetDatetime(System.currentTimeMillis());
-            req.setBetAmount(100L);
-            req.setValidBetAmount(1000L);
-            req.setPayoff(10L);
-            req.setGameName("足球");
-
-            req.setDetail("足球-单式标准盘\n" +
-                    "中国家族联赛 2017-05-06\n" +
-                    "武汉卓尔 VS 石家庄永昌\n" +
-                    "武汉 卓尔 @ 1.74");
-            req.setPlayType("香港盘");
-            req.setResult("输");
-
-            jsonObject.put(DATA, req);
-            template.send("cruis_capital", JSON.toJSONString(jsonObject));
-            System.out.println(JSON.toJSONString(req));
-        }
+//        for (int i = 0; i < 2; i++) {
+//            JSONObject jsonObject = new JSONObject();
+//            jsonObject.put("DataType", KafkaConf.DataType.PLUTUS_SPORT.type());
+//            SportReq req = new SportReq();
+//            req.setReqId(System.currentTimeMillis() + i);
+//            req.setUserId(2000001L + i);
+//            req.setOwnerId(10001L);
+//            //req.setBetId(System.currentTimeMillis() + i);
+//            req.setBcBetId(System.currentTimeMillis() + i * 100);
+//            req.setGameId(100L +i);
+//            req.setInsertDatetime(System.currentTimeMillis());
+//            req.setUpdateDatetime(System.currentTimeMillis());
+//            req.setBetDatetime(System.currentTimeMillis());
+//            req.setBetAmount(100L);
+//            req.setValidBetAmount(1000L);
+//            req.setPayoff(10L);
+//            req.setGameName("足球");
+//
+//            req.setDetail("足球-单式标准盘\n" +
+//                    "中国家族联赛 2017-05-06\n" +
+//                    "武汉卓尔 VS 石家庄永昌\n" +
+//                    "武汉 卓尔 @ 1.74");
+//            req.setPlayType("香港盘");
+//            req.setResult("输");
+//
+//            jsonObject.put(DATA, req);
+//            System.out.println(JSON.toJSONString(req));
+//        }
+        String str = "{\"User\":{\"Username\":\"jimmytest204\",\"Ownername\":\"owner2\",\"ProxyName\":\"\",\"ShareHoldName\":\"\",\"Username_id\":7799875,\"Ownername_id\":10001,\"ProxyName_id\":105094,\"ShareHoldName_id\":10001},\"Game\":{\"GameName\":\"足球\",\"GameId\":1231},\"HallType\":{\"Platform\":\"UG\",\"HallType\":\"SPORTS\",\"Platform_HallType\":\"UG-SPORTS\",\"Platform_id\":104,\"HallType_id\":1002,\"Platform_HallType_id\":10043},\"MsgType\":\"SPORTS\"," +
+                "\"Record\":{\"req_id\":1502955098999671287,\"user_id\":105094,\"user_name\":\"jimmytest204\",\"owner_id\":10001,\"owner_name\":\"owner2\",\"proxy_id\":105094,\"proxy_name\":\"\",\"share_holder_id\":10001,\"share_holder_name\":\"\",\"platform\":\"UG\",\"hall_type\":\"SPORTS\"," +
+                "\"bc_bet_id\":1502950718987749108,\"bet_id\":\"SP172433458\",\"game_id\":1231,\"game_name\":\"足球\",\"insert_datetime\":1502955099000,\"update_datetime\":1502955099000,\"bet_datetime\":1502950711000,\"bet_amount\":1000,\"valid_bet_amount\":1000,\"payoff\":-225," +
+                "\"flag\":1,\"exchange_rate\":1,\"currency\":\"CNY\",\"detail\":\"\",\"result\":\"{\\\\\\\"BetID\\\\\\\":\\\\\\\"SP172433458\\\\\\\",\\\\\\\"GameID\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"SubGameID\\\\\\\":\\\\\\\"1\\\\\\\",\\\\\\\"Account\\\\\\\":\\\\\\\"07ki7799875\\\\\\\",\\\\\\\"BetAmount\\\\\\\":\\\\\\\"10.0000\\\\\\\",\\\\\\\"BetOdds\\\\\\\":\\\\\\\"0.8500\\\\\\\",\\\\\\\"AllWin\\\\\\\":\\\\\\\"8.5000\\\\\\\",\\\\\\\"DeductAmount\\\\\\\":\\\\\\\"10.0000\\\\\\\",\\\\\\\"BackAmount\\\\\\\":\\\\\\\"0.0000\\\\\\\",\\\\\\\"Win\\\\\\\":\\\\\\\"-2.2510\\\\\\\",\\\\\\\"Turnover\\\\\\\":\\\\\\\"10.0000\\\\\\\",\\\\\\\"OddsStyle\\\\\\\":\\\\\\\"MY\\\\\\\",\\\\\\\"BetDate\\\\\\\":\\\\\\\"2017-08-17 14:18:31\\\\\\\",\\\\\\\"Status\\\\\\\":\\\\\\\"2\\\\\\\",\\\\\\\"Result\\\\\\\":\\\\\\\"2\\\\\\\",\\\\\\\"ReportDate\\\\\\\":\\\\\\\"2017-08-17 00:00:00\\\\\\\",\\\\\\\"BetIP\\\\\\\":\\\\\\\"122.53.134.66\\\\\\\",\\\\\\\"UpdateTime\\\\\\\":\\\\\\\"2017-08-17 15:31:06\\\\\\\"}\",\"play_type\":0,\"game_type\":\"1\"}}";
+            template.send("SPORTS", str);
     }
 
     @Test

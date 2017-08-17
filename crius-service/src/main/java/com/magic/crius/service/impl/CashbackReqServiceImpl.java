@@ -28,11 +28,12 @@ public class CashbackReqServiceImpl implements CashbackReqService {
 
     @Override
     public boolean save(CashbackReq req) {
-        if (!cashbackReqMongoService.save(req)) {
+        if (cashbackReqMongoService.save(req)) {
+            if (!cashbackReqRedisService.save(req)) {
+                //TODO 缓存保存失败如何处理
+            }
+        } else {
             cashbackReqMongoService.saveFailedData(req);
-        }
-        if (!cashbackReqRedisService.save(req)) {
-            //TODO 缓存保存失败如何处理
         }
         return true;
     }

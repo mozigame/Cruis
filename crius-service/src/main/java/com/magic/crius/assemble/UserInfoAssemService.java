@@ -138,7 +138,7 @@ public class UserInfoAssemService {
     		for(UserInfo userInfo:userList){
     			if(member.getMemberId().longValue()==userInfo.getUserId().longValue()){
     				isExist=true;
-    				userLevelMember=(Long)CommUtils.nvl(member.getLevel(), 1l);
+    				userLevelMember=(Long)CommUtils.nvl(member.getLevel(), 1L);
     				userLevelUser=userInfo.getUserLevel();
     				//检查数据是否有变化
     				if(!(member.getMemberName().equals(userInfo.getUserAccount())

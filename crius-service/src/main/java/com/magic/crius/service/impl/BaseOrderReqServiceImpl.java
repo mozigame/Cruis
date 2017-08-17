@@ -27,11 +27,13 @@ public class BaseOrderReqServiceImpl implements BaseOrderReqService {
 
     @Override
     public boolean save(BaseOrderReq req) {
-        if (!baseOrderReqMongoService.save(req)) {
+        //此处逻辑改为如果mongo插入成功才写入redis
+        if (baseOrderReqMongoService.save(req)) {
+            if (!baseOrderReqRedisService.save(req)) {
+                //TODO 缓存保存失败如何处理
+            }
+        } else {
             baseOrderReqMongoService.saveFailedData(req);
-        }
-        if (!baseOrderReqRedisService.save(req)) {
-            //TODO 缓存保存失败如何处理
         }
         return true;
     }

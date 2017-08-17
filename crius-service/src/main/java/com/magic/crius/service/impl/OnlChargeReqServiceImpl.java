@@ -28,12 +28,14 @@ public class OnlChargeReqServiceImpl implements OnlChargeReqService {
 
     @Override
     public boolean save(OnlChargeReq onlChargeReq) {
-        if (!onlChargeMongoService.save(onlChargeReq)) {
+        if (onlChargeMongoService.save(onlChargeReq)) {
+            if (!onlChargeRedisService.save(onlChargeReq)) {
+                //TODO 缓存保存失败如何处理
+            }
+        } else {
             onlChargeMongoService.saveFailedData(onlChargeReq);
         }
-        if (!onlChargeRedisService.save(onlChargeReq)) {
-            //TODO 缓存保存失败如何处理
-        }
+
         return true;
     }
 

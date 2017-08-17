@@ -29,11 +29,12 @@ public class PreCmpChargeReqServiceImpl implements PreCmpChargeReqService {
 
     @Override
     public boolean savePreCmpCharge(PreCmpChargeReq preCmpChargeReq) {
-        if (!preCmpChargeMongoService.save(preCmpChargeReq)) {
+        if (preCmpChargeMongoService.save(preCmpChargeReq)) {
+            if (!preCmpChargeRedisService.save(preCmpChargeReq)) {
+                //TODO 缓存保存失败如何处理
+            }
+        } else {
             preCmpChargeMongoService.saveFailedData(preCmpChargeReq);
-        }
-        if (!preCmpChargeRedisService.save(preCmpChargeReq)) {
-            //TODO 缓存保存失败如何处理
         }
         return true;
     }
