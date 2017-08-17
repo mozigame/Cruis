@@ -1,6 +1,7 @@
 package com.magic.crius.assemble;
 
 import com.alibaba.fastjson.JSONObject;
+import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.api.commons.utils.StringUtils;
 import com.magic.crius.assemble.UserPreferentialDetailAssemService;
@@ -97,6 +98,7 @@ public class UserPreferentialDetailAssemService {
     }
 
     public String repairUserPreferentialByPage(int page, int count) {
+        long now = System.currentTimeMillis();
         if (page<1){
             throw new RuntimeException("repairUserPreferential::page error");
         }
@@ -122,6 +124,10 @@ public class UserPreferentialDetailAssemService {
         }
 
         result.put("oper", true);
+        long cost = System.currentTimeMillis() - now;
+        result.put("cost",cost);
+        ApiLogger.info("repairUserPreferentialByPage::cost = " + cost);
         return JSONObject.toJSONString(result);
     }
+
 }
