@@ -1,5 +1,6 @@
 package com.magic.crius.storage.mongo.impl;
 
+import com.magic.api.commons.ApiLogger;
 import com.magic.crius.dao.mongo.DiscountReqMongoDao;
 import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.enums.MongoCollections;
@@ -69,7 +70,7 @@ public class DiscountReqMongoServiceImpl implements DiscountReqMongoService {
     @Override
     public List<DiscountReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
         try {
-            return discountReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.discountReq.name(), pageable);
+            return discountReqMongoDao.getNotProc(startTime, endTime, reqIds, MongoCollections.discountReq.name(), pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -94,5 +95,23 @@ public class DiscountReqMongoServiceImpl implements DiscountReqMongoService {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public List<DiscountReq> getByPage(int page, int count) {
+        try {
+            if (page < 1) {
+                page = 1;
+            }
+            if (count > 1000) {
+                count = 1000;
+            }
+            Query query = new Query();
+            query.skip((page - 1) * count).limit(count);
+            return discountReqMongoDao.find(query);
+        } catch (Exception e) {
+            ApiLogger.error("DiscountReqMongoServiceImpl::getByPage::error", e);
+        }
+        return null;
     }
 }

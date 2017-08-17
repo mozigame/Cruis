@@ -33,4 +33,14 @@ public class DiscountController {
     ) {
         return userPreferentialDetailAssemService.repairUserPreferential(idList);
     }
+
+    @RequestMapping(value = "/repair/userPreferentialByPage", method = RequestMethod.GET)
+    @ResponseBody
+    public String repairUserPreferentialByPage(
+            HttpServletRequest request,
+            @RequestParam(name = "page", required = true) int page,
+            @RequestParam(name = "count", required = true) int count
+    ) {
+        return userPreferentialDetailAssemService.repairUserPreferentialByPage(page,count);
+    }
 }

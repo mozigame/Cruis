@@ -95,4 +95,33 @@ public class UserPreferentialDetailAssemService {
         result.put("oper", true);
         return JSONObject.toJSONString(result);
     }
+
+    public String repairUserPreferentialByPage(int page, int count) {
+        if (page<1){
+            throw new RuntimeException("repairUserPreferential::page error");
+        }
+        if (count>1000){
+            throw new RuntimeException("repairUserPreferential::count error");
+        }
+        Map<String, Object> result = new HashMap<>();
+        List<DiscountReq> discountReqList = discountReqMongoService.getByPage(page,count);
+        for (int index =0; index<discountReqList.size(); index++){
+            DiscountReq discountReq = discountReqList.get(index);
+            if (discountReq == null) {
+                result.put(String.valueOf(index), "null");
+            } else {
+                UserPreferentialDetail detail = assembleUserPreferentialDetail(discountReq);
+                UserPreferentialDetail detailInDB = userPreferentialDetailService.getByBillId(detail.getBillId());
+                if (detailInDB==null){
+                    int repairCount = userPreferentialDetailService.repairDetail(detail);
+                    result.put(String.valueOf(discountReq.getReqId()), repairCount);
+                }else {
+                    result.put(String.valueOf(discountReq.getReqId()), "exist");
+                }
+            }
+        }
+
+        result.put("oper", true);
+        return JSONObject.toJSONString(result);
+    }
 }
