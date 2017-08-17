@@ -76,9 +76,8 @@ public class MonthJobConsumer {
     private BillingCycleVo getCurrentBillCycle(Long ownerId){
         Map<String,BillingCycleVo> BillInfo = billingCycleService.getThisBillingInfo(ownerId,System.currentTimeMillis());
         ApiLogger.info( ownerId +"的期数：" + BillInfo);
-        if (BillInfo == null){
-            throw new CommonException(CommonException.ERROR_LEVEL_SERVICE, 3, 0, 10, HttpServletResponse.SC_OK, "!",
-                    "当前ownerId:" + ownerId + "没期数！");
+        if (BillInfo == null || BillInfo.get("thisBilling") == null){
+            return null;
         }
         BillingCycleVo billingCycleVo = (BillingCycleVo) BillInfo.get("thisBilling");
         ApiLogger.info("当前期数开始时间: " + billingCycleVo.getStartTime());
@@ -91,9 +90,8 @@ public class MonthJobConsumer {
     private BillingCycleVo getLastBillCycle(Long ownerId){
         Map<String,BillingCycleVo> BillInfo = billingCycleService.getThisBillingInfo(ownerId,System.currentTimeMillis());
         ApiLogger.info( ownerId +"的期数：" + BillInfo);
-        if (BillInfo == null){
-            throw new CommonException(CommonException.ERROR_LEVEL_SERVICE, 3, 0, 10, HttpServletResponse.SC_OK, "!",
-                    "当前ownerId:" + ownerId + "没上期期数！");
+        if (BillInfo == null || BillInfo.get("lastBilling") == null){
+           return null;
         }
         BillingCycleVo billingCycleVo = (BillingCycleVo) BillInfo.get("lastBilling");
         ApiLogger.info("上期期数开始时间: " + billingCycleVo.getStartTime());
@@ -112,12 +110,14 @@ public class MonthJobConsumer {
         //获取当期期数
         if (stmlBillInfoReq.getStartDay() == null || stmlBillInfoReq.getEndDay() == null){
             BillingCycleVo billingCycleVo =  getCurrentBillCycle(stmlBillInfoReq.getOwnerId());
-            if (StringUtils.isStringNull(billingCycleVo.getStartTime())){
-                stmlBillInfoReq.setStartDay(Integer.parseInt(billingCycleVo.getStartTime()));
-            }
+            if (billingCycleVo != null){
+                if (StringUtils.isStringNull(billingCycleVo.getStartTime())){
+                    stmlBillInfoReq.setStartDay(Integer.parseInt(billingCycleVo.getStartTime()));
+                }
 
-            if (StringUtils.isStringNull(billingCycleVo.getEndTime())){
-                stmlBillInfoReq.setEndDay(Integer.parseInt(billingCycleVo.getEndTime()));
+                if (StringUtils.isStringNull(billingCycleVo.getEndTime())){
+                    stmlBillInfoReq.setEndDay(Integer.parseInt(billingCycleVo.getEndTime()));
+                }
             }
         }
         stmlBillInfoReq.setBillDate(stmlBillInfoReq.getStartDay().toString().substring(0,6));
@@ -189,19 +189,18 @@ public class MonthJobConsumer {
                     billInfo.setPdate(Integer.parseInt(billingCycleVo.getStartTime().toString().substring(0,6)));
                     boolean isexist = billInfoService.isExistBill(billInfo);*/
                    //判断期数状态未使用并且结束日期等于今天，则进行结算
-
-                    if (billingCycleVo.getStatus() == 1 && DateKit.compare_date(DateKit.getCurrentDay(),billingCycleVo.getEndTime()) >= 0){
-                        stmlBillInfoReq_proxy.setStartDay(Integer.parseInt(billingCycleVo.getStartTime()));
-                        stmlBillInfoReq_proxy.setEndDay(Integer.parseInt(billingCycleVo.getEndTime()));
-                        stmlBillInfoReq_proxy.setBillType(2);//代理账单
-                        stmlBillInfoReq_proxy.setOwnerId(ownerId);
-                        stmlBillInfoReq_proxy.setSchemeId(billingCycleVo.getId());//期数名称
-                        stmlBillInfoReq_proxy.setSchemeName(billingCycleVo.getCycleName());//期数名称
-                        stmlBillInfoReq_proxy.setBillDate(billingCycleVo.getStartTime().toString().substring(0,6));
-                        EGResp egResp = MonthJobRun(stmlBillInfoReq_proxy);
-                        ApiLogger.info("proxy : ownerId " + ownerId +" 返回报文： " + egResp);
-
-                        //TODO 结算完成，则修改期数状态为已使用
+                    if (billingCycleVo != null){
+                        if (billingCycleVo.getStatus() == 1 && DateKit.compare_date(DateKit.getCurrentDay(),billingCycleVo.getEndTime()) >= 0){
+                            stmlBillInfoReq_proxy.setStartDay(Integer.parseInt(billingCycleVo.getStartTime()));
+                            stmlBillInfoReq_proxy.setEndDay(Integer.parseInt(billingCycleVo.getEndTime()));
+                            stmlBillInfoReq_proxy.setBillType(2);//代理账单
+                            stmlBillInfoReq_proxy.setOwnerId(ownerId);
+                            stmlBillInfoReq_proxy.setSchemeId(billingCycleVo.getId());//期数名称
+                            stmlBillInfoReq_proxy.setSchemeName(billingCycleVo.getCycleName());//期数名称
+                            stmlBillInfoReq_proxy.setBillDate(billingCycleVo.getStartTime().toString().substring(0,6));
+                            EGResp egResp = MonthJobRun(stmlBillInfoReq_proxy);
+                            ApiLogger.info("proxy : ownerId " + ownerId +" 返回报文： " + egResp);
+                        }
                     }
                 }
 
