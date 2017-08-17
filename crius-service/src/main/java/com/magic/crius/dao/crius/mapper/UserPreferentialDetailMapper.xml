@@ -12,6 +12,8 @@
         <result column="pdate" jdbcType="INTEGER" property="pdate"/>
         <result column="create_time" jdbcType="BIGINT" property="createTime"/>
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="bill_id" jdbcType="BIGINT" property="billId"/>
+        <result column="req_id" jdbcType="BIGINT" property="reqId"/>
     </resultMap>
 
     <!--添加-->
@@ -67,4 +69,32 @@
             #{userId,jdbcType=BIGINT}
         </foreach>
     </select>
+
+
+    <!--按订单查询单个用户的数据-->
+    <select id="getByBillId" resultMap="BaseResultMap">
+        SELECT *
+        FROM user_preferential_detail
+        WHERE
+        bill_id=#{billId,jdbcType=BIGINT}
+    </select>
+
+    <!--修复bill_id,req_id,必须其他属性完全一样,才能写入-->
+    <update id="repairDetail" parameterType="com.magic.crius.po.UserPreferentialDetail">
+        update user_preferential_detail
+        set
+        bill_id=#{billId,jdbcType=BIGINT},
+        req_id=#{reqId,jdbcType=BIGINT}
+        where
+        owner_id = #{ownerId,jdbcType=BIGINT}
+        AND user_id = #{userId,jdbcType=BIGINT}
+        AND preferential_money_count = #{preferentialMoneyCount,jdbcType=BIGINT}
+        AND preferential_num = #{preferentialNum,jdbcType=INTEGER}
+        AND preferential_type = #{preferentialType,jdbcType=INTEGER}
+        AND preferential_type_name = #{preferentialTypeName,jdbcType=VARCHAR}
+        AND pdate = #{pdate,jdbcType=INTEGER}
+        AND create_time = #{createTime,jdbcType=BIGINT}
+        AND remark = #{remark,jdbcType=VARCHAR}
+    </update>
+
 </mapper>

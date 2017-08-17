@@ -133,7 +133,7 @@ public class DiscountReqConsumer {
                 /*业主优惠汇总*/
                 ownerOnlineFlowDetailMap.add(assembleOwnerPreferentialDetail(req));
                 /*会员优惠汇总*/
-                userPreferentialDetailHashMap.add(assembleUserPreferentialDetail(req));
+                userPreferentialDetailHashMap.add(userPreferentialDetailAssemService.assembleUserPreferentialDetail(req));
                 /*公司账目汇总*/
                 ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req));
                 /*账户交易明细*/
@@ -253,20 +253,6 @@ public class DiscountReqConsumer {
         return ownerPreferentialDetail;
     }
 
-    private UserPreferentialDetail assembleUserPreferentialDetail(DiscountReq req) {
-        UserPreferentialDetail detail = new UserPreferentialDetail();
-        detail.setOwnerId(req.getOwnerId());
-        detail.setUserId(req.getUserId());
-        detail.setPreferentialMoneyCount(req.getOfferAmount());
-        //todo 优惠次数
-        detail.setPreferentialNum(1);
-        detail.setPreferentialType(req.getOfferTypeId());
-        detail.setPreferentialTypeName(req.getOfferTypeName());
-        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
-        detail.setCreateTime(req.getProduceTime());
-        detail.setRemark(req.getRemark());//优惠备注
-        return detail;
-    }
 
     private DiscountReq assembleSucReq(DiscountReq req) {
         /*成功的数据*/

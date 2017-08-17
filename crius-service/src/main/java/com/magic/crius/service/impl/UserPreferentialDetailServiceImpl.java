@@ -40,4 +40,14 @@ public class UserPreferentialDetailServiceImpl implements UserPreferentialDetail
     public List<UserPreferentialDetail> findByUserIds(Collection<Long> userIds, Integer pdate) {
         return userPreferentialDetailDbService.findByUserIds(userIds, pdate);
     }
+
+    @Override
+    public UserPreferentialDetail getByBillId(Long billId) {
+        return userPreferentialDetailDbService.getByBillId(billId);
+    }
+
+    @Override
+    public int repairDetail(UserPreferentialDetail detail) {
+        return userPreferentialDetailDbService.repairDetail(detail);
+    }
 }

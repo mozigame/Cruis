@@ -29,12 +29,12 @@ public class UserPreferentialDetail {
     /**
      * billId
      */
-    private String billId;
+    private Long billId;
 
     /**
      * reqId
      */
-    private String reqId;
+    private Long reqId;
 
     public String getRemark() {
         return remark;
@@ -121,14 +121,14 @@ public class UserPreferentialDetail {
      * getter for billId
      */
 
-    public String getBillId() {
+    public Long getBillId() {
         return billId;
     }
 
     /**
      * setter for billId
      */
-    public void setBillId(String billId) {
+    public void setBillId(Long billId) {
         this.billId = billId;
     }
 
@@ -136,14 +136,14 @@ public class UserPreferentialDetail {
      * getter for reqId
      */
 
-    public String getReqId() {
+    public Long getReqId() {
         return reqId;
     }
 
     /**
      * setter for reqId
      */
-    public void setReqId(String reqId) {
+    public void setReqId(Long reqId) {
         this.reqId = reqId;
     }
 }
