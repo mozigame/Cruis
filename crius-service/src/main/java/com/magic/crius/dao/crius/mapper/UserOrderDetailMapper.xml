@@ -30,7 +30,7 @@
           #{gameId,jdbcType=VARCHAR}, #{orderId,jdbcType=INTEGER}, #{orderCount,jdbcType=BIGINT},
           #{effectOrderCount,jdbcType=BIGINT}, #{payOffCount,jdbcType=BIGINT}, #{orderState,jdbcType=INTEGER},
           #{pdate,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT},
-          #{is_paid,isPaid=INTEGER}
+          #{isPaid,jdbcType=INTEGER}
           )
     </insert>
 
@@ -55,7 +55,7 @@
             #{param.pdate,jdbcType=INTEGER},
             #{param.createTime,jdbcType=BIGINT},
             #{param.updateTime,jdbcType=BIGINT},
-            #{is_paid,isPaid=INTEGER}
+            #{param.isPaid,jdbcType=INTEGER}
             )
         </foreach>
 
