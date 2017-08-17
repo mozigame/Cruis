@@ -65,4 +65,6 @@ public interface DiscountReqMongoService {
      * @return
      */
     boolean saveSuc(List<DiscountReq> reqs);
+
+    List<DiscountReq> getByPage(int page, int count);
 }

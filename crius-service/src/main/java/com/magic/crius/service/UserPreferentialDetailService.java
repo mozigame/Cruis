@@ -42,4 +42,8 @@ public interface UserPreferentialDetailService {
      * @return
      */
     List<UserPreferentialDetail> findByUserIds(Collection<Long> userIds, Integer pdate);
+
+    UserPreferentialDetail getByBillId(Long billId);
+
+    int repairDetail(UserPreferentialDetail detail);
 }

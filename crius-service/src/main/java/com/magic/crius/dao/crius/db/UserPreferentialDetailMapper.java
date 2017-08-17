@@ -39,4 +39,7 @@ public interface UserPreferentialDetailMapper {
      */
     List<UserPreferentialDetail> findByUserIds(@Param("list") Collection<Long> userIds, @Param("pdate") Integer pdate);
 
+    int repairDetail(UserPreferentialDetail detail);
+
+    UserPreferentialDetail getByBillId(Long billId);
 }

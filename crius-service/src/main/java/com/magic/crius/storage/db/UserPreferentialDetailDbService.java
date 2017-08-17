@@ -45,4 +45,17 @@ public interface UserPreferentialDetailDbService {
     List<UserPreferentialDetail> findByUserIds(Collection<Long> userIds, Integer pdate);
 
 
+    /**
+     * 返回操作的条数
+     * @param detail
+     * @return
+     */
+    int repairDetail(UserPreferentialDetail detail);
+
+    /**
+     * 根据billId查询
+     * @param billId
+     * @return
+     */
+    UserPreferentialDetail getByBillId(Long billId);
 }
