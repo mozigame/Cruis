@@ -22,5 +22,5 @@ public interface UserOrderDetailMapper {
      * @param detail
      * @return
      */
-    boolean updatePaidStatus(UserOrderDetail detail);
+    boolean updatePaidStatus(@Param("param") UserOrderDetail detail);
 }

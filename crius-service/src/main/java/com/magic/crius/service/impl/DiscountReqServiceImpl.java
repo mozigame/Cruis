@@ -27,11 +27,12 @@ public class DiscountReqServiceImpl implements DiscountReqService {
 
     @Override
     public boolean save(DiscountReq discountReq) {
-        if (!discountReqMongoService.save(discountReq)) {
+        if (discountReqMongoService.save(discountReq)) {
+            if (!discountReqRedisService.save(discountReq)) {
+                //TODO 缓存保存失败如何处理
+            }
+        } else {
             discountReqMongoService.saveFailedData(discountReq);
-        }
-        if (!discountReqRedisService.save(discountReq)) {
-            //TODO 缓存保存失败如何处理
         }
         return true;
     }

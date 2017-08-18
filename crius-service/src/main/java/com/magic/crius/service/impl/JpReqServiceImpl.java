@@ -27,12 +27,12 @@ public class JpReqServiceImpl implements JpReqService {
 
     @Override
     public boolean save(JpReq req) {
-        if (!jpReqMongoService.save(req)) {
+        if (jpReqMongoService.save(req)) {
+            if (!jpReqRedisService.save(req)) {
+                //todo
+            }
+        } else {
             jpReqMongoService.saveFailedData(req);
-            //todo
-        }
-        if (!jpReqRedisService.save(req)) {
-
         }
         return true;
     }

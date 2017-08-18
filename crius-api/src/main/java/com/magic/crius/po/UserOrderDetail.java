@@ -155,4 +155,5 @@ public class UserOrderDetail {
     public void setIsPaid(Integer isPaid) {
         this.isPaid = isPaid;
     }
+
 }

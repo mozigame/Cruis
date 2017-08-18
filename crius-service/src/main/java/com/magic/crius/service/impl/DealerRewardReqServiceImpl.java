@@ -27,11 +27,12 @@ public class DealerRewardReqServiceImpl implements DealerRewardReqService {
 
     @Override
     public boolean save(DealerRewardReq req) {
-        if (!dealerRewardReqMongoService.save(req)) {
+        if (dealerRewardReqMongoService.save(req)) {
+            if (!dealerRewardReqRedisService.save(req)) {
+                //TODO 缓存保存失败如何处理
+            }
+        } else {
             dealerRewardReqMongoService.saveFailedData(req);
-        }
-        if (!dealerRewardReqRedisService.save(req)) {
-            //TODO 缓存保存失败如何处理
         }
         return true;
     }

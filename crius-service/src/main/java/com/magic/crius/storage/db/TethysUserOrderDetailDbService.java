@@ -26,5 +26,5 @@ public interface TethysUserOrderDetailDbService {
      * 获取未派彩或者未插入的订单Id列表
      * @return
      */
-    List<Long> findNoPaidIds(Collection<UserOrderDetail> orderDetails);
+    List<UserOrderDetail> findNoPaidIds(Collection<UserOrderDetail> orderDetails);
 }

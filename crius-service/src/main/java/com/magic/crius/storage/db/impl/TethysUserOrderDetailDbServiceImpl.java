@@ -43,14 +43,14 @@ public class TethysUserOrderDetailDbServiceImpl implements TethysUserOrderDetail
     }
 
     @Override
-    public List<Long> findNoPaidIds(Collection<UserOrderDetail> orderDetails) {
-        List<Long> result = new ArrayList<>();
+    public List<UserOrderDetail> findNoPaidIds(Collection<UserOrderDetail> orderDetails) {
+        List<UserOrderDetail> result = new ArrayList<>();
         for (UserOrderDetail orderDetail : orderDetails) {
             try {
-                Long orderId = (Long) userOrderDetailMapper.get("findNoPaid", orderDetail.getUserId(),
-                        new String[]{"userId", "orderId", "isPaid"}, new Object[]{orderDetail.getUserId(), orderDetail.getOrderId(), IsPaidType.noPaid.value()});
-                if (orderId != null) {
-                    result.add(orderId);
+                UserOrderDetail userOrderDetail = (UserOrderDetail) userOrderDetailMapper.get("findNoPaid", orderDetail.getUserId(),
+                        new String[]{"userId", "orderId"}, new Object[]{orderDetail.getUserId(), orderDetail.getOrderId()});
+                if (userOrderDetail != null) {
+                    result.add(userOrderDetail);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

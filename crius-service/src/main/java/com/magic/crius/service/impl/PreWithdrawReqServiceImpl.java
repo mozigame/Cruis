@@ -27,11 +27,12 @@ public class PreWithdrawReqServiceImpl implements PreWithdrawReqService {
 
     @Override
     public boolean save(PreWithdrawReq preWithdrawReq) {
-        if (!preWithdrawMongoService.save(preWithdrawReq)) {
+        if (preWithdrawMongoService.save(preWithdrawReq)) {
+            if (!preWithdrawRedisService.save(preWithdrawReq)) {
+                //TODO 缓存保存失败如何处理
+            }
+        } else {
             preWithdrawMongoService.saveFailedData(preWithdrawReq);
-        }
-        if (!preWithdrawRedisService.save(preWithdrawReq)) {
-            //TODO 缓存保存失败如何处理
         }
         return true;
     }

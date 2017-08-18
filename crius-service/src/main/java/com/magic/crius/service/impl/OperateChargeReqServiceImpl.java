@@ -28,11 +28,12 @@ public class OperateChargeReqServiceImpl implements OperateChargeReqService {
 
     @Override
     public boolean save(OperateChargeReq operateChargeReq) {
-        if (!operateChargeMongoService.save(operateChargeReq)) {
+        if (operateChargeMongoService.save(operateChargeReq)) {
+            if (!operateChargeRedisService.save(operateChargeReq)) {
+                //TODO 缓存保存失败如何处理
+            }
+        } else {
             operateChargeMongoService.saveFailedData(operateChargeReq);
-        }
-        if (!operateChargeRedisService.save(operateChargeReq)) {
-            //TODO 缓存保存失败如何处理
         }
         return true;
     }
