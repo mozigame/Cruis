@@ -18,11 +18,14 @@
 
     <!--添加-->
     <insert id="insert" parameterType="com.magic.crius.po.UserPreferentialDetail">
-        insert into user_preferential_detail ( owner_id, user_id,
+        insert into user_preferential_detail (bill_id, req_id, owner_id, user_id,
           preferential_money_count, preferential_num,
           preferential_type, preferential_type_name,
           pdate, create_time,remark)
-        values (#{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
+        values (
+          #{billId,jdbcType=BIGINT},
+          #{reqId,jdbcType=BIGINT},
+          #{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
           #{preferentialMoneyCount,jdbcType=BIGINT}, #{preferentialNum,jdbcType=INTEGER},
           #{preferentialType,jdbcType=INTEGER}, #{preferentialTypeName,jdbcType=VARCHAR},
           #{pdate,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT},#{remark,jdbcType=VARCHAR})
@@ -30,13 +33,16 @@
 
     <!--批量添加-->
     <insert id="batchInsert" >
-        insert into user_preferential_detail ( owner_id, user_id,
+        insert into user_preferential_detail (bill_id, req_id, owner_id, user_id,
         preferential_money_count, preferential_num,
         preferential_type, preferential_type_name,
         pdate, create_time,remark)
         values
         <foreach collection="list" item="param" separator=",">
-            (#{param.ownerId,jdbcType=BIGINT},
+            (
+            #{param.billId,jdbcType=BIGINT},
+            #{param.reqId,jdbcType=BIGINT},
+            #{param.ownerId,jdbcType=BIGINT},
             #{param.userId,jdbcType=BIGINT},
             #{param.preferentialMoneyCount,jdbcType=BIGINT},
             #{param.preferentialNum,jdbcType=INTEGER},
