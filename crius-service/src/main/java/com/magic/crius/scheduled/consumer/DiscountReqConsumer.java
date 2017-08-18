@@ -155,8 +155,6 @@ public class DiscountReqConsumer {
 
             }
             ownerPreferentialDetailAssemService.batchSave(ownerOnlineFlowDetailMap);
-            logger.info("roach::userPreferentialDetailHashMap = " + userPreferentialDetailHashMap);
-            ApiLogger.info("roach::userPreferentialDetailHashMap = " + userPreferentialDetailHashMap);
 
             userPreferentialDetailAssemService.batchSave(userPreferentialDetailHashMap);
             ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
