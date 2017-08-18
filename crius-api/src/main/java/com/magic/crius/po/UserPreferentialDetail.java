@@ -1,5 +1,7 @@
 package com.magic.crius.po;
 
+import com.alibaba.fastjson.JSONObject;
+
 /**
  * 会员优惠明细
  */
@@ -145,5 +147,10 @@ public class UserPreferentialDetail {
      */
     public void setReqId(Long reqId) {
         this.reqId = reqId;
+    }
+
+    @Override
+    public String toString(){
+        return JSONObject.toJSONString(this);
     }
 }
