@@ -18,7 +18,8 @@
 
     <!--添加-->
     <insert id="insert" parameterType="com.magic.crius.po.UserPreferentialDetail">
-        insert into user_preferential_detail (bill_id, req_id, owner_id, user_id,
+        insert into user_preferential_detail (bill_id, req_id,
+          owner_id, user_id,
           preferential_money_count, preferential_num,
           preferential_type, preferential_type_name,
           pdate, create_time,remark)
