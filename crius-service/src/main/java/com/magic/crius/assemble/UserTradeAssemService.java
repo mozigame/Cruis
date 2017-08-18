@@ -92,8 +92,13 @@ public class UserTradeAssemService {
         userTrade.setTradeType(req.getOfferTypeId());
         userTrade.setActiontype(ActionType.YOU_HUI.getStatus());
         userTrade.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
-
-        userTrade.setRemark(PreferentialTypeEnum.getState(req.getOfferTypeId()).getFlowTypeName());
+        Integer offerTypeId = req.getOfferTypeId();
+        if (offerTypeId==null){
+            PreferentialTypeEnum preferentialTypeEnum = PreferentialTypeEnum.getState(offerTypeId);
+            if (preferentialTypeEnum!=null){
+                userTrade.setRemark(preferentialTypeEnum.getFlowTypeName());
+            }
+        }
         return userTrade;
     }
 

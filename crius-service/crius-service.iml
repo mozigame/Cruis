@@ -5,7 +5,7 @@
       <configuration />
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -16,10 +16,18 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="crius-api" />
     <orderEntry type="library" name="Maven: com.magic:magic-user-api:1.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.magic.commons:model:1.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.magic.commons:log:1.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.magic.commons:codis:1.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.magic.commons:tools:1.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.magic.commons:http:1.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.magic.commons:atlas:1.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.magic:bc-query-api:1.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="crius-api" />
+    <orderEntry type="module" module-name="magic-user-api" />
+    <orderEntry type="module" module-name="model" />
+    <orderEntry type="module" module-name="log" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.2" level="project" />
     <orderEntry type="library" name="Maven: com.magic.commons:mq:1.0.0-SNAPSHOT" level="project" />
@@ -81,7 +89,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.alibaba:jconsole:1.8.0">
         <CLASSES>
-          <root url="jar://C:/Program Files/Java/jdk1.8.0_77/jre/../lib/jconsole.jar!/" />
+          <root url="jar://D:/Program Files/Java/jdk1.8.0_141/lib/jconsole.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -90,7 +98,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.alibaba:tools:1.8.0">
         <CLASSES>
-          <root url="jar://C:/Program Files/Java/jdk1.8.0_77/jre/../lib/tools.jar!/" />
+          <root url="jar://D:/Program Files/Java/jdk1.8.0_141/lib/tools.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -117,14 +125,14 @@
     <orderEntry type="library" name="Maven: org.springframework.data:spring-data-keyvalue:1.2.3.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-oxm:4.3.8.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context-support:4.3.8.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: com.magic.commons:codis:1.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="codis" />
     <orderEntry type="library" name="Maven: io.codis.jodis:jodis:0.3.0" level="project" />
     <orderEntry type="library" name="Maven: redis.clients:jedis:2.8.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.curator:curator-recipes:2.9.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.curator:curator-framework:2.9.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.curator:curator-client:2.9.1" level="project" />
-    <orderEntry type="library" name="Maven: com.magic.commons:tools:1.0.0-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Maven: com.magic.commons:http:1.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="tools" />
+    <orderEntry type="module" module-name="http" />
     <orderEntry type="library" name="Maven: org.ehcache:ehcache:3.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.poi:poi:3.9" level="project" />
     <orderEntry type="library" name="Maven: org.apache.poi:poi-ooxml:3.9" level="project" />
@@ -147,10 +155,10 @@
     <orderEntry type="library" name="Maven: com.github.sgroschupf:zkclient:0.1" level="project" />
     <orderEntry type="library" name="Maven: com.magic.analysis:commons:0.0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-core:2.8.8" level="project" />
-    <orderEntry type="library" name="Maven: com.magic.commons:atlas:1.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="atlas" />
     <orderEntry type="library" name="Maven: com.alibaba:dubbo:2.5.3" level="project" />
     <orderEntry type="library" name="Maven: org.javassist:javassist:3.15.0-GA" level="project" />
-    <orderEntry type="library" name="Maven: com.magic:bc-query-api:1.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="bc-query-api" />
     <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib:1.1.2-4" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains:annotations:13.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.jetbrains.kotlin:kotlin-test:1.1.2-4" level="project" />
