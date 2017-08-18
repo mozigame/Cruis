@@ -45,6 +45,9 @@ public class UserPreferentialDetailAssemService {
      * @return
      */
     public UserPreferentialDetail assembleUserPreferentialDetail(DiscountReq req) {
+        if (1==1){
+            throw  new RuntimeException("ssss");
+        }
         UserPreferentialDetail detail = new UserPreferentialDetail();
 
         detail.setBillId(req.getBillId());
