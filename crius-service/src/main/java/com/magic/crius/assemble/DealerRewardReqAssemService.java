@@ -28,11 +28,12 @@ public class DealerRewardReqAssemService  {
     public void procKafkaData(DealerRewardReq req) {
         if (req.getReqId() != null) {
             if (PropertiesLoad.checkMongoResId()) {
-                logger.info("save DealerRewardReq checkReqId : "+ req.getReqId());
                 if (dealerRewardReqService.getByReqId(req.getReqId()) == null) {
                     if (!dealerRewardReqService.save(req)) {
                         logger.error("save DealerRewardReq error,reqId : " + req.getReqId());
                     }
+                }else {
+                    logger.warn("save DealerRewardReq failed, reqId has exist, reqId : "+ req.getReqId());
                 }
             } else {
                 if (!dealerRewardReqService.save(req)) {

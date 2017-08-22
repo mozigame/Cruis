@@ -101,22 +101,22 @@
         <Root level="debug">
             <AppenderRef ref="root"/>
         </Root>
-        <logger name="debug" level="debug" additivity="false">
+        <logger name="debug" level="debug" additivity="true">
             <AppenderRef ref="debug"/>
         </logger>
-        <logger name="warn" level="warn" additivity="false">
+        <logger name="warn" level="warn" additivity="true">
             <AppenderRef ref="warn"/>
         </logger>
-        <logger name="info" level="info" additivity="false">
+        <logger name="info" level="info" additivity="true">
             <AppenderRef ref="info"/>
         </logger>
-        <logger name="error" level="error" additivity="false">
+        <logger name="error" level="error" additivity="true">
             <AppenderRef ref="error"/>
         </logger>
-        <logger name="request" level="info" additivity="false">
+        <logger name="request" level="info" additivity="true">
             <AppenderRef ref="request"/>
         </logger>
-        <logger name="db_info" level="info" additivity="false">
+        <logger name="db_info" level="info" additivity="true">
             <AppenderRef ref="db_info"/>
         </logger>
         <logger name="review_info" level="info" additivity="true">

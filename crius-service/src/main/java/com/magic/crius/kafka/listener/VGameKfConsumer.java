@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * User: joey
@@ -33,6 +34,8 @@ public class VGameKfConsumer {
     /*注单*/
     @Resource
     private BaseOrderReqAssemService baseGameReqAssemService;
+
+    private static AtomicLong counter=new AtomicLong();
 
     /**
      * vGame
@@ -59,6 +62,10 @@ public class VGameKfConsumer {
                 vGameReq.setOrderExtent(convertVGameExt(vGameReq));
                 vGameReq.setConsumerTime(System.currentTimeMillis());
                 baseGameReqAssemService.procKafkaData(vGameReq);
+                Long count=counter.incrementAndGet();
+                if(count%1000==0){
+                    logger.info("-----eGame-count="+count);
+                }
             }
         } catch (Exception e) {
             ApiLogger.error("proceData vGame error , ", e);

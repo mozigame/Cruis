@@ -21,6 +21,10 @@ public class LotteryReq extends BaseOrderReq {
     @JSONField(name = "game_code")
     private String gameCode;
 
+
+    @JSONField(name = "game_name")
+    private String gameName;    //游戏名称
+
     public String getLotteryType() {
         return lotteryType;
     }
@@ -59,5 +63,13 @@ public class LotteryReq extends BaseOrderReq {
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    public String getGameName() {
+        return gameName;
+    }
+
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
     }
 }

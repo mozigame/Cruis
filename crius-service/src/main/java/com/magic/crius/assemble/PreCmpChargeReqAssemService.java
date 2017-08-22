@@ -26,11 +26,12 @@ public class PreCmpChargeReqAssemService {
     public void procKafkaData(PreCmpChargeReq req) {
         if (req.getReqId() != null) {
             if (PropertiesLoad.checkMongoResId()) {
-                logger.info("save PreCmpCharge checkReqId : "+ req.getReqId());
                 if (preCmpChargeService.getByReqId(req.getReqId()) == null) {
                     if (!preCmpChargeService.savePreCmpCharge(req)) {
                         logger.error("save PreCmpCharge error,reqId : " + req.getReqId());
                     }
+                }else {
+                    logger.warn("save PreCmpCharge failed, reqId has exist, reqId : "+ req.getReqId());
                 }
             } else {
                 if (!preCmpChargeService.savePreCmpCharge(req)) {

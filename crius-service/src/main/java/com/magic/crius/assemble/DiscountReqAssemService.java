@@ -26,11 +26,12 @@ public class DiscountReqAssemService  {
     public void procKafkaData(DiscountReq req) {
         if (req.getReqId() != null) {
             if (PropertiesLoad.checkMongoResId()) {
-                logger.info("save DiscountReq checkReqId : "+ req.getReqId());
                 if (discountReqService.getByReqId(req.getReqId()) == null) {
                     if (!discountReqService.save(req)) {
                         logger.error("save Discount error,reqId : " + req.getReqId());
                     }
+                }else {
+                    logger.warn("save DiscountReq failed, reqId has exist, reqId : "+ req.getReqId());
                 }
             } else {
                 if (!discountReqService.save(req)) {

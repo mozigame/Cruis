@@ -25,11 +25,12 @@ public class JpReqAssemService {
     public void procKafkaData(JpReq req) {
         if (req.getReqId() != null) {
             if (PropertiesLoad.checkMongoResId()) {
-                logger.info("save JpReq checkReqId : "+ req.getReqId());
                 if (jpReqService.getByReqId(req.getReqId()) == null) {
                     if (!jpReqService.save(req)) {
                         logger.error("save JpReq error,reqId : " + req.getReqId());
                     }
+                }else {
+                    logger.warn("save JpReq failed, reqId has exist, reqId : "+ req.getReqId());
                 }
             } else {
                 if (!jpReqService.save(req)) {

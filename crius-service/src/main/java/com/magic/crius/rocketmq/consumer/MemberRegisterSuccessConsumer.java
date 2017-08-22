@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * User: joey
@@ -26,6 +27,8 @@ public class MemberRegisterSuccessConsumer implements Consumer {
 
     @Resource
     private UserInfoService userInfoService;
+    private static AtomicLong counterSuccess=new AtomicLong();
+    private static AtomicLong counterFail=new AtomicLong();
 
     @Override
     public boolean doit(String topic, String tags, String key, String msg) {
@@ -35,7 +38,15 @@ public class MemberRegisterSuccessConsumer implements Consumer {
             UserInfo userInfo = assembleUseInfo(member);
             if (!userInfoService.save(userInfo)) {
                 if (userInfoService.get(userInfo.getUserId()) != null) {
+                    Long count=counterSuccess.incrementAndGet();
+                    if(count%1000==0){
+                        logger.info("-----memberRegist-success-count="+count);
+                    }
                     return true;
+                }
+                Long count=counterFail.incrementAndGet();
+                if(count%1000==0){
+                    logger.info("-----memberRegist-fail-count="+count);
                 }
                 return false;
             }

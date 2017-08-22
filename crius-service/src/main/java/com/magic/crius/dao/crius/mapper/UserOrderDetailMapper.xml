@@ -88,7 +88,18 @@
     <!--修改订单派彩状态为已派彩-->
     <update id="updatePaidStatus">
         update user_order_detail
-          SET is_paid = #{param.isPaid, jdbcType=INTEGER}
+          <set>
+              is_paid = #{param.isPaid, jdbcType=INTEGER},
+              <if test="param.orderCount !=null and param.orderCount != 0">
+                  order_count = #{param.orderCount, jdbcType=BIGINT},
+              </if>
+              <if test="param.effectOrderCount !=null and param.effectOrderCount != 0">
+                  effect_order_count = #{param.effectOrderCount, jdbcType=BIGINT},
+              </if>
+              <if test="param.payOffCount !=null and param.payOffCount != 0">
+                  pay_off_count = #{param.payOffCount, jdbcType=BIGINT},
+              </if>
+          </set>
           WHERE user_id=#{param.userId, jdbcType=BIGINT}
           AND order_id = #{param.orderId, jdbcType=BIGINT}
     </update>

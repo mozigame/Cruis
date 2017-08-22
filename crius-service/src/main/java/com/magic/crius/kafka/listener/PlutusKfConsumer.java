@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * User: joey
@@ -67,6 +68,8 @@ public class PlutusKfConsumer {
     @Resource
     private BillInfoConsumer billInfoConsumer;
 
+    private static AtomicLong counter=new AtomicLong();
+
     @KafkaListener(topics = {"plutus", "hera"}, group = KafkaConf.CAPITAL_GROUP)
     public void listen(ConsumerRecord<?, ?> record) {
         executorService.execute(new Runnable() {
@@ -83,6 +86,10 @@ public class PlutusKfConsumer {
             Optional<?> kafkaMessage = Optional.ofNullable(record.value());
             if (kafkaMessage.isPresent()) {
                 transData(record);
+                Long count=counter.incrementAndGet();
+                if(count%1000==0){
+                    logger.info("-----plutus-count="+count);
+                }
             }
         } catch (Exception e) {
             ApiLogger.error("proceData plutus error , ", e);
@@ -98,7 +105,6 @@ public class PlutusKfConsumer {
         logger.info("Thread : "+ Thread.currentThread().getName()+" ,get plutus kafka data :>>>  " + record.toString());
         JSONObject object = JSON.parseObject(record.value().toString());
         KafkaConf.DataType type = KafkaConf.DataType.parse(object.getInteger(KafkaConf.DATA_TYPE));
-        logger.info("transData,thread="+Thread.currentThread().getId()+" type="+type);
         switch (type) {
             case PLUTUS_ONL_CHARGE:
                 OnlChargeReq onlChargeReq = JSON.parseObject(object.getString(KafkaConf.DATA), OnlChargeReq.class);

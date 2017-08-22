@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * User: joey
@@ -30,6 +31,8 @@ public class RiskrecKfConsumer {
 
     @Resource
     private RiskEventRecordAssemService riskEventRecordAssemService;
+
+    private static AtomicLong counter=new AtomicLong();
     /**
      * 风控数据记录
      * @param record
@@ -52,6 +55,10 @@ public class RiskrecKfConsumer {
                 JSONObject object = JSON.parseObject(record.value().toString());
                 RiskRecordReq riskRecordReq=new RiskRecordReq(object);
                 riskEventRecordAssemService.procKafkaData(riskRecordReq);
+                Long count=counter.incrementAndGet();
+                if(count%1000==0){
+                    logger.info("-----risk-count="+count);
+                }
             }
         } catch (Exception e) {
             logger.error("proceDate----riskRecListen error, ", e);

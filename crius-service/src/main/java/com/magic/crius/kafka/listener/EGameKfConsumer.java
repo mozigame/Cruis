@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * User: joey
@@ -32,6 +33,8 @@ public class EGameKfConsumer {
     /*注单*/
     @Resource
     private BaseOrderReqAssemService baseGameReqAssemService;
+
+    private static AtomicLong counter=new AtomicLong();
     /**
      * eGame
      * @param record
@@ -57,6 +60,10 @@ public class EGameKfConsumer {
                 eGameReq.setOrderExtent(convertEGameExt(eGameReq));
                 eGameReq.setConsumerTime(System.currentTimeMillis());
                 baseGameReqAssemService.procKafkaData(eGameReq);
+                Long count=counter.incrementAndGet();
+                if(count%1000==0){
+                    logger.info("-----eGame-count="+count);
+                }
             }
         } catch (Exception e) {
             ApiLogger.error("proceData Egame error , ", e);

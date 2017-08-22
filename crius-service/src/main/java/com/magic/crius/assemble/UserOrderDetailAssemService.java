@@ -37,7 +37,9 @@ public class UserOrderDetailAssemService {
     public boolean batchSave(List<UserOrderDetail> details) {
         List<Long> insertUserIds = new ArrayList<>();
         Map<Long, UserOrderDetail> userOrderPaid = new HashMap<>();
+        //插入的订单
         List<UserOrderDetail> insertOrder = new ArrayList<>();
+        //修改的订单
         List<UserOrderDetail> updateOrder = new ArrayList<>();
         for (UserOrderDetail orderDetail : details) {
             if (orderDetail.getIsPaid() != null && orderDetail.getIsPaid() == IsPaidType.noPaid.value()) {
@@ -47,7 +49,7 @@ public class UserOrderDetailAssemService {
                 userOrderPaid.put(orderDetail.getOrderId(), orderDetail);
             }
         }
-
+        //数据库中已经存在的订单
         List<UserOrderDetail> existNoPaidIds = tethysUserOrderDetailService.findNoPaidIds(userOrderPaid.values());
         for (Map.Entry<Long, UserOrderDetail> entry : userOrderPaid.entrySet()) {
             UserOrderDetail detail = null;

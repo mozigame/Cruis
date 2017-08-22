@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * User: joey
@@ -31,6 +32,7 @@ public class LotteryKfConsumer {
     /*注单*/
     @Resource
     private BaseOrderReqAssemService baseGameReqAssemService;
+    private static AtomicLong counter=new AtomicLong();
 
     /**
      * LOTTERY
@@ -58,6 +60,10 @@ public class LotteryKfConsumer {
                 lotteryReq.setOrderExtent(convertLotteryExt(lotteryReq));
                 lotteryReq.setConsumerTime(System.currentTimeMillis());
                 baseGameReqAssemService.procKafkaData(lotteryReq);
+                Long count=counter.incrementAndGet();
+                if(count%1000==0){
+                    logger.info("-----lottery-count="+count);
+                }
             }
         } catch (Exception e) {
             ApiLogger.error("proceData lottery error , ", e);

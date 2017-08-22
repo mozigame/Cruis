@@ -26,7 +26,6 @@ public class BaseOrderReqAssemService {
     public void procKafkaData(BaseOrderReq req) {
         if (req.getReqId() != null) {
             if (PropertiesLoad.checkOrderMongoResId()) {
-                logger.info("save BaseOrderReq checkReqId : "+ req.getReqId());
                 if (baseOrderReqService.getByReqId(req.getReqId()) == null) {
                     if (!baseOrderReqService.save(req)) {
                         logger.error("save BaseOrderReq error,reqId : " + req.getReqId());

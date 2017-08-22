@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * User: joey
@@ -31,6 +32,8 @@ public class UserTradeKfConsumer {
 
     @Resource
     private UserTradeAssemService userTradeAssemService;
+
+    private static AtomicLong counter=new AtomicLong();
 
     @KafkaListener(topics = {"USER_TRADE"}, group = KafkaConf.CAPITAL_GROUP)
     public void userTradeStatus(ConsumerRecord<?, ?> record) {
@@ -51,6 +54,10 @@ public class UserTradeKfConsumer {
                 object.setStatus(13);
                 List<UserTrade> userTrades = Lists.newArrayList(object);
                 userTradeAssemService.updateTradeStatus4Failed(userTrades);
+                Long count=counter.incrementAndGet();
+                if(count%1000==0){
+                    logger.info("-----userTrade-count="+count);
+                }
             }
         } catch (Exception e) {
             ApiLogger.error("proceData userTrade error , ", e);
