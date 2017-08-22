@@ -29,24 +29,24 @@ public class PreWithdrawReqRedisServiceImpl implements PreWithdrawReqRedisServic
 
     @Override
     public boolean save(PreWithdrawReq preWithdrawReq) {
+        String key = RedisConstants.CLEAR_PREFIX.PLUTUS_USER_WITHDRAW.key(DateUtil.formatDateTime(new Date(preWithdrawReq.getConsumerTime()), DateUtil.format_yyyyMMddHH));
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_USER_WITHDRAW.key(DateUtil.formatDateTime(new Date(preWithdrawReq.getConsumerTime()), DateUtil.format_yyyyMMddHH));
             Long result = jedis.lpush(key, JSON.toJSONString(preWithdrawReq));
             jedis.expire(key, RedisConstants.EXPIRE_THREE_HOUR);
             ApiLogger.debug("PreWithdrawReq save , key : "+key);
             return result > 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            ApiLogger.error("PreWithdrawReq save error, key : "+ key, e);
         }
         return false;
     }
 
     @Override
     public List<PreWithdrawReq> batchPop(Date date) {
+        String key = RedisConstants.CLEAR_PREFIX.PLUTUS_USER_WITHDRAW.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_USER_WITHDRAW.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
             List<PreWithdrawReq> list = new ArrayList<>();
             for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
                 String reqStr = jedis.rpop(key);
@@ -59,7 +59,7 @@ public class PreWithdrawReqRedisServiceImpl implements PreWithdrawReqRedisServic
             ApiLogger.debug("PreWithdrawReq batchPop , key : "+key+ ", size : "+list.size());
             return list;
         } catch (Exception e) {
-            e.printStackTrace();
+            ApiLogger.error("PreWithdrawReq batchPop error, key : "+ key, e);
         }
         return null;
     }

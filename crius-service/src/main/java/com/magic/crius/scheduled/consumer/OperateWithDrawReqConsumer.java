@@ -281,7 +281,7 @@ public class OperateWithDrawReqConsumer {
         detail.setOperateOutNum(1);
         detail.setOperateOutType(req.getWithdrawType());
         detail.setOperateOutTypeName(req.getRemark());
-        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
+        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return detail;
     }
     

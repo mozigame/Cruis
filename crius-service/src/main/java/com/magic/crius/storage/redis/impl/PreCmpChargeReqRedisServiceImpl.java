@@ -29,11 +29,9 @@ public class PreCmpChargeReqRedisServiceImpl implements PreCmpChargeReqRedisServ
 
     @Override
     public boolean save(PreCmpChargeReq preCmpChargeReq) {
+        String key = RedisConstants.CLEAR_PREFIX.PLUTUS_CMP_CHARGE.key(DateUtil.formatDateTime(new Date(preCmpChargeReq.getConsumerTime()), DateUtil.format_yyyyMMddHH));
         try {
-        	
-        	ApiLogger.debug("PreCmpChargeReqRedisServiceImpl : ");
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_CMP_CHARGE.key(DateUtil.formatDateTime(new Date(preCmpChargeReq.getConsumerTime()), DateUtil.format_yyyyMMddHH));
             Long result = jedis.lpush(key, JSON.toJSONString(preCmpChargeReq));
             ApiLogger.debug("json result :"+JSON.toJSONString(preCmpChargeReq));
             ApiLogger.debug("result :"+result);
@@ -41,17 +39,16 @@ public class PreCmpChargeReqRedisServiceImpl implements PreCmpChargeReqRedisServ
             ApiLogger.debug("PreCmpChargeReq save , key : "+key);
             return result > 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            ApiLogger.error("PreCmpChargeReq save error, key : "+ key, e);
         }
         return false;
     }
 
     @Override
     public List<PreCmpChargeReq> batchPop(Date date) {
+        String key = RedisConstants.CLEAR_PREFIX.PLUTUS_CMP_CHARGE.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_CMP_CHARGE.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
-            ApiLogger.debug("preCmpChargeRedisService : "+key);
             List<PreCmpChargeReq> list = new ArrayList<>();
             for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
                 String reqStr = jedis.rpop(key);
@@ -65,7 +62,7 @@ public class PreCmpChargeReqRedisServiceImpl implements PreCmpChargeReqRedisServ
             ApiLogger.debug("PreCmpChargeReq batchPop , key : "+key+ ", size : "+list.size());
             return list;
         } catch (Exception e) {
-            e.printStackTrace();
+            ApiLogger.error("PreCmpChargeReq batchPop error, key : "+ key, e);
         }
         return null;
     }

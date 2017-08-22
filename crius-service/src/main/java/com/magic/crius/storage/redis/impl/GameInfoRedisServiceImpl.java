@@ -1,5 +1,6 @@
 package com.magic.crius.storage.redis.impl;
 
+import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.codis.JedisFactory;
 import com.magic.api.commons.utils.StringUtils;
 import com.magic.crius.constants.RedisConstants;
@@ -33,7 +34,7 @@ public class GameInfoRedisServiceImpl implements GameInfoRedisService {
             jedis.expire(key, RedisConstants.GAME_INFO_LOCK_EXPIRE);
             return result != null && result > 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            ApiLogger.error("set gameInfo lock error ", e);
         }
         return false;
     }
@@ -46,7 +47,7 @@ public class GameInfoRedisServiceImpl implements GameInfoRedisService {
             logger.info("get gameInfo lock , result : " + result);
             return StringUtils.isNotBlank(result);
         } catch (Exception e) {
-            e.printStackTrace();
+            ApiLogger.error("get gameInfo lock error ", e);
         }
         return false;
     }

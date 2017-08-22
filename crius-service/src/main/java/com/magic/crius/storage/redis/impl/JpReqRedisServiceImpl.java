@@ -30,24 +30,24 @@ public class JpReqRedisServiceImpl implements JpReqRedisService {
 
     @Override
     public boolean save(JpReq req) {
+        String key = RedisConstants.CLEAR_PREFIX.PLUTUS_JP.key(DateUtil.formatDateTime(new Date(req.getConsumerTime()), DateUtil.format_yyyyMMddHH));
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_JP.key(DateUtil.formatDateTime(new Date(req.getConsumerTime()), DateUtil.format_yyyyMMddHH));
             Long result = jedis.lpush(key, JSON.toJSONString(req));
             jedis.expire(key, RedisConstants.EXPIRE_THREE_HOUR);
             ApiLogger.debug("JpReq save , key : "+key);
             return result > 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            ApiLogger.error("JpReq save error, key : "+ key, e);
         }
         return false;
     }
 
     @Override
     public List<JpReq> batchPop(Date date) {
+        String key = RedisConstants.CLEAR_PREFIX.PLUTUS_JP.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_JP.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
             List<JpReq> list = new ArrayList<>();
             for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
                 String reqStr = jedis.rpop(key);
@@ -60,7 +60,7 @@ public class JpReqRedisServiceImpl implements JpReqRedisService {
             ApiLogger.debug("JpReq batchPop , key : "+key + ", size : "+list.size());
             return list;
         } catch (Exception e) {
-            e.printStackTrace();
+            ApiLogger.error("JpReq batchPop error, key : "+ key, e);
         }
         return null;
     }

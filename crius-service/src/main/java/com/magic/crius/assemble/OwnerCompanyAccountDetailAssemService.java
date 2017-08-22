@@ -48,7 +48,7 @@ public class OwnerCompanyAccountDetailAssemService {
         account.setSummaryType(KafkaConf.DataType.PLUTUS_CMP_CHARGE.type());
         account.setSummaryTypeName(KafkaConf.DataType.PLUTUS_CMP_CHARGE.typeName());
         account.setSummaryKind(SummaryKind.income.value());
-        account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
+        account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return account;
     }
 
@@ -67,7 +67,7 @@ public class OwnerCompanyAccountDetailAssemService {
         account.setSummaryType(KafkaConf.DataType.PLUTUS_OPR_CHARGE.type());
         account.setSummaryTypeName(KafkaConf.DataType.PLUTUS_OPR_CHARGE.typeName());
         account.setSummaryKind(SummaryKind.income.value());
-        account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
+        account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return account;
     }
 
@@ -87,7 +87,7 @@ public class OwnerCompanyAccountDetailAssemService {
         account.setSummaryType(KafkaConf.DataType.PLUTUS_ONL_CHARGE.type());
         account.setSummaryTypeName(KafkaConf.DataType.PLUTUS_ONL_CHARGE.typeName());
         account.setSummaryKind(SummaryKind.income.value());
-        account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
+        account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return account;
     }
 
@@ -107,7 +107,7 @@ public class OwnerCompanyAccountDetailAssemService {
         account.setSummaryType(KafkaConf.DataType.PLUTUS_CAHSBACK.type());
         account.setSummaryTypeName(KafkaConf.DataType.PLUTUS_CAHSBACK.typeName());
         account.setSummaryKind(SummaryKind.outlay.value());
-        account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
+        account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return account;
     }
 
@@ -127,7 +127,7 @@ public class OwnerCompanyAccountDetailAssemService {
         account.setSummaryType(KafkaConf.DataType.PLUTUS_DISCOUNT.type());
         account.setSummaryTypeName(KafkaConf.DataType.PLUTUS_DISCOUNT.typeName());
         account.setSummaryKind(SummaryKind.outlay.value());
-        account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
+        account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return account;
     }
 
@@ -147,7 +147,7 @@ public class OwnerCompanyAccountDetailAssemService {
         account.setSummaryType(KafkaConf.DataType.PLUTUS_OPR_WITHDRAW.type());
         account.setSummaryTypeName(KafkaConf.DataType.PLUTUS_OPR_WITHDRAW.typeName());
         account.setSummaryKind(SummaryKind.outlay.value());
-        account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
+        account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return account;
     }
 
@@ -167,7 +167,7 @@ public class OwnerCompanyAccountDetailAssemService {
         account.setSummaryType(KafkaConf.DataType.PLUTUS_USER_WITHDRAW.type());
         account.setSummaryTypeName(KafkaConf.DataType.PLUTUS_USER_WITHDRAW.typeName());
         account.setSummaryKind(SummaryKind.outlay.value());
-        account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
+        account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return account;
     }
     
@@ -187,7 +187,7 @@ public class OwnerCompanyAccountDetailAssemService {
         account.setSummaryType(KafkaConf.DataType.TAX_COUNT.type());
         account.setSummaryTypeName(KafkaConf.DataType.TAX_COUNT.typeName());
         account.setSummaryKind(SummaryKind.income.value());
-        account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(), "yyyyMMdd")));
+        account.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return account;
     }
 

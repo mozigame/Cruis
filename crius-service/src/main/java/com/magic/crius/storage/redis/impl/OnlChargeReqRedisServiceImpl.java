@@ -30,24 +30,24 @@ public class OnlChargeReqRedisServiceImpl implements OnlChargeReqRedisService {
 
     @Override
     public boolean save(OnlChargeReq onlChargeReq) {
+        String key = RedisConstants.CLEAR_PREFIX.PLUTUS_ONL_CHARGE.key(DateUtil.formatDateTime(new Date(onlChargeReq.getConsumerTime()), DateUtil.format_yyyyMMddHH));
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_ONL_CHARGE.key(DateUtil.formatDateTime(new Date(onlChargeReq.getConsumerTime()), DateUtil.format_yyyyMMddHH));
             Long result = jedis.lpush(key, JSON.toJSONString(onlChargeReq));
             jedis.expire(key, RedisConstants.EXPIRE_THREE_HOUR);
             ApiLogger.debug("OnlChargeReq save , key : "+key);
             return result > 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            ApiLogger.error("OnlChargeReq save error, key : "+ key, e);
         }
         return false;
     }
 
     @Override
     public List<OnlChargeReq> batchPop(Date date) {
+        String key = RedisConstants.CLEAR_PREFIX.PLUTUS_ONL_CHARGE.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_ONL_CHARGE.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
             List<OnlChargeReq> list = new ArrayList<>();
             for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
                 String reqStr = jedis.rpop(key);
@@ -60,7 +60,7 @@ public class OnlChargeReqRedisServiceImpl implements OnlChargeReqRedisService {
             ApiLogger.debug("OnlChargeReq batchPop , key : "+key + ", size : "+list.size());
             return list;
         } catch (Exception e) {
-            e.printStackTrace();
+            ApiLogger.error("OnlChargeReq batchPop error, key : "+ key, e);
         }
         return null;
     }
