@@ -47,8 +47,8 @@
           last_money, max_money)
         values
 
-        <foreach collection="list" item="param" separator="," open="(" close=")" >
-            #{param.ownerId,jdbcType=BIGINT},
+        <foreach collection="list" item="param" separator="," >
+           (#{param.ownerId,jdbcType=BIGINT},
             #{param.userId,jdbcType=BIGINT},
             #{param.flowType,jdbcType=INTEGER},
             #{param.summaryType,jdbcType=INTEGER},
@@ -57,7 +57,7 @@
             #{param.createTime,jdbcType=BIGINT},
             #{param.updateTime,jdbcType=BIGINT},
             #{param.lastMoney,jdbcType=BIGINT},
-            #{param.maxMoney,jdbcType=BIGINT}
+            #{param.maxMoney,jdbcType=BIGINT})
         </foreach>
 
     </insert>
