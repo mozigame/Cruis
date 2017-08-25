@@ -52,7 +52,7 @@
     <!--批量添加-->
     <insert id="insertBatch" >
         insert into user_order_detail (
-        <if test="id != null and id > 0">
+        <if test="param.id != null and param.id > 0">
             Id,
         </if>
         owner_id, user_id,
@@ -64,7 +64,7 @@
         values
         <foreach collection="list" item="param" separator=",">
           (
-            <if test="id != null and id > 0">
+            <if test="param.id != null and param.id > 0">
                 #{param.id,jdbcType=BIGINT},
             </if>
             #{param.ownerId,jdbcType=BIGINT},

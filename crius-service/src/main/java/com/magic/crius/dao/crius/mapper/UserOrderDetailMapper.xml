@@ -47,7 +47,7 @@
     <!--批量添加-->
     <insert id="batchInsert" parameterType="com.magic.crius.po.UserOrderDetail">
         insert into user_order_detail (
-        <if test="id != null and id > 0">
+        <if test="param.id != null and param.id > 0">
             Id,
         </if>
 
@@ -60,7 +60,7 @@
         values
         <foreach collection="list" item="param" separator=",">
           (
-            <if test="id != null and id > 0">
+            <if test="param.id != null and param.id > 0">
                 #{param.id,jdbcType=BIGINT},
             </if>
 
