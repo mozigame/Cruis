@@ -14,9 +14,10 @@ public class RandomTest {
 
     @Test
     public void getRandom() {
-        for (int i=0;i<20;i++) {
-            System.out.println(new Random().nextLong());;
-        }
+        System.out.println("1503626795143740532".length());
+//        for (int i=0;i<20;i++) {
+//            System.out.println(new Random().nextLong());;
+//        }
     }
     @Test
     public void get() {

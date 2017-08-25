@@ -5,7 +5,7 @@ package com.magic.crius.po;
  */
 public class UserOrderDetail {
 
-    private Integer id;
+    private Long id;
 
     private Long ownerId;
 
@@ -36,11 +36,11 @@ public class UserOrderDetail {
     private Integer isPaid; //是否已派彩
 
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

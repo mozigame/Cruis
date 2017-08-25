@@ -19,9 +19,9 @@ public class CriusInitConstants {
     @Resource
     private BaseReqService baseReqService;
 
-    @Value("${pop.cache.thread.size:2}")
+    @Value("${pop.cache.thread.size:3}")
     private int threadSize;
-    @Value("${pop.cache.thread.times:10}")
+    @Value("${pop.cache.thread.times:50}")
     private int pollTime;
 
     /*

@@ -21,7 +21,7 @@ public class RedisConstants {
     /**
      * 批量pop redis中的数据条数
      */
-    public static final int BATCH_POP_NUM = 1000;
+    public static final int BATCH_POP_NUM = 100;
 
     public static final String OWNER_BILL_KEY = "OWNER_BILL_KEY";
 

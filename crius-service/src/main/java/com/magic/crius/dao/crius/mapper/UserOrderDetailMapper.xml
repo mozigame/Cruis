@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.magic.crius.dao.crius.db.UserOrderDetailMapper">
     <resultMap id="BaseResultMap" type="com.magic.crius.po.UserOrderDetail">
-        <id column="Id" jdbcType="INTEGER" property="id"/>
+        <id column="Id" jdbcType="BIGINT" property="id"/>
         <result column="owner_id" jdbcType="BIGINT" property="ownerId"/>
         <result column="user_id" jdbcType="BIGINT" property="userId"/>
         <result column="game_id" jdbcType="VARCHAR" property="gameId"/>
@@ -20,13 +20,23 @@
 
 
     <insert id="insert" parameterType="com.magic.crius.po.UserOrderDetail">
-        insert into user_order_detail ( owner_id, user_id,
+        insert into user_order_detail (
+        <if test="id != null and id > 0">
+            Id,
+        </if>
+
+          owner_id, user_id,
           game_id, order_id, order_count,
           effect_order_count, pay_off_count, order_state,
           pdate, create_time, update_time,
           is_paid
           )
-        values ( #{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
+        values (
+        <if test="id != null and id > 0">
+            #{id,jdbcType=BIGINT},
+        </if>
+
+          #{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
           #{gameId,jdbcType=VARCHAR}, #{orderId,jdbcType=INTEGER}, #{orderCount,jdbcType=BIGINT},
           #{effectOrderCount,jdbcType=BIGINT}, #{payOffCount,jdbcType=BIGINT}, #{orderState,jdbcType=INTEGER},
           #{pdate,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT},
@@ -36,7 +46,12 @@
 
     <!--批量添加-->
     <insert id="batchInsert" parameterType="com.magic.crius.po.UserOrderDetail">
-        insert into user_order_detail ( owner_id, user_id,
+        insert into user_order_detail (
+        <if test="id != null and id > 0">
+            Id,
+        </if>
+
+        owner_id, user_id,
         game_id, order_id, order_count,
         effect_order_count, pay_off_count, order_state,
         pdate, create_time, update_time,
@@ -44,7 +59,12 @@
         )
         values
         <foreach collection="list" item="param" separator=",">
-          ( #{param.ownerId,jdbcType=BIGINT},
+          (
+            <if test="id != null and id > 0">
+                #{param.id,jdbcType=BIGINT},
+            </if>
+
+            #{param.ownerId,jdbcType=BIGINT},
             #{param.userId,jdbcType=BIGINT},
             #{param.gameId,jdbcType=VARCHAR},
             #{param.orderId,jdbcType=INTEGER},

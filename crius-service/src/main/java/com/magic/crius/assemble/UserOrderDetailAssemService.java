@@ -107,29 +107,10 @@ public class UserOrderDetailAssemService {
         return flag;
     }
 
-
-    private UserOrderDetail assembleUserOrderDetail(BaseOrderReq req) {
-        UserOrderDetail detail = new UserOrderDetail();
-        detail.setOwnerId(req.getOwnerId());
-        detail.setUserId(req.getUserId());
-        detail.setGameId(String.valueOf(req.getGameId()));
-        detail.setOrderId(req.getBcBetId());
-        detail.setOrderCount(req.getBetAmount());
-        detail.setEffectOrderCount(req.getValidBetAmount());
-        detail.setPayOffCount(req.getPayoff());
-        //todo 订单状态
-        detail.setOrderState(0);
-        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getUpdateDatetime()), "yyyyMMdd")));
-        detail.setCreateTime(req.getBetDatetime());
-        detail.setUpdateTime(req.getUpdateDatetime());
-        detail.setOrderExtent(req.getOrderExtent().toJSONString());
-        return detail;
-    }
-
-
     public UserOrderDetail assembleUserOrderDetail(DealerRewardReq req) {
         // TODO Auto-generated method stub
         UserOrderDetail detail = new UserOrderDetail();
+        detail.setId(req.getReqId());
         detail.setOwnerId(req.getOwnerId());
         detail.setUserId(req.getUserId());
         //打赏的gameId是gameType，需要在数据库中拿到一个随机的gameId
@@ -150,6 +131,7 @@ public class UserOrderDetailAssemService {
     public UserOrderDetail assembleUserOrderDetail(JpReq req) {
         // TODO Auto-generated method stub
         UserOrderDetail detail = new UserOrderDetail();
+        detail.setId(req.getReqId());
         detail.setOwnerId(req.getOwnerId());
         detail.setUserId(req.getUserId());
         detail.setGameId(String.valueOf(req.getGameId()));
@@ -163,6 +145,28 @@ public class UserOrderDetailAssemService {
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getCreateTime()), "yyyyMMdd")));
         detail.setCreateTime(req.getCreateTime());
 
+        return detail;
+    }
+
+    public UserOrderDetail assembleUserOrderDetail(BaseOrderReq req) {
+        UserOrderDetail detail = new UserOrderDetail();
+        detail.setId(req.getReqId());
+        detail.setOwnerId(req.getOwnerId());
+        detail.setUserId(req.getUserId());
+        detail.setGameId(String.valueOf(req.getGameId()));
+        detail.setOrderId(req.getBcBetId());
+        detail.setOrderCount(req.getBetAmount());
+        detail.setEffectOrderCount(req.getValidBetAmount());
+        detail.setPayOffCount(req.getPayoff());
+        //todo 订单状态
+        detail.setOrderState(0);
+        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getUpdateDatetime()), "yyyyMMdd")));
+        detail.setCreateTime(req.getBetDatetime());
+        detail.setUpdateTime(req.getUpdateDatetime());
+        if (req.getIsPaid() != null) {
+            detail.setIsPaid(req.getIsPaid());
+        }
+        detail.setOrderExtent(req.getOrderExtent().toJSONString());
         return detail;
     }
 }
