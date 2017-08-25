@@ -11,17 +11,13 @@
     <!--批量添加-->
     <insert id="batchInsert" parameterType="com.magic.crius.po.UserOrderDetail">
         insert into user_order_detail_extent (
-          <if test="id != null and id > 0">
               id,
-          </if>
           order_id,  order_extent
         )
         values
         <foreach collection="list" item="param" separator=",">
             (
-            <if test="id != null and id > 0">
-                #{param.id,jdbcType=BIGINT},
-            </if>
+            #{param.id,jdbcType=BIGINT},
             #{param.orderId,jdbcType=BIGINT},
             #{param.orderExtent,jdbcType=VARCHAR}
             )

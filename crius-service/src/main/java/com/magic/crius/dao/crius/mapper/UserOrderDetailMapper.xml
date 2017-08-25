@@ -47,10 +47,7 @@
     <!--批量添加-->
     <insert id="batchInsert" parameterType="com.magic.crius.po.UserOrderDetail">
         insert into user_order_detail (
-        <if test="param.id != null and param.id > 0">
-            Id,
-        </if>
-
+        Id,
         owner_id, user_id,
         game_id, order_id, order_count,
         effect_order_count, pay_off_count, order_state,
@@ -60,10 +57,7 @@
         values
         <foreach collection="list" item="param" separator=",">
           (
-            <if test="param.id != null and param.id > 0">
-                #{param.id,jdbcType=BIGINT},
-            </if>
-
+            #{param.id,jdbcType=BIGINT},
             #{param.ownerId,jdbcType=BIGINT},
             #{param.userId,jdbcType=BIGINT},
             #{param.gameId,jdbcType=VARCHAR},
