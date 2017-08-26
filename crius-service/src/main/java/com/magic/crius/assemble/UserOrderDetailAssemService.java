@@ -165,6 +165,8 @@ public class UserOrderDetailAssemService {
         detail.setUpdateTime(req.getUpdateDatetime());
         if (req.getIsPaid() != null) {
             detail.setIsPaid(req.getIsPaid());
+        } else {
+            detail.setIsPaid(IsPaidType.paid.value());
         }
         detail.setOrderExtent(req.getOrderExtent().toJSONString());
         return detail;
