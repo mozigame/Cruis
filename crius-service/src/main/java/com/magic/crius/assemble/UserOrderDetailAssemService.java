@@ -124,7 +124,7 @@ public class UserOrderDetailAssemService {
         detail.setOrderState(0);
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getCreateTime()), "yyyyMMdd")));
         detail.setCreateTime(req.getCreateTime());
-
+        detail.setIsPaid(IsPaidType.paid.value());
         return detail;
     }
 
@@ -144,7 +144,7 @@ public class UserOrderDetailAssemService {
         detail.setOrderState(0);
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getCreateTime()), "yyyyMMdd")));
         detail.setCreateTime(req.getCreateTime());
-
+        detail.setIsPaid(IsPaidType.paid.value());
         return detail;
     }
 
