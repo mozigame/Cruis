@@ -51,17 +51,17 @@
 
     <!--批量添加-->
     <insert id="insertBatch" >
-        insert into user_order_detail (
-        Id,
-        owner_id, user_id,
-        game_id, order_id, order_count,
-        effect_order_count, pay_off_count, order_state,
-        pdate, create_time, update_time,remark,
-        is_paid
-        )
-        values
-        <foreach collection="list" item="param" separator=",">
-          (
+        <foreach collection="list" item="param" separator=";">
+            insert into user_order_detail (
+            Id,
+            owner_id, user_id,
+            game_id, order_id, order_count,
+            effect_order_count, pay_off_count, order_state,
+            pdate, create_time, update_time,remark,
+            is_paid
+            )
+            values
+            (
             #{param.id,jdbcType=BIGINT},
             #{param.ownerId,jdbcType=BIGINT},
             #{param.userId,jdbcType=BIGINT},
