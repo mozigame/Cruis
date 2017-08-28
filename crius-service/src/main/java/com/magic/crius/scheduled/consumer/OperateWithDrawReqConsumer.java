@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
+import com.magic.analysis.enums.OperateOutType;
 import com.magic.crius.assemble.*;
 import com.magic.crius.constants.RedisConstants;
 import com.magic.crius.po.*;
@@ -280,7 +281,7 @@ public class OperateWithDrawReqConsumer {
         //TODO 出款次数
         detail.setOperateOutNum(1);
         detail.setOperateOutType(req.getWithdrawType());
-        detail.setOperateOutTypeName(req.getRemark());
+        detail.setOperateOutTypeName(OperateOutType.getState(req.getWithdrawType()).getOutTypeName());
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getProduceTime()), "yyyyMMdd")));
         return detail;
     }
