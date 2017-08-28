@@ -190,7 +190,7 @@ public class MonthJobConsumer {
                     boolean isexist = billInfoService.isExistBill(billInfo);*/
                    //判断期数状态未使用并且结束日期等于今天，则进行结算
                     if (billingCycleVo != null){
-                        if (billingCycleVo.getStatus() == 1 && DateKit.compare_date(DateKit.getCurrentDay(),billingCycleVo.getEndTime()) >= 0){
+                        if (billingCycleVo.getStatus() == 1 && DateKit.compareDateFormat(DateKit.getCurrentDay(),billingCycleVo.getEndTime(),"YYYYMMdd") >= 0){
                             stmlBillInfoReq_proxy.setStartDay(Integer.parseInt(billingCycleVo.getStartTime()));
                             stmlBillInfoReq_proxy.setEndDay(Integer.parseInt(billingCycleVo.getEndTime()));
                             stmlBillInfoReq_proxy.setBillType(2);//代理账单
