@@ -41,14 +41,14 @@
 
     <!-- 批量录入 -->
     <insert id="batchInsert">
-        insert into user_trade_summary (owner_id, user_id,
-          flow_type, summary_type, total_money,
-          total_count, create_time, update_time,
-          last_money, max_money)
-        values
 
-        <foreach collection="list" item="param" separator="," >
-           (#{param.ownerId,jdbcType=BIGINT},
+        <foreach collection="list" item="param" separator=";" >
+            insert into user_trade_summary (owner_id, user_id,
+            flow_type, summary_type, total_money,
+            total_count, create_time, update_time,
+            last_money, max_money)
+            values
+            (#{param.ownerId,jdbcType=BIGINT},
             #{param.userId,jdbcType=BIGINT},
             #{param.flowType,jdbcType=INTEGER},
             #{param.summaryType,jdbcType=INTEGER},

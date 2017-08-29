@@ -27,14 +27,14 @@
   </insert>
 
     <!--批量添加-->
-    <insert id="batchInsert" parameterType="com.magic.crius.po.OwnerOnlineFlowDetail">
-        insert into owner_online_flow_detail (owner_id, operate_flow_money_count,
-        operate_flow_num, merchant_code, merchant_name,
-        pay_system_code, pay_system_name, state,
-        pdate)
-        values
-        <foreach collection="list" item="param" separator=",">
-          ( #{param.ownerId,jdbcType=BIGINT},
+    <insert id="batchInsert" >
+        <foreach collection="list" item="param" separator=";">
+            insert into owner_online_flow_detail (owner_id, operate_flow_money_count,
+            operate_flow_num, merchant_code, merchant_name,
+            pay_system_code, pay_system_name, state,
+            pdate)
+            values
+            ( #{param.ownerId,jdbcType=BIGINT},
             #{param.operateFlowMoneyCount,jdbcType=BIGINT},
             #{param.operateFlowNum,jdbcType=INTEGER},
             #{param.merchantCode,jdbcType=BIGINT},

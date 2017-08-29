@@ -55,17 +55,17 @@
 
 
   <insert id="insertBatch">
-        insert into user_trade (user_id, trade_id,
-        trade_num, total_num, trade_time,
-        trade_type, actionType, owner_id,
-        pdate,remark
-        <if test="gameType != null">
-          ,game_type
-        </if>
-      )
-        values
-        <foreach collection="list" item="param" separator=",">
-          ( #{param.userId,jdbcType=INTEGER},
+        <foreach collection="list" item="param" separator=";">
+            insert into user_trade (user_id, trade_id,
+            trade_num, total_num, trade_time,
+            trade_type, actionType, owner_id,
+            pdate,remark
+            <if test="param.gameType != null">
+                ,game_type
+            </if>
+            )
+            values
+            ( #{param.userId,jdbcType=INTEGER},
             #{param.tradeId,jdbcType=INTEGER},
             #{param.tradeNum,jdbcType=INTEGER},
             #{param.totalNum,jdbcType=INTEGER},
@@ -75,7 +75,7 @@
             #{param.ownerId,jdbcType=INTEGER},
             #{param.pdate,jdbcType=INTEGER},
             #{param.remark,jdbcType=VARCHAR}
-            <if test="gameType != null">
+            <if test="param.gameType != null">
                 ,#{gameType,jdbcType=BIGINT}
             </if>
             )

@@ -35,14 +35,14 @@
 
     <!--批量添加-->
     <insert id="batchInsert">
-        insert into owner_award_detail (owner_id, user_id,
-        game_id, order_id, currency_code,
-        currency_name, office_num, order_count,
-        dealer_code, dealer_name, pdate,
-        create_time)
-        values
-        <foreach collection="list" item="param" separator="," >
-          (#{param.ownerId,jdbcType=BIGINT},
+        <foreach collection="list" item="param" separator=";" >
+            insert into owner_award_detail (owner_id, user_id,
+            game_id, order_id, currency_code,
+            currency_name, office_num, order_count,
+            dealer_code, dealer_name, pdate,
+            create_time)
+            values
+            (#{param.ownerId,jdbcType=BIGINT},
             #{param.userId,jdbcType=BIGINT},
             #{param.gameId,jdbcType=VARCHAR},
             #{param.orderId,jdbcType=BIGINT},

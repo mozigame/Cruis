@@ -66,13 +66,13 @@
 
     <!--批量添加-->
     <insert id="batchInsert" parameterType="com.magic.crius.po.UserInfo">
-        insert into user_info (owner_id, user_id,
-        user_account, proxy_id, proxy_name,
-        shareholder_id, shareholder_name, user_level,
-        create_time, update_time, owner_name, type
-        )
-        values
-        <foreach collection="list" item="param" separator=",">
+        <foreach collection="list" item="param" separator=";">
+            insert into user_info (owner_id, user_id,
+            user_account, proxy_id, proxy_name,
+            shareholder_id, shareholder_name, user_level,
+            create_time, update_time, owner_name, type
+            )
+            values
             (#{param.ownerId,jdbcType=BIGINT}
             , #{param.userId,jdbcType=BIGINT}
             , #{param.userAccount,jdbcType=VARCHAR}

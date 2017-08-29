@@ -49,18 +49,18 @@
 
     <!--批量添加-->
     <insert id="batchInsert" >
-        insert into user_flow_money_detail (owner_id, user_id,
-        merchant_code, merchant_name, order_count,
-        state, pay_method, flow_type,
-        flow_id, order_id, pdate,
-        handler_id, handler_name, create_time,
-        update_time,remark,
-        flow_detail_type,
-        pay_system_code,
-        pay_system_name)
-        values
-        <foreach collection="list" item="param" separator=",">
-          (#{param.ownerId,jdbcType=BIGINT},
+        <foreach collection="list" item="param" separator=";">
+            insert into user_flow_money_detail (owner_id, user_id,
+            merchant_code, merchant_name, order_count,
+            state, pay_method, flow_type,
+            flow_id, order_id, pdate,
+            handler_id, handler_name, create_time,
+            update_time,remark,
+            flow_detail_type,
+            pay_system_code,
+            pay_system_name)
+            values
+            (#{param.ownerId,jdbcType=BIGINT},
             #{param.userId,jdbcType=BIGINT},
             #{param.merchantCode,jdbcType=VARCHAR},
             #{param.merchantName,jdbcType=VARCHAR},
