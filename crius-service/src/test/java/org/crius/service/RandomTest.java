@@ -1,5 +1,6 @@
 package org.crius.service;
 
+import com.magic.api.commons.tools.DateUtil;
 import com.magic.api.commons.utils.StringUtils;
 import org.junit.Test;
 
@@ -143,4 +144,7 @@ public class RandomTest {
 
     }
 
+    public static void main(String[] args) {
+        System.out.println(DateUtil.formatDateTime(new Date(1504061831315L),"yyyyMMdd"));
+    }
 }

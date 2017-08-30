@@ -30,7 +30,7 @@ public class OnlChargeReq {
     @JSONField(name = "Rate")
     private Integer rate;
     @JSONField(name = "MerchantCode")
-    private Long merchantCode;  //充值的商户号
+    private String merchantCode;  //充值的商户号
     @JSONField(name = "MerchantName")
     private String merchantName;    //充值商户名称
     @JSONField(name = "PaySystemCode")
@@ -139,11 +139,11 @@ public class OnlChargeReq {
         this.rate = rate;
     }
 
-    public Long getMerchantCode() {
+    public String getMerchantCode() {
         return merchantCode;
     }
 
-    public void setMerchantCode(Long merchantCode) {
+    public void setMerchantCode(String merchantCode) {
         this.merchantCode = merchantCode;
     }
 
