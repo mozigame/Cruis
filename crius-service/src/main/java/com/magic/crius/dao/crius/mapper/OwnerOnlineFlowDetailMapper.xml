@@ -6,7 +6,7 @@
         <result column="owner_id" jdbcType="BIGINT" property="ownerId"/>
         <result column="operate_flow_money_count" jdbcType="BIGINT" property="operateFlowMoneyCount"/>
         <result column="operate_flow_num" jdbcType="INTEGER" property="operateFlowNum"/>
-        <result column="merchant_code" jdbcType="BIGINT" property="merchantCode"/>
+        <result column="merchant_code" jdbcType="VARCHAR" property="merchantCode"/>
         <result column="merchant_name" jdbcType="VARCHAR" property="merchantName"/>
         <result column="pay_system_code" jdbcType="INTEGER" property="paySystemCode"/>
         <result column="pay_system_name" jdbcType="VARCHAR" property="paySystemName"/>
@@ -21,7 +21,7 @@
       pay_system_code, pay_system_name, state, 
       pdate)
     values ( #{ownerId,jdbcType=BIGINT}, #{operateFlowMoneyCount,jdbcType=BIGINT},
-      #{operateFlowNum,jdbcType=INTEGER}, #{merchantCode,jdbcType=BIGINT}, #{merchantName,jdbcType=VARCHAR}, 
+      #{operateFlowNum,jdbcType=INTEGER}, #{merchantCode,jdbcType=VARCHAR}, #{merchantName,jdbcType=VARCHAR},
       #{paySystemCode,jdbcType=INTEGER}, #{paySystemName,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
       #{pdate,jdbcType=INTEGER})
   </insert>
@@ -37,7 +37,7 @@
             ( #{param.ownerId,jdbcType=BIGINT},
             #{param.operateFlowMoneyCount,jdbcType=BIGINT},
             #{param.operateFlowNum,jdbcType=INTEGER},
-            #{param.merchantCode,jdbcType=BIGINT},
+            #{param.merchantCode,jdbcType=VARCHAR},
             #{param.merchantName,jdbcType=VARCHAR},
             #{param.paySystemCode,jdbcType=INTEGER},
             #{param.paySystemName,jdbcType=VARCHAR},
@@ -62,7 +62,7 @@
         SET operate_flow_money_count = operate_flow_money_count + #{operateFlowMoneyCount,jdbcType=BIGINT},
                 operate_flow_num = operate_flow_num + #{operateFlowNum,jdbcType=INTEGER}
         WHERE owner_id = #{ownerId,jdbcType=BIGINT}
-        AND merchant_code = #{merchantCode,jdbcType=BIGINT}
+        AND merchant_code = #{merchantCode,jdbcType=VARCHAR}
         and pdate = #{pdate,jdbcType=INTEGER}
     </update>
 </mapper>
