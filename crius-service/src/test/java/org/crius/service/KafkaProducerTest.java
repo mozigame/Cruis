@@ -270,7 +270,7 @@ public class KafkaProducerTest {
             onl.setChargeAmount((long) (new Random().nextInt(5000)));
             onl.setCurrency("人民币");
             onl.setRate(45);
-            onl.setMerchantCode(1000L);
+            onl.setMerchantCode("1000L");
             onl.setMerchantName("银联");
             onl.setPaySystemCode(50000);
             onl.setPaySystemName("小军");
@@ -294,7 +294,7 @@ public class KafkaProducerTest {
             onl.setChargeAmount((long) (new Random().nextInt(5000)));
             onl.setCurrency("人民币");
             onl.setRate(45);
-            onl.setMerchantCode(1000L);
+            onl.setMerchantCode("1000L");
             onl.setMerchantName("银联");
             onl.setPaySystemCode(50000);
             onl.setPaySystemName("小军");
