@@ -49,6 +49,7 @@ public class UserOrderDetailAssemService {
             GameTypeEnum gameTypeEnum = GameTypeEnum.getEnumByCode(orderDetail.getGameAbstractType());
             if (gameTypeEnum == GameTypeEnum.ELECTRONIC || gameTypeEnum == GameTypeEnum.VIDEO) {
                 insertOrder.add(orderDetail);
+                insertUserIds.add(orderDetail.getUserId());
             } else {
                 if (orderDetail.getIsPaid() != null && orderDetail.getIsPaid() == IsPaidType.noPaid.value()) {
                     insertUserIds.add(orderDetail.getUserId());
@@ -65,6 +66,7 @@ public class UserOrderDetailAssemService {
             userOrderDetailService.batchSave(insertOrder);
             logger.info(String.format(" all order size : %d ,first insert order size : %d ", details.size(), insertOrder.size()));
             insertOrder.clear();
+            insertUserIds.clear();
         }
 
 
