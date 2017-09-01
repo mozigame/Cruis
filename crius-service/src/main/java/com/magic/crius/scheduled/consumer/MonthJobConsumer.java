@@ -1,5 +1,7 @@
 package com.magic.crius.scheduled.consumer;
 
+import com.alibaba.dubbo.common.json.JSON;
+import com.alibaba.dubbo.common.json.JSONObject;
 import com.magic.analysis.exception.ConfigException;
 import com.magic.analysis.utils.DateKit;
 import com.magic.analysis.utils.JsonUtils;
@@ -75,11 +77,11 @@ public class MonthJobConsumer {
 
     private BillingCycleVo getCurrentBillCycle(Long ownerId) {
         Map<String, BillingCycleVo> BillInfo = billingCycleService.getThisBillingInfo(ownerId, System.currentTimeMillis());
-        ApiLogger.info(ownerId + "的期数：" + BillInfo);
+        ApiLogger.info(ownerId + ", getCurrentBillCycle 期数：" + com.alibaba.fastjson.JSON.toJSONString(BillInfo));
         if (BillInfo == null || BillInfo.get("thisBilling") == null) {
             return null;
         }
-        BillingCycleVo billingCycleVo = (BillingCycleVo) BillInfo.get("thisBilling");
+        BillingCycleVo billingCycleVo = BillInfo.get("thisBilling");
         ApiLogger.info("当前期数开始时间: " + billingCycleVo.getStartTime());
         ApiLogger.info("当前期数结束时间: " + billingCycleVo.getEndTime());
         billingCycleVo.setStartTime(billingCycleVo.getStartTime().replaceAll("-", ""));
@@ -89,11 +91,11 @@ public class MonthJobConsumer {
 
     private BillingCycleVo getLastBillCycle(Long ownerId) {
         Map<String, BillingCycleVo> BillInfo = billingCycleService.getThisBillingInfo(ownerId, System.currentTimeMillis());
-        ApiLogger.info(ownerId + "的期数：" + BillInfo);
+        ApiLogger.info(ownerId + ", getLastBillCycle 期数： " + com.alibaba.fastjson.JSON.toJSONString(BillInfo));
         if (BillInfo == null || BillInfo.get("lastBilling") == null) {
             return null;
         }
-        BillingCycleVo billingCycleVo = (BillingCycleVo) BillInfo.get("lastBilling");
+        BillingCycleVo billingCycleVo = BillInfo.get("lastBilling");
         ApiLogger.info("上期期数开始时间: " + billingCycleVo.getStartTime());
         ApiLogger.info("上期期数结束时间: " + billingCycleVo.getEndTime());
         billingCycleVo.setStartTime(billingCycleVo.getStartTime().replaceAll("-", ""));
@@ -144,7 +146,7 @@ public class MonthJobConsumer {
         jedis.expire(RedisConstants.OWNER_BILL_KEY, 3 * 60 * 60);//3个小时存活时间
 
         if (org.apache.commons.lang3.StringUtils.isNotEmpty(jedis.get(RedisConstants.OWNER_BILL_KEY)) && Integer.parseInt(jedis.get(RedisConstants.OWNER_BILL_KEY)) == 1) {
-            ApiLogger.debug("begin run : ");
+            ApiLogger.info("begin run : ");
             //获取所有ownerId
             List<Long> ownerList = proxyInfoService.getOwenrList();
 
