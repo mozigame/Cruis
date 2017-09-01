@@ -186,6 +186,7 @@ public class UserOrderDetailAssemService {
             detail.setIsPaid(IsPaidType.paid.value());
         }
         detail.setOrderExtent(req.getOrderExtent().toJSONString());
+        detail.setGameAbstractType(req.getGameAbstractType());
         return detail;
     }
 }
