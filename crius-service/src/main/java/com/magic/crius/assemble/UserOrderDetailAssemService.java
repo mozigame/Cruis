@@ -142,6 +142,8 @@ public class UserOrderDetailAssemService {
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getCreateTime()), "yyyyMMdd")));
         detail.setCreateTime(req.getCreateTime());
         detail.setIsPaid(IsPaidType.paid.value());
+
+        detail.setGameAbstractType(req.getGameAbstractType());
         return detail;
     }
 
@@ -162,6 +164,8 @@ public class UserOrderDetailAssemService {
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getCreateTime()), "yyyyMMdd")));
         detail.setCreateTime(req.getCreateTime());
         detail.setIsPaid(IsPaidType.paid.value());
+
+        detail.setGameAbstractType(req.getGameAbstractType());
         return detail;
     }
 
@@ -186,6 +190,7 @@ public class UserOrderDetailAssemService {
             detail.setIsPaid(IsPaidType.paid.value());
         }
         detail.setOrderExtent(req.getOrderExtent().toJSONString());
+
         detail.setGameAbstractType(req.getGameAbstractType());
         return detail;
     }

@@ -50,6 +50,8 @@ public class JpReq {
     private Long consumerTime;
 
 
+    private Integer gameAbstractType;    //订单总的类型
+
     public Long getBillId() {
         return billId;
     }
@@ -184,6 +186,14 @@ public class JpReq {
 
     public void setConsumerTime(Long consumerTime) {
         this.consumerTime = consumerTime;
+    }
+
+    public Integer getGameAbstractType() {
+        return gameAbstractType;
+    }
+
+    public void setGameAbstractType(Integer gameAbstractType) {
+        this.gameAbstractType = gameAbstractType;
     }
 
     @Override

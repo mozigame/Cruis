@@ -2,6 +2,7 @@ package com.magic.crius.kafka.listener;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.magic.analysis.enums.GameTypeEnum;
 import com.magic.api.commons.ApiLogger;
 import com.magic.crius.assemble.*;
 import com.magic.crius.enums.KafkaConf;
@@ -147,11 +148,13 @@ public class PlutusKfConsumer {
             case PLUTUS_JP:
                 JpReq jpReq = JSON.parseObject(object.getString(KafkaConf.DATA), JpReq.class);
                 jpReq.setConsumerTime(System.currentTimeMillis());
+                jpReq.setGameAbstractType(Integer.parseInt(GameTypeEnum.JP.getCode()));
                 jpReqAssemService.procKafkaData(jpReq);
                 break;
             case PLUTUS_DS:
                 DealerRewardReq dealerRewardReq = JSON.parseObject(object.getString(KafkaConf.DATA), DealerRewardReq.class);
                 dealerRewardReq.setConsumerTime(System.currentTimeMillis());
+                dealerRewardReq.setGameAbstractType(Integer.parseInt(GameTypeEnum.JP.getCode()));
                 dealerRewardReqAssemService.procKafkaData(dealerRewardReq);
                 break;
             case UPDATE_USER_LEVEL:
