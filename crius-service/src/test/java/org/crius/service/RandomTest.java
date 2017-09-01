@@ -147,4 +147,20 @@ public class RandomTest {
     public static void main(String[] args) {
         System.out.println(DateUtil.formatDateTime(new Date(1504061831315L),"yyyyMMdd"));
     }
+
+    @Test
+    public void splitSpendTime() {
+        String lotNum = "3,3,5";
+        long startTime = System.currentTimeMillis();
+        for (long i=0;i< 10_0000_0000L; i++) {
+//            String [] lt= lotNum.split(",");
+//            List<>
+//            Collections.sort(lt);
+            if (1==2) {
+
+            }
+        }
+        System.out.println(System.currentTimeMillis()-startTime);
+
+    }
 }

@@ -40,6 +40,11 @@ public class BaseOrderReq {
     //扩展消息
     private JSONObject orderExtent;
 
+    /**
+     * 游戏大类型，{com.magic.analysis.enums.GameTypeEnum}
+     */
+    private Integer gameAbstractType;
+
 
     /**
      * 消费时间
@@ -173,5 +178,13 @@ public class BaseOrderReq {
 
     public void setConsumerTime(Long consumerTime) {
         this.consumerTime = consumerTime;
+    }
+
+    public Integer getGameAbstractType() {
+        return gameAbstractType;
+    }
+
+    public void setGameAbstractType(Integer gameAbstractType) {
+        this.gameAbstractType = gameAbstractType;
     }
 }

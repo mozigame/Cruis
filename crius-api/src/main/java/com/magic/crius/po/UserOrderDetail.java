@@ -35,6 +35,8 @@ public class UserOrderDetail {
 
     private Integer isPaid; //是否已派彩
 
+    private Integer gameAbstractType;    //游戏大类型
+
 
     public Long getId() {
         return id;
@@ -156,4 +158,11 @@ public class UserOrderDetail {
         this.isPaid = isPaid;
     }
 
+    public Integer getGameAbstractType() {
+        return gameAbstractType;
+    }
+
+    public void setGameAbstractType(Integer gameAbstractType) {
+        this.gameAbstractType = gameAbstractType;
+    }
 }

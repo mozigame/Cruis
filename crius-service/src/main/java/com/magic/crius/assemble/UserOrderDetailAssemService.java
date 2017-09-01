@@ -1,5 +1,6 @@
 package com.magic.crius.assemble;
 
+import com.magic.analysis.enums.GameTypeEnum;
 import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.UserOrderDetailAssemService;
@@ -42,13 +43,29 @@ public class UserOrderDetailAssemService {
         //修改的订单
         List<UserOrderDetail> updateOrder = new ArrayList<>();
         for (UserOrderDetail orderDetail : details) {
-            if (orderDetail.getIsPaid() != null && orderDetail.getIsPaid() == IsPaidType.noPaid.value()) {
-                insertUserIds.add(orderDetail.getUserId());
+            GameTypeEnum gameTypeEnum = GameTypeEnum.getEnumByCode(orderDetail.getGameAbstractType());
+            if (gameTypeEnum == GameTypeEnum.ELECTRONIC || gameTypeEnum == GameTypeEnum.VIDEO) {
                 insertOrder.add(orderDetail);
             } else {
-                userOrderPaid.put(orderDetail.getOrderId(), orderDetail);
+                if (orderDetail.getIsPaid() != null && orderDetail.getIsPaid() == IsPaidType.noPaid.value()) {
+                    insertUserIds.add(orderDetail.getUserId());
+                    insertOrder.add(orderDetail);
+                } else {
+                    userOrderPaid.put(orderDetail.getOrderId(), orderDetail);
+                }
             }
         }
+
+        if (insertOrder.size() > 0) {
+            tethysUserOrderDetailService.batchSave(insertOrder, insertUserIds);
+            //metis
+            userOrderDetailService.batchSave(insertOrder);
+            logger.info(String.format(" all order size : %d ,first insert order size : %d ", details.size(), insertOrder.size()));
+            insertOrder.clear();
+        }
+
+
+
         //数据库中已经存在的订单
         List<UserOrderDetail> existNoPaidIds = tethysUserOrderDetailService.findNoPaidIds(userOrderPaid.values());
         for (Map.Entry<Long, UserOrderDetail> entry : userOrderPaid.entrySet()) {
