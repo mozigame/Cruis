@@ -43,6 +43,9 @@ public class UserOrderDetailAssemService {
         //修改的订单
         List<UserOrderDetail> updateOrder = new ArrayList<>();
         for (UserOrderDetail orderDetail : details) {
+            if (orderDetail.getGameAbstractType() == null) {
+                orderDetail.setGameAbstractType(Integer.parseInt(GameTypeEnum.OTHER.getCode()));
+            }
             GameTypeEnum gameTypeEnum = GameTypeEnum.getEnumByCode(orderDetail.getGameAbstractType());
             if (gameTypeEnum == GameTypeEnum.ELECTRONIC || gameTypeEnum == GameTypeEnum.VIDEO) {
                 insertOrder.add(orderDetail);

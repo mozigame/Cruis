@@ -154,7 +154,7 @@ public class PlutusKfConsumer {
             case PLUTUS_DS:
                 DealerRewardReq dealerRewardReq = JSON.parseObject(object.getString(KafkaConf.DATA), DealerRewardReq.class);
                 dealerRewardReq.setConsumerTime(System.currentTimeMillis());
-                dealerRewardReq.setGameAbstractType(Integer.parseInt(GameTypeEnum.JP.getCode()));
+                dealerRewardReq.setGameAbstractType(Integer.parseInt(GameTypeEnum.DEALER_REWARD.getCode()));
                 dealerRewardReqAssemService.procKafkaData(dealerRewardReq);
                 break;
             case UPDATE_USER_LEVEL:
