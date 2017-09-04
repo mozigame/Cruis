@@ -75,7 +75,8 @@ public class RedisConstants {
         PLUTUS_SPORT("p_sport"), //体育
         PLUTUS_VGAME("p_vgame"), //视讯
         PLUTUS_EGAME("p_egame"), //电子
-        PLUTUS_BASE_GAME("p_base_game"); //注单
+        PLUTUS_BASE_GAME("p_base_game"), //注单
+        USER_ORDER_DETAIL("c_u_o_detail"); //用户注单详情
 
 
 

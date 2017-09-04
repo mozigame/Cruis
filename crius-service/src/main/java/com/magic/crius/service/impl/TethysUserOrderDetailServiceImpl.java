@@ -27,12 +27,17 @@ public class TethysUserOrderDetailServiceImpl implements TethysUserOrderDetailSe
     }
 
     @Override
+    public boolean save(UserOrderDetail detail) {
+        return tethysUserOrderDetailDbService.save(detail);
+    }
+
+    @Override
     public boolean updatePaid(UserOrderDetail orderDetail) {
         return tethysUserOrderDetailDbService.updatePaid(orderDetail);
     }
 
     @Override
-    public List<UserOrderDetail> findNoPaidIds(Collection<UserOrderDetail> orderDetails) {
-        return tethysUserOrderDetailDbService.findNoPaidIds(orderDetails);
+    public List<UserOrderDetail> findByOrderId(UserOrderDetail detail) {
+        return tethysUserOrderDetailDbService.findByOrderId(detail);
     }
 }

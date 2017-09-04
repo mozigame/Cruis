@@ -36,10 +36,17 @@
             #{id,jdbcType=BIGINT},
         </if>
 
-          #{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
-          #{gameId,jdbcType=VARCHAR}, #{orderId,jdbcType=INTEGER}, #{orderCount,jdbcType=BIGINT},
-          #{effectOrderCount,jdbcType=BIGINT}, #{payOffCount,jdbcType=BIGINT}, #{orderState,jdbcType=INTEGER},
-          #{pdate,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT},
+          #{ownerId,jdbcType=BIGINT},
+          #{userId,jdbcType=BIGINT},
+          #{gameId,jdbcType=VARCHAR},
+          #{orderId,jdbcType=INTEGER},
+          #{orderCount,jdbcType=BIGINT},
+          #{effectOrderCount,jdbcType=BIGINT},
+          #{payOffCount,jdbcType=BIGINT},
+          #{orderState,jdbcType=INTEGER},
+          #{pdate,jdbcType=INTEGER},
+          #{createTime,jdbcType=BIGINT},
+          #{updateTime,jdbcType=BIGINT},
           #{isPaid,jdbcType=INTEGER}
           )
     </insert>
@@ -93,8 +100,8 @@
         where Id = #{id,jdbcType=INTEGER}
     </update>
 
-    <!--查询订单列表中存在并且未派彩的订单-->
-    <select id="findNoPaid" resultMap="BaseResultMap">
+    <!--根据订单查询-->
+    <select id="findByOrderId" resultMap="BaseResultMap">
         select order_id,is_paid from user_order_detail
         where user_id = #{userId, jdbcType=BIGINT}
         and order_id = #{orderId, jdbcType=BIGINT}

@@ -25,5 +25,6 @@ public enum MongoCollections {
     memberConditionVo,
     agentConditionVo,
     ownerBillReq,
-    agentBillReq;
+    agentBillReq,
+    userOrderDetail
 }

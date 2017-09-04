@@ -2,6 +2,7 @@ package com.magic.crius.service;
 
 import com.magic.crius.po.UserOrderDetail;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -14,10 +15,33 @@ public interface UserOrderDetailService {
 
     boolean batchSave(List<UserOrderDetail> details);
 
+    boolean save(UserOrderDetail detail);
+
     /**
      * 修改派彩状态
      * @param detail
      * @return
      */
-    boolean updatePaidStatus(UserOrderDetail detail);
+    boolean updatePaid(UserOrderDetail detail);
+
+    /**
+     * 新增会员更改派彩失败的注单
+     * @param detail
+     * @return
+     */
+    boolean saveUpdateFailed(UserOrderDetail detail);
+
+
+    /**
+     * 批量获取固定时间内的数据
+     * @param date
+     * @return
+     */
+    List<UserOrderDetail> batchPopRedis(Date date);
+
+    /**
+     * 根据订单号查询订单
+     * @return
+     */
+    List<UserOrderDetail> findByOrderId(UserOrderDetail detail);
 }

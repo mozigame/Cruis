@@ -33,8 +33,6 @@ public class PreCmpChargeReqRedisServiceImpl implements PreCmpChargeReqRedisServ
         try {
             Jedis jedis = criusJedisFactory.getInstance();
             Long result = jedis.lpush(key, JSON.toJSONString(preCmpChargeReq));
-            ApiLogger.debug("json result :"+JSON.toJSONString(preCmpChargeReq));
-            ApiLogger.debug("result :"+result);
             jedis.expire(key, RedisConstants.EXPIRE_THREE_HOUR);
             ApiLogger.debug("PreCmpChargeReq save , key : "+key);
             return result > 0;
@@ -52,7 +50,6 @@ public class PreCmpChargeReqRedisServiceImpl implements PreCmpChargeReqRedisServ
             List<PreCmpChargeReq> list = new ArrayList<>();
             for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
                 String reqStr = jedis.rpop(key);
-                ApiLogger.debug("reqStr  : "+reqStr);
                 if (StringUtils.isNotBlank(reqStr)) {
                     list.add(JSON.parseObject(reqStr, PreCmpChargeReq.class));
                 } else {

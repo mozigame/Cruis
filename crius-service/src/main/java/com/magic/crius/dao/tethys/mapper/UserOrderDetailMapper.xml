@@ -80,12 +80,13 @@
         </foreach>
     </insert>
 
-    <!--查询订单列表中存在并且未派彩的订单-->
-    <select id="findNoPaid" resultMap="BaseResultMap">
+    <!--根据订单号查询订单-->
+    <select id="findByOrderId" resultMap="BaseResultMap">
         select order_id,is_paid from user_order_detail
         where user_id = #{userId, jdbcType=BIGINT}
-	    and order_id = #{orderId,jdbcType=BIGINT}
+	    and order_id = #{orderId,jdbcType=INTEGER}
     </select>
+
 
     <!--修改订单派彩状态为已派彩-->
     <update id="updatePaidStatus">

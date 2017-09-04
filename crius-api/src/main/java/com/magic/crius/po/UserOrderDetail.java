@@ -37,6 +37,10 @@ public class UserOrderDetail {
 
     private Integer gameAbstractType;    //游戏大类型
 
+    private Integer procStatus;  //操作成功与否的状态只要到达100就是成功，否则为失败,在mongo中使用
+
+    private Long consumerTime;  //
+
 
     public Long getId() {
         return id;
@@ -164,5 +168,21 @@ public class UserOrderDetail {
 
     public void setGameAbstractType(Integer gameAbstractType) {
         this.gameAbstractType = gameAbstractType;
+    }
+
+    public Integer getProcStatus() {
+        return procStatus;
+    }
+
+    public void setProcStatus(Integer procStatus) {
+        this.procStatus = procStatus;
+    }
+
+    public Long getConsumerTime() {
+        return consumerTime;
+    }
+
+    public void setConsumerTime(Long consumerTime) {
+        this.consumerTime = consumerTime;
     }
 }

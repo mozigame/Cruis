@@ -14,11 +14,20 @@ public interface UserOrderDetailDbService {
 
     boolean batchSave(List<UserOrderDetail> details);
 
+    boolean save(UserOrderDetail detail);
+
 
     /**
      * 修改派彩状态
      * @param detail
      * @return
      */
-    boolean updatePaidStatus(UserOrderDetail detail);
+    boolean updatePaid(UserOrderDetail detail);
+
+    /**
+     * 根据订单号查询订单
+     * @param detail
+     * @return
+     */
+    List<UserOrderDetail> findByOrderId(UserOrderDetail detail);
 }

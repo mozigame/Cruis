@@ -5,6 +5,7 @@ import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.UserOrderDetailAssemService;
 import com.magic.crius.enums.IsPaidType;
+import com.magic.crius.enums.ProcessStatus;
 import com.magic.crius.po.UserOrderDetail;
 import com.magic.crius.service.GameInfoService;
 import com.magic.crius.service.TethysUserOrderDetailService;
@@ -37,64 +38,29 @@ public class UserOrderDetailAssemService {
 
     public boolean batchSave(List<UserOrderDetail> details) {
         List<Long> insertUserIds = new ArrayList<>();
-        Map<Long, UserOrderDetail> userOrderPaid = new HashMap<>();
         //插入的订单
         List<UserOrderDetail> insertOrder = new ArrayList<>();
-        //修改的订单
+        //需要做修改的订单
         List<UserOrderDetail> updateOrder = new ArrayList<>();
-        for (UserOrderDetail orderDetail : details) {
+
+        details.forEach((orderDetail)->{
             if (orderDetail.getGameAbstractType() == null) {
                 orderDetail.setGameAbstractType(Integer.parseInt(GameTypeEnum.OTHER.getCode()));
             }
             GameTypeEnum gameTypeEnum = GameTypeEnum.getEnumByCode(orderDetail.getGameAbstractType());
-            if (gameTypeEnum == GameTypeEnum.ELECTRONIC || gameTypeEnum == GameTypeEnum.VIDEO) {
-                insertOrder.add(orderDetail);
-                insertUserIds.add(orderDetail.getUserId());
-            } else {
+            if (gameTypeEnum == GameTypeEnum.LOTTERY || gameTypeEnum == GameTypeEnum.PHYSICAL) {
                 if (orderDetail.getIsPaid() != null && orderDetail.getIsPaid() == IsPaidType.noPaid.value()) {
                     insertUserIds.add(orderDetail.getUserId());
                     insertOrder.add(orderDetail);
                 } else {
-                    userOrderPaid.put(orderDetail.getOrderId(), orderDetail);
+                    updateOrder.add(orderDetail);
                 }
+            } else {
+                insertUserIds.add(orderDetail.getUserId());
+                insertOrder.add(orderDetail);
             }
-        }
+        });
 
-        if (insertOrder.size() > 0) {
-            tethysUserOrderDetailService.batchSave(insertOrder, insertUserIds);
-            //metis
-            userOrderDetailService.batchSave(insertOrder);
-            logger.info(String.format(" all order size : %d ,first insert order size : %d ", details.size(), insertOrder.size()));
-            insertOrder.clear();
-            insertUserIds.clear();
-        }
-
-
-
-        //数据库中已经存在的订单
-        List<UserOrderDetail> existNoPaidIds = tethysUserOrderDetailService.findNoPaidIds(userOrderPaid.values());
-        for (Map.Entry<Long, UserOrderDetail> entry : userOrderPaid.entrySet()) {
-            UserOrderDetail detail = null;
-            for (UserOrderDetail _detail : existNoPaidIds) {
-                if (_detail.getOrderId().equals(entry.getKey())) {
-                    if (_detail.getIsPaid() == IsPaidType.noPaid.value()) {
-                        updateOrder.add(entry.getValue());
-                        detail = _detail;
-                        break;
-                    } else {
-                        detail = _detail;
-                        break;
-                    }
-                }
-            }
-            if (detail == null) {
-                insertUserIds.add(entry.getValue().getUserId());
-                insertOrder.add(entry.getValue());
-            }else{
-                existNoPaidIds.remove(detail);
-            }
-
-        }
         /*
          * 批量添加未派彩和派彩但未插入的数据
          */
@@ -106,13 +72,15 @@ public class UserOrderDetailAssemService {
         }
         //修改订单的派彩状态
         if (updateOrder.size() > 0) {
-            for (UserOrderDetail orderDetail : updateOrder) {
-                tethysUserOrderDetailService.updatePaid(orderDetail);
-                userOrderDetailService.updatePaidStatus(orderDetail);
-            }
+            updateOrder.forEach((orderDetail) -> {
+                if (!tethysUserOrderDetailService.updatePaid(orderDetail) && !userOrderDetailService.updatePaid(orderDetail)) {
+                    orderDetail.setProcStatus(ProcessStatus.failed.status());
+                    orderDetail.setConsumerTime(System.currentTimeMillis());
+                    userOrderDetailService.saveUpdateFailed(orderDetail);
+                }
+            });
         }
         logger.info(String.format(" all order size : %d ,insert order size : %d, update order size : %d", details.size(), insertOrder.size(), updateOrder.size()));
-
         return true;
     }
 
@@ -143,12 +111,13 @@ public class UserOrderDetailAssemService {
         detail.setEffectOrderCount(0L);
         detail.setPayOffCount(0L);
         //todo 订单状态
-        detail.setOrderState(0);
+        detail.setOrderState(ProcessStatus.init.status());
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getCreateTime()), "yyyyMMdd")));
         detail.setCreateTime(req.getCreateTime());
         detail.setIsPaid(IsPaidType.paid.value());
 
         detail.setGameAbstractType(req.getGameAbstractType());
+        detail.setProcStatus(ProcessStatus.init.status());
         return detail;
     }
 
@@ -165,12 +134,13 @@ public class UserOrderDetailAssemService {
         detail.setEffectOrderCount(0L);
         detail.setPayOffCount(req.getJpAmount());
         //todo 订单状态
-        detail.setOrderState(0);
+        detail.setOrderState(ProcessStatus.init.status());
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getCreateTime()), "yyyyMMdd")));
         detail.setCreateTime(req.getCreateTime());
         detail.setIsPaid(IsPaidType.paid.value());
 
         detail.setGameAbstractType(req.getGameAbstractType());
+        detail.setProcStatus(ProcessStatus.init.status());
         return detail;
     }
 
@@ -185,7 +155,7 @@ public class UserOrderDetailAssemService {
         detail.setEffectOrderCount(req.getValidBetAmount());
         detail.setPayOffCount(req.getPayoff());
         //todo 订单状态
-        detail.setOrderState(0);
+        detail.setOrderState(ProcessStatus.init.status());
         detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getUpdateDatetime()), "yyyyMMdd")));
         detail.setCreateTime(req.getBetDatetime());
         detail.setUpdateTime(req.getUpdateDatetime());
@@ -197,6 +167,7 @@ public class UserOrderDetailAssemService {
         detail.setOrderExtent(req.getOrderExtent().toJSONString());
 
         detail.setGameAbstractType(req.getGameAbstractType());
+        detail.setProcStatus(ProcessStatus.init.status());
         return detail;
     }
 }

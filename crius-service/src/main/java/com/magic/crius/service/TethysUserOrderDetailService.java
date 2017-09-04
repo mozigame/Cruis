@@ -15,6 +15,8 @@ public interface TethysUserOrderDetailService {
 
     boolean batchSave(List<UserOrderDetail> userOrderDetails, List<Long> userIds);
 
+    boolean save(UserOrderDetail detail);
+
     /**
      * 更新派彩状态
      * @param orderDetail
@@ -23,8 +25,8 @@ public interface TethysUserOrderDetailService {
     boolean updatePaid(UserOrderDetail orderDetail);
 
     /**
-     * 获取未派彩或者未插入的订单Id列表
+     * 根据订单号查询订单
      * @return
      */
-    List<UserOrderDetail> findNoPaidIds(Collection<UserOrderDetail> orderDetails);
+    List<UserOrderDetail> findByOrderId(UserOrderDetail detail);
 }
