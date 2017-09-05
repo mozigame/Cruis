@@ -52,6 +52,10 @@ public interface UserPreferentialDetailDbService {
      */
     int repairDetail(UserPreferentialDetail detail);
 
+    int repairBillIdById(long id, long billId, long reqId);
+
+    List<UserPreferentialDetail> selectByDetail(UserPreferentialDetail detail);
+
     /**
      * 根据billId查询
      * @param billId

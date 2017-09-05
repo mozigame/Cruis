@@ -9,6 +9,7 @@ import com.magic.crius.po.UserPreferentialDetail;
 import com.magic.crius.service.UserPreferentialDetailService;
 import com.magic.crius.storage.mongo.DiscountReqMongoService;
 import com.magic.crius.vo.DiscountReq;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -85,8 +86,19 @@ public class UserPreferentialDetailAssemService {
                 UserPreferentialDetail detail = assembleUserPreferentialDetail(discountReq);
                 UserPreferentialDetail detailInDB = userPreferentialDetailService.getByBillId(detail.getBillId());
                 if (detailInDB==null){
-                    int repairCount = userPreferentialDetailService.repairDetail(detail);
-                    result.put(idString, repairCount);
+                    //
+                    List<UserPreferentialDetail> detailList = userPreferentialDetailService.selectByDetail(detail);
+                    if (CollectionUtils.isEmpty(detailList)){
+                        result.put(idString, "detail empty");
+                    }else {
+                        if (detailList.size()==1){
+                            int repairCount = userPreferentialDetailService.repairDetail(detail);
+                            result.put(idString, repairCount);
+                        }else {
+                            repairRepeatedData(result, idString, detail, detailList);
+                        }
+                    }
+
                 }else {
                     result.put(idString, "exist");
                 }
@@ -95,6 +107,30 @@ public class UserPreferentialDetailAssemService {
 
         result.put("oper", true);
         return JSONObject.toJSONString(result);
+    }
+
+    private void repairRepeatedData(Map<String, Object> result, String idString, UserPreferentialDetail targetDetail, List<UserPreferentialDetail> detailList) {
+        Long billId = targetDetail.getBillId();
+        Long reqId = targetDetail.getReqId();
+        if (billId!=null && reqId!=null){
+            Map<String,Object> repairResult = new HashMap<>();
+            for (int i=0;i<detailList.size();++i){
+                UserPreferentialDetail ele = detailList.get(i);
+                Long billIdToRepair = Long.valueOf(ele.getId());
+                Long reqIdToRepair = 0L;
+                if (i==0){
+                    billIdToRepair = ele.getReqId();
+                    reqIdToRepair = reqId;
+                }
+                int repairCount = userPreferentialDetailService.repairBillIdById(ele.getId(), billIdToRepair, reqIdToRepair);
+                repairResult.put(String.valueOf(ele.getId()),repairCount);
+            }
+            result.put(idString, repairResult);
+        }else {
+            result.put(idString, "repairRepeatedData error");
+        }
+
+
     }
 
     public String repairUserPreferentialByPage(int page, int count) {

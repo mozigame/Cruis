@@ -41,5 +41,22 @@ public interface UserPreferentialDetailMapper {
 
     int repairDetail(UserPreferentialDetail detail);
 
+    /**
+     * 修复接口用
+     * @param detail
+     * @return
+     */
+    List<UserPreferentialDetail> selectByDetail(UserPreferentialDetail detail);
+
+    /**
+     * 修复billId和reqId
+     * @param id
+     * @param billId
+     * @param reqId
+
+     * @return
+     */
+    int repairBillIdById(long id, long billId, long reqId);
+
     UserPreferentialDetail getByBillId(Long billId);
 }
