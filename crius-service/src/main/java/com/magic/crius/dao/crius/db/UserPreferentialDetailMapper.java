@@ -39,6 +39,11 @@ public interface UserPreferentialDetailMapper {
      */
     List<UserPreferentialDetail> findByUserIds(@Param("list") Collection<Long> userIds, @Param("pdate") Integer pdate);
 
+    /**
+     * 全匹配才修复
+     * @param detail
+     * @return
+     */
     int repairDetail(UserPreferentialDetail detail);
 
     /**
@@ -58,5 +63,10 @@ public interface UserPreferentialDetailMapper {
      */
     int repairBillIdById(@Param("id")long id, @Param("billId")long billId, @Param("reqId")long reqId);
 
+    /**
+     * 根据billId拉去数据
+     * @param billId
+     * @return
+     */
     UserPreferentialDetail getByBillId(Long billId);
 }
