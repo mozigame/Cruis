@@ -56,7 +56,7 @@ public interface UserPreferentialDetailMapper {
 
      * @return
      */
-    int repairBillIdById(long id, long billId, long reqId);
+    int repairBillIdById(@Param("id")long id, @Param("billId")long billId, @Param("reqId")long reqId);
 
     UserPreferentialDetail getByBillId(Long billId);
 }
