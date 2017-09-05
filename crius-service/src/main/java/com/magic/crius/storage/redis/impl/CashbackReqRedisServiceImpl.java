@@ -29,24 +29,24 @@ public class CashbackReqRedisServiceImpl implements CashbackReqRedisService {
 
     @Override
     public boolean save(CashbackReq req) {
+        String key = RedisConstants.CLEAR_PREFIX.PLUTUS_CAHSBACK.key(DateUtil.formatDateTime(new Date(req.getConsumerTime()), DateUtil.format_yyyyMMddHH));
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_CAHSBACK.key(DateUtil.formatDateTime(new Date(req.getConsumerTime()), DateUtil.format_yyyyMMddHH));
             Long result = jedis.lpush(key, JSON.toJSONString(req));
             jedis.expire(key, RedisConstants.EXPIRE_THREE_HOUR);
             ApiLogger.debug("CashbackReq save , key : "+key);
             return result > 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            ApiLogger.error("CashbackReq save  error , key : " + key, e);
         }
         return false;
     }
 
     @Override
     public List<CashbackReq> batchPop(Date date) {
+        String key = RedisConstants.CLEAR_PREFIX.PLUTUS_CAHSBACK.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_CAHSBACK.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
             List<CashbackReq> list = new ArrayList<>();
             for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
                 String reqStr = jedis.rpop(key);
@@ -59,7 +59,7 @@ public class CashbackReqRedisServiceImpl implements CashbackReqRedisService {
             ApiLogger.debug("CashbackReq batchPop , key : "+key + ", size : "+list.size());
             return list;
         } catch (Exception e) {
-            e.printStackTrace();
+            ApiLogger.error("CashbackReq batchPop error , key : " + key, e);
         }
         return null;
     }

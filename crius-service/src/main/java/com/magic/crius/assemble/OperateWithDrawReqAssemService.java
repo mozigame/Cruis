@@ -25,11 +25,12 @@ public class OperateWithDrawReqAssemService  {
     public void procKafkaData(OperateWithDrawReq req) {
         if (req.getReqId() != null) {
             if (PropertiesLoad.checkMongoResId()) {
-                logger.info("save OperateWithDrawReq checkReqId : "+ req.getReqId());
                 if (operateWithDrawReqService.getByReqId(req.getReqId()) == null) {
                     if (!operateWithDrawReqService.save(req)) {
                         logger.error("save OperateWithDrawReq error,reqId : " + req.getReqId());
                     }
+                }else {
+                    logger.warn("save OperateWithDrawReq failed, reqId has exist, reqId : "+ req.getReqId());
                 }
             } else {
                 if (!operateWithDrawReqService.save(req)) {

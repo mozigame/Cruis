@@ -24,11 +24,11 @@
 
   <!--批量添加-->
   <insert id="batchInsert">
-    insert into owner_operate_flow_detail (owner_id, operate_flow_money_count,
-    operate_flow_num, operate_flow_type, operate_flow_type_name,
-    pdate)
-    values
-    <foreach collection="list" item="param" separator=",">
+    <foreach collection="list" item="param" separator=";">
+      insert into owner_operate_flow_detail (owner_id, operate_flow_money_count,
+      operate_flow_num, operate_flow_type, operate_flow_type_name,
+      pdate)
+      values
       (#{param.ownerId,jdbcType=BIGINT},
       #{param.operateFlowMoneyCount,jdbcType=BIGINT},
       #{param.operateFlowNum,jdbcType=INTEGER},

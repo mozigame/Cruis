@@ -5,7 +5,7 @@ package com.magic.crius.po;
  */
 public class UserOrderDetail {
 
-    private Integer id;
+    private Long id;
 
     private Long ownerId;
 
@@ -35,12 +35,18 @@ public class UserOrderDetail {
 
     private Integer isPaid; //是否已派彩
 
+    private Integer gameAbstractType;    //游戏大类型
 
-    public Integer getId() {
+    private Integer procStatus;  //操作成功与否的状态只要到达100就是成功，否则为失败,在mongo中使用
+
+    private Long consumerTime;  //
+
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -156,4 +162,27 @@ public class UserOrderDetail {
         this.isPaid = isPaid;
     }
 
+    public Integer getGameAbstractType() {
+        return gameAbstractType;
+    }
+
+    public void setGameAbstractType(Integer gameAbstractType) {
+        this.gameAbstractType = gameAbstractType;
+    }
+
+    public Integer getProcStatus() {
+        return procStatus;
+    }
+
+    public void setProcStatus(Integer procStatus) {
+        this.procStatus = procStatus;
+    }
+
+    public Long getConsumerTime() {
+        return consumerTime;
+    }
+
+    public void setConsumerTime(Long consumerTime) {
+        this.consumerTime = consumerTime;
+    }
 }

@@ -2,6 +2,7 @@ package com.magic.crius.kafka.listener;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.magic.analysis.enums.GameTypeEnum;
 import com.magic.api.commons.ApiLogger;
 import com.magic.crius.assemble.*;
 import com.magic.crius.enums.KafkaConf;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * User: joey
@@ -67,6 +69,8 @@ public class PlutusKfConsumer {
     @Resource
     private BillInfoConsumer billInfoConsumer;
 
+    private static AtomicLong counter=new AtomicLong();
+
     @KafkaListener(topics = {"plutus", "hera"}, group = KafkaConf.CAPITAL_GROUP)
     public void listen(ConsumerRecord<?, ?> record) {
         executorService.execute(new Runnable() {
@@ -83,6 +87,10 @@ public class PlutusKfConsumer {
             Optional<?> kafkaMessage = Optional.ofNullable(record.value());
             if (kafkaMessage.isPresent()) {
                 transData(record);
+                Long count=counter.incrementAndGet();
+                if(count%1000==0){
+                    logger.info("-----plutus-count="+count);
+                }
             }
         } catch (Exception e) {
             ApiLogger.error("proceData plutus error , ", e);
@@ -98,7 +106,6 @@ public class PlutusKfConsumer {
         logger.info("Thread : "+ Thread.currentThread().getName()+" ,get plutus kafka data :>>>  " + record.toString());
         JSONObject object = JSON.parseObject(record.value().toString());
         KafkaConf.DataType type = KafkaConf.DataType.parse(object.getInteger(KafkaConf.DATA_TYPE));
-        logger.info("transData,thread="+Thread.currentThread().getId()+" type="+type);
         switch (type) {
             case PLUTUS_ONL_CHARGE:
                 OnlChargeReq onlChargeReq = JSON.parseObject(object.getString(KafkaConf.DATA), OnlChargeReq.class);
@@ -141,11 +148,13 @@ public class PlutusKfConsumer {
             case PLUTUS_JP:
                 JpReq jpReq = JSON.parseObject(object.getString(KafkaConf.DATA), JpReq.class);
                 jpReq.setConsumerTime(System.currentTimeMillis());
+                jpReq.setGameAbstractType(Integer.parseInt(GameTypeEnum.JP.getCode()));
                 jpReqAssemService.procKafkaData(jpReq);
                 break;
             case PLUTUS_DS:
                 DealerRewardReq dealerRewardReq = JSON.parseObject(object.getString(KafkaConf.DATA), DealerRewardReq.class);
                 dealerRewardReq.setConsumerTime(System.currentTimeMillis());
+                dealerRewardReq.setGameAbstractType(Integer.parseInt(GameTypeEnum.DEALER_REWARD.getCode()));
                 dealerRewardReqAssemService.procKafkaData(dealerRewardReq);
                 break;
             case UPDATE_USER_LEVEL:

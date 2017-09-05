@@ -33,15 +33,15 @@
 
 	<!--批量添加-->
     <insert id="batchInsert" >
-        insert into risk_event_detail (risk_event_record_id
-			,user_id
-			,user_name
-			,ip
-			,time
-			,json_data)
-        values
-         <foreach collection="list" item="param" separator=",">
-            (
+         <foreach collection="list" item="param" separator=";">
+			 insert into risk_event_detail (risk_event_record_id
+			 ,user_id
+			 ,user_name
+			 ,ip
+			 ,time
+			 ,json_data)
+			 values
+			 (
              #{param.riskEventRecordId,jdbcType=BIGINT}
 			,#{param.userId,jdbcType=BIGINT}
 			,#{param.userName,jdbcType=VARCHAR}

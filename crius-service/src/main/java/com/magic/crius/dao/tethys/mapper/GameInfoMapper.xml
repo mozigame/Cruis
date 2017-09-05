@@ -35,14 +35,14 @@
 
     <!--批量添加游戏基础信息-->
     <insert id="insertBatch" >
-        insert into game_info ( game_id, game_name,
-        game_type, game_type_name, game_factory_type,
-        game_factory_type_name, game_abstract_type,
-        game_abstract_type_name
-        )
-        values
-        <foreach collection="list" item="param" separator=",">
-          ( #{param.gameId,jdbcType=VARCHAR},
+        <foreach collection="list" item="param" separator=";">
+            insert into game_info ( game_id, game_name,
+            game_type, game_type_name, game_factory_type,
+            game_factory_type_name, game_abstract_type,
+            game_abstract_type_name
+            )
+            values
+            ( #{param.gameId,jdbcType=VARCHAR},
             #{param.gameName,jdbcType=VARCHAR},
             #{param.gameType,jdbcType=VARCHAR},
             #{param.gameTypeName,jdbcType=VARCHAR},

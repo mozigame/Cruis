@@ -30,13 +30,13 @@
 
     <!--保存公司入款详情-->
     <insert id="batchInsert">
-        insert into owner_company_flow_detail (owner_id, company_flow_money_count,
-        company_flow_num, account_code, account_num,
-        account_name, bank_system_code, bank_system_name,pay_method,
-        state, pdate)
-        values
-        <foreach collection="list" item="param" separator=",">
-          (#{param.ownerId,jdbcType=BIGINT},
+        <foreach collection="list" item="param" separator=";">
+            insert into owner_company_flow_detail (owner_id, company_flow_money_count,
+            company_flow_num, account_code, account_num,
+            account_name, bank_system_code, bank_system_name,pay_method,
+            state, pdate)
+            values
+            (#{param.ownerId,jdbcType=BIGINT},
             #{param.companyFlowMoneyCount,jdbcType=BIGINT},
             #{param.companyFlowNum,jdbcType=INTEGER},
             #{param.accountCode,jdbcType=VARCHAR},

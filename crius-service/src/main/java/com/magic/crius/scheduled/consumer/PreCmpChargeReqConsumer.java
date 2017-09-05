@@ -61,14 +61,6 @@ public class PreCmpChargeReqConsumer {
     @Resource
     private BaseReqService baseReqService;
 
-    public void procKafkaData(PreCmpChargeReq req) {
-        if (preCmpChargeService.getByReqId(req.getReqId()) == null) {
-            if (!preCmpChargeService.savePreCmpCharge(req)) {
-                CriusLog.error("save PreCmpCharge error,reqId : " + req.getReqId());
-            }
-        }
-    }
-
 
     public void init(Date date) {
         detailCalculate(date);

@@ -31,7 +31,20 @@ public class UserOrderDetailDbServiceImpl implements UserOrderDetailDbService {
     }
 
     @Override
-    public boolean updatePaidStatus(UserOrderDetail detail) {
+    public boolean save(UserOrderDetail detail) {
+        if (criusUserOrderDetailMapper.insert(detail) > 0) {
+            userOrderDetailExtentMapper.insert(detail);
+        }
+        return true;
+    }
+
+    @Override
+    public boolean updatePaid(UserOrderDetail detail) {
         return criusUserOrderDetailMapper.updatePaidStatus(detail);
+    }
+
+    @Override
+    public List<UserOrderDetail> findByOrderId(UserOrderDetail detail) {
+        return criusUserOrderDetailMapper.findByOrderId(detail);
     }
 }

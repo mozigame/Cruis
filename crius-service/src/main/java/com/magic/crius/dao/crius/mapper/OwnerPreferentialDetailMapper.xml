@@ -23,12 +23,12 @@
 
     <!--批量添加-->
     <insert id="batchInsert" parameterType="com.magic.crius.po.OwnerPreferentialDetail">
-        insert into owner_preferential_detail ( owner_id, preferential_money_count,
-        preferential_num, preferential_type, preferential_type_name,
-        pdate)
-        values
-        <foreach collection="list" item="param" separator=",">
-          ( #{param.ownerId,jdbcType=BIGINT},
+        <foreach collection="list" item="param" separator=";">
+            insert into owner_preferential_detail ( owner_id, preferential_money_count,
+            preferential_num, preferential_type, preferential_type_name,
+            pdate)
+            values
+            ( #{param.ownerId,jdbcType=BIGINT},
             #{param.preferentialMoneyCount,jdbcType=BIGINT},
             #{param.preferentialNum,jdbcType=INTEGER},
             #{param.preferentialType,jdbcType=INTEGER},

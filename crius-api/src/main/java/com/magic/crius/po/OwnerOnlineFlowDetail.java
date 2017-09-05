@@ -13,7 +13,7 @@ public class OwnerOnlineFlowDetail {
 
     private Integer operateFlowNum; //入款次数
 
-    private Long merchantCode;  //商号
+    private String merchantCode;  //商号
 
     private String merchantName;    //商家名称
 
@@ -57,11 +57,11 @@ public class OwnerOnlineFlowDetail {
         this.operateFlowNum = operateFlowNum;
     }
 
-    public Long getMerchantCode() {
+    public String getMerchantCode() {
         return merchantCode;
     }
 
-    public void setMerchantCode(Long merchantCode) {
+    public void setMerchantCode(String merchantCode) {
         this.merchantCode = merchantCode;
     }
 

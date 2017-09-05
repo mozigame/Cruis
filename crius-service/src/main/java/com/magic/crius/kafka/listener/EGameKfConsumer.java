@@ -2,6 +2,7 @@ package com.magic.crius.kafka.listener;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.magic.analysis.enums.GameTypeEnum;
 import com.magic.api.commons.ApiLogger;
 import com.magic.crius.assemble.BaseOrderReqAssemService;
 import com.magic.crius.enums.KafkaConf;
@@ -16,6 +17,7 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * User: joey
@@ -32,6 +34,8 @@ public class EGameKfConsumer {
     /*注单*/
     @Resource
     private BaseOrderReqAssemService baseGameReqAssemService;
+
+    private static AtomicLong counter=new AtomicLong();
     /**
      * eGame
      * @param record
@@ -56,7 +60,12 @@ public class EGameKfConsumer {
                 eGameReq.setProduceTime(eGameReq.getInsertDatetime());
                 eGameReq.setOrderExtent(convertEGameExt(eGameReq));
                 eGameReq.setConsumerTime(System.currentTimeMillis());
+                eGameReq.setGameAbstractType(Integer.parseInt(GameTypeEnum.ELECTRONIC.getCode()));
                 baseGameReqAssemService.procKafkaData(eGameReq);
+                Long count=counter.incrementAndGet();
+                if(count%1000==0){
+                    logger.info("-----eGame-count="+count);
+                }
             }
         } catch (Exception e) {
             ApiLogger.error("proceData Egame error , ", e);

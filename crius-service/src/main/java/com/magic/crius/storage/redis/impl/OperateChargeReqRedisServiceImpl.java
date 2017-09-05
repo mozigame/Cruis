@@ -44,16 +44,12 @@ public class OperateChargeReqRedisServiceImpl implements OperateChargeReqRedisSe
 
     @Override
     public List<OperateChargeReq> batchPop(Date date) {
+        String key = RedisConstants.CLEAR_PREFIX.PLUTUS_OPR_CHARGE.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
         try {
             Jedis jedis = criusJedisFactory.getInstance();
-            String key = RedisConstants.CLEAR_PREFIX.PLUTUS_OPR_CHARGE.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
-            ApiLogger.debug("key :"+key);
-            
             List<OperateChargeReq> list = new ArrayList<>();
             for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
                 String reqStr = jedis.rpop(key);
-                ApiLogger.debug("reqStr :"+reqStr );
-                
                 if (StringUtils.isNotBlank(reqStr)) {
                     list.add(JSON.parseObject(reqStr, OperateChargeReq.class));
                 } else {
@@ -63,7 +59,7 @@ public class OperateChargeReqRedisServiceImpl implements OperateChargeReqRedisSe
             ApiLogger.debug("OperateChargeReq batchPop , key : "+key+ ", size : "+list.size());
             return list;
         } catch (Exception e) {
-            e.printStackTrace();
+            ApiLogger.error("OperateChargeReq batchPop error, key : "+ key, e);
         }
         return null;
     }

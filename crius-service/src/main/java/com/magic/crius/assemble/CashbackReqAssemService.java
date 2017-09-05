@@ -34,11 +34,12 @@ public class CashbackReqAssemService {
     public void procKafkaData(CashbackReq req) {
         if (req.getReqId() != null) {
             if (PropertiesLoad.checkMongoResId()) {
-                logger.info("save CashbackReq checkReqId : "+ req.getReqId());
                 if (cashbackReqService.getByReqId(req.getReqId()) == null) {
                     if (!cashbackReqService.save(req)) {
                         logger.error("save CashbackReq error,reqId : " + req.getReqId());
                     }
+                }else {
+                    logger.warn("save CashbackReq failed, reqId has exist, reqId : "+ req.getReqId());
                 }
             } else {
                 if (!cashbackReqService.save(req)) {

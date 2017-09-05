@@ -31,23 +31,23 @@
     </insert>
 
     <!--添加公司账目汇总-->
-    <insert id="batchInsert" >
-    insert into owner_company_account_detail (owner_id, summary_money_count,
-      summary_user_num, summary_type, summary_type_name, 
-      summary_kind,user_id, pdate)
-    values
-    <foreach collection="list" item="param" separator="," >
-      ( #{param.ownerId,jdbcType=BIGINT},
-        #{param.summaryMoneyCount,jdbcType=BIGINT},
-        #{param.summaryUserNum,jdbcType=INTEGER},
-        #{param.summaryType,jdbcType=INTEGER},
-        #{param.summaryTypeName,jdbcType=VARCHAR},
-        #{param.summaryKind,jdbcType=INTEGER},
-        #{param.userId,jdbcType=BIGINT},
-        #{param.pdate,jdbcType=INTEGER})
-    </foreach>
+    <insert id="batchInsert">
+        <foreach collection="list" item="param" separator=";">
+            insert into owner_company_account_detail (owner_id, summary_money_count,
+            summary_user_num, summary_type, summary_type_name,
+            summary_kind,user_id, pdate)
+            values
+            ( #{param.ownerId,jdbcType=BIGINT},
+            #{param.summaryMoneyCount,jdbcType=BIGINT},
+            #{param.summaryUserNum,jdbcType=INTEGER},
+            #{param.summaryType,jdbcType=INTEGER},
+            #{param.summaryTypeName,jdbcType=VARCHAR},
+            #{param.summaryKind,jdbcType=INTEGER},
+            #{param.userId,jdbcType=BIGINT},
+            #{param.pdate,jdbcType=INTEGER})
+        </foreach>
 
-  </insert>
+    </insert>
 
     <!--根据多个ownerId获取数据-->
     <select id="findByOwnerIds" resultMap="BaseResultMap">

@@ -40,13 +40,13 @@
 
     <!--批量添加-->
     <insert id="batchInsert" >
-        insert into prize_detail (owner_id, user_id,
-        order_id, prize_type, prize_type_name,
-        game_id, order_count, pdate,
-        create_time)
-        values
-         <foreach collection="list" item="param" separator=",">
-            (
+         <foreach collection="list" item="param" separator=";">
+             insert into prize_detail (owner_id, user_id,
+             order_id, prize_type, prize_type_name,
+             game_id, order_count, pdate,
+             create_time)
+             values
+             (
              #{param.ownerId,jdbcType=BIGINT},
              #{param.userId,jdbcType=BIGINT},
              #{param.orderId,jdbcType=BIGINT},

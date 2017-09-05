@@ -115,7 +115,7 @@ public class BaseOrderReqConsumer {
             List<UserOrderDetail> details = new ArrayList<>();
             List<BaseOrderReq> sucReqs = new ArrayList<>();
             for (BaseOrderReq req : list) {
-                details.add(assembleUserOrderDetail(req));
+                details.add(userOrderDetailAssemService.assembleUserOrderDetail(req));
                     /*成功的数据*/
                 sucReqs.add(assembleSucReq(req));
             }
@@ -204,26 +204,7 @@ public class BaseOrderReqConsumer {
         }
     }
 
-    private UserOrderDetail assembleUserOrderDetail(BaseOrderReq req) {
-        UserOrderDetail detail = new UserOrderDetail();
-        detail.setOwnerId(req.getOwnerId());
-        detail.setUserId(req.getUserId());
-        detail.setGameId(String.valueOf(req.getGameId()));
-        detail.setOrderId(req.getBcBetId());
-        detail.setOrderCount(req.getBetAmount());
-        detail.setEffectOrderCount(req.getValidBetAmount());
-        detail.setPayOffCount(req.getPayoff());
-        //todo 订单状态
-        detail.setOrderState(0);
-        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getUpdateDatetime()), "yyyyMMdd")));
-        detail.setCreateTime(req.getBetDatetime());
-        detail.setUpdateTime(req.getUpdateDatetime());
-        if (req.getIsPaid() != null) {
-            detail.setIsPaid(req.getIsPaid());
-        }
-        detail.setOrderExtent(req.getOrderExtent().toJSONString());
-        return detail;
-    }
+
 
     private BaseOrderReq assembleSucReq(BaseOrderReq req) {
         /*成功的数据*/

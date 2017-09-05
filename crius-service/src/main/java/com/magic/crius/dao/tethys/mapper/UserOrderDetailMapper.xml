@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.magic.crius.po.UserOrderDetail">
     <resultMap id="BaseResultMap" type="com.magic.crius.po.UserOrderDetail">
-        <id column="Id" jdbcType="INTEGER" property="id"/>
+        <id column="Id" jdbcType="BIGINT" property="id"/>
         <result column="owner_id" jdbcType="BIGINT" property="ownerId"/>
         <result column="user_id" jdbcType="BIGINT" property="userId"/>
         <result column="game_id" jdbcType="VARCHAR" property="gameId"/>
@@ -18,7 +18,8 @@
         <result column="is_paid" jdbcType="INTEGER" property="isPaid"/>
     </resultMap>
     <sql id="Base_Column_List">
-    Id, owner_id, user_id, game_id, order_id, order_count, effect_order_count, pay_off_count, 
+
+    Id, owner_id, user_id, game_id, order_id, order_count, effect_order_count, pay_off_count,
     order_state, pdate, create_time, update_time,
     is_paid
   </sql>
@@ -26,13 +27,21 @@
 
 
     <insert id="insert" parameterType="com.magic.crius.po.UserOrderDetail">
-        insert into user_order_detail ( owner_id, user_id,
+        insert into user_order_detail (
+        <if test="id != null and id > 0">
+            Id,
+        </if>
+          owner_id, user_id,
           game_id, order_id, order_count,
           effect_order_count, pay_off_count, order_state,
           pdate, create_time, update_time,
           is_paid
           )
-        values (#{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
+        values (
+        <if test="id != null and id > 0">
+            #{id,jdbcType=BIGINT},
+        </if>
+          #{ownerId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT},
           #{gameId,jdbcType=VARCHAR}, #{orderId,jdbcType=INTEGER}, #{orderCount,jdbcType=BIGINT},
           #{effectOrderCount,jdbcType=BIGINT}, #{payOffCount,jdbcType=BIGINT}, #{orderState,jdbcType=INTEGER},
           #{pdate,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT},
@@ -42,15 +51,19 @@
 
     <!--批量添加-->
     <insert id="insertBatch" >
-        insert into user_order_detail ( owner_id, user_id,
-        game_id, order_id, order_count,
-        effect_order_count, pay_off_count, order_state,
-        pdate, create_time, update_time,remark,
-        is_paid
-        )
-        values
-        <foreach collection="list" item="param" separator=",">
-          (#{param.ownerId,jdbcType=BIGINT},
+        <foreach collection="list" item="param" separator=";">
+            insert into user_order_detail (
+            Id,
+            owner_id, user_id,
+            game_id, order_id, order_count,
+            effect_order_count, pay_off_count, order_state,
+            pdate, create_time, update_time,remark,
+            is_paid
+            )
+            values
+            (
+            #{param.id,jdbcType=BIGINT},
+            #{param.ownerId,jdbcType=BIGINT},
             #{param.userId,jdbcType=BIGINT},
             #{param.gameId,jdbcType=VARCHAR},
             #{param.orderId,jdbcType=INTEGER},
@@ -67,17 +80,29 @@
         </foreach>
     </insert>
 
-    <!--查询订单列表中存在并且未派彩的订单-->
-    <select id="findNoPaid" resultMap="BaseResultMap">
+    <!--根据订单号查询订单-->
+    <select id="findByOrderId" resultMap="BaseResultMap">
         select order_id,is_paid from user_order_detail
         where user_id = #{userId, jdbcType=BIGINT}
-	    and order_id = #{orderId,jdbcType=BIGINT}
+	    and order_id = #{orderId,jdbcType=INTEGER}
     </select>
+
 
     <!--修改订单派彩状态为已派彩-->
     <update id="updatePaidStatus">
         update user_order_detail
-          SET is_paid = #{param.isPaid,jdbcType=INTEGER}
+        <set>
+            is_paid = #{param.isPaid, jdbcType=INTEGER},
+            <if test="param.orderCount !=null and param.orderCount != 0">
+                order_count = #{param.orderCount, jdbcType=BIGINT},
+            </if>
+            <if test="param.effectOrderCount !=null and param.effectOrderCount != 0">
+                effect_order_count = #{param.effectOrderCount, jdbcType=BIGINT},
+            </if>
+            <if test="param.payOffCount !=null and param.payOffCount != 0">
+                pay_off_count = #{param.payOffCount, jdbcType=BIGINT},
+            </if>
+        </set>
           WHERE user_id=#{param.userId,jdbcType=BIGINT}
           AND order_id = #{param.orderId,jdbcType=BIGINT}
     </update>

@@ -43,7 +43,7 @@ public class UserInfo {
         this.id = id;
     }
 
-    
+
     public Long getUserCount() {
 		return userCount;
 	}

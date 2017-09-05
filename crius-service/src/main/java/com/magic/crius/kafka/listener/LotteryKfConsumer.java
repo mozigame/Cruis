@@ -2,6 +2,7 @@ package com.magic.crius.kafka.listener;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.magic.analysis.enums.GameTypeEnum;
 import com.magic.api.commons.ApiLogger;
 import com.magic.crius.assemble.BaseOrderReqAssemService;
 import com.magic.crius.enums.KafkaConf;
@@ -16,6 +17,7 @@ import javax.annotation.Resource;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * User: joey
@@ -31,6 +33,7 @@ public class LotteryKfConsumer {
     /*注单*/
     @Resource
     private BaseOrderReqAssemService baseGameReqAssemService;
+    private static AtomicLong counter=new AtomicLong();
 
     /**
      * LOTTERY
@@ -57,7 +60,12 @@ public class LotteryKfConsumer {
                 lotteryReq.setProduceTime(lotteryReq.getInsertDatetime());
                 lotteryReq.setOrderExtent(convertLotteryExt(lotteryReq));
                 lotteryReq.setConsumerTime(System.currentTimeMillis());
+                lotteryReq.setGameAbstractType(Integer.parseInt(GameTypeEnum.LOTTERY.getCode()));
                 baseGameReqAssemService.procKafkaData(lotteryReq);
+                Long count=counter.incrementAndGet();
+                if(count%1000==0){
+                    logger.info("-----lottery-count="+count);
+                }
             }
         } catch (Exception e) {
             ApiLogger.error("proceData lottery error , ", e);

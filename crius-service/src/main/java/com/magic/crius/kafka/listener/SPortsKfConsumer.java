@@ -2,6 +2,7 @@ package com.magic.crius.kafka.listener;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.magic.analysis.enums.GameTypeEnum;
 import com.magic.api.commons.ApiLogger;
 import com.magic.crius.assemble.BaseOrderReqAssemService;
 import com.magic.crius.enums.KafkaConf;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * User: joey
@@ -31,6 +33,7 @@ public class SPortsKfConsumer {
     /*注单*/
     @Resource
     private BaseOrderReqAssemService baseGameReqAssemService;
+    private static AtomicLong counter=new AtomicLong();
     /**
      * sports
      * @param record
@@ -49,13 +52,18 @@ public class SPortsKfConsumer {
         try {
             Optional<?> kafkaMessage = Optional.ofNullable(record.value());
             if (kafkaMessage.isPresent()) {
-                logger.info("Thread : "+ Thread.currentThread().getName()+" ,get sprorts kafka data :>>>  " + record.toString());
+                logger.info("Thread : "+ Thread.currentThread().getName()+" ,get sports kafka data :>>>  " + record.toString());
                 JSONObject object = JSON.parseObject(record.value().toString());
                 SportReq sportReq = JSON.parseObject(object.getString(KafkaConf.RECORD), SportReq.class);
                 sportReq.setProduceTime(sportReq.getInsertDatetime());
                 sportReq.setOrderExtent(convertSportExt(sportReq));
                 sportReq.setConsumerTime(System.currentTimeMillis());
+                sportReq.setGameAbstractType(Integer.parseInt(GameTypeEnum.PHYSICAL.getCode()));
                 baseGameReqAssemService.procKafkaData(sportReq);
+                Long count=counter.incrementAndGet();
+                if(count%1000==0){
+                    logger.info("-----sports-count="+count);
+                }
             }
         } catch (Exception e) {
             ApiLogger.error("proceData sports error , ", e);

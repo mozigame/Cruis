@@ -32,14 +32,14 @@
           #{administration,jdbcType=BIGINT}, #{reforwardAccount,jdbcType=BIGINT})
     </insert>
 
-    <insert id="batchInsert" parameterType="com.magic.crius.po.ProxyBillSummary2game">
-         insert into proxy_bill_summary2game (owner_id, proxy_id,
-          proxy_name, order_id, game_type,
-          last_effect_order_count, effect_order_count, last_income,
-          income, pdate, reforward,
-          administration, reforward_account)
-          values
-          <foreach collection="list" item="param" separator="," >
+    <insert id="batchInsert" >
+          <foreach collection="list" item="param" separator=";" >
+              insert into proxy_bill_summary2game (owner_id, proxy_id,
+              proxy_name, order_id, game_type,
+              last_effect_order_count, effect_order_count, last_income,
+              income, pdate, reforward,
+              administration, reforward_account)
+              values
               ( #{param.ownerId,jdbcType=BIGINT}, #{param.proxyId,jdbcType=BIGINT},
               #{param.proxyName,jdbcType=VARCHAR}, #{param.orderId,jdbcType=VARCHAR}, #{param.gameType,jdbcType=VARCHAR},
               #{param.lastEffectOrderCount,jdbcType=BIGINT}, #{param.effectOrderCount,jdbcType=BIGINT}, #{param.lastIncome,jdbcType=BIGINT},

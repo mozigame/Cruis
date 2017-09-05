@@ -25,7 +25,9 @@ public class UserTradeServiceImpl implements UserTradeService {
         
         for(UserTrade trade:userTrades){
 			// 添加审核时间
-			trade.setTradeTime(System.currentTimeMillis());
+			if (trade.getTradeTime() == null || trade.getTradeTime() == 0) {
+				trade.setTradeTime(System.currentTimeMillis());
+			}
 			userTradeDbService.saveTrade(trade);
 		}
 		
@@ -37,7 +39,9 @@ public class UserTradeServiceImpl implements UserTradeService {
 		// TODO Auto-generated method stub
 		for(UserTrade trade:userTrades){
 			// 添加审核时间
-			trade.setTradeTime(System.currentTimeMillis());
+			if (trade.getTradeTime() == null || trade.getTradeTime() == 0) {
+				trade.setTradeTime(System.currentTimeMillis());
+			}
 			userTradeDbService.updateTradeStatus(trade);
 		}
 		
@@ -48,7 +52,9 @@ public class UserTradeServiceImpl implements UserTradeService {
 	public boolean updateTradeStatus4Failed(List<UserTrade> userTrades) {
 		for(UserTrade trade:userTrades){
 			// 添加审核时间
-			trade.setTradeTime(System.currentTimeMillis());
+			if (trade.getTradeTime() == null || trade.getTradeTime() == 0) {
+				trade.setTradeTime(System.currentTimeMillis());
+			}
 			userTradeDbService.updateTradeStatus4Failed(trade);
 		}
 		return true;

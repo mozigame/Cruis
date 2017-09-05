@@ -23,6 +23,8 @@ public class VGameReq extends BaseOrderReq {
     private String roundno; //场次
     @JSONField(name = "table_code")
     private String tableCode;   //桌号
+    @JSONField(name = "game_name")
+    private String gameName;    //游戏名称
 
     //下注类型，无，
     //赔率拿不到，无
@@ -74,5 +76,13 @@ public class VGameReq extends BaseOrderReq {
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    public String getGameName() {
+        return gameName;
+    }
+
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
     }
 }

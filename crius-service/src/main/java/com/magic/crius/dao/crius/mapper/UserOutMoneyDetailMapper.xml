@@ -39,16 +39,16 @@
     </insert>
 
     <!--批量添加-->
-    <insert id="batchInsert" parameterType="com.magic.crius.po.UserOutMoneyDetail">
-        insert into user_out_money_detail (owner_id, user_id,
-        order_count, tax_count, state,
-        order_id, pdate, handler_id,
-        handler_name, create_time, update_time,cost_amount,offer_amount,fee_amount,
-        out_detail_type
-        )
-        values
-        <foreach collection="list" item="param" separator=",">
-          (#{param.ownerId,jdbcType=BIGINT},
+    <insert id="batchInsert" >
+        <foreach collection="list" item="param" separator=";">
+            insert into user_out_money_detail (owner_id, user_id,
+            order_count, tax_count, state,
+            order_id, pdate, handler_id,
+            handler_name, create_time, update_time,cost_amount,offer_amount,fee_amount,
+            out_detail_type
+            )
+            values
+            (#{param.ownerId,jdbcType=BIGINT},
             #{param.userId,jdbcType=BIGINT},
             #{param.orderCount,jdbcType=BIGINT},
             #{param.taxCount,jdbcType=BIGINT},

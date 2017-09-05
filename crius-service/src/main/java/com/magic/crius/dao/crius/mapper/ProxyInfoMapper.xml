@@ -44,12 +44,12 @@
 
     <!--批量添加-->
     <insert id="batchInsert" >
-        insert into proxy_info (proxy_id, proxy_name,
-        shareholder_id, shareholder_name, owner_id
-        )
-        values
-        <foreach collection="list" item="param" separator=",">
-          ( #{param.proxyId,jdbcType=BIGINT},
+        <foreach collection="list" item="param" separator=";">
+            insert into proxy_info (proxy_id, proxy_name,
+            shareholder_id, shareholder_name, owner_id
+            )
+            values
+            ( #{param.proxyId,jdbcType=BIGINT},
             #{param.proxyName,jdbcType=VARCHAR},
             #{param.shareholderId,jdbcType=BIGINT},
             #{param.shareholderName,jdbcType=VARCHAR},

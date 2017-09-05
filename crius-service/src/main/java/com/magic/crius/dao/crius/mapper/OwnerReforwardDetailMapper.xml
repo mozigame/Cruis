@@ -47,14 +47,14 @@
 
     <!--添加-->
     <insert id="batchInsert" >
-        insert into owner_reforward_detail (owner_id, user_id,
-        game_type, order_num, order_count,
-        effect_order_count, reforward_money_count, order_id,
-        pdate, create_time, update_time
-        )
-        values
-        <foreach collection="list" item="param" separator=",">
-          (#{param.ownerId,jdbcType=BIGINT},
+        <foreach collection="list" item="param" separator=";">
+            insert into owner_reforward_detail (owner_id, user_id,
+            game_type, order_num, order_count,
+            effect_order_count, reforward_money_count, order_id,
+            pdate, create_time, update_time
+            )
+            values
+            (#{param.ownerId,jdbcType=BIGINT},
             #{param.userId,jdbcType=BIGINT},
             #{param.gameType,jdbcType=VARCHAR},
             #{param.orderNum,jdbcType=INTEGER},

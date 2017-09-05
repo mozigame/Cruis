@@ -29,11 +29,12 @@ public class PreWithdrawReqAssemService {
 
         if (req.getReqId() != null) {
             if (PropertiesLoad.checkMongoResId()) {
-                logger.info("save PreWithdrawReq checkReqId : "+ req.getReqId());
                 if (preWithdrawService.getByReqId(req.getReqId()) == null) {
                     if (!preWithdrawService.save(req)) {
                         logger.error("save PreWithdraw error,reqId : " + req.getReqId());
                     }
+                }else {
+                    logger.warn("save PreWithdraw failed, reqId has exist, reqId : "+ req.getReqId());
                 }
             } else {
                 if (!preWithdrawService.save(req)) {

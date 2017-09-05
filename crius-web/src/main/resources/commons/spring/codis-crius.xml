@@ -31,7 +31,7 @@
        </bean>
 
        <aop:config>
-              <aop:pointcut expression="execution(public * com.magic.crius.*storage.redis..*.*(..)) || execution(public * com.magic.crius.assemble..*.*(..)) || execution(public * com.magic.crius.scheduled.consumer..*.*(..))" id="jedisAspect"/>
+              <aop:pointcut expression="execution(public * com.magic.crius.*storage.redis..*.*(..)) or execution(public * com.magic.crius.assemble..*.*(..)) or execution(public * com.magic.crius.scheduled.consumer..*.*(..))" id="jedisAspect"/>
               <aop:aspect ref="criusJedisFactory">
                      <aop:after method="close" pointcut-ref="jedisAspect"/>
               </aop:aspect>

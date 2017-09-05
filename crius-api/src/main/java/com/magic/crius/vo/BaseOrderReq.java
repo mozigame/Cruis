@@ -23,8 +23,6 @@ public class BaseOrderReq {
     private String betId; //主单号，原始游戏单号
     @JSONField(name = "game_id")
     private Long gameId;    //
-    @JSONField(name = "game_name")
-    private String gameName;    //游戏名称
     @JSONField(name = "insert_datetime")
     private Long insertDatetime; //插入日期
     @JSONField(name = "update_datetime")
@@ -41,6 +39,11 @@ public class BaseOrderReq {
     private Integer isPaid; //是否已派彩
     //扩展消息
     private JSONObject orderExtent;
+
+    /**
+     * 游戏大类型，{com.magic.analysis.enums.GameTypeEnum}
+     */
+    private Integer gameAbstractType;
 
 
     /**
@@ -137,14 +140,6 @@ public class BaseOrderReq {
         this.payoff = payoff;
     }
 
-    public String getGameName() {
-        return gameName;
-    }
-
-    public void setGameName(String gameName) {
-        this.gameName = gameName;
-    }
-
     public Long getReqId() {
         return reqId;
     }
@@ -183,5 +178,13 @@ public class BaseOrderReq {
 
     public void setConsumerTime(Long consumerTime) {
         this.consumerTime = consumerTime;
+    }
+
+    public Integer getGameAbstractType() {
+        return gameAbstractType;
+    }
+
+    public void setGameAbstractType(Integer gameAbstractType) {
+        this.gameAbstractType = gameAbstractType;
     }
 }

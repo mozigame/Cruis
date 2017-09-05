@@ -28,12 +28,12 @@
 
     <!--添加业主成本部分退佣汇总-->
     <insert id="batchInsert" parameterType="com.magic.crius.po.OwnerBillSummary2cost">
-      insert into owner_bill_summary2cost (owner_id, order_id,
-        proxy_id, proxy_name, bill_type,
-        bill_type_name, bill, cost,
-        remark)
-      values
-        <foreach collection="list" item="param" separator="," >
+        <foreach collection="list" item="param" separator=";" >
+            insert into owner_bill_summary2cost (owner_id, order_id,
+            proxy_id, proxy_name, bill_type,
+            bill_type_name, bill, cost,
+            remark)
+            values
             (#{param.ownerId,jdbcType=BIGINT},
             #{param.orderId,jdbcType=VARCHAR},
             #{param.proxyId,jdbcType=BIGINT},

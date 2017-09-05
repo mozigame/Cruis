@@ -1,5 +1,7 @@
 package com.magic.crius.storage.db.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.magic.api.commons.ApiLogger;
 import com.magic.crius.dao.tethys.db.UserOrderDetailMapper;
 import com.magic.crius.enums.IsPaidType;
 import com.magic.crius.po.UserOrderDetail;
@@ -27,7 +29,17 @@ public class TethysUserOrderDetailDbServiceImpl implements TethysUserOrderDetail
         try {
             return userOrderDetailMapper.insertBatch(userOrderDetails, userIds) != null;
         } catch (Exception e) {
-            e.printStackTrace();
+            ApiLogger.error("tethys user order batchSave error ,param : " + JSON.toJSONString(userOrderDetails), e);
+        }
+        return false;
+    }
+
+    @Override
+    public boolean save(UserOrderDetail detail) {
+        try {
+            return userOrderDetailMapper.insert(detail.getUserId(), detail) != null;
+        } catch (Exception e) {
+            ApiLogger.error("tethys user order save error ,param : " + JSON.toJSONString(detail), e);
         }
         return false;
     }
@@ -37,25 +49,19 @@ public class TethysUserOrderDetailDbServiceImpl implements TethysUserOrderDetail
         try {
             return userOrderDetailMapper.update("updatePaidStatus", orderDetail.getUserId(), new String[]{"param"}, new Object[]{orderDetail}) > 0;
         } catch (Exception e) {
-            e.printStackTrace();
+            ApiLogger.error("tethys user order updatePaid error ,param : " + JSON.toJSONString(orderDetail), e);
         }
         return false;
     }
 
     @Override
-    public List<UserOrderDetail> findNoPaidIds(Collection<UserOrderDetail> orderDetails) {
-        List<UserOrderDetail> result = new ArrayList<>();
-        for (UserOrderDetail orderDetail : orderDetails) {
-            try {
-                UserOrderDetail userOrderDetail = (UserOrderDetail) userOrderDetailMapper.get("findNoPaid", orderDetail.getUserId(),
-                        new String[]{"userId", "orderId"}, new Object[]{orderDetail.getUserId(), orderDetail.getOrderId()});
-                if (userOrderDetail != null) {
-                    result.add(userOrderDetail);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+    public List<UserOrderDetail> findByOrderId(UserOrderDetail detail) {
+        try {
+            return userOrderDetailMapper.findCustom("findByOrderId", detail.getUserId(),
+                    new String[]{"userId", "orderId"}, new Object[]{detail.getUserId(), detail.getOrderId()});
+        } catch (Exception e) {
+            ApiLogger.error("tethys user order findByOrderId error ,param : " + JSON.toJSONString(detail), e);
         }
-        return result;
+        return null;
     }
 }

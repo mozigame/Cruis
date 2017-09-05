@@ -54,6 +54,12 @@ public class DealerRewardReq {
     private Long consumerTime;
 
 
+    /**
+     * 游戏大类型，{com.magic.analysis.enums.GameTypeEnum}
+     */
+    private Integer gameAbstractType;
+
+
     public Long getBillId() {
         return billId;
     }
@@ -204,6 +210,14 @@ public class DealerRewardReq {
 
     public void setConsumerTime(Long consumerTime) {
         this.consumerTime = consumerTime;
+    }
+
+    public Integer getGameAbstractType() {
+        return gameAbstractType;
+    }
+
+    public void setGameAbstractType(Integer gameAbstractType) {
+        this.gameAbstractType = gameAbstractType;
     }
 
     @Override

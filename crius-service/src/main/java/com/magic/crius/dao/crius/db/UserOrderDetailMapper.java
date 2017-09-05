@@ -23,4 +23,11 @@ public interface UserOrderDetailMapper {
      * @return
      */
     boolean updatePaidStatus(@Param("param") UserOrderDetail detail);
+
+    /**
+     * 根据订单号查询订单
+     * @param detail
+     * @return
+     */
+    List<UserOrderDetail> findByOrderId(UserOrderDetail detail);
 }

@@ -26,11 +26,12 @@ public class OnlChargeReqAssemService  {
     public void procKafkaData(OnlChargeReq req) {
         if (req.getReqId() != null) {
             if (PropertiesLoad.checkMongoResId()) {
-                logger.info("save OnlChargeReq checkReqId : "+ req.getReqId());
                 if (onlChargeService.getByReqId(req.getReqId()) == null) {
                     if (!onlChargeService.save(req)) {
                         logger.error("save OnlChargeReq error,reqId : " + req.getReqId());
                     }
+                }else {
+                    logger.warn("save OnlChargeReq failed, reqId has exist, reqId : "+ req.getReqId());
                 }
             } else {
                 if (!onlChargeService.save(req)) {

@@ -27,11 +27,12 @@ public class OperateChargeReqAssemService  {
     public void procKafkaData(OperateChargeReq req) {
         if (req.getReqId() != null ) {
             if (PropertiesLoad.checkMongoResId()) {
-                logger.info("save OperateChargeReq checkReqId : "+ req.getReqId());
                 if (operateChargeService.getByReqId(req.getReqId()) == null) {
                     if (!operateChargeService.save(req)) {
                         logger.error("save OperateChargeReq error,reqId : " + req.getReqId());
                     }
+                }else {
+                    logger.warn("save OperateChargeReq failed, reqId has exist, reqId : "+ req.getReqId());
                 }
             } else {
                 if (!operateChargeService.save(req)) {

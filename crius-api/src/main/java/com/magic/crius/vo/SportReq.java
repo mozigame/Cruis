@@ -17,6 +17,11 @@ public class SportReq extends BaseOrderReq {
     @JSONField(name = "play_type")
     private String playType;    //盘口
 
+
+    @JSONField(name = "game_name")
+    private String gameName;    //游戏名称
+
+
     public String getPlayType() {
         return playType;
     }
@@ -39,5 +44,13 @@ public class SportReq extends BaseOrderReq {
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    public String getGameName() {
+        return gameName;
+    }
+
+    public void setGameName(String gameName) {
+        this.gameName = gameName;
     }
 }

@@ -13,4 +13,6 @@ import java.util.List;
 public interface UserOrderDetailExtentMapper {
 
     int batchInsert(@Param("list") List<UserOrderDetail> userOrderDetails);
+
+    int insert(UserOrderDetail userOrderDetail);
 }

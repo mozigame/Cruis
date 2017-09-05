@@ -22,12 +22,12 @@
 
     <!--批量添加-->
     <insert id="batchInsert">
-        insert into owner_operate_out_detail (owner_id, operate_out_money_count,
-        operate_out_num, operate_out_type, operate_out_type_name,
-        pdate)
-        values
-        <foreach collection="list" item="param" separator=",">
-          ( #{param.ownerId,jdbcType=BIGINT},
+        <foreach collection="list" item="param" separator=";">
+            insert into owner_operate_out_detail (owner_id, operate_out_money_count,
+            operate_out_num, operate_out_type, operate_out_type_name,
+            pdate)
+            values
+            ( #{param.ownerId,jdbcType=BIGINT},
             #{param.operateOutMoneyCount,jdbcType=BIGINT},
             #{param.operateOutNum,jdbcType=INTEGER},
             #{param.operateOutType,jdbcType=INTEGER},
