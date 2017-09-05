@@ -123,7 +123,7 @@ public class UserPreferentialDetailAssemService {
                 Long billIdToRepair = Long.valueOf(ele.getId());
                 Long reqIdToRepair = 0L;
                 if (i==0){
-                    billIdToRepair = ele.getReqId();
+                    billIdToRepair = billId;
                     reqIdToRepair = reqId;
                 }
                 int repairCount = userPreferentialDetailService.repairBillIdById(ele.getId(), billIdToRepair, reqIdToRepair);
