@@ -105,7 +105,7 @@
     </update>
 
     <!---->
-    <select id="selectByDetail" parameterType="com.magic.crius.po.UserPreferentialDetail">
+    <select id="selectByDetail" resultMap="BaseResultMap" parameterType="com.magic.crius.po.UserPreferentialDetail">
         SELECT *
         FROM user_preferential_detail
         WHERE
