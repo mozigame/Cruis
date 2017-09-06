@@ -45,6 +45,19 @@ public class UserPreferentialDetailDbServiceImpl implements UserPreferentialDeta
         return userPreferentialDetailMapper.repairDetail(detail);
     }
 
+
+    @Override
+    public int repairBillIdById(long id, long billId, long reqId) {
+        return userPreferentialDetailMapper.repairBillIdById(id, billId, reqId);
+    }
+
+
+    @Override
+    public List<UserPreferentialDetail> selectByDetail(UserPreferentialDetail detail) {
+        return userPreferentialDetailMapper.selectByDetail(detail);
+    }
+
+
     @Override
     public UserPreferentialDetail getByBillId(Long billId) {
         return userPreferentialDetailMapper.getByBillId(billId);

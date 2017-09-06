@@ -9,6 +9,7 @@ import com.magic.crius.po.UserPreferentialDetail;
 import com.magic.crius.service.UserPreferentialDetailService;
 import com.magic.crius.storage.mongo.DiscountReqMongoService;
 import com.magic.crius.vo.DiscountReq;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -82,19 +83,58 @@ public class UserPreferentialDetailAssemService {
             if (discountReq == null) {
                 result.put(idString, "null");
             } else {
-                UserPreferentialDetail detail = assembleUserPreferentialDetail(discountReq);
-                UserPreferentialDetail detailInDB = userPreferentialDetailService.getByBillId(detail.getBillId());
-                if (detailInDB==null){
-                    int repairCount = userPreferentialDetailService.repairDetail(detail);
-                    result.put(idString, repairCount);
-                }else {
-                    result.put(idString, "exist");
-                }
+                repairDetailByDiscountReq(result, idString, discountReq);
             }
         }
 
         result.put("oper", true);
         return JSONObject.toJSONString(result);
+    }
+
+    private void repairDetailByDiscountReq(Map<String, Object> result, String key, DiscountReq discountReq) {
+        UserPreferentialDetail detail = assembleUserPreferentialDetail(discountReq);
+        UserPreferentialDetail detailInDB = userPreferentialDetailService.getByBillId(detail.getBillId());
+        if (detailInDB==null){
+            //
+            List<UserPreferentialDetail> detailList = userPreferentialDetailService.selectByDetail(detail);
+            if (CollectionUtils.isEmpty(detailList)){
+                result.put(key, "detail empty");
+            }else {
+                if (detailList.size()==1){
+                    int repairCount = userPreferentialDetailService.repairDetail(detail);
+                    result.put(key, repairCount);
+                }else {
+                    repairRepeatedData(result, key, detail, detailList);
+                }
+            }
+
+        }else {
+            result.put(key, "exist");
+        }
+    }
+
+    private void repairRepeatedData(Map<String, Object> result, String key, UserPreferentialDetail targetDetail, List<UserPreferentialDetail> detailList) {
+        Long billId = targetDetail.getBillId();
+        Long reqId = targetDetail.getReqId();
+        if (billId!=null && reqId!=null){
+            Map<String,Object> repairResult = new HashMap<>();
+            for (int i=0;i<detailList.size();++i){
+                UserPreferentialDetail ele = detailList.get(i);
+                Long billIdToRepair = Long.valueOf(ele.getId());
+                Long reqIdToRepair = 0L;
+                if (i==0){
+                    billIdToRepair = billId;
+                    reqIdToRepair = reqId;
+                }
+                int repairCount = userPreferentialDetailService.repairBillIdById(ele.getId(), billIdToRepair, reqIdToRepair);
+                repairResult.put(String.valueOf(ele.getId()),repairCount);
+            }
+            result.put(key, repairResult);
+        }else {
+            result.put(key, "repairRepeatedData error");
+        }
+
+
     }
 
     public String repairUserPreferentialByPage(int page, int count) {
@@ -112,14 +152,7 @@ public class UserPreferentialDetailAssemService {
             if (discountReq == null) {
                 result.put(String.valueOf(index), "null");
             } else {
-                UserPreferentialDetail detail = assembleUserPreferentialDetail(discountReq);
-                UserPreferentialDetail detailInDB = userPreferentialDetailService.getByBillId(detail.getBillId());
-                if (detailInDB==null){
-                    int repairCount = userPreferentialDetailService.repairDetail(detail);
-                    result.put(String.valueOf(discountReq.getReqId()), repairCount);
-                }else {
-                    result.put(String.valueOf(discountReq.getReqId()), "exist");
-                }
+                repairDetailByDiscountReq(result, String.valueOf(discountReq.getBillId()), discountReq);
             }
         }
 

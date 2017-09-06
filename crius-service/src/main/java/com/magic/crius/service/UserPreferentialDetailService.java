@@ -46,4 +46,8 @@ public interface UserPreferentialDetailService {
     UserPreferentialDetail getByBillId(Long billId);
 
     int repairDetail(UserPreferentialDetail detail);
+
+    List<UserPreferentialDetail> selectByDetail(UserPreferentialDetail detail);
+
+    int repairBillIdById(long id, long billId, long reqId);
 }

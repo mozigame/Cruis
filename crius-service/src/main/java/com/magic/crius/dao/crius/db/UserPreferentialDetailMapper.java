@@ -39,7 +39,34 @@ public interface UserPreferentialDetailMapper {
      */
     List<UserPreferentialDetail> findByUserIds(@Param("list") Collection<Long> userIds, @Param("pdate") Integer pdate);
 
+    /**
+     * 全匹配才修复
+     * @param detail
+     * @return
+     */
     int repairDetail(UserPreferentialDetail detail);
 
+    /**
+     * 修复接口用
+     * @param detail
+     * @return
+     */
+    List<UserPreferentialDetail> selectByDetail(UserPreferentialDetail detail);
+
+    /**
+     * 修复billId和reqId
+     * @param id
+     * @param billId
+     * @param reqId
+
+     * @return
+     */
+    int repairBillIdById(@Param("id")long id, @Param("billId")long billId, @Param("reqId")long reqId);
+
+    /**
+     * 根据billId拉去数据
+     * @param billId
+     * @return
+     */
     UserPreferentialDetail getByBillId(Long billId);
 }

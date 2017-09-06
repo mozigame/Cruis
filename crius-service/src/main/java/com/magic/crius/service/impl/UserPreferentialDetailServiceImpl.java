@@ -50,4 +50,14 @@ public class UserPreferentialDetailServiceImpl implements UserPreferentialDetail
     public int repairDetail(UserPreferentialDetail detail) {
         return userPreferentialDetailDbService.repairDetail(detail);
     }
+
+    @Override
+    public List<UserPreferentialDetail> selectByDetail(UserPreferentialDetail detail) {
+        return userPreferentialDetailDbService.selectByDetail(detail);
+    }
+
+    @Override
+    public int repairBillIdById(long id, long billId, long reqId) {
+        return userPreferentialDetailDbService.repairBillIdById(id, billId, reqId);
+    }
 }

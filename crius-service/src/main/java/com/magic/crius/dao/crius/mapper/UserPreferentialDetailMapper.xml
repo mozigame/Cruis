@@ -104,4 +104,30 @@
         AND remark = #{remark,jdbcType=VARCHAR}
     </update>
 
+    <!---->
+    <select id="selectByDetail" resultMap="BaseResultMap" parameterType="com.magic.crius.po.UserPreferentialDetail">
+        SELECT *
+        FROM user_preferential_detail
+        WHERE
+        owner_id = #{ownerId,jdbcType=BIGINT}
+        AND user_id = #{userId,jdbcType=BIGINT}
+        AND preferential_money_count = #{preferentialMoneyCount,jdbcType=BIGINT}
+        AND preferential_num = #{preferentialNum,jdbcType=INTEGER}
+        AND preferential_type = #{preferentialType,jdbcType=INTEGER}
+        AND preferential_type_name = #{preferentialTypeName,jdbcType=VARCHAR}
+        AND pdate = #{pdate,jdbcType=INTEGER}
+        AND create_time = #{createTime,jdbcType=BIGINT}
+        AND remark = #{remark,jdbcType=VARCHAR}
+    </select>
+
+    <!--修复bill_id,req_id,必须其他属性完全一样,才能写入-->
+    <update id="repairBillIdById">
+        update user_preferential_detail
+        set
+        bill_id=#{billId,jdbcType=BIGINT},
+        req_id=#{reqId,jdbcType=BIGINT}
+        where
+           Id=#{id,jdbcType=INTEGER}
+    </update>
+
 </mapper>
