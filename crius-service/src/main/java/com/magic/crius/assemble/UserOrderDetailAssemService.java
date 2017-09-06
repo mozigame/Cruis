@@ -73,7 +73,7 @@ public class UserOrderDetailAssemService {
         //修改订单的派彩状态
         if (updateOrder.size() > 0) {
             updateOrder.forEach((orderDetail) -> {
-                if (!tethysUserOrderDetailService.updatePaid(orderDetail) && !userOrderDetailService.updatePaid(orderDetail)) {
+                if (!(tethysUserOrderDetailService.updatePaid(orderDetail) & userOrderDetailService.updatePaid(orderDetail))) {
                     orderDetail.setProcStatus(ProcessStatus.failed.status());
                     orderDetail.setConsumerTime(System.currentTimeMillis());
                     userOrderDetailService.saveUpdateFailed(orderDetail);
