@@ -35,5 +35,5 @@ public interface UserOrderDetailMapper {
      * 根据订单号查询订单
      * @return
      */
-    List<UserOrderDetail> findByOrderIds(List<UserOrderDetail> details);
+    List<UserOrderDetail> findByOrderIds(@Param("list") List<UserOrderDetail> details);
 }
