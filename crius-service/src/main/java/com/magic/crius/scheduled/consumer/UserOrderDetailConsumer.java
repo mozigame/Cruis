@@ -2,6 +2,7 @@ package com.magic.crius.scheduled.consumer;
 
 import com.alibaba.fastjson.JSON;
 import com.magic.api.commons.ApiLogger;
+import com.magic.crius.assemble.FailedRedisQueue;
 import com.magic.crius.enums.IsPaidType;
 import com.magic.crius.po.UserOrderDetail;
 import com.magic.crius.service.TethysUserOrderDetailService;
@@ -19,6 +20,7 @@ import java.util.concurrent.ExecutorService;
  * User: joey
  * Date: 2017/9/2
  * Time: 22:19
+ * 修改异常的用户订单处理
  */
 @Component
 public class UserOrderDetailConsumer {
@@ -50,6 +52,9 @@ public class UserOrderDetailConsumer {
      */
     private void currentDataCalculate(Date date) {
         List<UserOrderDetail> details = userOrderDetailService.batchPopRedis(date);
+        while (FailedRedisQueue.userOrderQueue.size() > 0) {
+            details.add(FailedRedisQueue.userOrderQueue.poll());
+        }
         details.forEach((UserOrderDetail detail)->{
             if (!userOrderDetailService.updatePaid(detail)) {
                 List<UserOrderDetail> details_ = userOrderDetailService.findByOrderId(detail);

@@ -47,4 +47,9 @@ public class UserOrderDetailDbServiceImpl implements UserOrderDetailDbService {
     public List<UserOrderDetail> findByOrderId(UserOrderDetail detail) {
         return criusUserOrderDetailMapper.findByOrderId(detail);
     }
+
+    @Override
+    public List<UserOrderDetail> findByOrderIds(List<UserOrderDetail> details) {
+        return criusUserOrderDetailMapper.findByOrderIds(details);
+    }
 }

@@ -120,6 +120,14 @@ public class OperateWithDrawReqConsumer {
     private void currentDataCalculate(Date date) {
         int countNum = 0;
         List<OperateWithDrawReq> reqList = operateWithDrawReqService.batchPopRedis(date);
+        int queuePopCount = 0;
+        while (FailedRedisQueue.operateWithDrawQueue.size() > 0) {
+            if (++queuePopCount > RedisConstants.BATCH_POP_NUM) {
+                logger.info("currentDataCalculate operateWithDraw queuePopCount > 100, process insert, list.size is : " + reqList.size());
+                flushData(reqList);
+            }
+            reqList.add(FailedRedisQueue.operateWithDrawQueue.poll());
+        }
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
             logger.info("currentDataCalculate operateWithDraw pop datas, size : " + reqList.size());
             flushData(reqList);

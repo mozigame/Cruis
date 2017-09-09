@@ -105,6 +105,14 @@ public class PreWithdrawReqConsumer {
     private void currentDataCalculate(Date date) {
         int countNum = 0;
         List<PreWithdrawReq> reqList = preWithdrawService.batchPopRedis(date);
+        int queuePopCount = 0;
+        while (FailedRedisQueue.preWithdrawQueue.size() > 0) {
+            if (++queuePopCount > RedisConstants.BATCH_POP_NUM) {
+                logger.info("currentDataCalculate preWithdraw queuePopCount > 100, process insert, list.size is : " + reqList.size());
+                flushData(reqList);
+            }
+            reqList.add(FailedRedisQueue.preWithdrawQueue.poll());
+        }
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
             logger.info("currentDataCalculate preWithDraw pop datas, size : " + reqList.size());
             flushData(reqList);

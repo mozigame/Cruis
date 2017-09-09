@@ -1,5 +1,7 @@
 package com.magic.crius.service.impl;
 
+import com.magic.api.commons.ApiLogger;
+import com.magic.crius.assemble.FailedRedisQueue;
 import com.magic.crius.service.BaseOrderReqService;
 import com.magic.crius.storage.mongo.BaseOrderReqMongoService;
 import com.magic.crius.storage.redis.BaseOrderReqRedisService;
@@ -30,7 +32,16 @@ public class BaseOrderReqServiceImpl implements BaseOrderReqService {
         //此处逻辑改为如果mongo插入成功才写入redis
         if (baseOrderReqMongoService.save(req)) {
             if (!baseOrderReqRedisService.save(req)) {
-                //TODO 缓存保存失败如何处理
+                //TODO 缓存保存失败如何处理，睡眠2毫秒，然后重试，如果失败，扔进队列中
+                try {
+                    Thread.sleep(2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ApiLogger.warn("save baseOrderReq false, retry one time");
+                if (!baseOrderReqRedisService.save(req)) {
+                    FailedRedisQueue.baseOrderQueue.add(req);
+                }
             }
         } else {
             baseOrderReqMongoService.saveFailedData(req);

@@ -103,6 +103,14 @@ public class OperateChargeReqConsumer {
     private void currentDataCalculate(Date date) {
         int countNum = 0;
         List<OperateChargeReq> reqList = operateChargeService.batchPopRedis(date);
+        int queuePopCount = 0;
+        while (FailedRedisQueue.operateChargeQueue.size() > 0) {
+            if (++queuePopCount > RedisConstants.BATCH_POP_NUM) {
+                logger.info("currentDataCalculate operateCharge queuePopCount > 100, process insert, list.size is : " + reqList.size());
+                flushData(reqList);
+            }
+            reqList.add(FailedRedisQueue.operateChargeQueue.poll());
+        }
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
             logger.info("currentDataCalculate operateCharge pop datas, size : " + reqList.size());
             flushData(reqList);

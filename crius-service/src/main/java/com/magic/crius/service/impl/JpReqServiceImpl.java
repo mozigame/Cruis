@@ -1,5 +1,7 @@
 package com.magic.crius.service.impl;
 
+import com.magic.api.commons.ApiLogger;
+import com.magic.crius.assemble.FailedRedisQueue;
 import com.magic.crius.service.JpReqService;
 import com.magic.crius.storage.mongo.JpReqMongoService;
 import com.magic.crius.storage.redis.JpReqRedisService;
@@ -29,7 +31,17 @@ public class JpReqServiceImpl implements JpReqService {
     public boolean save(JpReq req) {
         if (jpReqMongoService.save(req)) {
             if (!jpReqRedisService.save(req)) {
-                //todo
+                //TODO 缓存保存失败如何处理，睡眠2毫秒，然后重试，如果失败，扔进队列中
+                try {
+                    Thread.sleep(2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ApiLogger.error("save jpReq false, retry one time,billId : "+ req.getBillId());
+                if (!jpReqRedisService.save(req)) {
+                    ApiLogger.error("retry save jpReq false, billId : "+ req.getBillId());
+                    FailedRedisQueue.jpQueue.add(req);
+                }
             }
         } else {
             jpReqMongoService.saveFailedData(req);

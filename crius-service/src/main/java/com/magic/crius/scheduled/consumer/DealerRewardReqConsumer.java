@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
+import com.magic.crius.assemble.FailedRedisQueue;
 import com.magic.crius.constants.RedisConstants;
 import com.magic.crius.service.BaseReqService;
 import com.magic.crius.storage.db.SpringDataPageable;
@@ -106,6 +107,14 @@ public class DealerRewardReqConsumer {
     private void currentDataCalculate(Date date) {
         int countNum = 0;
         List<DealerRewardReq> reqList = dealerRewardReqService.batchPopRedis(date);
+        int queuePopCount = 0;
+        while (FailedRedisQueue.dealerRewardQueue.size() > 0) {
+            if (++queuePopCount > RedisConstants.BATCH_POP_NUM) {
+                logger.info("currentDataCalculate dealerReward queuePopCount > 100, process insert, list.size is : " + reqList.size());
+                flushData(reqList);
+            }
+            reqList.add(FailedRedisQueue.dealerRewardQueue.poll());
+        }
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
             logger.info("------currentDataCalculate ,dealerReward , list : " + reqList.size());
             flushData(reqList);

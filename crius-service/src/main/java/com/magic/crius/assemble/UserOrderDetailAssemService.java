@@ -14,6 +14,7 @@ import com.magic.crius.vo.BaseOrderReq;
 import com.magic.crius.vo.DealerRewardReq;
 import com.magic.crius.vo.JpReq;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -48,21 +49,21 @@ public class UserOrderDetailAssemService {
                 orderDetail.setGameAbstractType(Integer.parseInt(GameTypeEnum.OTHER.getCode()));
             }
             GameTypeEnum gameTypeEnum = GameTypeEnum.getEnumByCode(orderDetail.getGameAbstractType());
-            if (gameTypeEnum == GameTypeEnum.LOTTERY || gameTypeEnum == GameTypeEnum.PHYSICAL) {
+            if (gameTypeEnum == GameTypeEnum.JP || gameTypeEnum == GameTypeEnum.DEALER_REWARD || gameTypeEnum == GameTypeEnum.OTHER ) {
+                insertUserIds.add(orderDetail.getUserId());
+                insertOrder.add(orderDetail);
+            } else {
                 if (orderDetail.getIsPaid() != null && orderDetail.getIsPaid() == IsPaidType.noPaid.value()) {
                     insertUserIds.add(orderDetail.getUserId());
                     insertOrder.add(orderDetail);
                 } else {
                     updateOrder.add(orderDetail);
                 }
-            } else {
-                insertUserIds.add(orderDetail.getUserId());
-                insertOrder.add(orderDetail);
             }
         });
 
         /*
-         * 批量添加未派彩和派彩但未插入的数据
+         * 批量添加未派彩和未插入的数据
          */
         //tethys
         if (insertOrder.size() > 0) {
@@ -70,15 +71,44 @@ public class UserOrderDetailAssemService {
             //metis
             userOrderDetailService.batchSave(insertOrder);
         }
+
+
+
+
         //修改订单的派彩状态
         if (updateOrder.size() > 0) {
-            updateOrder.forEach((orderDetail) -> {
-                if (!(tethysUserOrderDetailService.updatePaid(orderDetail) & userOrderDetailService.updatePaid(orderDetail))) {
-                    orderDetail.setProcStatus(ProcessStatus.failed.status());
-                    orderDetail.setConsumerTime(System.currentTimeMillis());
-                    userOrderDetailService.saveUpdateFailed(orderDetail);
+            List<UserOrderDetail> _updateOrder = new ArrayList<>();
+            List<UserOrderDetail> _insertOrder = new ArrayList<>();
+            List<Long> _insertUserIds = new ArrayList<>();
+            Map<Long, UserOrderDetail> checkOrders = userOrderDetailService.findByOrderIds(updateOrder);
+            if (checkOrders != null) {
+                updateOrder.forEach((order)->{
+                    if (checkOrders.get(order.getOrderId()) != null) {
+                        _updateOrder.add(order);
+                    } else {
+                        _insertUserIds.add(order.getUserId());
+                        _insertOrder.add(order);
+                    }
+                });
+            }
+
+            /*
+             * 再次批量添加未插入的数据
+             */
+            //tethys
+            if (insertOrder.size() > 0) {
+                tethysUserOrderDetailService.batchSave(_insertOrder, _insertUserIds);
+                //metis
+                userOrderDetailService.batchSave(_insertOrder);
+            }
+            _updateOrder.forEach((order) -> {
+                if (!(tethysUserOrderDetailService.updatePaid(order) & userOrderDetailService.updatePaid(order))) {
+                    order.setProcStatus(ProcessStatus.failed.status());
+                    order.setConsumerTime(System.currentTimeMillis());
+                    userOrderDetailService.saveUpdateFailed(order);
                 }
             });
+            logger.info(String.format(" all order size : %d ,_insert order size : %d, _update order size : %d", details.size(), _insertOrder.size(), _updateOrder.size()));
         }
         logger.info(String.format(" all order size : %d ,insert order size : %d, update order size : %d", details.size(), insertOrder.size(), updateOrder.size()));
         return true;

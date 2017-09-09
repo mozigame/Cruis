@@ -104,6 +104,14 @@ public class DiscountReqConsumer {
     private void currentDataCalculate(Date date) {
         int countNum = 0;
         List<DiscountReq> reqList = discountReqService.batchPopRedis(date);
+        int queuePopCount = 0;
+        while (FailedRedisQueue.discountQueue.size() > 0) {
+            if (++queuePopCount > RedisConstants.BATCH_POP_NUM) {
+                logger.info("currentDataCalculate discount queuePopCount > 100, process insert, list.size is : " + reqList.size());
+                flushData(reqList);
+            }
+            reqList.add(FailedRedisQueue.discountQueue.poll());
+        }
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
             logger.info("currentDataCalculate discount pop datas, size : " + reqList.size());
             flushData(reqList);

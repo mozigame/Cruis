@@ -2,6 +2,7 @@ package com.magic.crius.scheduled.consumer;
 
 import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
+import com.magic.crius.assemble.FailedRedisQueue;
 import com.magic.crius.assemble.OwnerCompanyAccountDetailAssemService;
 import com.magic.crius.assemble.OwnerReforwardDetailAssemService;
 import com.magic.crius.assemble.UserTradeAssemService;
@@ -103,6 +104,14 @@ public class CashbackReqConsumer {
     private void currentDataCalculate(Date date) {
         int countNum = 0;
         List<CashbackReq> reqList = cashbackReqService.batchPopRedis(date);
+        int queuePopCount = 0;
+        while (FailedRedisQueue.cashbackQueue.size() > 0) {
+            if (++queuePopCount > RedisConstants.BATCH_POP_NUM) {
+                logger.info("currentDataCalculate cashback queuePopCount > 100, process insert, list.size is : " + reqList.size());
+                flushData(reqList);
+            }
+            reqList.add(FailedRedisQueue.cashbackQueue.poll());
+        }
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
             logger.info("------currentDataCalculate ,cashback , list : " + reqList.size());
             flushData(reqList);

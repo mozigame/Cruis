@@ -1,5 +1,8 @@
 package com.magic.crius.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.magic.api.commons.ApiLogger;
+import com.magic.crius.assemble.FailedRedisQueue;
 import com.magic.crius.service.OperateChargeReqService;
 import com.magic.crius.storage.mongo.OperateChargeReqMongoService;
 import com.magic.crius.storage.redis.OperateChargeReqRedisService;
@@ -30,7 +33,17 @@ public class OperateChargeReqServiceImpl implements OperateChargeReqService {
     public boolean save(OperateChargeReq operateChargeReq) {
         if (operateChargeMongoService.save(operateChargeReq)) {
             if (!operateChargeRedisService.save(operateChargeReq)) {
-                //TODO 缓存保存失败如何处理
+                //TODO 缓存保存失败如何处理，睡眠2毫秒，然后重试，如果失败，扔进队列中
+                try {
+                    Thread.sleep(2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ApiLogger.error("save operateChargeReq false, retry one time,billId : "+ JSON.toJSONString(operateChargeReq.getBillIds()));
+                if (!operateChargeRedisService.save(operateChargeReq)) {
+                    ApiLogger.error("retry save operateChargeReq false, billId : "+ JSON.toJSONString(operateChargeReq.getBillIds()));
+                    FailedRedisQueue.operateChargeQueue.add(operateChargeReq);
+                }
             }
         } else {
             operateChargeMongoService.saveFailedData(operateChargeReq);

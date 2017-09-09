@@ -1,5 +1,8 @@
 package com.magic.crius.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.magic.api.commons.ApiLogger;
+import com.magic.crius.assemble.FailedRedisQueue;
 import com.magic.crius.service.OperateWithDrawReqService;
 import com.magic.crius.storage.mongo.OperateWithDrawReqMongoService;
 import com.magic.crius.storage.redis.OperateWithDrawReqRedisService;
@@ -32,7 +35,17 @@ public class OperateWithDrawReqServiceImpl implements OperateWithDrawReqService 
     public boolean save(OperateWithDrawReq req) {
         if (operateWithDrawReqMongoService.save(req)) {
             if (!operateWithDrawReqRedisService.save(req)) {
-                logger.warn("operateWithDrawReq insert redis failed,reqId : " + req.getReqId());
+                //TODO 缓存保存失败如何处理，睡眠2毫秒，然后重试，如果失败，扔进队列中
+                try {
+                    Thread.sleep(2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ApiLogger.error("save operateWithDrawReq false, retry one time,billId : "+ JSON.toJSONString(req.getBillIds()));
+                if (!operateWithDrawReqRedisService.save(req)) {
+                    ApiLogger.error("retry save operateWithDrawReq false, billId : "+ JSON.toJSONString(req.getBillIds()));
+                    FailedRedisQueue.operateWithDrawQueue.add(req);
+                }
             }
         } else {
             operateWithDrawReqMongoService.saveFailedData(req);

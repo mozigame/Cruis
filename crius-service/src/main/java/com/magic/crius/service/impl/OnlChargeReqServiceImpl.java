@@ -1,5 +1,7 @@
 package com.magic.crius.service.impl;
 
+import com.magic.api.commons.ApiLogger;
+import com.magic.crius.assemble.FailedRedisQueue;
 import com.magic.crius.service.OnlChargeReqService;
 import com.magic.crius.storage.mongo.OnlChargeReqMongoService;
 import com.magic.crius.storage.redis.OnlChargeReqRedisService;
@@ -30,7 +32,17 @@ public class OnlChargeReqServiceImpl implements OnlChargeReqService {
     public boolean save(OnlChargeReq onlChargeReq) {
         if (onlChargeMongoService.save(onlChargeReq)) {
             if (!onlChargeRedisService.save(onlChargeReq)) {
-                //TODO 缓存保存失败如何处理
+                //TODO 缓存保存失败如何处理，睡眠2毫秒，然后重试，如果失败，扔进队列中
+                try {
+                    Thread.sleep(2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ApiLogger.error("save onlChargeReq false, retry one time,billId : "+ onlChargeReq.getBillId());
+                if (!onlChargeRedisService.save(onlChargeReq)) {
+                    ApiLogger.error("retry save onlChargeReq false, billId : "+ onlChargeReq.getBillId());
+                    FailedRedisQueue.onlChargeQueue.add(onlChargeReq);
+                }
             }
         } else {
             onlChargeMongoService.saveFailedData(onlChargeReq);

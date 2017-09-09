@@ -1,6 +1,7 @@
 package com.magic.crius.scheduled.consumer;
 
 import com.magic.api.commons.tools.DateUtil;
+import com.magic.crius.assemble.FailedRedisQueue;
 import com.magic.crius.assemble.UserOrderDetailAssemService;
 import com.magic.crius.constants.CriusConstants;
 import com.magic.crius.constants.RedisConstants;
@@ -92,7 +93,16 @@ public class BaseOrderReqConsumer {
      */
     private void currentDataCalculate(Date date) {
         int countNum = 0;
+
         List<BaseOrderReq> reqList = baseOrderReqService.batchPopRedis(date);
+        int queuePopCount = 0;
+        while (FailedRedisQueue.baseOrderQueue.size() > 0) {
+            if (++queuePopCount > RedisConstants.BATCH_POP_NUM) {
+                logger.info("currentDataCalculate baseOrder queuePopCount > 100, process insert, list.size is : " + reqList.size());
+                flushData(reqList);
+            }
+            reqList.add(FailedRedisQueue.baseOrderQueue.poll());
+        }
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
             logger.info("currentDataCalculate baseOrder pop datas, size : " + reqList.size());
             flushData(reqList);

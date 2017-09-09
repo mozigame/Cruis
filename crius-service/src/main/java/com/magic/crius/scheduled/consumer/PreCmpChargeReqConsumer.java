@@ -105,6 +105,14 @@ public class PreCmpChargeReqConsumer {
     private void currentDataCalculate(Date date) {
         int countNum = 0;
         List<PreCmpChargeReq> reqList = preCmpChargeService.batchPopRedis(date);
+        int queuePopCount = 0;
+        while (FailedRedisQueue.preCmpChargeQueue.size() > 0) {
+            if (++queuePopCount > RedisConstants.BATCH_POP_NUM) {
+                logger.info("currentDataCalculate preCmpCharge queuePopCount > 100, process insert, list.size is : " + reqList.size());
+                flushData(reqList);
+            }
+            reqList.add(FailedRedisQueue.preCmpChargeQueue.poll());
+        }
         while (reqList != null && reqList.size() > 0 && countNum++ < POLL_TIME) {
             logger.info("currentDataCalculate preCmpCharge pop datas, size : " + reqList.size());
             flushData(reqList);

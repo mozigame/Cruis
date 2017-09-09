@@ -1,5 +1,7 @@
 package com.magic.crius.service.impl;
 
+import com.magic.api.commons.ApiLogger;
+import com.magic.crius.assemble.FailedRedisQueue;
 import com.magic.crius.service.PreWithdrawReqService;
 import com.magic.crius.storage.mongo.PreWithdrawReqMongoService;
 import com.magic.crius.storage.redis.PreWithdrawReqRedisService;
@@ -29,7 +31,17 @@ public class PreWithdrawReqServiceImpl implements PreWithdrawReqService {
     public boolean save(PreWithdrawReq preWithdrawReq) {
         if (preWithdrawMongoService.save(preWithdrawReq)) {
             if (!preWithdrawRedisService.save(preWithdrawReq)) {
-                //TODO 缓存保存失败如何处理
+                //TODO 缓存保存失败如何处理，睡眠2毫秒，然后重试，如果失败，扔进队列中
+                try {
+                    Thread.sleep(2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ApiLogger.error("save preWithDrawReq false, retry one time,billId : "+ preWithdrawReq.getBillId());
+                if (!preWithdrawRedisService.save(preWithdrawReq)) {
+                    ApiLogger.error("retry save preWithDrawReq false, billId : "+ preWithdrawReq.getBillId());
+                    FailedRedisQueue.preWithdrawQueue.add(preWithdrawReq);
+                }
             }
         } else {
             preWithdrawMongoService.saveFailedData(preWithdrawReq);

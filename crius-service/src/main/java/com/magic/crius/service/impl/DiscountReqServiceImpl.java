@@ -1,5 +1,7 @@
 package com.magic.crius.service.impl;
 
+import com.magic.api.commons.ApiLogger;
+import com.magic.crius.assemble.FailedRedisQueue;
 import com.magic.crius.service.DiscountReqService;
 import com.magic.crius.storage.mongo.DiscountReqMongoService;
 import com.magic.crius.storage.redis.DiscountReqRedisService;
@@ -29,7 +31,17 @@ public class DiscountReqServiceImpl implements DiscountReqService {
     public boolean save(DiscountReq discountReq) {
         if (discountReqMongoService.save(discountReq)) {
             if (!discountReqRedisService.save(discountReq)) {
-                //TODO 缓存保存失败如何处理
+                //TODO 缓存保存失败如何处理，睡眠2毫秒，然后重试，如果失败，扔进队列中
+                try {
+                    Thread.sleep(2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ApiLogger.error("save discountReq false, retry one time,billId : "+ discountReq.getBillId());
+                if (!discountReqRedisService.save(discountReq)) {
+                    ApiLogger.error("retry save discountReq false, billId : "+ discountReq.getBillId());
+                    FailedRedisQueue.discountQueue.add(discountReq);
+                }
             }
         } else {
             discountReqMongoService.saveFailedData(discountReq);

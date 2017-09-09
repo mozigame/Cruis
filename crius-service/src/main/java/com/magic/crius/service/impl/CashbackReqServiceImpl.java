@@ -1,5 +1,7 @@
 package com.magic.crius.service.impl;
 
+import com.magic.api.commons.ApiLogger;
+import com.magic.crius.assemble.FailedRedisQueue;
 import com.magic.crius.service.CashbackReqService;
 import com.magic.crius.storage.mongo.CashbackReqMongoService;
 import com.magic.crius.storage.redis.CashbackReqRedisService;
@@ -30,7 +32,16 @@ public class CashbackReqServiceImpl implements CashbackReqService {
     public boolean save(CashbackReq req) {
         if (cashbackReqMongoService.save(req)) {
             if (!cashbackReqRedisService.save(req)) {
-                //TODO 缓存保存失败如何处理
+                //TODO 缓存保存失败如何处理，睡眠2毫秒，然后重试，如果失败，扔进队列中
+                try {
+                    Thread.sleep(2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                ApiLogger.warn("save cashbackReq false, retry one time,billId : "+ req.getBillId());
+                if (!cashbackReqRedisService.save(req)) {
+                    FailedRedisQueue.cashbackQueue.add(req);
+                }
             }
         } else {
             cashbackReqMongoService.saveFailedData(req);

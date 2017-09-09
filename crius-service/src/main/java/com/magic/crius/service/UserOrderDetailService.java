@@ -4,6 +4,7 @@ import com.magic.crius.po.UserOrderDetail;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: joey
@@ -44,4 +45,11 @@ public interface UserOrderDetailService {
      * @return
      */
     List<UserOrderDetail> findByOrderId(UserOrderDetail detail);
+
+
+    /**
+     * 根据订单号查询订单
+     * @return
+     */
+    Map<Long, UserOrderDetail> findByOrderIds(List<UserOrderDetail> details);
 }
