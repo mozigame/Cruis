@@ -112,8 +112,8 @@
         select order_id,is_paid from user_order_detail
         where user_id = #{userId, jdbcType=BIGINT}
         and order_id IN (
-        <foreach collection="list" item="orderId" separator=",">
-            #{orderId, jdbcType=BIGINT}
+        <foreach collection="list" item="param" separator=",">
+            #{param.orderId, jdbcType=BIGINT}
         </foreach>
         )
 
