@@ -96,7 +96,7 @@ public class UserOrderDetailAssemService {
              * 再次批量添加未插入的数据
              */
             //tethys
-            if (insertOrder.size() > 0) {
+            if (_insertOrder.size() > 0) {
                 tethysUserOrderDetailService.batchSave(_insertOrder, _insertUserIds);
                 //metis
                 userOrderDetailService.batchSave(_insertOrder);
