@@ -1,5 +1,6 @@
 package com.magic.crius.dao.base;
 
+import com.magic.crius.vo.ReqQueryVo;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -31,6 +32,14 @@ public interface BaseMongoDAO<T> {
      * @return
      */
     public T findOne(Query query);
+
+    /**
+     * 通过一定的条件查询一个实体
+     *
+     * @param query
+     * @return
+     */
+    public T findOne(Query query, String collectionName);
 
     /**
      * 通过条件查询更新数据
@@ -92,20 +101,15 @@ public interface BaseMongoDAO<T> {
 
     /**
      * 查询操作成功的ID列表
-     * @param startTime
-     * @param endTime
      * @return
      */
-    List<Long> getSucIds(Long startTime, Long endTime, String collectionName);
+    List<Long> getSucIds(ReqQueryVo queryVo, String collectionName);
 
     /**
      * 获取固定时间内未处理的数据
-     * @param startTime
-     * @param endTime
-     * @param reqIds
      * @return
      */
-    List<T> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, String collectionName, Pageable pageable);
+    List<T> getNotProc(ReqQueryVo queryVo, String collectionName, Pageable pageable);
 
     /**
      * 获取固定时间内处理失败的数据

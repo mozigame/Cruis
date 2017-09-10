@@ -7,6 +7,7 @@ import com.magic.crius.service.OperateWithDrawReqService;
 import com.magic.crius.storage.mongo.OperateWithDrawReqMongoService;
 import com.magic.crius.storage.redis.OperateWithDrawReqRedisService;
 import com.magic.crius.vo.OperateWithDrawReq;
+import com.magic.crius.vo.ReqQueryVo;
 import org.apache.log4j.Logger;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -69,13 +70,13 @@ public class OperateWithDrawReqServiceImpl implements OperateWithDrawReqService 
     }
 
     @Override
-    public List<Long> getSucIds(Long startTime, Long endTime) {
-        return operateWithDrawReqMongoService.getSucIds(startTime, endTime);
+    public List<Long> getSucIds(ReqQueryVo queryVo) {
+        return operateWithDrawReqMongoService.getSucIds(queryVo);
     }
 
     @Override
-    public List<OperateWithDrawReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
-        return operateWithDrawReqMongoService.getNotProc(startTime, endTime, reqIds, pageable);
+    public List<OperateWithDrawReq> getNotProc(ReqQueryVo queryVo, Pageable pageable) {
+        return operateWithDrawReqMongoService.getNotProc(queryVo, pageable);
     }
 
     @Override

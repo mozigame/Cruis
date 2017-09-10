@@ -5,6 +5,7 @@ import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.storage.mongo.CashbackReqMongoService;
 import com.magic.crius.vo.CashbackReq;
+import com.magic.crius.vo.ReqQueryVo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.springframework.data.domain.Pageable;
@@ -32,7 +33,7 @@ public class CashbackReqMongoServiceImpl implements CashbackReqMongoService {
     @Override
     public boolean save(CashbackReq req) {
         try {
-            return cashbackReqMongoDao.save(req) != null;
+            return cashbackReqMongoDao.save(req, MongoCollectionFlag.dateCollName(MongoCollections.cashbackReq, req.getPdate())) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,7 +43,7 @@ public class CashbackReqMongoServiceImpl implements CashbackReqMongoService {
     @Override
     public boolean saveFailedData(CashbackReq req) {
         try {
-            return cashbackReqMongoDao.save(req, MongoCollectionFlag.MONGO_FAILED.collName("cashbackReq")) != null;
+            return cashbackReqMongoDao.save(req, MongoCollectionFlag.MONGO_FAILED.collName(MongoCollections.cashbackReq)) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -50,11 +51,11 @@ public class CashbackReqMongoServiceImpl implements CashbackReqMongoService {
     }
 
     @Override
-    public CashbackReq getByReqId(Long id) {
+    public CashbackReq getByReqId(CashbackReq req) {
         try {
             Query query = new Query();
-            query.addCriteria(new Criteria("reqId").is(id));
-            return cashbackReqMongoDao.findOne(query);
+            query.addCriteria(new Criteria("reqId").is(req.getReqId()));
+            return cashbackReqMongoDao.findOne(query, MongoCollectionFlag.dateCollName(MongoCollections.cashbackReq, req.getPdate()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,9 +63,10 @@ public class CashbackReqMongoServiceImpl implements CashbackReqMongoService {
     }
 
     @Override
-    public boolean saveSuc(Collection<CashbackReq> reqs) {
+    public boolean saveSuc(List<CashbackReq> reqs) {
         try {
-            return cashbackReqMongoDao.save(reqs, MongoCollectionFlag.SAVE_SUC.collName("cashbackReq"));
+            String collName = MongoCollectionFlag.dateCollName(MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.cashbackReq), reqs.get(0).getPdate());
+            return cashbackReqMongoDao.save(reqs, collName);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,9 +74,9 @@ public class CashbackReqMongoServiceImpl implements CashbackReqMongoService {
     }
 
     @Override
-    public List<Long> getSucIds(Long startTime, Long endTime) {
+    public List<Long> getSucIds(ReqQueryVo queryVo) {
         try {
-            return cashbackReqMongoDao.getSucIds(startTime, endTime, MongoCollections.cashbackReq.name());
+            return cashbackReqMongoDao.getSucIds(queryVo, MongoCollectionFlag.dateCollName(MongoCollections.cashbackReq, queryVo.getPdate()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -82,9 +84,9 @@ public class CashbackReqMongoServiceImpl implements CashbackReqMongoService {
     }
 
     @Override
-    public List<CashbackReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
+    public List<CashbackReq> getNotProc(ReqQueryVo queryVo, Pageable pageable) {
         try {
-            return cashbackReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.cashbackReq.name(), pageable);
+            return cashbackReqMongoDao.getNotProc(queryVo, MongoCollectionFlag.dateCollName(MongoCollections.cashbackReq, queryVo.getPdate()), pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -94,7 +96,7 @@ public class CashbackReqMongoServiceImpl implements CashbackReqMongoService {
     @Override
     public List<CashbackReq> getSaveFailed(Long startTime, Long endTime) {
         try {
-            return cashbackReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.cashbackReq.name());
+            return cashbackReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.cashbackReq);
         } catch (Exception e) {
             e.printStackTrace();
         }

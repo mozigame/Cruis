@@ -6,6 +6,7 @@ import com.magic.crius.service.PreWithdrawReqService;
 import com.magic.crius.storage.mongo.PreWithdrawReqMongoService;
 import com.magic.crius.storage.redis.PreWithdrawReqRedisService;
 import com.magic.crius.vo.PreWithdrawReq;
+import com.magic.crius.vo.ReqQueryVo;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -60,13 +61,13 @@ public class PreWithdrawReqServiceImpl implements PreWithdrawReqService {
     }
 
     @Override
-    public List<Long> getSucIds(Long startTime, Long endTime) {
-        return preWithdrawMongoService.getSucIds(startTime, endTime);
+    public List<Long> getSucIds(ReqQueryVo queryVo) {
+        return preWithdrawMongoService.getSucIds(queryVo);
     }
 
     @Override
-    public List<PreWithdrawReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
-        return preWithdrawMongoService.getNotProc(startTime, endTime, reqIds, pageable);
+    public List<PreWithdrawReq> getNotProc(ReqQueryVo queryVo, Pageable pageable) {
+        return preWithdrawMongoService.getNotProc(queryVo, pageable);
     }
 
     @Override

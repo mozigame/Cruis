@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.magic.analysis.enums.GameTypeEnum;
 import com.magic.api.commons.ApiLogger;
+import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.BaseOrderReqAssemService;
 import com.magic.crius.enums.KafkaConf;
 import com.magic.crius.util.ThreadTaskPoolFactory;
@@ -14,6 +15,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicLong;
@@ -61,8 +63,10 @@ public class VGameKfConsumer {
                 VGameReq vGameReq = JSON.parseObject(object.getString(KafkaConf.RECORD), VGameReq.class);
                 vGameReq.setProduceTime(vGameReq.getInsertDatetime());
                 vGameReq.setOrderExtent(convertVGameExt(vGameReq));
-                vGameReq.setConsumerTime(System.currentTimeMillis());
+                Date date = new Date();
+                vGameReq.setConsumerTime(date.getTime());
                 vGameReq.setGameAbstractType(Integer.parseInt(GameTypeEnum.VIDEO.getCode()));
+                vGameReq.setPdate(Integer.parseInt(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMdd)));
                 baseGameReqAssemService.procKafkaData(vGameReq);
                 Long count=counter.incrementAndGet();
                 if(count%1000==0){

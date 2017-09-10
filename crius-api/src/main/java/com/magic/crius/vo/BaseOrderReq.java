@@ -8,6 +8,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  * Date: 2017/6/8
  * Time: 17:25
  * 游戏注单详情
+ * mongo中已经使用分表，每天一张表
  */
 public class BaseOrderReq {
 
@@ -50,6 +51,11 @@ public class BaseOrderReq {
      * 消费时间
      */
     private Long consumerTime;
+
+    /**
+     * 统计日期，也用于mongo表名称
+     */
+    private Integer pdate;
 
 
     public Long getUserId() {
@@ -186,5 +192,13 @@ public class BaseOrderReq {
 
     public void setGameAbstractType(Integer gameAbstractType) {
         this.gameAbstractType = gameAbstractType;
+    }
+
+    public Integer getPdate() {
+        return pdate;
+    }
+
+    public void setPdate(Integer pdate) {
+        this.pdate = pdate;
     }
 }

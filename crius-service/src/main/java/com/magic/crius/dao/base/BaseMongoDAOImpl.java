@@ -1,9 +1,11 @@
 package com.magic.crius.dao.base;
 
+import com.alibaba.fastjson.JSON;
 import com.magic.api.commons.ApiLogger;
 import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.util.ReflectionUtils;
+import com.magic.crius.vo.ReqQueryVo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
@@ -37,6 +39,11 @@ public abstract class BaseMongoDAOImpl<T> implements BaseMongoDAO<T> {
     @Override
     public T findOne(Query query) {
         return getMongoTemplate().findOne(query, this.getEntityClass());
+    }
+
+    @Override
+    public T findOne(Query query, String collectionName) {
+        return getMongoTemplate().findOne(query, this.getEntityClass(), collectionName);
     }
 
     @Override
@@ -85,10 +92,11 @@ public abstract class BaseMongoDAOImpl<T> implements BaseMongoDAO<T> {
 
 
     @Override
-    public List<Long> getSucIds(Long startTime, Long endTime, String collectionName) {
+    public List<Long> getSucIds(ReqQueryVo queryVo, String collectionName) {
+        ApiLogger.info("baseMongo getSucIds, collectionName : "+ collectionName +", queryVo : "+ JSON.toJSONString(queryVo));
         List<Long> reqIds = new ArrayList<>();
         BasicDBObject condition = new BasicDBObject();
-        condition.append("produceTime", new BasicDBObject("$gte", startTime).append("$lt", endTime));
+        condition.append("produceTime", new BasicDBObject("$gte", queryVo.getStartTime()).append("$lt", queryVo.getEndTime()));
         BasicDBObject keys = new BasicDBObject();
         keys.append("reqId", 1);
         Iterator<DBObject> iterator = getMongoTemplate().getCollection(MongoCollectionFlag.SAVE_SUC.collName(collectionName)).find(condition, keys);
@@ -100,12 +108,13 @@ public abstract class BaseMongoDAOImpl<T> implements BaseMongoDAO<T> {
     }
 
     @Override
-    public List<T> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, String collectionName, Pageable pageable) {
+    public List<T> getNotProc(ReqQueryVo queryVo, String collectionName, Pageable pageable) {
+        ApiLogger.info("baseMongo getNotProc, collectionName : "+ collectionName +", queryVo : "+ JSON.toJSONString(queryVo));
         Query query = new Query();
-        if (reqIds != null && reqIds.size() > 0) {
-            query.addCriteria(new Criteria("reqId").nin(reqIds));
+        if (queryVo.getReqIds() != null && queryVo.getReqIds().size() > 0) {
+            query.addCriteria(new Criteria("reqId").nin(queryVo.getReqIds()));
         }
-        query.addCriteria(new Criteria("produceTime").gte(startTime).lt(endTime));
+        query.addCriteria(new Criteria("produceTime").gte(queryVo.getStartTime()).lt(queryVo.getEndTime()));
         if (pageable != null) {
             query.skip(pageable.getOffset()).limit(pageable.getPageSize());
             query.with(pageable.getSort());

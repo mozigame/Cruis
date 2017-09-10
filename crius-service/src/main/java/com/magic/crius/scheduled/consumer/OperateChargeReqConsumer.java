@@ -12,6 +12,7 @@ import com.magic.crius.service.RepairLockService;
 import com.magic.crius.storage.db.SpringDataPageable;
 import com.magic.crius.util.PropertiesLoad;
 import com.magic.crius.vo.OperateChargeReq;
+import com.magic.crius.vo.ReqQueryVo;
 import com.magic.user.vo.MemberConditionVo;
 import org.apache.log4j.Logger;
 import org.springframework.data.domain.Sort;
@@ -220,17 +221,17 @@ public class OperateChargeReqConsumer {
         Calendar startDate = Calendar.getInstance();
         startDate.setTime(endDate);
         startDate.add(Calendar.HOUR, -1);
-        RepairLock repairLock = repairLockService.getTimeLock(MongoCollections.operateChargeReq.name(), Integer.parseInt(DateUtil.formatDateTime(startDate.getTime(), DateUtil.format_yyyyMMddHH)));
+        RepairLock repairLock = repairLockService.getTimeLock(MongoCollections.operateChargeReq, Integer.parseInt(DateUtil.formatDateTime(startDate.getTime(), DateUtil.format_yyyyMMddHH)));
         if (repairLock != null) {
             return;
         }
         repairLock = new RepairLock();
         repairLock.setProduceTime(date.getTime());
-        repairLock.setCollectionName(MongoCollections.operateChargeReq.name());
+        repairLock.setCollectionName(MongoCollections.operateChargeReq);
         repairLock.setValue(CriusConstants.REPAIR_LOCK_VALUE);
         if (repairLockService.save(repairLock)) {
 //            mongoFailed(startDate.getTimeInMillis(), endDate.getTime());
-            mongoNoProc(startDate.getTimeInMillis(), endDate.getTime(), hhDate);
+            mongoNoProc(startDate.getTimeInMillis(), endDate.getTime(), hhDate, Integer.parseInt(DateUtil.formatDateTime(startDate.getTime(), DateUtil.format_yyyyMMdd)));
         }
 
     }
@@ -255,19 +256,26 @@ public class OperateChargeReqConsumer {
      * @param startTime
      * @param endTime
      */
-    private void mongoNoProc(Long startTime, Long endTime, String hhDate) {
-        List<Long> reqIds = operateChargeService.getSucIds(startTime, endTime);
+    private void mongoNoProc(Long startTime, Long endTime, String hhDate, Integer pdate) {
+        ReqQueryVo queryVo = new ReqQueryVo();
+        queryVo.setStartTime(startTime);
+        queryVo.setEndTime(endTime);
+        queryVo.setPdate(pdate);
+        List<Long> reqIds = operateChargeService.getSucIds(queryVo);
+        queryVo.setReqIds(reqIds);
 
         SpringDataPageable pageable = new SpringDataPageable();
         pageable.setSort(new Sort("reqId"));
         pageable.setPagesize(CriusConstants.MONGO_NO_PROC_SIZE);
         pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_OPR_CHARGE, hhDate)));
-        List<OperateChargeReq> withDrawReqs = operateChargeService.getNotProc(startTime, endTime, reqIds, pageable);
+
+
+        List<OperateChargeReq> withDrawReqs = operateChargeService.getNotProc(queryVo, pageable);
         while (withDrawReqs != null && withDrawReqs.size() > 0) {
             logger.info("------mongoNoProc ,operateCharge  ,noProcSize : " + withDrawReqs.size() + " , startTime : " + startTime + " endTime :" + endTime);
             flushData(withDrawReqs);
             pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_OPR_CHARGE, hhDate)));
-            withDrawReqs = operateChargeService.getNotProc(startTime, endTime, reqIds, pageable);
+            withDrawReqs = operateChargeService.getNotProc(queryVo, pageable);
 
 
         }
@@ -291,6 +299,8 @@ public class OperateChargeReqConsumer {
         OperateChargeReq sucReq = new OperateChargeReq();
         sucReq.setReqId(req.getReqId());
         sucReq.setProduceTime(req.getProduceTime());
+        sucReq.setConsumerTime(req.getConsumerTime());
+        sucReq.setBillIds(req.getBillIds());
         return sucReq;
     }
 

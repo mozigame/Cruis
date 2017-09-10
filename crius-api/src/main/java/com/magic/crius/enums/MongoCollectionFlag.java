@@ -18,6 +18,10 @@ public enum MongoCollectionFlag {
     }
 
     public String collName(String collection) {
-        return collection+ "_" + value;
+        return collection + "_" + value;
+    }
+
+    public static String dateCollName(String collection, Integer pdate) {
+        return collection + "_" + pdate;
     }
 }

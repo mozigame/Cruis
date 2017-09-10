@@ -7,6 +7,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  * Date: 2017/5/29
  * Time: 17:04
  * 返水（成功）
+ * mongo中已经使用分表，每天一张表
  */
 public class CashbackReq {
 
@@ -53,6 +54,11 @@ public class CashbackReq {
      * 消费时间
      */
     private Long consumerTime;
+
+    /**
+     * 统计日期，也用于mongo表名称
+     */
+    private Integer pdate;
 
     public Long getReqId() {
         return reqId;
@@ -204,5 +210,13 @@ public class CashbackReq {
 
     public void setConsumerTime(Long consumerTime) {
         this.consumerTime = consumerTime;
+    }
+
+    public Integer getPdate() {
+        return pdate;
+    }
+
+    public void setPdate(Integer pdate) {
+        this.pdate = pdate;
     }
 }

@@ -34,7 +34,7 @@ public class CashbackReqAssemService {
     public void procKafkaData(CashbackReq req) {
         if (req.getReqId() != null) {
             if (PropertiesLoad.checkMongoResId()) {
-                if (cashbackReqService.getByReqId(req.getReqId()) == null) {
+                if (cashbackReqService.getByReqId(req) == null) {
                     if (!cashbackReqService.save(req)) {
                         logger.error("save CashbackReq error,reqId : " + req.getReqId());
                     }

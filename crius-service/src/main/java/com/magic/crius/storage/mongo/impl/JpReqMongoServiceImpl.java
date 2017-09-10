@@ -5,6 +5,7 @@ import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.storage.mongo.JpReqMongoService;
 import com.magic.crius.vo.JpReq;
+import com.magic.crius.vo.ReqQueryVo;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -38,7 +39,7 @@ public class JpReqMongoServiceImpl implements JpReqMongoService {
     @Override
     public boolean saveFailedData(JpReq req) {
         try {
-            return jpReqMongoDao.save(req, MongoCollectionFlag.MONGO_FAILED.collName(MongoCollections.jpReq.name())) != null;
+            return jpReqMongoDao.save(req, MongoCollectionFlag.MONGO_FAILED.collName(MongoCollections.jpReq)) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,7 +63,7 @@ public class JpReqMongoServiceImpl implements JpReqMongoService {
     @Override
     public boolean saveSuc(Collection<JpReq> reqs) {
         try {
-            return jpReqMongoDao.save(reqs, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.jpReq.name()));
+            return jpReqMongoDao.save(reqs, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.jpReq));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -70,9 +71,9 @@ public class JpReqMongoServiceImpl implements JpReqMongoService {
     }
 
     @Override
-    public List<Long> getSucIds(Long startTime, Long endTime) {
+    public List<Long> getSucIds(ReqQueryVo queryVo) {
         try {
-            return jpReqMongoDao.getSucIds(startTime, endTime, MongoCollections.jpReq.name());
+            return jpReqMongoDao.getSucIds(queryVo, MongoCollections.jpReq);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,9 +81,9 @@ public class JpReqMongoServiceImpl implements JpReqMongoService {
     }
 
     @Override
-    public List<JpReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
+    public List<JpReq> getNotProc(ReqQueryVo queryVo, Pageable pageable) {
         try {
-            return jpReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.jpReq.name(), pageable);
+            return jpReqMongoDao.getNotProc(queryVo, MongoCollections.jpReq, pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -92,7 +93,7 @@ public class JpReqMongoServiceImpl implements JpReqMongoService {
     @Override
     public List<JpReq> getSaveFailed(Long startTime, Long endTime) {
         try {
-            return jpReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.jpReq.name());
+            return jpReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.jpReq);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -27,7 +27,7 @@ public class UserOrderDetailMongoServiceImpl implements UserOrderDetailMongoServ
     @Override
     public boolean saveUpdateFailed(UserOrderDetail detail) {
         try {
-            return userOrderDetailMongoDao.save(detail, MongoCollectionFlag.MONGO_FAILED.collName(MongoCollections.userOrderDetail.name())) != null;
+            return userOrderDetailMongoDao.save(detail, MongoCollectionFlag.MONGO_FAILED.collName(MongoCollections.userOrderDetail)) != null;
         } catch (Exception e) {
             ApiLogger.error("save userOrderDetail mongo error, detail : " + JSON.toJSONString(detail), e);
         }

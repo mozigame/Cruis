@@ -26,7 +26,7 @@ public class DiscountReqAssemService  {
     public void procKafkaData(DiscountReq req) {
         if (req.getReqId() != null) {
             if (PropertiesLoad.checkMongoResId()) {
-                if (discountReqService.getByReqId(req.getReqId()) == null) {
+                if (discountReqService.getByReqId(req) == null) {
                     if (!discountReqService.save(req)) {
                         logger.error("save Discount error,reqId : " + req.getReqId());
                     }

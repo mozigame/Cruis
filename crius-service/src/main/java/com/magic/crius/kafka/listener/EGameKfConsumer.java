@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.magic.analysis.enums.GameTypeEnum;
 import com.magic.api.commons.ApiLogger;
+import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.BaseOrderReqAssemService;
 import com.magic.crius.enums.KafkaConf;
 import com.magic.crius.util.ThreadTaskPoolFactory;
@@ -56,11 +57,13 @@ public class EGameKfConsumer {
             if (kafkaMessage.isPresent()) {
                 logger.info("Thread : "+ Thread.currentThread().getName()+" ,get egame kafka data :>>>  " + record.toString());
                 JSONObject object = JSON.parseObject(record.value().toString());
+                Date date = new Date();
                 EGameReq eGameReq = JSON.parseObject(object.getString(KafkaConf.RECORD), EGameReq.class);
                 eGameReq.setProduceTime(eGameReq.getInsertDatetime());
                 eGameReq.setOrderExtent(convertEGameExt(eGameReq));
-                eGameReq.setConsumerTime(System.currentTimeMillis());
+                eGameReq.setConsumerTime(date.getTime());
                 eGameReq.setGameAbstractType(Integer.parseInt(GameTypeEnum.ELECTRONIC.getCode()));
+                eGameReq.setPdate(Integer.parseInt(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMdd)));
                 baseGameReqAssemService.procKafkaData(eGameReq);
                 Long count=counter.incrementAndGet();
                 if(count%1000==0){

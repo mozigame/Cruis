@@ -1,6 +1,7 @@
 package com.magic.crius.service;
 
 import com.magic.crius.vo.BaseOrderReq;
+import com.magic.crius.vo.ReqQueryVo;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Collection;
@@ -24,10 +25,10 @@ public interface BaseOrderReqService {
     boolean save(BaseOrderReq req);
 
     /**
-     * @param reqId
+     * @param req
      * @return
      */
-    BaseOrderReq getByReqId(Long reqId);
+    BaseOrderReq getByReqId(BaseOrderReq req);
 
     /**
      * 批量获取固定时间内的数据
@@ -41,23 +42,20 @@ public interface BaseOrderReqService {
      * @param reqs
      * @return
      */
-    boolean saveSuc(Collection<BaseOrderReq> reqs);
+    boolean saveSuc(List<BaseOrderReq> reqs);
 
     /**
      * 获取操作成功的ID
      * @param
      * @return
      */
-    List<Long> getSucIds(Long startTime, Long endTime);
+    List<Long> getSucIds(ReqQueryVo queryVo);
 
     /**
      * 获取未处理的数据
-     * @param startTime
-     * @param endTime
-     * @param reqIds
      * @return
      */
-    List<BaseOrderReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable);
+    List<BaseOrderReq> getNotProc(ReqQueryVo queryVo, Pageable pageable);
 
     /**
      * 获取一段时间内处理失败的数据

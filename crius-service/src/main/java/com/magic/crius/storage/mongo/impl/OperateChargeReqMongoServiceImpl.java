@@ -5,6 +5,7 @@ import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.storage.mongo.OperateChargeReqMongoService;
 import com.magic.crius.vo.OperateChargeReq;
+import com.magic.crius.vo.ReqQueryVo;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -38,7 +39,7 @@ public class OperateChargeReqMongoServiceImpl implements OperateChargeReqMongoSe
     @Override
     public boolean saveFailedData(OperateChargeReq operateChargeReq) {
         try {
-            return operateChargeMongoDao.save(operateChargeReq, MongoCollectionFlag.MONGO_FAILED.collName("operateChargeReq")) != null;
+            return operateChargeMongoDao.save(operateChargeReq, MongoCollectionFlag.MONGO_FAILED.collName(MongoCollections.operateChargeReq)) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,9 +59,9 @@ public class OperateChargeReqMongoServiceImpl implements OperateChargeReqMongoSe
     }
 
     @Override
-    public List<Long> getSucIds(Long startTime, Long endTime) {
+    public List<Long> getSucIds(ReqQueryVo queryVo) {
         try {
-            return operateChargeMongoDao.getSucIds(startTime, endTime, MongoCollections.operateChargeReq.name());
+            return operateChargeMongoDao.getSucIds(queryVo, MongoCollections.operateChargeReq);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -68,9 +69,9 @@ public class OperateChargeReqMongoServiceImpl implements OperateChargeReqMongoSe
     }
 
     @Override
-    public List<OperateChargeReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
+    public List<OperateChargeReq> getNotProc(ReqQueryVo queryVo, Pageable pageable) {
         try {
-            return operateChargeMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.operateChargeReq.name(), pageable);
+            return operateChargeMongoDao.getNotProc(queryVo, MongoCollections.operateChargeReq, pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,7 +81,7 @@ public class OperateChargeReqMongoServiceImpl implements OperateChargeReqMongoSe
     @Override
     public List<OperateChargeReq> getSaveFailed(Long startTime, Long endTime) {
         try {
-            return operateChargeMongoDao.getSaveFailed(startTime, endTime, MongoCollections.operateChargeReq.name());
+            return operateChargeMongoDao.getSaveFailed(startTime, endTime, MongoCollections.operateChargeReq);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -90,7 +91,7 @@ public class OperateChargeReqMongoServiceImpl implements OperateChargeReqMongoSe
     @Override
     public boolean saveSuc(List<OperateChargeReq> reqs) {
         try {
-            return operateChargeMongoDao.save(reqs, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.operateChargeReq.name()));
+            return operateChargeMongoDao.save(reqs, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.operateChargeReq));
         } catch (Exception e) {
             e.printStackTrace();
         }

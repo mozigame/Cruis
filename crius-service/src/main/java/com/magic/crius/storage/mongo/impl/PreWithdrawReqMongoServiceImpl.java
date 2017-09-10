@@ -5,6 +5,7 @@ import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.storage.mongo.PreWithdrawReqMongoService;
 import com.magic.crius.vo.PreWithdrawReq;
+import com.magic.crius.vo.ReqQueryVo;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -38,7 +39,7 @@ public class PreWithdrawReqMongoServiceImpl implements PreWithdrawReqMongoServic
     @Override
     public boolean saveFailedData(PreWithdrawReq preWithdrawReq) {
         try {
-            return preWithdrawMongoDao.save(preWithdrawReq, MongoCollectionFlag.MONGO_FAILED.collName(MongoCollections.preWithdrawReq.name())) != null;
+            return preWithdrawMongoDao.save(preWithdrawReq, MongoCollectionFlag.MONGO_FAILED.collName(MongoCollections.preWithdrawReq)) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,7 +62,7 @@ public class PreWithdrawReqMongoServiceImpl implements PreWithdrawReqMongoServic
     @Override
     public boolean saveSuc(Collection<PreWithdrawReq> reqs) {
         try {
-            return preWithdrawMongoDao.save(reqs, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.preWithdrawReq.name()));
+            return preWithdrawMongoDao.save(reqs, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.preWithdrawReq));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -69,9 +70,9 @@ public class PreWithdrawReqMongoServiceImpl implements PreWithdrawReqMongoServic
     }
 
     @Override
-    public List<Long> getSucIds(Long startTime, Long endTime) {
+    public List<Long> getSucIds(ReqQueryVo queryVo) {
         try {
-            return preWithdrawMongoDao.getSucIds(startTime, endTime, MongoCollections.preWithdrawReq.name());
+            return preWithdrawMongoDao.getSucIds(queryVo, MongoCollections.preWithdrawReq);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,9 +80,9 @@ public class PreWithdrawReqMongoServiceImpl implements PreWithdrawReqMongoServic
     }
 
     @Override
-    public List<PreWithdrawReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
+    public List<PreWithdrawReq> getNotProc(ReqQueryVo queryVo, Pageable pageable) {
         try {
-            return preWithdrawMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.preWithdrawReq.name(), pageable);
+            return preWithdrawMongoDao.getNotProc(queryVo, MongoCollections.preWithdrawReq, pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,7 +92,7 @@ public class PreWithdrawReqMongoServiceImpl implements PreWithdrawReqMongoServic
     @Override
     public List<PreWithdrawReq> getSaveFailed(Long startTime, Long endTime) {
         try {
-            return preWithdrawMongoDao.getSaveFailed(startTime, endTime, MongoCollections.preWithdrawReq.name());
+            return preWithdrawMongoDao.getSaveFailed(startTime, endTime, MongoCollections.preWithdrawReq);
         } catch (Exception e) {
             e.printStackTrace();
         }

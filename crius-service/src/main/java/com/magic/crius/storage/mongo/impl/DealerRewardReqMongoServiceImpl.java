@@ -5,6 +5,7 @@ import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.storage.mongo.DealerRewardReqMongoService;
 import com.magic.crius.vo.DealerRewardReq;
+import com.magic.crius.vo.ReqQueryVo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.springframework.data.domain.Pageable;
@@ -42,7 +43,7 @@ public class DealerRewardReqMongoServiceImpl implements DealerRewardReqMongoServ
     @Override
     public boolean saveFailedData(DealerRewardReq req) {
         try {
-            return dealerRewardReqMongoDao.save(req, MongoCollectionFlag.MONGO_FAILED.collName("dealerRewardReq")) != null;
+            return dealerRewardReqMongoDao.save(req, MongoCollectionFlag.MONGO_FAILED.collName(MongoCollections.dealerRewardReq)) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,9 +63,9 @@ public class DealerRewardReqMongoServiceImpl implements DealerRewardReqMongoServ
     }
 
     @Override
-    public List<Long> getSucIds(Long startTime, Long endTime) {
+    public List<Long> getSucIds(ReqQueryVo queryVo) {
         try {
-            return dealerRewardReqMongoDao.getSucIds(startTime, endTime, MongoCollections.dealerRewardReq.name());
+            return dealerRewardReqMongoDao.getSucIds(queryVo, MongoCollections.dealerRewardReq);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,9 +73,9 @@ public class DealerRewardReqMongoServiceImpl implements DealerRewardReqMongoServ
     }
 
     @Override
-    public List<DealerRewardReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
+    public List<DealerRewardReq> getNotProc(ReqQueryVo queryVo, Pageable pageable) {
         try {
-            return dealerRewardReqMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.dealerRewardReq.name(), pageable);
+            return dealerRewardReqMongoDao.getNotProc(queryVo, MongoCollections.dealerRewardReq, pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -84,7 +85,7 @@ public class DealerRewardReqMongoServiceImpl implements DealerRewardReqMongoServ
     @Override
     public List<DealerRewardReq> getSaveFailed(Long startTime, Long endTime) {
         try {
-            return dealerRewardReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.dealerRewardReq.name());
+            return dealerRewardReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.dealerRewardReq);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -94,7 +95,7 @@ public class DealerRewardReqMongoServiceImpl implements DealerRewardReqMongoServ
     @Override
     public boolean saveSuc(List<DealerRewardReq> reqs) {
         try {
-            return dealerRewardReqMongoDao.save(reqs, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.dealerRewardReq.name()));
+            return dealerRewardReqMongoDao.save(reqs, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.dealerRewardReq));
         } catch (Exception e) {
             e.printStackTrace();
         }

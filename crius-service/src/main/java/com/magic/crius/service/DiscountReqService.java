@@ -1,6 +1,8 @@
 package com.magic.crius.service;
 
+import com.magic.crius.vo.CashbackReq;
 import com.magic.crius.vo.DiscountReq;
+import com.magic.crius.vo.ReqQueryVo;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Collection;
@@ -23,10 +25,9 @@ public interface DiscountReqService {
     boolean save(DiscountReq discountReq);
 
     /**
-     * @param reqId
      * @return
      */
-    DiscountReq getByReqId(Long reqId);
+    DiscountReq getByReqId(DiscountReq req);
 
     /**
      * 批量获取固定时间内的数据
@@ -40,16 +41,13 @@ public interface DiscountReqService {
      * @param
      * @return
      */
-    List<Long> getSucIds(Long startTime, Long endTime);
+    List<Long> getSucIds(ReqQueryVo queryVo);
 
     /**
      * 获取未处理的数据
-     * @param startTime
-     * @param endTime
-     * @param reqIds
      * @return
      */
-    List<DiscountReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable);
+    List<DiscountReq> getNotProc(ReqQueryVo queryVo, Pageable pageable);
 
     /**
      * 获取一段时间内处理失败的数据

@@ -36,7 +36,7 @@ public class OwnerBillReqMongoServiceImpl implements OwnerBillReqMongoService {
     @Override
     public boolean saveFailedData(OwnerBillReq req) {
         try {
-            return ownerBillReqMongoDao.save(req, MongoCollectionFlag.MONGO_FAILED.collName(MongoCollections.ownerBillReq.name())) != null;
+            return ownerBillReqMongoDao.save(req, MongoCollectionFlag.MONGO_FAILED.collName(MongoCollections.ownerBillReq)) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -60,7 +60,7 @@ public class OwnerBillReqMongoServiceImpl implements OwnerBillReqMongoService {
     @Override
     public boolean saveSuc(Collection<OwnerBillReq> reqs) {
         try {
-            return ownerBillReqMongoDao.save(reqs, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.ownerBillReq.name()));
+            return ownerBillReqMongoDao.save(reqs, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.ownerBillReq));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -70,7 +70,7 @@ public class OwnerBillReqMongoServiceImpl implements OwnerBillReqMongoService {
     @Override
     public List<Long> getSucIds(Long startTime, Long endTime) {
         try {
-            return ownerBillReqMongoDao.getSucIds(startTime, endTime, MongoCollections.ownerBillReq.name());
+            return ownerBillReqMongoDao.getSucIds(startTime, endTime, MongoCollections.ownerBillReq);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,7 +80,7 @@ public class OwnerBillReqMongoServiceImpl implements OwnerBillReqMongoService {
     @Override
     public List<OwnerBillReq> getSaveFailed(Long startTime, Long endTime) {
         try {
-            return ownerBillReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.ownerBillReq.name());
+            return ownerBillReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.ownerBillReq);
         } catch (Exception e) {
             e.printStackTrace();
         }

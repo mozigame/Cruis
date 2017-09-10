@@ -7,6 +7,7 @@ import com.magic.crius.service.OperateChargeReqService;
 import com.magic.crius.storage.mongo.OperateChargeReqMongoService;
 import com.magic.crius.storage.redis.OperateChargeReqRedisService;
 import com.magic.crius.vo.OperateChargeReq;
+import com.magic.crius.vo.ReqQueryVo;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -62,13 +63,13 @@ public class OperateChargeReqServiceImpl implements OperateChargeReqService {
     }
 
     @Override
-    public List<Long> getSucIds(Long startTime, Long endTime) {
-        return operateChargeMongoService.getSucIds(startTime, endTime);
+    public List<Long> getSucIds(ReqQueryVo queryVo) {
+        return operateChargeMongoService.getSucIds(queryVo);
     }
 
     @Override
-    public List<OperateChargeReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
-        return operateChargeMongoService.getNotProc(startTime,endTime,reqIds, pageable);
+    public List<OperateChargeReq> getNotProc(ReqQueryVo queryVo, Pageable pageable) {
+        return operateChargeMongoService.getNotProc(queryVo, pageable);
     }
 
     @Override

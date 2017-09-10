@@ -6,6 +6,7 @@ import com.magic.crius.service.CashbackReqService;
 import com.magic.crius.storage.mongo.CashbackReqMongoService;
 import com.magic.crius.storage.redis.CashbackReqRedisService;
 import com.magic.crius.vo.CashbackReq;
+import com.magic.crius.vo.ReqQueryVo;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -50,13 +51,13 @@ public class CashbackReqServiceImpl implements CashbackReqService {
     }
 
     @Override
-    public boolean saveSuc(Collection<CashbackReq> reqs) {
+    public boolean saveSuc(List<CashbackReq> reqs) {
         return cashbackReqMongoService.saveSuc(reqs);
     }
 
     @Override
-    public CashbackReq getByReqId(Long reqId) {
-        return cashbackReqMongoService.getByReqId(reqId);
+    public CashbackReq getByReqId(CashbackReq req) {
+        return cashbackReqMongoService.getByReqId(req);
     }
 
     @Override
@@ -65,13 +66,13 @@ public class CashbackReqServiceImpl implements CashbackReqService {
     }
 
     @Override
-    public List<Long> getSucIds(Long startTime, Long endTime) {
-        return cashbackReqMongoService.getSucIds(startTime, endTime);
+    public List<Long> getSucIds(ReqQueryVo queryVo) {
+        return cashbackReqMongoService.getSucIds(queryVo);
     }
 
     @Override
-    public List<CashbackReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
-        return cashbackReqMongoService.getNotProc(startTime, endTime, reqIds, pageable);
+    public List<CashbackReq> getNotProc(ReqQueryVo queryVo, Pageable pageable) {
+        return cashbackReqMongoService.getNotProc(queryVo, pageable);
     }
 
     @Override

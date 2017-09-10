@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.magic.crius.vo.AgentBillReq;
+import com.magic.crius.vo.ReqQueryVo;
 
 /**
  * User: justin
@@ -31,28 +32,5 @@ public interface AgentBillReqMongoService {
      */
     AgentBillReq getByReqId(Long id);
 
-    /**
-     * 批量存储处理成功的数据
-     * @param reqs
-     * @return
-     */
-    boolean saveSuc(Collection<AgentBillReq> reqs);
-
-    /**
-     * 查询操作成功的ID列表
-     * @param startTime
-     * @param endTime
-     * @return
-     */
-    List<Long> getSucIds(Long startTime, Long endTime);
-
-
-    /**
-     * 获取固定时间内处理失败的数据
-     * @param startTime
-     * @param endTime
-     * @return
-     */
-    List<AgentBillReq> getSaveFailed(Long startTime, Long endTime);
 
 }

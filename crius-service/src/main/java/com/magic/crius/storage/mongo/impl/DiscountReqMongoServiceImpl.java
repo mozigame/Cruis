@@ -6,6 +6,7 @@ import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.storage.mongo.DiscountReqMongoService;
 import com.magic.crius.vo.DiscountReq;
+import com.magic.crius.vo.ReqQueryVo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.springframework.data.domain.Pageable;
@@ -38,7 +39,7 @@ public class DiscountReqMongoServiceImpl implements DiscountReqMongoService {
     @Override
     public boolean saveFailedData(DiscountReq discountReq) {
         try {
-            return discountReqMongoDao.save(discountReq, MongoCollectionFlag.MONGO_FAILED.collName("discountReq")) != null;
+            return discountReqMongoDao.save(discountReq, MongoCollectionFlag.MONGO_FAILED.collName(MongoCollections.discountReq)) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -46,11 +47,11 @@ public class DiscountReqMongoServiceImpl implements DiscountReqMongoService {
     }
 
     @Override
-    public DiscountReq getByReqId(Long id) {
+    public DiscountReq getByReqId(DiscountReq req) {
         try {
             Query query = new Query();
-            query.addCriteria(new Criteria("reqId").is(id));
-            return discountReqMongoDao.findOne(query);
+            query.addCriteria(new Criteria("reqId").is(req.getReqId()));
+            return discountReqMongoDao.findOne(query, MongoCollectionFlag.dateCollName(MongoCollections.discountReq, req.getPdate()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -58,9 +59,9 @@ public class DiscountReqMongoServiceImpl implements DiscountReqMongoService {
     }
 
     @Override
-    public List<Long> getSucIds(Long startTime, Long endTime) {
+    public List<Long> getSucIds(ReqQueryVo queryVo) {
         try {
-            return discountReqMongoDao.getSucIds(startTime, endTime, MongoCollections.discountReq.name());
+            return discountReqMongoDao.getSucIds(queryVo, MongoCollectionFlag.dateCollName(MongoCollections.discountReq, queryVo.getPdate()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -68,9 +69,9 @@ public class DiscountReqMongoServiceImpl implements DiscountReqMongoService {
     }
 
     @Override
-    public List<DiscountReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
+    public List<DiscountReq> getNotProc(ReqQueryVo queryVo, Pageable pageable) {
         try {
-            return discountReqMongoDao.getNotProc(startTime, endTime, reqIds, MongoCollections.discountReq.name(), pageable);
+            return discountReqMongoDao.getNotProc(queryVo, MongoCollectionFlag.dateCollName(MongoCollections.discountReq, queryVo.getPdate()), pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,7 +81,7 @@ public class DiscountReqMongoServiceImpl implements DiscountReqMongoService {
     @Override
     public List<DiscountReq> getSaveFailed(Long startTime, Long endTime) {
         try {
-            return discountReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.discountReq.name());
+            return discountReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.discountReq);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -90,7 +91,8 @@ public class DiscountReqMongoServiceImpl implements DiscountReqMongoService {
     @Override
     public boolean saveSuc(List<DiscountReq> reqs) {
         try {
-            return discountReqMongoDao.save(reqs, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.discountReq.name()));
+            String collName = MongoCollectionFlag.dateCollName(MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.discountReq), reqs.get(0).getPdate());
+            return discountReqMongoDao.save(reqs, collName);
         } catch (Exception e) {
             e.printStackTrace();
         }

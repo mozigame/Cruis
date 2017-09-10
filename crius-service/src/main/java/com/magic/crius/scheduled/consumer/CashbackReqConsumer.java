@@ -19,6 +19,7 @@ import com.magic.crius.service.RepairLockService;
 import com.magic.crius.storage.db.SpringDataPageable;
 import com.magic.crius.util.PropertiesLoad;
 import com.magic.crius.vo.CashbackReq;
+import com.magic.crius.vo.ReqQueryVo;
 import org.apache.log4j.Logger;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
@@ -134,7 +135,7 @@ public class CashbackReqConsumer {
             List<OwnerReforwardDetail> ownerReforwardDetailHashMap = new ArrayList<>();
             List<OwnerCompanyAccountDetail> ownerCompanyAccountDetails = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
-            Set<CashbackReq> sucReqs = new HashSet<>();
+            List<CashbackReq> sucReqs = new ArrayList<>();
             for (CashbackReq req : list) {
                 /*反水详情*/
                 ownerReforwardDetailHashMap.add(assembleOwnerReforwardDetail(req));
@@ -189,17 +190,17 @@ public class CashbackReqConsumer {
         Calendar startDate = Calendar.getInstance();
         startDate.setTime(endDate);
         startDate.add(Calendar.HOUR, -1);
-        RepairLock repairLock = repairLockService.getTimeLock(MongoCollections.cashbackReq.name(), Integer.parseInt(DateUtil.formatDateTime(startDate.getTime(), DateUtil.format_yyyyMMddHH)));
+        RepairLock repairLock = repairLockService.getTimeLock(MongoCollections.cashbackReq, Integer.parseInt(DateUtil.formatDateTime(startDate.getTime(), DateUtil.format_yyyyMMddHH)));
         if (repairLock != null) {
             return;
         }
         repairLock = new RepairLock();
         repairLock.setProduceTime(date.getTime());
-        repairLock.setCollectionName(MongoCollections.cashbackReq.name());
+        repairLock.setCollectionName(MongoCollections.cashbackReq);
         repairLock.setValue(CriusConstants.REPAIR_LOCK_VALUE);
         if (repairLockService.save(repairLock)) {
 //            mongoFailed(startDate.getTimeInMillis(), endDate.getTime());
-            mongoNoProc(startDate.getTimeInMillis(), endDate.getTime(), hhDate);
+            mongoNoProc(startDate.getTimeInMillis(), endDate.getTime(), hhDate, Integer.parseInt(DateUtil.formatDateTime(startDate.getTime(), DateUtil.format_yyyyMMdd)));
         }
 
     }
@@ -224,18 +225,25 @@ public class CashbackReqConsumer {
      * @param startTime
      * @param endTime
      */
-    private void mongoNoProc(Long startTime, Long endTime, String hhDate) {
-        List<Long> reqIds = cashbackReqService.getSucIds(startTime, endTime);
+    private void mongoNoProc(Long startTime, Long endTime, String hhDate, Integer pdate) {
+        ReqQueryVo queryVo = new ReqQueryVo();
+        queryVo.setStartTime(startTime);
+        queryVo.setEndTime(endTime);
+        queryVo.setPdate(pdate);
+        List<Long> reqIds = cashbackReqService.getSucIds(queryVo);
+        queryVo.setReqIds(reqIds);
         SpringDataPageable pageable = new SpringDataPageable();
         pageable.setSort(new Sort("reqId"));
         pageable.setPagesize(CriusConstants.MONGO_NO_PROC_SIZE);
         pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_CAHSBACK, hhDate)));
-        List<CashbackReq> notProcDrawReqs = cashbackReqService.getNotProc(startTime, endTime, reqIds, pageable);
+
+
+        List<CashbackReq> notProcDrawReqs = cashbackReqService.getNotProc(queryVo, pageable);
         while (notProcDrawReqs != null && notProcDrawReqs.size() > 0) {
             logger.info("------mongoNoProc ,cashback ,noProcReqIds :" + notProcDrawReqs.size() + " , startTime : " + startTime + " endTime :" + endTime);
             flushData(notProcDrawReqs);
             pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_CAHSBACK, hhDate)));
-            notProcDrawReqs = cashbackReqService.getNotProc(startTime, endTime, reqIds, pageable);
+            notProcDrawReqs = cashbackReqService.getNotProc(queryVo, pageable);
         }
     }
 
@@ -262,6 +270,9 @@ public class CashbackReqConsumer {
         CashbackReq sucReq = new CashbackReq();
         sucReq.setReqId(req.getReqId());
         sucReq.setProduceTime(req.getProduceTime());
+        sucReq.setConsumerTime(req.getConsumerTime());
+        sucReq.setBillId(req.getBillId());
+        sucReq.setPdate(req.getPdate());
         return sucReq;
     }
 }

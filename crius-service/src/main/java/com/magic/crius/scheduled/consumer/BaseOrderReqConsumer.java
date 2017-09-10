@@ -15,6 +15,7 @@ import com.magic.crius.service.RepairLockService;
 import com.magic.crius.storage.db.SpringDataPageable;
 import com.magic.crius.util.PropertiesLoad;
 import com.magic.crius.vo.BaseOrderReq;
+import com.magic.crius.vo.ReqQueryVo;
 import org.apache.log4j.Logger;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
@@ -62,10 +63,10 @@ public class BaseOrderReqConsumer {
                 @Override
                 public void run() {
                     try {
-						currentDataCalculate(date);
-					} catch (Exception e) {
-						logger.error("---detailCalculate baseOrder--", e);
-					}
+                        currentDataCalculate(date);
+                    } catch (Exception e) {
+                        logger.error("---detailCalculate baseOrder--", e);
+                    }
                 }
             });
         }
@@ -74,14 +75,14 @@ public class BaseOrderReqConsumer {
             @Override
             public void run() {
                 try {
-					repairCacheHistoryTask(date);
+                    repairCacheHistoryTask(date);
                     if (PropertiesLoad.repairOrderScheduleFlag()) {
                         logger.info("----repairMongoAbnormal BaseOrderReq");
                         repairMongoAbnormal(date);
                     }
-				} catch (Exception e) {
-					logger.error("---detailCalculate-task-- baseOrder", e);
-				}
+                } catch (Exception e) {
+                    logger.error("---detailCalculate-task-- baseOrder", e);
+                }
             }
         });
     }
@@ -110,7 +111,7 @@ public class BaseOrderReqConsumer {
             try {
                 Thread.sleep(CriusConstants.POLL_POP_SLEEP_TIME);
             } catch (InterruptedException e) {
-                logger.error("--currentDataCalculate baseOrder--",e);
+                logger.error("--currentDataCalculate baseOrder--", e);
             }
         }
     }
@@ -163,17 +164,17 @@ public class BaseOrderReqConsumer {
         Calendar startDate = Calendar.getInstance();
         startDate.setTime(endDate);
         startDate.add(Calendar.HOUR, -1);
-        RepairLock repairLock = repairLockService.getTimeLock(MongoCollections.baseOrderReq.name(), Integer.parseInt(DateUtil.formatDateTime(startDate.getTime(), DateUtil.format_yyyyMMddHH)));
+        RepairLock repairLock = repairLockService.getTimeLock(MongoCollections.baseOrderReq, Integer.parseInt(DateUtil.formatDateTime(startDate.getTime(), DateUtil.format_yyyyMMddHH)));
         if (repairLock != null) {
             return;
         }
         repairLock = new RepairLock();
         repairLock.setProduceTime(date.getTime());
-        repairLock.setCollectionName(MongoCollections.baseOrderReq.name());
+        repairLock.setCollectionName(MongoCollections.baseOrderReq);
         repairLock.setValue(CriusConstants.REPAIR_LOCK_VALUE);
         if (repairLockService.save(repairLock)) {
 //            mongoFailed(startDate.getTimeInMillis(), endDate.getTime());
-            mongoNoProc(startDate.getTimeInMillis(), endDate.getTime(), hhDate);
+            mongoNoProc(startDate.getTimeInMillis(), endDate.getTime(), hhDate, Integer.parseInt(DateUtil.formatDateTime(startDate.getTime(), DateUtil.format_yyyyMMdd)));
         }
 
     }
@@ -187,7 +188,7 @@ public class BaseOrderReqConsumer {
     private void mongoFailed(Long startTime, Long endTime) {
         List<BaseOrderReq> failedReqs = baseOrderReqService.getSaveFailed(startTime, endTime);
         if (failedReqs != null && failedReqs.size() > 0) {
-            logger.info("------mongoFailed ,baseOrder , reqIds :"+ failedReqs.size()+" , startTime : "+ startTime+" endTime :" + endTime);
+            logger.info("------mongoFailed ,baseOrder , reqIds :" + failedReqs.size() + " , startTime : " + startTime + " endTime :" + endTime);
             flushData(failedReqs);
         }
     }
@@ -198,22 +199,27 @@ public class BaseOrderReqConsumer {
      * @param startTime
      * @param endTime
      */
-    private void mongoNoProc(Long startTime, Long endTime, String hhDate) {
-        List<Long> reqIds = baseOrderReqService.getSucIds(startTime, endTime);
+    private void mongoNoProc(Long startTime, Long endTime, String hhDate, Integer pdate) {
+        ReqQueryVo queryVo = new ReqQueryVo();
+        queryVo.setStartTime(startTime);
+        queryVo.setEndTime(endTime);
+        queryVo.setPdate(pdate);
+        List<Long> reqIds = baseOrderReqService.getSucIds(queryVo);
+        queryVo.setReqIds(reqIds);
         SpringDataPageable pageable = new SpringDataPageable();
         pageable.setSort(new Sort("reqId"));
         pageable.setPagesize(CriusConstants.MONGO_NO_PROC_SIZE);
         pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_BASE_GAME, hhDate)));
 
-        List<BaseOrderReq> withDrawReqs = baseOrderReqService.getNotProc(startTime, endTime, reqIds, pageable);
+
+        List<BaseOrderReq> withDrawReqs = baseOrderReqService.getNotProc(queryVo, pageable);
         while (withDrawReqs != null && withDrawReqs.size() > 0) {
             logger.info("------start mongoNoProc ,baseOrder , noProcReqIds.size : " + withDrawReqs.size() + ", startTime : " + startTime + " endTime :" + endTime);
             flushData(withDrawReqs);
             pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_BASE_GAME, hhDate)));
-            withDrawReqs = baseOrderReqService.getNotProc(startTime, endTime, reqIds, pageable);
+            withDrawReqs = baseOrderReqService.getNotProc(queryVo, pageable);
         }
     }
-
 
 
     private BaseOrderReq assembleSucReq(BaseOrderReq req) {
@@ -222,6 +228,9 @@ public class BaseOrderReqConsumer {
         sucReq.setReqId(req.getReqId());
         sucReq.setProduceTime(req.getProduceTime());
         sucReq.setConsumerTime(req.getConsumerTime());
+        sucReq.setPdate(req.getPdate());
+        sucReq.setInsertDatetime(req.getInsertDatetime());
+        sucReq.setBcBetId(req.getBcBetId());
         return sucReq;
     }
 }

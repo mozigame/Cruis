@@ -6,6 +6,7 @@ import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.storage.mongo.OnlChargeReqMongoService;
 import com.magic.crius.vo.OnlChargeReq;
 import com.magic.crius.vo.PreCmpChargeReq;
+import com.magic.crius.vo.ReqQueryVo;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -39,7 +40,7 @@ public class OnlChargeReqMongoServiceImpl implements OnlChargeReqMongoService {
     @Override
     public boolean saveFailedData(OnlChargeReq onlChargeReq) {
         try {
-            return onlChargeMongoDao.save(onlChargeReq, MongoCollectionFlag.MONGO_FAILED.collName("onlChargeReq")) != null;
+            return onlChargeMongoDao.save(onlChargeReq, MongoCollectionFlag.MONGO_FAILED.collName(MongoCollections.onlChargeReq)) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,7 +62,7 @@ public class OnlChargeReqMongoServiceImpl implements OnlChargeReqMongoService {
     @Override
     public boolean saveSuc(Collection<OnlChargeReq> reqs) {
         try {
-            return onlChargeMongoDao.save(reqs, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.onlChargeReq.name()));
+            return onlChargeMongoDao.save(reqs, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.onlChargeReq));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -69,9 +70,9 @@ public class OnlChargeReqMongoServiceImpl implements OnlChargeReqMongoService {
     }
 
     @Override
-    public List<Long> getSucIds(Long startTime, Long endTime) {
+    public List<Long> getSucIds(ReqQueryVo queryVo) {
         try {
-            return onlChargeMongoDao.getSucIds(startTime, endTime, MongoCollections.onlChargeReq.name());
+            return onlChargeMongoDao.getSucIds(queryVo, MongoCollections.onlChargeReq);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,9 +80,9 @@ public class OnlChargeReqMongoServiceImpl implements OnlChargeReqMongoService {
     }
 
     @Override
-    public List<OnlChargeReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
+    public List<OnlChargeReq> getNotProc(ReqQueryVo queryVo, Pageable pageable) {
         try {
-            return onlChargeMongoDao.getNotProc(startTime,endTime,reqIds, MongoCollections.onlChargeReq.name(), pageable);
+            return onlChargeMongoDao.getNotProc(queryVo, MongoCollections.onlChargeReq, pageable);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -91,7 +92,7 @@ public class OnlChargeReqMongoServiceImpl implements OnlChargeReqMongoService {
     @Override
     public List<OnlChargeReq> getSaveFailed(Long startTime, Long endTime) {
         try {
-            return onlChargeMongoDao.getSaveFailed(startTime, endTime, MongoCollections.onlChargeReq.name());
+            return onlChargeMongoDao.getSaveFailed(startTime, endTime, MongoCollections.onlChargeReq);
         } catch (Exception e) {
             e.printStackTrace();
         }

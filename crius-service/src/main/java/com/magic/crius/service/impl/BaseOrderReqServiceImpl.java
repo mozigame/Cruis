@@ -6,6 +6,7 @@ import com.magic.crius.service.BaseOrderReqService;
 import com.magic.crius.storage.mongo.BaseOrderReqMongoService;
 import com.magic.crius.storage.redis.BaseOrderReqRedisService;
 import com.magic.crius.vo.BaseOrderReq;
+import com.magic.crius.vo.ReqQueryVo;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -50,8 +51,8 @@ public class BaseOrderReqServiceImpl implements BaseOrderReqService {
     }
 
     @Override
-    public BaseOrderReq getByReqId(Long reqId) {
-        return baseOrderReqMongoService.getByReqId(reqId);
+    public BaseOrderReq getByReqId(BaseOrderReq req) {
+        return baseOrderReqMongoService.getByReqId(req);
     }
 
     @Override
@@ -60,13 +61,13 @@ public class BaseOrderReqServiceImpl implements BaseOrderReqService {
     }
 
     @Override
-    public List<Long> getSucIds(Long startTime, Long endTime) {
-        return baseOrderReqMongoService.getSucIds(startTime, endTime);
+    public List<Long> getSucIds(ReqQueryVo queryVo) {
+        return baseOrderReqMongoService.getSucIds(queryVo);
     }
 
     @Override
-    public List<BaseOrderReq> getNotProc(Long startTime, Long endTime, Collection<Long> reqIds, Pageable pageable) {
-        return baseOrderReqMongoService.getNotProc(startTime, endTime, reqIds, pageable);
+    public List<BaseOrderReq> getNotProc(ReqQueryVo queryVo, Pageable pageable) {
+        return baseOrderReqMongoService.getNotProc(queryVo, pageable);
     }
 
     @Override
@@ -75,7 +76,7 @@ public class BaseOrderReqServiceImpl implements BaseOrderReqService {
     }
 
     @Override
-    public boolean saveSuc(Collection<BaseOrderReq> reqs) {
+    public boolean saveSuc(List<BaseOrderReq> reqs) {
         return baseOrderReqMongoService.saveSuc(reqs);
     }
 }

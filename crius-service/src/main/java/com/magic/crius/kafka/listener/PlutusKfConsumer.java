@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.magic.analysis.enums.GameTypeEnum;
 import com.magic.api.commons.ApiLogger;
+import com.magic.api.commons.tools.DateUtil;
 import com.magic.crius.assemble.*;
 import com.magic.crius.enums.KafkaConf;
 import com.magic.crius.scheduled.consumer.BillInfoConsumer;
@@ -15,6 +16,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicLong;
@@ -106,6 +108,7 @@ public class PlutusKfConsumer {
         logger.info("Thread : "+ Thread.currentThread().getName()+" ,get plutus kafka data :>>>  " + record.toString());
         JSONObject object = JSON.parseObject(record.value().toString());
         KafkaConf.DataType type = KafkaConf.DataType.parse(object.getInteger(KafkaConf.DATA_TYPE));
+        Date date;
         switch (type) {
             case PLUTUS_ONL_CHARGE:
                 OnlChargeReq onlChargeReq = JSON.parseObject(object.getString(KafkaConf.DATA), OnlChargeReq.class);
@@ -119,7 +122,9 @@ public class PlutusKfConsumer {
                 break;
             case PLUTUS_DISCOUNT:
                 DiscountReq discountReq = JSON.parseObject(object.getString(KafkaConf.DATA), DiscountReq.class);
-                discountReq.setConsumerTime(System.currentTimeMillis());
+                date = new Date();
+                discountReq.setConsumerTime(date.getTime());
+                discountReq.setPdate(Integer.parseInt(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMdd)));
                 discountReqAssemService.procKafkaData(discountReq);
                 break;
             case PLUTUS_USER_WITHDRAW:
@@ -138,12 +143,14 @@ public class PlutusKfConsumer {
                 operateChargeReqAssemService.procKafkaData(operateChargeReq);
                 break;
             case PLUTUS_CAHSBACK:
-                CashbackReq payoffReq = JSON.parseObject(object.getString(KafkaConf.DATA), CashbackReq.class);
-                payoffReq.setConsumerTime(System.currentTimeMillis());
-                cashbackReqAssemService.procKafkaData(payoffReq);
+                CashbackReq cashbackReq = JSON.parseObject(object.getString(KafkaConf.DATA), CashbackReq.class);
+                date = new Date();
+                cashbackReq.setConsumerTime(date.getTime());
+                cashbackReq.setPdate(Integer.parseInt(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMdd)));
+                cashbackReqAssemService.procKafkaData(cashbackReq);
                 break;
             case PLUTUS_PAYOFF:
-                PayoffReq cashbackReq = JSON.parseObject(object.getString(KafkaConf.DATA), PayoffReq.class);
+                PayoffReq payoffReq = JSON.parseObject(object.getString(KafkaConf.DATA), PayoffReq.class);
                 break;
             case PLUTUS_JP:
                 JpReq jpReq = JSON.parseObject(object.getString(KafkaConf.DATA), JpReq.class);

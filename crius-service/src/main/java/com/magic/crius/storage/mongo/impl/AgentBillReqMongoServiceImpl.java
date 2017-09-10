@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.magic.crius.vo.ReqQueryVo;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class AgentBillReqMongoServiceImpl implements AgentBillReqMongoService {
     @Override
     public boolean saveFailedData(AgentBillReq req) {
         try {
-            return agentBillReqMongoDao.save(req, MongoCollectionFlag.MONGO_FAILED.collName(MongoCollections.agentBillReq.name())) != null;
+            return agentBillReqMongoDao.save(req, MongoCollectionFlag.MONGO_FAILED.collName(MongoCollections.agentBillReq)) != null;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,35 +58,4 @@ public class AgentBillReqMongoServiceImpl implements AgentBillReqMongoService {
         return null;
     }
 
-
-
-    @Override
-    public boolean saveSuc(Collection<AgentBillReq> reqs) {
-        try {
-            return agentBillReqMongoDao.save(reqs, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.agentBillReq.name()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    @Override
-    public List<Long> getSucIds(Long startTime, Long endTime) {
-        try {
-            return agentBillReqMongoDao.getSucIds(startTime, endTime, MongoCollections.agentBillReq.name());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    @Override
-    public List<AgentBillReq> getSaveFailed(Long startTime, Long endTime) {
-        try {
-            return agentBillReqMongoDao.getSaveFailed(startTime, endTime, MongoCollections.agentBillReq.name());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }
