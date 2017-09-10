@@ -32,8 +32,8 @@ public class DiscountReqMongoServiceImpl implements DiscountReqMongoService {
     private DiscountReqMongoDao discountReqMongoDao;
 
     @Override
-    public boolean save(DiscountReq discountReq) {
-        return discountReqMongoDao.save(discountReq) != null;
+    public boolean save(DiscountReq req) {
+        return discountReqMongoDao.save(req, MongoCollectionFlag.dateCollName(MongoCollections.discountReq, req.getPdate())) != null;
     }
 
     @Override
