@@ -1,6 +1,7 @@
 package com.magic.crius.storage.mongo;
 
 import com.magic.crius.vo.OwnerBillReq;
+import com.magic.crius.vo.ReqQueryVo;
 
 import java.util.Collection;
 import java.util.List;
@@ -38,14 +39,6 @@ public interface OwnerBillReqMongoService {
      * @return
      */
     boolean saveSuc(Collection<OwnerBillReq> reqs);
-
-    /**
-     * 查询操作成功的ID列表
-     * @param startTime
-     * @param endTime
-     * @return
-     */
-    List<Long> getSucIds(Long startTime, Long endTime);
 
 
     /**

@@ -79,7 +79,9 @@ public class UserPreferentialDetailAssemService {
         String[] ids = idList.split(",");
         for (String idString : ids) {
             Long id = Long.parseLong(idString);
-            DiscountReq discountReq = discountReqMongoService.getByReqId(id);
+            DiscountReq req = new DiscountReq();
+            req.setReqId(id);
+            DiscountReq discountReq = discountReqMongoService.getByReqId(req);
             if (discountReq == null) {
                 result.put(idString, "null");
             } else {

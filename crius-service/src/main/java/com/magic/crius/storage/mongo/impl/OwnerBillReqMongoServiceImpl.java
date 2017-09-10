@@ -5,6 +5,7 @@ import com.magic.crius.enums.MongoCollectionFlag;
 import com.magic.crius.enums.MongoCollections;
 import com.magic.crius.storage.mongo.OwnerBillReqMongoService;
 import com.magic.crius.vo.OwnerBillReq;
+import com.magic.crius.vo.ReqQueryVo;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -65,16 +66,6 @@ public class OwnerBillReqMongoServiceImpl implements OwnerBillReqMongoService {
             e.printStackTrace();
         }
         return false;
-    }
-
-    @Override
-    public List<Long> getSucIds(Long startTime, Long endTime) {
-        try {
-            return ownerBillReqMongoDao.getSucIds(startTime, endTime, MongoCollections.ownerBillReq);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     @Override
