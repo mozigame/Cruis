@@ -82,13 +82,18 @@ public class UserOrderDetailAssemService {
             List<Long> _insertUserIds = new ArrayList<>();
             Map<Long, UserOrderDetail> checkOrders = userOrderDetailService.findByOrderIds(updateOrder);
             if (checkOrders != null) {
-                updateOrder.forEach((order)->{
+                updateOrder.forEach((order) -> {
                     if (checkOrders.get(order.getOrderId()) != null) {
                         _updateOrder.add(order);
                     } else {
                         _insertUserIds.add(order.getUserId());
                         _insertOrder.add(order);
                     }
+                });
+            } else {
+                updateOrder.forEach((order) -> {
+                    _insertUserIds.add(order.getUserId());
+                    _insertOrder.add(order);
                 });
             }
 
