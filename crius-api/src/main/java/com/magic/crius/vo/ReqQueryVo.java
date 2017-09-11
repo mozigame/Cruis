@@ -15,6 +15,23 @@ public class ReqQueryVo {
     private List<Long> reqIds;
     private Integer pdate;
 
+    public ReqQueryVo(Long startTime, Long endTime, String hhDate, List<Long> reqIds, Integer pdate) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.hhDate = hhDate;
+        this.reqIds = reqIds;
+        this.pdate = pdate;
+    }
+
+    public ReqQueryVo(Long startTime, Long endTime, Integer pdate) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.pdate = pdate;
+    }
+
+    public ReqQueryVo() {
+    }
+
     public Long getStartTime() {
         return startTime;
     }

@@ -200,10 +200,7 @@ public class BaseOrderReqConsumer {
      * @param endTime
      */
     private void mongoNoProc(Long startTime, Long endTime, String hhDate, Integer pdate) {
-        ReqQueryVo queryVo = new ReqQueryVo();
-        queryVo.setStartTime(startTime);
-        queryVo.setEndTime(endTime);
-        queryVo.setPdate(pdate);
+        ReqQueryVo queryVo = new ReqQueryVo(startTime,endTime, pdate);
         List<Long> reqIds = baseOrderReqService.getSucIds(queryVo);
         queryVo.setReqIds(reqIds);
         SpringDataPageable pageable = new SpringDataPageable();

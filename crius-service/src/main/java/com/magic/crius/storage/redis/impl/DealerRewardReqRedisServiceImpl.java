@@ -47,8 +47,9 @@ public class DealerRewardReqRedisServiceImpl implements DealerRewardReqRedisServ
     @Override
     public List<DealerRewardReq> batchPop(Date date) {
         String key = RedisConstants.CLEAR_PREFIX.PLUTUS_DS.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
+        Jedis jedis = null;
         try {
-            Jedis jedis = criusJedisFactory.getInstance();
+            jedis = criusJedisFactory.getInstance();
             List<DealerRewardReq> list = new ArrayList<>();
             for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
                 String reqStr = jedis.rpop(key);
@@ -62,6 +63,8 @@ public class DealerRewardReqRedisServiceImpl implements DealerRewardReqRedisServ
             return list;
         } catch (Exception e) {
             ApiLogger.error("DealerRewardReq batchPop error, key : " + key, e);
+        } finally {
+            criusJedisFactory.close(jedis);
         }
         return null;
     }

@@ -24,12 +24,15 @@ public class BaseReqRedisServiceImpl implements BaseReqRedisService {
 
     @Override
     public int getNoProcPage(String key) {
+        Jedis jedis = null;
         try {
-            Jedis jedis = criusJedisFactory.getInstance();
+            jedis = criusJedisFactory.getInstance();
             Long result = jedis.incr(key);
             return result == null ? 0 : result.intValue();
         } catch (Exception e) {
             ApiLogger.error("getNoProcPage error, key : " + key, e);
+        }finally {
+            criusJedisFactory.close(jedis);
         }
         return 0;
     }
@@ -53,18 +56,23 @@ public class BaseReqRedisServiceImpl implements BaseReqRedisService {
 
     @Override
     public void setScheduleSwitch() {
+        Jedis jedis = null;
         try {
-            criusJedisFactory.getInstance().incr(RedisConstants.SCHEDULE_SWITCH);
+            jedis = criusJedisFactory.getInstance();
+            jedis.incr(RedisConstants.SCHEDULE_SWITCH);
             ApiLogger.info("setScheduleSwitch success");
         } catch (Exception e) {
             ApiLogger.error("setScheduleSwitch error" , e);
+        }finally {
+            criusJedisFactory.close(jedis);
         }
     }
 
     @Override
     public void delScheduleSwitch() {
+        Jedis jedis = null;
         try {
-            Jedis jedis = criusJedisFactory.getInstance();
+            jedis = criusJedisFactory.getInstance();
             Long result = jedis.del(RedisConstants.SCHEDULE_SWITCH);
             if (result == null || result == 0) {
                 ApiLogger.warn("delScheduleSwitch failed");
@@ -74,6 +82,8 @@ public class BaseReqRedisServiceImpl implements BaseReqRedisService {
             }
         } catch (Exception e) {
             ApiLogger.error("getScheduleSwitch error" , e);
+        }finally {
+            criusJedisFactory.close(jedis);
         }
     }
 }

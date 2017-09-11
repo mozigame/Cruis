@@ -248,7 +248,7 @@
         <dependency>
             <groupId>com.magic.commons</groupId>
             <artifactId>codis</artifactId>
-            <version>${commons-parent.version}</version>
+            <version>1.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.magic.commons</groupId>

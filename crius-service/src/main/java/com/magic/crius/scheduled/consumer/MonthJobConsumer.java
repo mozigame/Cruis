@@ -141,72 +141,79 @@ public class MonthJobConsumer {
      * 发起请求，调thrift接口通知消息
      */
     public void RunJob() {
-        Jedis jedis = criusJedisFactory.getInstance();
-        jedis.incr(RedisConstants.OWNER_BILL_KEY);
-        jedis.expire(RedisConstants.OWNER_BILL_KEY, 3 * 60 * 60);//3个小时存活时间
+        Jedis jedis = null;
+        try {
+            jedis = criusJedisFactory.getInstance();
+            jedis.incr(RedisConstants.OWNER_BILL_KEY);
+            jedis.expire(RedisConstants.OWNER_BILL_KEY, 3 * 60 * 60);//3个小时存活时间
 
-        if (org.apache.commons.lang3.StringUtils.isNotEmpty(jedis.get(RedisConstants.OWNER_BILL_KEY)) && Integer.parseInt(jedis.get(RedisConstants.OWNER_BILL_KEY)) == 1) {
-            ApiLogger.info("begin run : ");
-            //获取所有ownerId
-            List<Long> ownerList = proxyInfoService.getOwenrList();
+            if (org.apache.commons.lang3.StringUtils.isNotEmpty(jedis.get(RedisConstants.OWNER_BILL_KEY)) && Integer.parseInt(jedis.get(RedisConstants.OWNER_BILL_KEY)) == 1) {
+                ApiLogger.info("begin run : ");
+                //获取所有ownerId
+                List<Long> ownerList = proxyInfoService.getOwenrList();
 
-            if (ownerList != null && ownerList.size() > 0) {
-                StmlBillInfoReq stmlBillInfoReq_owner = null;
-                String staticsDay = DateKit.isCurrentMonthMonday();
-                //TODO 当日期是当前月第一个周的周一，并且不是1号，开始统计业主账单
-                if (staticsDay.equals(DateKit.formatDate(new Date()))) {
+                if (ownerList != null && ownerList.size() > 0) {
+                    StmlBillInfoReq stmlBillInfoReq_owner = null;
+                    String staticsDay = DateKit.isCurrentMonthMonday();
+                    //TODO 当日期是当前月第一个周的周一，并且不是1号，开始统计业主账单
+                    if (staticsDay.equals(DateKit.formatDate(new Date()))) {
+                        for (Long ownerId : ownerList) {
+                            stmlBillInfoReq_owner = new StmlBillInfoReq();
+                            stmlBillInfoReq_owner.setOwnerId(ownerId);
+                            //业主
+                            stmlBillInfoReq_owner.setStartDay(Integer.parseInt(DateKit.isLastMonthMonday().replace("-", "")));
+                            stmlBillInfoReq_owner.setEndDay(Integer.parseInt(DateKit.lastDay().replace("-", "")));
+                            stmlBillInfoReq_owner.setBillType(1);//业主包网方案
+                            //获取包网方案
+                            ContractFeeOwnerDetailsVo contractFeeOwnerDetailsVo = contractFeeService.getOwnerContractFeeDetails(ownerId);
+                            if (contractFeeOwnerDetailsVo != null) {
+                                stmlBillInfoReq_owner.setSchemeId(contractFeeOwnerDetailsVo.getId());
+                                //stmlBillInfoReq_owner.setSchemeName(stmlBillInfoReq_owner.toString().substring(0,6) + "月包网方案");
+                                stmlBillInfoReq_owner.setSchemeName(contractFeeOwnerDetailsVo.getName());
+                            }
+
+                            EGResp egResp = MonthJobRun(stmlBillInfoReq_owner);
+                            ApiLogger.info("ownerId " + ownerId + " 返回报文： " + egResp);
+                        }
+                    }
+
+
+                    //代理
+                    StmlBillInfoReq stmlBillInfoReq_proxy = null;
                     for (Long ownerId : ownerList) {
-                        stmlBillInfoReq_owner = new StmlBillInfoReq();
-                        stmlBillInfoReq_owner.setOwnerId(ownerId);
-                        //业主
-                        stmlBillInfoReq_owner.setStartDay(Integer.parseInt(DateKit.isLastMonthMonday().replace("-", "")));
-                        stmlBillInfoReq_owner.setEndDay(Integer.parseInt(DateKit.lastDay().replace("-", "")));
-                        stmlBillInfoReq_owner.setBillType(1);//业主包网方案
-                        //获取包网方案
-                        ContractFeeOwnerDetailsVo contractFeeOwnerDetailsVo = contractFeeService.getOwnerContractFeeDetails(ownerId);
-                        if (contractFeeOwnerDetailsVo != null) {
-                            stmlBillInfoReq_owner.setSchemeId(contractFeeOwnerDetailsVo.getId());
-                            //stmlBillInfoReq_owner.setSchemeName(stmlBillInfoReq_owner.toString().substring(0,6) + "月包网方案");
-                            stmlBillInfoReq_owner.setSchemeName(contractFeeOwnerDetailsVo.getName());
-                        }
-
-                        EGResp egResp = MonthJobRun(stmlBillInfoReq_owner);
-                        ApiLogger.info("ownerId " + ownerId + " 返回报文： " + egResp);
-                    }
-                }
-
-
-                //代理
-                StmlBillInfoReq stmlBillInfoReq_proxy = null;
-                for (Long ownerId : ownerList) {
-                    stmlBillInfoReq_proxy = new StmlBillInfoReq();
-                    // 获取上一期的期数 状态 0 已停用  1 未使用  2 已使用
-                    BillingCycleVo billingCycleVo = getProxyLastBillCycle(ownerId);
-                   /* // 先数据库查，是否已存在改账单
-                    BillInfo billInfo = new BillInfo();
-                    billInfo.setStartTime(Long.parseLong(billingCycleVo.getStartTime()));
-                    billInfo.setEndTime(Long.parseLong(billingCycleVo.getEndTime()));
-                    billInfo.setBillType(2);//代理账单
-                    billInfo.setOwnerId(ownerId);
-                    billInfo.setPdate(Integer.parseInt(billingCycleVo.getStartTime().toString().substring(0,6)));
-                    boolean isexist = billInfoService.isExistBill(billInfo);*/
-                    //判断期数状态未使用并且结束日期等于今天，则进行结算
-                    if (billingCycleVo != null) {
-                        if (billingCycleVo.getStatus() == 1 && DateKit.compareDateFormat(DateKit.getCurrentDay(), billingCycleVo.getEndTime(), "YYYYMMdd") >= 0) {
-                            stmlBillInfoReq_proxy.setStartDay(Integer.parseInt(billingCycleVo.getStartTime()));
-                            stmlBillInfoReq_proxy.setEndDay(Integer.parseInt(billingCycleVo.getEndTime()));
-                            stmlBillInfoReq_proxy.setBillType(2);//代理账单
-                            stmlBillInfoReq_proxy.setOwnerId(ownerId);
-                            stmlBillInfoReq_proxy.setSchemeId(billingCycleVo.getId());//期数名称
-                            stmlBillInfoReq_proxy.setSchemeName(billingCycleVo.getCycleName());//期数名称
-                            stmlBillInfoReq_proxy.setBillDate(billingCycleVo.getStartTime().toString().substring(0, 6));
-                            EGResp egResp = MonthJobRun(stmlBillInfoReq_proxy);
-                            ApiLogger.info("proxy : ownerId " + ownerId + " 返回报文： " + egResp);
+                        stmlBillInfoReq_proxy = new StmlBillInfoReq();
+                        // 获取上一期的期数 状态 0 已停用  1 未使用  2 已使用
+                        BillingCycleVo billingCycleVo = getProxyLastBillCycle(ownerId);
+                       /* // 先数据库查，是否已存在改账单
+                        BillInfo billInfo = new BillInfo();
+                        billInfo.setStartTime(Long.parseLong(billingCycleVo.getStartTime()));
+                        billInfo.setEndTime(Long.parseLong(billingCycleVo.getEndTime()));
+                        billInfo.setBillType(2);//代理账单
+                        billInfo.setOwnerId(ownerId);
+                        billInfo.setPdate(Integer.parseInt(billingCycleVo.getStartTime().toString().substring(0,6)));
+                        boolean isexist = billInfoService.isExistBill(billInfo);*/
+                        //判断期数状态未使用并且结束日期等于今天，则进行结算
+                        if (billingCycleVo != null) {
+                            if (billingCycleVo.getStatus() == 1 && DateKit.compareDateFormat(DateKit.getCurrentDay(), billingCycleVo.getEndTime(), "YYYYMMdd") >= 0) {
+                                stmlBillInfoReq_proxy.setStartDay(Integer.parseInt(billingCycleVo.getStartTime()));
+                                stmlBillInfoReq_proxy.setEndDay(Integer.parseInt(billingCycleVo.getEndTime()));
+                                stmlBillInfoReq_proxy.setBillType(2);//代理账单
+                                stmlBillInfoReq_proxy.setOwnerId(ownerId);
+                                stmlBillInfoReq_proxy.setSchemeId(billingCycleVo.getId());//期数名称
+                                stmlBillInfoReq_proxy.setSchemeName(billingCycleVo.getCycleName());//期数名称
+                                stmlBillInfoReq_proxy.setBillDate(billingCycleVo.getStartTime().toString().substring(0, 6));
+                                EGResp egResp = MonthJobRun(stmlBillInfoReq_proxy);
+                                ApiLogger.info("proxy : ownerId " + ownerId + " 返回报文： " + egResp);
+                            }
                         }
                     }
-                }
 
+                }
             }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }finally {
+            criusJedisFactory.close(jedis);
         }
     }
 
@@ -214,13 +221,16 @@ public class MonthJobConsumer {
      * 手动操作月结账单
      */
     public String artificialBill() {
+        Jedis jedis = null;
         try {
-            Jedis jedis = criusJedisFactory.getInstance();
+            jedis = criusJedisFactory.getInstance();
             jedis.set(RedisConstants.OWNER_BILL_KEY, 0 + "");
             RunJob();
         } catch (Exception e) {
             ApiLogger.error("artificialBill error:", e);
             return "false";
+        }finally {
+            criusJedisFactory.close(jedis);
         }
         return "true";
     }

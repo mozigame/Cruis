@@ -30,8 +30,9 @@ public class OperateWithDrawReqRedisServiceImpl implements OperateWithDrawReqRed
 
     @Override
     public boolean save(OperateWithDrawReq req) {
+        Jedis jedis = null;
         try {
-            Jedis jedis = criusJedisFactory.getInstance();
+            jedis = criusJedisFactory.getInstance();
             Date date = new Date(req.getConsumerTime());
             String key = RedisConstants.CLEAR_PREFIX.PLUTUS_OPR_WITHDRAW.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
             String value = JSON.toJSONString(req);
@@ -41,6 +42,8 @@ public class OperateWithDrawReqRedisServiceImpl implements OperateWithDrawReqRed
             return result > 0;
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            criusJedisFactory.close(jedis);
         }
         return false;
     }
@@ -48,8 +51,9 @@ public class OperateWithDrawReqRedisServiceImpl implements OperateWithDrawReqRed
     @Override
     public List<OperateWithDrawReq> batchPop(Date date) {
         String key = RedisConstants.CLEAR_PREFIX.PLUTUS_OPR_WITHDRAW.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
+        Jedis jedis = null;
         try {
-            Jedis jedis = criusJedisFactory.getInstance();
+            jedis = criusJedisFactory.getInstance();
             List<OperateWithDrawReq> list = new ArrayList<>();
             for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
                 String reqStr = jedis.rpop(key);
@@ -63,6 +67,8 @@ public class OperateWithDrawReqRedisServiceImpl implements OperateWithDrawReqRed
             return list;
         } catch (Exception e) {
             ApiLogger.error("OperateWithDrawReq batchPop error, key : "+ key, e);
+        } finally {
+            criusJedisFactory.close(jedis);
         }
         return null;
     }

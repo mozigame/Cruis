@@ -32,14 +32,17 @@ public class BaseOrderReqRedisServiceImpl implements BaseOrderReqRedisService {
     @Override
     public boolean save(BaseOrderReq req) {
         String key = RedisConstants.CLEAR_PREFIX.PLUTUS_BASE_GAME.key(DateUtil.formatDateTime(new Date(req.getConsumerTime()), DateUtil.format_yyyyMMddHH));
+        Jedis jedis = null;
         try {
-            Jedis jedis = criusJedisFactory.getInstance();
+            jedis = criusJedisFactory.getInstance();
             Long result = jedis.lpush(key, JSON.toJSONString(req));
             jedis.expire(key, RedisConstants.EXPIRE_THREE_HOUR);
             ApiLogger.debug("BaseOrderReq save , key : "+key);
             return result > 0;
         } catch (Exception e) {
             ApiLogger.error("BaseOrderReq save  error , key : " + key, e);
+        }finally {
+            criusJedisFactory.close(jedis);
         }
         return false;
     }
@@ -47,8 +50,9 @@ public class BaseOrderReqRedisServiceImpl implements BaseOrderReqRedisService {
     @Override
     public List<BaseOrderReq> batchPop(Date date) {
         String key = RedisConstants.CLEAR_PREFIX.PLUTUS_BASE_GAME.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
+        Jedis jedis = null;
         try {
-            Jedis jedis = criusJedisFactory.getInstance();
+            jedis = criusJedisFactory.getInstance();
             List<BaseOrderReq> list = new ArrayList<>();
             for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
                 String reqStr = jedis.rpop(key);
@@ -62,6 +66,8 @@ public class BaseOrderReqRedisServiceImpl implements BaseOrderReqRedisService {
             return list;
         } catch (Exception e) {
             ApiLogger.error("BaseOrderReq batchPop  error , key : " + key, e);
+        }finally {
+            criusJedisFactory.close(jedis);
         }
         return null;
     }

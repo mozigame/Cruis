@@ -8,8 +8,8 @@
         http://www.springframework.org/schema/aop/spring-aop.xsd">
 
        <bean id="criusJedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
-              <property name="minIdle" value="20"/>
-              <property name="maxTotal" value="60"/>
+              <property name="minIdle" value="50"/>
+              <property name="maxTotal" value="300"/>
               <property name="blockWhenExhausted" value="1"/>
               <property name="maxWaitMillis" value="20000"/>
               <property name="lifo" value="false"/>
@@ -30,11 +30,11 @@
               <constructor-arg index="3" ref="criusJedisPoolConfig"/>
        </bean>
 
-       <aop:config>
-              <aop:pointcut expression="execution(public * com.magic.crius.*storage.redis..*.*(..)) or execution(public * com.magic.crius.assemble..*.*(..)) or execution(public * com.magic.crius.scheduled.consumer..*.*(..))" id="jedisAspect"/>
-              <aop:aspect ref="criusJedisFactory">
-                     <aop:after method="close" pointcut-ref="jedisAspect"/>
-              </aop:aspect>
-       </aop:config>
+       <!--<aop:config>-->
+              <!--<aop:pointcut expression="execution(public * com.magic.crius.*storage.redis..*.*(..)) or execution(public * com.magic.crius.assemble..*.*(..)) or execution(public * com.magic.crius.scheduled.consumer..*.*(..))" id="jedisAspect"/>-->
+              <!--<aop:aspect ref="criusJedisFactory">-->
+                     <!--<aop:after method="close" pointcut-ref="jedisAspect"/>-->
+              <!--</aop:aspect>-->
+       <!--</aop:config>-->
 
 </beans>

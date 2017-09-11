@@ -64,14 +64,21 @@ public class UserLevelAssemService {
         
         if (!userInfoService.updateLevel(userLevelReq.getUserId(), userLevelReq.getLevelId())) {
         	logger.warn("update user_info level failed, param: " + JSON.toJSONString(userLevelReq));
-        	
-			Jedis jedis = criusJedisFactory.getInstance();
-        	Long count=jedis.incr(RedisConstants.REDIS_USER_LEVEL_UPDATE_COUNT+"_"+userLevelReq.getUserId());
-        	jedis.expire(RedisConstants.REDIS_USER_LEVEL_UPDATE_COUNT+"_"+userLevelReq.getUserId(), 60);//60秒存活时间
-        	if(count<=5){//用redis控制次数，超过5次不处理
-        		//处理失败，则延时1秒把消息放回KAFKA
-    			resendMsg(userLevelReq);
-        	}
+
+            Jedis jedis = null;
+            try {
+                jedis = criusJedisFactory.getInstance();
+                Long count=jedis.incr(RedisConstants.REDIS_USER_LEVEL_UPDATE_COUNT+"_"+userLevelReq.getUserId());
+                jedis.expire(RedisConstants.REDIS_USER_LEVEL_UPDATE_COUNT+"_"+userLevelReq.getUserId(), 60);//60秒存活时间
+                if(count<=5){//用redis控制次数，超过5次不处理
+                    //处理失败，则延时1秒把消息放回KAFKA
+                    resendMsg(userLevelReq);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }finally {
+                criusJedisFactory.close(jedis);
+            }
         }
     }
     
@@ -114,23 +121,31 @@ public class UserLevelAssemService {
      * @param date
      */
     public void batchUpdateLevel(Date date) {
-    	
-    	String result = null;
-    	Jedis jedis = criusJedisFactory.getInstance();
-    	result=jedis.get(RedisConstants.USER_LEVEL_LOCK);
-    	logger.info("-----batchUpdateLevel--"+RedisConstants.USER_LEVEL_LOCK+"="+result);
-    	if(result==null){
-    		jedis.incr(RedisConstants.USER_LEVEL_LOCK);
-    		jedis.expire(RedisConstants.USER_LEVEL_LOCK,10*60);//10分钟存活时间
-    		
-    		String hhStr = DateUtil.formatDateTime(date, "yyyyMMddHH");
-            Date endTime = DateUtil.parseDate(hhStr, "yyyyMMddHH");
-            Calendar startTime = Calendar.getInstance();
-            startTime.setTime(DateUtil.parseDate(hhStr, "yyyyMMddHH"));
-            startTime.add(Calendar.HOUR, -1);
-            rectifyLevel(startTime.getTimeInMillis(), endTime.getTime());
-    	}
-        
+
+
+        String result = null;
+        Jedis jedis = null;
+        try {
+            jedis = criusJedisFactory.getInstance();
+            result = jedis.get(RedisConstants.USER_LEVEL_LOCK);
+            logger.info("-----batchUpdateLevel--" + RedisConstants.USER_LEVEL_LOCK + "=" + result);
+            if (result == null) {
+                jedis.incr(RedisConstants.USER_LEVEL_LOCK);
+                jedis.expire(RedisConstants.USER_LEVEL_LOCK, 10 * 60);//10分钟存活时间
+
+                String hhStr = DateUtil.formatDateTime(date, "yyyyMMddHH");
+                Date endTime = DateUtil.parseDate(hhStr, "yyyyMMddHH");
+                Calendar startTime = Calendar.getInstance();
+                startTime.setTime(DateUtil.parseDate(hhStr, "yyyyMMddHH"));
+                startTime.add(Calendar.HOUR, -1);
+                rectifyLevel(startTime.getTimeInMillis(), endTime.getTime());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            criusJedisFactory.close(jedis);
+        }
+
     }
 
     /**

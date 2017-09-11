@@ -46,8 +46,9 @@ public class DiscountReqRedisServiceImpl implements DiscountReqRedisService {
     @Override
     public List<DiscountReq> batchPop(Date date) {
         String key = RedisConstants.CLEAR_PREFIX.PLUTUS_DISCOUNT.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
+        Jedis jedis = null;
         try {
-            Jedis jedis = criusJedisFactory.getInstance();
+            jedis = criusJedisFactory.getInstance();
             List<DiscountReq> list = new ArrayList<>();
             for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
                 String reqStr = jedis.rpop(key);
@@ -66,6 +67,8 @@ public class DiscountReqRedisServiceImpl implements DiscountReqRedisService {
             return list;
         } catch (Exception e) {
             ApiLogger.error("DiscountReq batchPop error, key : "+ key, e);
+        } finally {
+            criusJedisFactory.close(jedis);
         }
         return null;
     }

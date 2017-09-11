@@ -30,14 +30,17 @@ public class PreCmpChargeReqRedisServiceImpl implements PreCmpChargeReqRedisServ
     @Override
     public boolean save(PreCmpChargeReq preCmpChargeReq) {
         String key = RedisConstants.CLEAR_PREFIX.PLUTUS_CMP_CHARGE.key(DateUtil.formatDateTime(new Date(preCmpChargeReq.getConsumerTime()), DateUtil.format_yyyyMMddHH));
+        Jedis jedis = null;
         try {
-            Jedis jedis = criusJedisFactory.getInstance();
+            jedis = criusJedisFactory.getInstance();
             Long result = jedis.lpush(key, JSON.toJSONString(preCmpChargeReq));
             jedis.expire(key, RedisConstants.EXPIRE_THREE_HOUR);
             ApiLogger.debug("PreCmpChargeReq save , key : "+key);
             return result > 0;
         } catch (Exception e) {
             ApiLogger.error("PreCmpChargeReq save error, key : "+ key, e);
+        } finally {
+            criusJedisFactory.close(jedis);
         }
         return false;
     }
@@ -45,8 +48,9 @@ public class PreCmpChargeReqRedisServiceImpl implements PreCmpChargeReqRedisServ
     @Override
     public List<PreCmpChargeReq> batchPop(Date date) {
         String key = RedisConstants.CLEAR_PREFIX.PLUTUS_CMP_CHARGE.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
+        Jedis jedis = null;
         try {
-            Jedis jedis = criusJedisFactory.getInstance();
+            jedis = criusJedisFactory.getInstance();
             List<PreCmpChargeReq> list = new ArrayList<>();
             for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
                 String reqStr = jedis.rpop(key);
@@ -60,6 +64,8 @@ public class PreCmpChargeReqRedisServiceImpl implements PreCmpChargeReqRedisServ
             return list;
         } catch (Exception e) {
             ApiLogger.error("PreCmpChargeReq batchPop error, key : "+ key, e);
+        } finally {
+            criusJedisFactory.close(jedis);
         }
         return null;
     }

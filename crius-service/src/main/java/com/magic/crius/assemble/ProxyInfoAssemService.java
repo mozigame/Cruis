@@ -38,7 +38,7 @@ public class ProxyInfoAssemService {
     private ProxyInfoService proxyInfoService;
 
     private ExecutorService executorService = ThreadTaskPoolFactory.coreThreadTaskPool;
-    
+
     @Resource(name = "criusJedisFactory")
     private JedisFactory criusJedisFactory;
 
@@ -70,15 +70,18 @@ public class ProxyInfoAssemService {
             @Override
             public void run() {
 		    	Long page=null;
+                Jedis jedis = null;
 		        try {
-		        	Jedis jedis = criusJedisFactory.getInstance();
+                    jedis = criusJedisFactory.getInstance();
 		        	page=jedis.incr(RedisConstants.REDIS_PROXY_INFO_SYNC_PAGE);
 		        	jedis.expire(RedisConstants.REDIS_PROXY_INFO_SYNC_PAGE,3*60*60);//3个小时存活时间
 		        	int batchSize=200;
 		        	batchProxyInfoSyncTask(page.intValue(), batchSize);
 				} catch (Exception e) {
 					logger.error("-----batchProxyInfoSync---page="+page+" size="+RedisConstants.REDIS_PROXY_INFO_SYNC_PAGE, e);
-				}
+				}finally {
+                    criusJedisFactory.close(jedis);
+                }
             }
         });
 
@@ -121,10 +124,17 @@ public class ProxyInfoAssemService {
     		}
     	}
     	else{
-    		Jedis jedis = criusJedisFactory.getInstance();
-    		jedis.del(RedisConstants.REDIS_PROXY_INFO_SYNC_PAGE);
-    		logger.info("batchProxyInfoSyncTask reset :" + RedisConstants.REDIS_PROXY_INFO_SYNC_PAGE+" page:"+page);
-    	}
+            Jedis jedis= null;
+            try {
+                jedis = criusJedisFactory.getInstance();
+                jedis.del(RedisConstants.REDIS_PROXY_INFO_SYNC_PAGE);
+                logger.info("batchProxyInfoSyncTask reset :" + RedisConstants.REDIS_PROXY_INFO_SYNC_PAGE+" page:"+page);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }finally {
+                criusJedisFactory.close(jedis);
+            }
+        }
     }
 
     public void batchSave(Long startTime, Long endTime) {

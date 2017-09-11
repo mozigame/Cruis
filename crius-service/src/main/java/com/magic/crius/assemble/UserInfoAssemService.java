@@ -49,25 +49,25 @@ public class UserInfoAssemService {
     /**
      * 批量修改一段时间内的会员层级
      *
-     * @param date
      */
     public void batchUserInfoSync() {
         Long page=null;
+		Jedis jedis = null;
         try {
-        	Jedis jedis = criusJedisFactory.getInstance();
+        	jedis = criusJedisFactory.getInstance();
         	page=jedis.incr(RedisConstants.REDIS_USER_INFO_SYNC_PAGE);
         	jedis.expire(RedisConstants.REDIS_USER_INFO_SYNC_PAGE,3*60*60);//3个小时存活时间
 			batchUserInfoSyncTask(page.intValue(), RedisConstants.USER_INFO_ASYNC_PAGE_BATCH);
 		} catch (Exception e) {
 			logger.error("-----batchUserInfoSync---page="+page+" size="+RedisConstants.USER_INFO_ASYNC_PAGE_BATCH, e);
+		}finally {
+			criusJedisFactory.close(jedis);
 		}
     }
 
     /**
      * 纠正用户层级
      *
-     * @param startTime
-     * @param endTime
      */
     public void batchUserInfoSyncTask(int page, int size) {
         List<MemberConditionVo> vos = memberConditionVoService.findByPage(page, size);
@@ -97,13 +97,20 @@ public class UserInfoAssemService {
         else{//如果数据为空，则检查page是否超出最大值，如果超出则重置page
         	Long rows=memberConditionVoService.getTotalCount();
         	if(rows!=null && rows<page*size){
-        		Jedis jedis = criusJedisFactory.getInstance();
-        		jedis.del(RedisConstants.REDIS_USER_INFO_SYNC_PAGE);
-        		logger.info("batchUserInfoSyncTask reset :" + RedisConstants.REDIS_USER_INFO_SYNC_PAGE+" for:"+rows+"<"+(page*size));
-        		if(page>2){//避免死循环
-        			batchUserInfoSync();
-        		}
-        	}
+        		Jedis jedis = null;
+				try {
+					jedis = criusJedisFactory.getInstance();
+					jedis.del(RedisConstants.REDIS_USER_INFO_SYNC_PAGE);
+					logger.info("batchUserInfoSyncTask reset :" + RedisConstants.REDIS_USER_INFO_SYNC_PAGE+" for:"+rows+"<"+(page*size));
+					if(page>2){//避免死循环
+                        batchUserInfoSync();
+                    }
+				} catch (Exception e) {
+					e.printStackTrace();
+				}finally {
+					criusJedisFactory.close(jedis);
+				}
+			}
         }
     }
     

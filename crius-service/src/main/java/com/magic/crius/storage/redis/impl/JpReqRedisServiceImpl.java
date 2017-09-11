@@ -46,8 +46,9 @@ public class JpReqRedisServiceImpl implements JpReqRedisService {
     @Override
     public List<JpReq> batchPop(Date date) {
         String key = RedisConstants.CLEAR_PREFIX.PLUTUS_JP.key(DateUtil.formatDateTime(date, DateUtil.format_yyyyMMddHH));
+        Jedis jedis = null;
         try {
-            Jedis jedis = criusJedisFactory.getInstance();
+            jedis = criusJedisFactory.getInstance();
             List<JpReq> list = new ArrayList<>();
             for (int i = 0; i < RedisConstants.BATCH_POP_NUM; i++) {
                 String reqStr = jedis.rpop(key);
@@ -61,6 +62,8 @@ public class JpReqRedisServiceImpl implements JpReqRedisService {
             return list;
         } catch (Exception e) {
             ApiLogger.error("JpReq batchPop error, key : "+ key, e);
+        } finally {
+            criusJedisFactory.close(jedis);
         }
         return null;
     }
