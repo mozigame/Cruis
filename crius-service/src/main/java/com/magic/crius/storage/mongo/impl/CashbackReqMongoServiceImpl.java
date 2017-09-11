@@ -76,7 +76,8 @@ public class CashbackReqMongoServiceImpl implements CashbackReqMongoService {
     @Override
     public List<Long> getSucIds(ReqQueryVo queryVo) {
         try {
-            return cashbackReqMongoDao.getSucIds(queryVo, MongoCollectionFlag.dateCollName(MongoCollections.cashbackReq, queryVo.getPdate()));
+            String collName = MongoCollectionFlag.dateCollName(MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.cashbackReq), queryVo.getPdate());
+            return cashbackReqMongoDao.getSucIds(queryVo, collName);
         } catch (Exception e) {
             e.printStackTrace();
         }

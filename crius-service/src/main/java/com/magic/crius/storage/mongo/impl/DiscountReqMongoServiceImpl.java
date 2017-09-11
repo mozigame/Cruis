@@ -61,7 +61,8 @@ public class DiscountReqMongoServiceImpl implements DiscountReqMongoService {
     @Override
     public List<Long> getSucIds(ReqQueryVo queryVo) {
         try {
-            return discountReqMongoDao.getSucIds(queryVo, MongoCollectionFlag.dateCollName(MongoCollections.discountReq, queryVo.getPdate()));
+            String collName = MongoCollectionFlag.dateCollName(MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.discountReq), queryVo.getPdate());
+            return discountReqMongoDao.getSucIds(queryVo, collName);
         } catch (Exception e) {
             e.printStackTrace();
         }

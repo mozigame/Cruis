@@ -61,7 +61,7 @@ public class OperateChargeReqMongoServiceImpl implements OperateChargeReqMongoSe
     @Override
     public List<Long> getSucIds(ReqQueryVo queryVo) {
         try {
-            return operateChargeMongoDao.getSucIds(queryVo, MongoCollections.operateChargeReq);
+            return operateChargeMongoDao.getSucIds(queryVo, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.operateChargeReq));
         } catch (Exception e) {
             e.printStackTrace();
         }

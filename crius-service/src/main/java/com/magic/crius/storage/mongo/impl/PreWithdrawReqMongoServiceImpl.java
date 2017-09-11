@@ -72,7 +72,7 @@ public class PreWithdrawReqMongoServiceImpl implements PreWithdrawReqMongoServic
     @Override
     public List<Long> getSucIds(ReqQueryVo queryVo) {
         try {
-            return preWithdrawMongoDao.getSucIds(queryVo, MongoCollections.preWithdrawReq);
+            return preWithdrawMongoDao.getSucIds(queryVo, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.preWithdrawReq));
         } catch (Exception e) {
             e.printStackTrace();
         }

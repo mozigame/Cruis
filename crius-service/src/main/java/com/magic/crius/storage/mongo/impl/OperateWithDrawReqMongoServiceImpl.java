@@ -75,7 +75,7 @@ public class OperateWithDrawReqMongoServiceImpl implements OperateWithDrawReqMon
     @Override
     public List<Long> getSucIds(ReqQueryVo queryVo) {
         try {
-            return operateWithDrawReqMongoDao.getSucIds(queryVo, MongoCollections.operateWithDrawReq);
+            return operateWithDrawReqMongoDao.getSucIds(queryVo, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.operateWithDrawReq));
         } catch (Exception e) {
             e.printStackTrace();
         }

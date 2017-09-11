@@ -73,7 +73,7 @@ public class JpReqMongoServiceImpl implements JpReqMongoService {
     @Override
     public List<Long> getSucIds(ReqQueryVo queryVo) {
         try {
-            return jpReqMongoDao.getSucIds(queryVo, MongoCollections.jpReq);
+            return jpReqMongoDao.getSucIds(queryVo, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.jpReq));
         } catch (Exception e) {
             e.printStackTrace();
         }

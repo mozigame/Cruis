@@ -82,7 +82,7 @@ public class PreCmpChargeReqMongoServiceImpl implements PreCmpChargeReqMongoServ
     @Override
     public List<Long> getSucIds(ReqQueryVo queryVo) {
         try {
-            return preCmpChargeMongoDao.getSucIds(queryVo, MongoCollections.preCmpChargeReq);
+            return preCmpChargeMongoDao.getSucIds(queryVo, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.preCmpChargeReq));
         } catch (Exception e) {
             e.printStackTrace();
         }

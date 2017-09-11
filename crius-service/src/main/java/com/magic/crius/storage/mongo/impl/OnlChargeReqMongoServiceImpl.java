@@ -72,7 +72,7 @@ public class OnlChargeReqMongoServiceImpl implements OnlChargeReqMongoService {
     @Override
     public List<Long> getSucIds(ReqQueryVo queryVo) {
         try {
-            return onlChargeMongoDao.getSucIds(queryVo, MongoCollections.onlChargeReq);
+            return onlChargeMongoDao.getSucIds(queryVo, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.onlChargeReq));
         } catch (Exception e) {
             e.printStackTrace();
         }

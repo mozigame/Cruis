@@ -61,7 +61,8 @@ public class BaseOrderReqMongoServiceImpl implements BaseOrderReqMongoService {
     @Override
     public List<Long> getSucIds(ReqQueryVo queryVo) {
         try {
-            return baseOrderReqMongoDao.getSucIds(queryVo, MongoCollectionFlag.dateCollName(MongoCollections.baseOrderReq, queryVo.getPdate()));
+            String collName = MongoCollectionFlag.dateCollName(MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.baseOrderReq), queryVo.getPdate());
+            return baseOrderReqMongoDao.getSucIds(queryVo, collName);
         } catch (Exception e) {
             e.printStackTrace();
         }

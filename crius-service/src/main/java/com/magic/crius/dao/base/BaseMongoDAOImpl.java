@@ -99,7 +99,7 @@ public abstract class BaseMongoDAOImpl<T> implements BaseMongoDAO<T> {
         condition.append("produceTime", new BasicDBObject("$gte", queryVo.getStartTime()).append("$lt", queryVo.getEndTime()));
         BasicDBObject keys = new BasicDBObject();
         keys.append("reqId", 1);
-        Iterator<DBObject> iterator = getMongoTemplate().getCollection(MongoCollectionFlag.SAVE_SUC.collName(collectionName)).find(condition, keys);
+        Iterator<DBObject> iterator = getMongoTemplate().getCollection(collectionName).find(condition, keys);
         while (iterator.hasNext()) {
             Long reqId = (Long) iterator.next().get("reqId");
             reqIds.add(reqId);

@@ -65,7 +65,7 @@ public class DealerRewardReqMongoServiceImpl implements DealerRewardReqMongoServ
     @Override
     public List<Long> getSucIds(ReqQueryVo queryVo) {
         try {
-            return dealerRewardReqMongoDao.getSucIds(queryVo, MongoCollections.dealerRewardReq);
+            return dealerRewardReqMongoDao.getSucIds(queryVo, MongoCollectionFlag.SAVE_SUC.collName(MongoCollections.dealerRewardReq));
         } catch (Exception e) {
             e.printStackTrace();
         }
