@@ -109,7 +109,6 @@ public abstract class BaseMongoDAOImpl<T> implements BaseMongoDAO<T> {
 
     @Override
     public List<T> getNotProc(ReqQueryVo queryVo, String collectionName, Pageable pageable) {
-        ApiLogger.info("baseMongo getNotProc, collectionName : "+ collectionName +", queryVo : "+ JSON.toJSONString(queryVo));
         Query query = new Query();
         if (queryVo.getReqIds() != null && queryVo.getReqIds().size() > 0) {
             query.addCriteria(new Criteria("reqId").nin(queryVo.getReqIds()));
@@ -119,7 +118,10 @@ public abstract class BaseMongoDAOImpl<T> implements BaseMongoDAO<T> {
             query.skip(pageable.getOffset()).limit(pageable.getPageSize());
             query.with(pageable.getSort());
         }
-        return find(query,collectionName);
+        ApiLogger.info("baseMongo getNotProc, collectionName : "+ collectionName +", query : "+ JSON.toJSONString(query));
+        List<T> result =find(query,collectionName);
+        ApiLogger.info("baseMongo getNotProc, collectionName : "+ collectionName +", result : "+ JSON.toJSONString(result));
+        return result;
     }
 
     @Override
