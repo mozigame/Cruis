@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
+  <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration />
+    </facet>
+  </component>
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -11,8 +16,10 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="crius-api" />
     <orderEntry type="library" name="Maven: com.magic:magic-user-api:1.0.0-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.magic.commons:codis:1.0.1-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="crius-api" />
+    <orderEntry type="module" module-name="magic-user-api" />
     <orderEntry type="library" name="Maven: com.magic.commons:model:1.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: com.magic.commons:log:1.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-core:2.2" level="project" />
@@ -76,7 +83,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.alibaba:jconsole:1.8.0">
         <CLASSES>
-          <root url="jar://C:/Program Files/Java/jdk1.8.0_77/jre/../lib/jconsole.jar!/" />
+          <root url="jar://C:/Program Files/Java/jdk1.8.0_31/lib/jconsole.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -85,7 +92,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.alibaba:tools:1.8.0">
         <CLASSES>
-          <root url="jar://C:/Program Files/Java/jdk1.8.0_77/jre/../lib/tools.jar!/" />
+          <root url="jar://C:/Program Files/Java/jdk1.8.0_31/lib/tools.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

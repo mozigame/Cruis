@@ -11,7 +11,7 @@ public class AgentHallBillVo {
 
     @JSONField(name = "PlatformId")
     private Long platformId;
-    @JSONField(name = "HallTypeId") 
+    @JSONField(name = "HallTypeId")
     private Long hallTypeId;
     @JSONField(name = "VaildBettAmount")
     private Long vaildBettAmount;   // 有效投注额
@@ -23,6 +23,29 @@ public class AgentHallBillVo {
     private long costAmount;   // 行政费用
     @JSONField(name = "RebateAmount")
     private Long rebateAmount;   // 可获退佣费用
+
+    @JSONField(name = "FeeAmount")
+    private Long feeAmount;   // 手续费用
+    @JSONField(name = "OfferAmount")
+    private long offerAmount;   // 优惠金额
+    @JSONField(name = "Scale")
+    private Float scale;   // 退佣比例
+
+    @Override
+    public String toString() {
+        return "AgentHallBillVo{" +
+                "platformId=" + platformId +
+                ", hallTypeId=" + hallTypeId +
+                ", vaildBettAmount=" + vaildBettAmount +
+                ", payoffAmount=" + payoffAmount +
+                ", cashbackAmount=" + cashbackAmount +
+                ", costAmount=" + costAmount +
+                ", rebateAmount=" + rebateAmount +
+                ", feeAmount=" + feeAmount +
+                ", offerAmount=" + offerAmount +
+                ", scale=" + scale +
+                '}';
+    }
 
     public Long getPlatformId() {
         return platformId;
@@ -80,12 +103,27 @@ public class AgentHallBillVo {
         this.rebateAmount = rebateAmount;
     }
 
-	@Override
-	public String toString() {
-		return "AgentHallBillVo [platformId=" + platformId + ", hallTypeId=" + hallTypeId + ", vaildBettAmount="
-				+ vaildBettAmount + ", payoffAmount=" + payoffAmount + ", cashbackAmount=" + cashbackAmount
-				+ ", costAmount=" + costAmount + ", rebateAmount=" + rebateAmount + "]";
-	}
-    
-    
+    public Long getFeeAmount() {
+        return feeAmount;
+    }
+
+    public void setFeeAmount(Long feeAmount) {
+        this.feeAmount = feeAmount;
+    }
+
+    public long getOfferAmount() {
+        return offerAmount;
+    }
+
+    public void setOfferAmount(long offerAmount) {
+        this.offerAmount = offerAmount;
+    }
+
+    public Float getScale() {
+        return scale;
+    }
+
+    public void setScale(Float scale) {
+        this.scale = scale;
+    }
 }

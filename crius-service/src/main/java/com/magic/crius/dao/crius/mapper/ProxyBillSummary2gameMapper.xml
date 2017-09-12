@@ -16,6 +16,11 @@
         <result column="reforward" jdbcType="BIGINT" property="reforward"/>
         <result column="administration" jdbcType="BIGINT" property="administration"/>
         <result column="reforward_account" jdbcType="BIGINT" property="reforwardAccount"/>
+        <result column="fee_amount" jdbcType="BIGINT" property="feeAmount" />
+        <result column="offer_amount" jdbcType="BIGINT" property="offerAmount" />
+        <result column="scale" jdbcType="FLOAT" property="scale" />
+
+
     </resultMap>
 
     <!--添加代理游戏部分退佣汇总-->
@@ -24,12 +29,13 @@
           proxy_name, order_id, game_type,
           last_effect_order_count, effect_order_count, last_income,
           income, pdate, reforward,
-          administration, reforward_account)
+          administration, reforward_account,fee_amount,offer_amount,`scale`)
         values ( #{ownerId,jdbcType=BIGINT}, #{proxyId,jdbcType=BIGINT},
           #{proxyName,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{gameType,jdbcType=VARCHAR},
           #{lastEffectOrderCount,jdbcType=BIGINT}, #{effectOrderCount,jdbcType=BIGINT}, #{lastIncome,jdbcType=BIGINT},
           #{income,jdbcType=BIGINT}, #{pdate,jdbcType=INTEGER}, #{reforward,jdbcType=BIGINT},
-          #{administration,jdbcType=BIGINT}, #{reforwardAccount,jdbcType=BIGINT})
+          #{administration,jdbcType=BIGINT}, #{reforwardAccount,jdbcType=BIGINT}, #{feeAmount,jdbcType=BIGINT},
+          #{offerAmount,jdbcType=BIGINT}, #{scale})
     </insert>
 
     <insert id="batchInsert" >
@@ -38,13 +44,14 @@
               proxy_name, order_id, game_type,
               last_effect_order_count, effect_order_count, last_income,
               income, pdate, reforward,
-              administration, reforward_account)
+              administration, reforward_account,fee_amount,offer_amount,`scale`)
               values
               ( #{param.ownerId,jdbcType=BIGINT}, #{param.proxyId,jdbcType=BIGINT},
               #{param.proxyName,jdbcType=VARCHAR}, #{param.orderId,jdbcType=VARCHAR}, #{param.gameType,jdbcType=VARCHAR},
               #{param.lastEffectOrderCount,jdbcType=BIGINT}, #{param.effectOrderCount,jdbcType=BIGINT}, #{param.lastIncome,jdbcType=BIGINT},
               #{param.income,jdbcType=BIGINT}, #{param.pdate,jdbcType=INTEGER}, #{param.reforward,jdbcType=BIGINT},
-              #{param.administration,jdbcType=BIGINT}, #{param.reforwardAccount,jdbcType=BIGINT})
+              #{param.administration,jdbcType=BIGINT}, #{param.reforwardAccount,jdbcType=BIGINT}, #{feeAmount,jdbcType=BIGINT},
+              #{offerAmount,jdbcType=BIGINT}, #{scale})
           </foreach>
 
     </insert>
