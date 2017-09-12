@@ -33,6 +33,38 @@ public class ProxyBillSummary2game {
 
     private Long reforwardAccount;//可获退佣 add(AgentHallBillVo. rebateAmount)
 
+    private Long feeAmount;
+
+    private Long offerAmount;
+
+    private Float scale;
+
+    private Integer lastPdate;
+
+    @Override
+    public String toString() {
+        return "ProxyBillSummary2game{" +
+                "id=" + id +
+                ", ownerId=" + ownerId +
+                ", proxyId=" + proxyId +
+                ", proxyName='" + proxyName + '\'' +
+                ", orderId='" + orderId + '\'' +
+                ", gameType='" + gameType + '\'' +
+                ", lastEffectOrderCount=" + lastEffectOrderCount +
+                ", effectOrderCount=" + effectOrderCount +
+                ", lastIncome=" + lastIncome +
+                ", income=" + income +
+                ", pdate=" + pdate +
+                ", reforward=" + reforward +
+                ", administration=" + administration +
+                ", reforwardAccount=" + reforwardAccount +
+                ", feeAmount=" + feeAmount +
+                ", offerAmount=" + offerAmount +
+                ", scale=" + scale +
+                ", lastPdate=" + lastPdate +
+                '}';
+    }
+
     public Integer getId() {
         return id;
     }
@@ -143,5 +175,37 @@ public class ProxyBillSummary2game {
 
     public void setReforwardAccount(Long reforwardAccount) {
         this.reforwardAccount = reforwardAccount;
+    }
+
+    public Long getFeeAmount() {
+        return feeAmount;
+    }
+
+    public void setFeeAmount(Long feeAmount) {
+        this.feeAmount = feeAmount;
+    }
+
+    public Long getOfferAmount() {
+        return offerAmount;
+    }
+
+    public void setOfferAmount(Long offerAmount) {
+        this.offerAmount = offerAmount;
+    }
+
+    public Float getScale() {
+        return scale;
+    }
+
+    public void setScale(Float scale) {
+        this.scale = scale;
+    }
+
+    public Integer getLastPdate() {
+        return lastPdate;
+    }
+
+    public void setLastPdate(Integer lastPdate) {
+        this.lastPdate = lastPdate;
     }
 }
