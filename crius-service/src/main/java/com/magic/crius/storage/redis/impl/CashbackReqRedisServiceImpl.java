@@ -30,14 +30,17 @@ public class CashbackReqRedisServiceImpl implements CashbackReqRedisService {
     @Override
     public boolean save(CashbackReq req) {
         String key = RedisConstants.CLEAR_PREFIX.PLUTUS_CAHSBACK.key(DateUtil.formatDateTime(new Date(req.getConsumerTime()), DateUtil.format_yyyyMMddHH));
+        Jedis jedis = null;
         try {
-            Jedis jedis = criusJedisFactory.getInstance();
+            jedis = criusJedisFactory.getInstance();
             Long result = jedis.lpush(key, JSON.toJSONString(req));
             jedis.expire(key, RedisConstants.EXPIRE_THREE_HOUR);
             ApiLogger.debug("CashbackReq save , key : "+key);
             return result > 0;
         } catch (Exception e) {
             ApiLogger.error("CashbackReq save  error , key : " + key, e);
+        } finally {
+            criusJedisFactory.close(jedis);
         }
         return false;
     }

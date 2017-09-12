@@ -32,14 +32,17 @@ public class DealerRewardReqRedisServiceImpl implements DealerRewardReqRedisServ
     @Override
     public boolean save(DealerRewardReq req) {
         String key = RedisConstants.CLEAR_PREFIX.PLUTUS_DS.key(DateUtil.formatDateTime(new Date(req.getConsumerTime()), DateUtil.format_yyyyMMddHH));
+        Jedis jedis = null;
         try {
-            Jedis jedis = criusJedisFactory.getInstance();
+            jedis = criusJedisFactory.getInstance();
             Long result = jedis.lpush(key, JSON.toJSONString(req));
             jedis.expire(key, RedisConstants.EXPIRE_THREE_HOUR);
             ApiLogger.debug("DealerRewardReq save , key : " + key);
             return result > 0;
         } catch (Exception e) {
             ApiLogger.error("DealerRewardReq save error , key : " + key, e);
+        }finally {
+            criusJedisFactory.close(jedis);
         }
         return false;
     }
