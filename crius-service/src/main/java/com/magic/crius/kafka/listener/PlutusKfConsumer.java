@@ -105,10 +105,10 @@ public class PlutusKfConsumer {
      * @param record
      */
     private void transData(ConsumerRecord<?, ?> record) {
+        Date date;
         logger.info("Thread : "+ Thread.currentThread().getName()+" ,get plutus kafka data :>>>  " + record.toString());
         JSONObject object = JSON.parseObject(record.value().toString());
         KafkaConf.DataType type = KafkaConf.DataType.parse(object.getInteger(KafkaConf.DATA_TYPE));
-        Date date;
         switch (type) {
             case PLUTUS_ONL_CHARGE:
                 OnlChargeReq onlChargeReq = JSON.parseObject(object.getString(KafkaConf.DATA), OnlChargeReq.class);

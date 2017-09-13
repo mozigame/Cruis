@@ -21,6 +21,7 @@ import com.magic.crius.util.PropertiesLoad;
 import com.magic.crius.vo.CashbackReq;
 import com.magic.crius.vo.ReqQueryVo;
 import org.apache.log4j.Logger;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
@@ -232,17 +233,16 @@ public class CashbackReqConsumer {
         queryVo.setPdate(pdate);
         List<Long> reqIds = cashbackReqService.getSucIds(queryVo);
         queryVo.setReqIds(reqIds);
-        SpringDataPageable pageable = new SpringDataPageable();
-        pageable.setSort(new Sort("reqId"));
-        pageable.setPagesize(CriusConstants.MONGO_NO_PROC_SIZE);
-        pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_CAHSBACK, hhDate)));
 
+        int page = baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_CAHSBACK, hhDate));
+        PageRequest pageable = new PageRequest(page, CriusConstants.MONGO_NO_PROC_SIZE, new Sort("reqId"));
 
         List<CashbackReq> notProcDrawReqs = cashbackReqService.getNotProc(queryVo, pageable);
         while (notProcDrawReqs != null && notProcDrawReqs.size() > 0) {
             logger.info("------mongoNoProc ,cashback ,noProcReqIds :" + notProcDrawReqs.size() + " , startTime : " + startTime + " endTime :" + endTime);
             flushData(notProcDrawReqs);
-            pageable.setPagenumber(baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_CAHSBACK, hhDate)));
+            page = baseReqService.getNoProcPage(RedisConstants.getNoProcPage(RedisConstants.CLEAR_PREFIX.PLUTUS_CAHSBACK, hhDate));
+            pageable = new PageRequest(page, CriusConstants.MONGO_NO_PROC_SIZE, new Sort("reqId"));
             notProcDrawReqs = cashbackReqService.getNotProc(queryVo, pageable);
         }
     }

@@ -31,14 +31,17 @@ public class DiscountReqRedisServiceImpl implements DiscountReqRedisService {
     @Override
     public boolean save(DiscountReq discountReq) {
         String key = RedisConstants.CLEAR_PREFIX.PLUTUS_DISCOUNT.key(DateUtil.formatDateTime(new Date(discountReq.getConsumerTime()), DateUtil.format_yyyyMMddHH));
+        Jedis jedis =null;
         try {
-            Jedis jedis = criusJedisFactory.getInstance();
+            jedis = criusJedisFactory.getInstance();
             Long result = jedis.lpush(key, JSON.toJSONString(discountReq));
             jedis.expire(key, RedisConstants.EXPIRE_THREE_HOUR);
             ApiLogger.debug("DiscountReq save , key : "+key);
             return result > 0;
         } catch (Exception e) {
             ApiLogger.error("DiscountReq save error, key : "+ key, e);
+        }finally {
+            criusJedisFactory.close(jedis);
         }
         return false;
     }
