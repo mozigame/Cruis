@@ -23,38 +23,38 @@ public class AgentBillReqAssemService {
     @Resource
     private BillInfoAssemService billInfoAssemService;
 
-    private void procKafkaData(AgentBillReq req) {
-
-        billInfoAssemService.save(assemBillInfo(req));
-
-        ProxyBillDetail detail = new ProxyBillDetail();
-        detail.setOwnerId(req.getOwnerId());
-        detail.setProxyId(req.getAgentId());
-        //Todo 获取不到代理账号
-//        detail.setProxyName();
-        detail.setOrderId(req.getBillId());
-        //todo 如何获取pdate
-//        detail.setPdate();
-        //todo 如何获取
-//        detail.setUserNum();
-        detail.setIncome(req.getPayoffTotalAmount());
-//        detail.setEffectOrderCount();
-
-
-//        private Long ownerId;
-//        private Long proxyId;   //代理id
-//        private String proxyName;   //代理名称
-//        private String orderId; //账单编号
-//        private String pdate;//统计期数
-//        private Long userNum;//会员数量
-//        private Long income;//本期收益
-//        private Long effectOrderCount;//当期有效投注
-//        private Long cost;//当期累计费用
-//        private Long reforwardAccount;//可获退佣
-//        private Long recordReforwardAccount;//已获退佣
-//        private Integer reforwardState;//退佣状态
-
-    }
+//    private void procKafkaData(AgentBillReq req) {
+//
+//        billInfoAssemService.save(assemBillInfo(req));
+//
+//        ProxyBillDetail detail = new ProxyBillDetail();
+//        detail.setOwnerId(req.getOwnerId());
+//        detail.setProxyId(req.getAgentId());
+//        //Todo 获取不到代理账号
+////        detail.setProxyName();
+//        detail.setOrderId(req.getBillId());
+//        //todo 如何获取pdate
+////        detail.setPdate();
+//        //todo 如何获取
+////        detail.setUserNum();
+//        detail.setIncome(req.getPayoffTotalAmount());
+////        detail.setEffectOrderCount();
+//
+//
+////        private Long ownerId;
+////        private Long proxyId;   //代理id
+////        private String proxyName;   //代理名称
+////        private String orderId; //账单编号
+////        private String pdate;//统计期数
+////        private Long userNum;//会员数量
+////        private Long income;//本期收益
+////        private Long effectOrderCount;//当期有效投注
+////        private Long cost;//当期累计费用
+////        private Long reforwardAccount;//可获退佣
+////        private Long recordReforwardAccount;//已获退佣
+////        private Integer reforwardState;//退佣状态
+//
+//    }
 
     /*账单汇总表*/
     private BillInfo assemBillInfo(AgentBillReq req) {

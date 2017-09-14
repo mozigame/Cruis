@@ -30,7 +30,7 @@ public class ProxyBillDetail {
 
     private Integer reforwardState;//退佣状态;默认1是未处理
 
-        private Long recordCost;//当期费用扣除
+    private Long recordCost;//当期费用扣除
     private Long effectIncome;//本期有效收益
     private Long orderCount;//当期总投注
 

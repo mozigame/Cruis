@@ -17,16 +17,16 @@ import java.util.Date;
  * Date: 2017/9/12
  * Time: 15:07
 // */
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations = {"classpath:spring-application.xml"})
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:spring-application.xml"})
 public class CashMongoTest {
 
-//    @Resource
+    @Resource
     private CashbackReqMongoService cashbackReqMongoService;
 
     @Test
     public void getSucIds() {
-        ReqQueryVo queryVo = new ReqQueryVo(1505188800000L, 1505192400000L, 20170912);
+        ReqQueryVo queryVo = new ReqQueryVo(1505206800000L, 1505210400000L, 20170912);
         System.out.println(JSON.toJSONString(cashbackReqMongoService.getSucIds(queryVo)));
 
     }
