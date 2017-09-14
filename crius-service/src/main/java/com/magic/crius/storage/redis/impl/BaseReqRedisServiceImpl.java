@@ -28,19 +28,20 @@ public class BaseReqRedisServiceImpl implements BaseReqRedisService {
         try {
             jedis = criusJedisFactory.getInstance();
             Long result = jedis.incr(key);
-            return result == null ? 0 : result.intValue();
+            return result == null ? 1 : result.intValue();
         } catch (Exception e) {
             ApiLogger.error("getNoProcPage error, key : " + key, e);
         }finally {
             criusJedisFactory.close(jedis);
         }
-        return 0;
+        return 1;
     }
 
     @Override
     public boolean getScheduleSwitch() {
+        Jedis jedis = null;
         try {
-            Jedis jedis = criusJedisFactory.getInstance();
+            jedis = criusJedisFactory.getInstance();
             String result = jedis.get(RedisConstants.SCHEDULE_SWITCH);
             if (StringUtils.isNotBlank(result)) {
                 ApiLogger.debug("getScheduleSwitch success, result : " + result);
@@ -50,6 +51,8 @@ public class BaseReqRedisServiceImpl implements BaseReqRedisService {
             }
         } catch (Exception e) {
             ApiLogger.error("getScheduleSwitch error" , e);
+        } finally {
+            criusJedisFactory.close(jedis);
         }
         return true;
     }

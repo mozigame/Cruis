@@ -31,14 +31,17 @@ public class OnlChargeReqRedisServiceImpl implements OnlChargeReqRedisService {
     @Override
     public boolean save(OnlChargeReq onlChargeReq) {
         String key = RedisConstants.CLEAR_PREFIX.PLUTUS_ONL_CHARGE.key(DateUtil.formatDateTime(new Date(onlChargeReq.getConsumerTime()), DateUtil.format_yyyyMMddHH));
+        Jedis jedis = null;
         try {
-            Jedis jedis = criusJedisFactory.getInstance();
+            jedis = criusJedisFactory.getInstance();
             Long result = jedis.lpush(key, JSON.toJSONString(onlChargeReq));
             jedis.expire(key, RedisConstants.EXPIRE_THREE_HOUR);
             ApiLogger.debug("OnlChargeReq save , key : "+key);
             return result > 0;
         } catch (Exception e) {
             ApiLogger.error("OnlChargeReq save error, key : "+ key, e);
+        }finally {
+            criusJedisFactory.close(jedis);
         }
         return false;
     }

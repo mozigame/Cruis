@@ -50,8 +50,8 @@
               #{param.proxyName,jdbcType=VARCHAR}, #{param.orderId,jdbcType=VARCHAR}, #{param.gameType,jdbcType=VARCHAR},
               #{param.lastEffectOrderCount,jdbcType=BIGINT}, #{param.effectOrderCount,jdbcType=BIGINT}, #{param.lastIncome,jdbcType=BIGINT},
               #{param.income,jdbcType=BIGINT}, #{param.pdate,jdbcType=INTEGER}, #{param.reforward,jdbcType=BIGINT},
-              #{param.administration,jdbcType=BIGINT}, #{param.reforwardAccount,jdbcType=BIGINT}, #{feeAmount,jdbcType=BIGINT},
-              #{offerAmount,jdbcType=BIGINT}, #{scale})
+              #{param.administration,jdbcType=BIGINT}, #{param.reforwardAccount,jdbcType=BIGINT}, #{param.feeAmount,jdbcType=BIGINT},
+              #{param.offerAmount,jdbcType=BIGINT}, #{param.scale})
           </foreach>
 
     </insert>

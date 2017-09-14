@@ -27,14 +27,17 @@ public class GameInfoRedisServiceImpl implements GameInfoRedisService {
 
     @Override
     public boolean setLock() {
+        Jedis jedis = null;
         try {
-            Jedis jedis = criusJedisFactory.getInstance();
+            jedis = criusJedisFactory.getInstance();
             String key = RedisConstants.GAME_INFO_LOCK;
             Long result = jedis.incr(key);
             jedis.expire(key, RedisConstants.GAME_INFO_LOCK_EXPIRE);
             return result != null && result > 0;
         } catch (Exception e) {
             ApiLogger.error("set gameInfo lock error ", e);
+        }finally {
+            criusJedisFactory.close(jedis);
         }
         return false;
     }
