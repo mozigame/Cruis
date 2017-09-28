@@ -20,6 +20,8 @@ public class AgentBillReq {
     private Long payoffTotalAmount;// 派彩总额
     @JSONField(name = "VaildBettTotalAmount")
     private Long vaildBettTotalAmount;  //当期有效投注额  //todo
+    @JSONField(name = "BettTotalAmount")
+    private Long bettTotalAmount;  //当期总投注额
     @JSONField(name = "RebateTotalAmount")
     private Long rebateTotalAmount; //可获退佣总额  //todo
     @JSONField(name = "CostTotalAmount")
@@ -189,7 +191,15 @@ public class AgentBillReq {
         this.costTotalAmount = costTotalAmount;
     }
 
-	@Override
+    public Long getBettTotalAmount() {
+        return bettTotalAmount;
+    }
+
+    public void setBettTotalAmount(Long bettTotalAmount) {
+        this.bettTotalAmount = bettTotalAmount;
+    }
+
+    @Override
 	public String toString() {
 		return "AgentBillReq [feeAmount=" + feeAmount + ", discountAmount=" + discountAmount + ", payoffTotalAmount="
 				+ payoffTotalAmount + ", vaildBettTotalAmount=" + vaildBettTotalAmount + ", rebateTotalAmount="

@@ -55,6 +55,9 @@ public class UserOrderDetailConsumer {
         while (FailedRedisQueue.userOrderQueue.size() > 0) {
             details.add(FailedRedisQueue.userOrderQueue.poll());
         }
+        if (details == null || details.size() == 0) {
+            return;
+        }
         details.forEach((UserOrderDetail detail)->{
             if (!userOrderDetailService.updatePaid(detail)) {
                 List<UserOrderDetail> details_ = userOrderDetailService.findByOrderId(detail);

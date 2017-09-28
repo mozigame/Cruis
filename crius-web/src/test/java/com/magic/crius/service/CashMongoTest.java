@@ -22,6 +22,14 @@ import java.util.Date;
  * User: joey
  * Date: 2017/9/12
  * Time: 15:07
+<<<<<<< HEAD
+// */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:spring-application.xml"})
+public class CashMongoTest {
+
+    @Resource
+=======
  * //
  */
 //@RunWith(SpringJUnit4ClassRunner.class)
@@ -29,11 +37,16 @@ import java.util.Date;
 public class CashMongoTest {
 
     //    @Resource
+>>>>>>> 3965f8db46037612a233bbffb1e20254339d0a5e
     private CashbackReqMongoService cashbackReqMongoService;
 
     @Test
     public void getSucIds() {
+<<<<<<< HEAD
+        ReqQueryVo queryVo = new ReqQueryVo(1505206800000L, 1505210400000L, 20170912);
+=======
         ReqQueryVo queryVo = new ReqQueryVo(1505199600000L, 1505203200000L, 20170912);
+>>>>>>> 3965f8db46037612a233bbffb1e20254339d0a5e
         System.out.println(JSON.toJSONString(cashbackReqMongoService.getSucIds(queryVo)));
 
     }
