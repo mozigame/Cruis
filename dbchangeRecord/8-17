@@ -1,4 +1,0 @@
-#添加
-                                                                            alter table user_preferential_detail add COLUMN  `bill_id` bigint(19) DEFAULT NULL COMMENT 'billId,订单id';
-                                                                            alter table user_preferential_detail add COLUMN `req_id` bigint(19) DEFAULT NULL COMMENT 'reqId,请求序列号';
-                                                                            alter table user_preferential_detail add UNIQUE KEY   `bill_id` (`bill_id`);
