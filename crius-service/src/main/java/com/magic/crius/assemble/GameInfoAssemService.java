@@ -71,7 +71,11 @@ public class GameInfoAssemService {
      * 同步游戏数据
      */
     public void getAllGames() {
-        String body = "{\"Status\":1}";
+		JSONObject object = new JSONObject();
+		object.put("FlagMode", 1);
+		object.put("indexPage", 1);
+		object.put("Rows", 100000);
+		String body = object.toJSONString();
         EGResp resp = criusThirdThriftService.getAllGames(body, "crius");
         if (resp != null && resp.getCode() == 0) {
             long startTime = System.currentTimeMillis();

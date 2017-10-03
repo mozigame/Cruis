@@ -45,7 +45,7 @@ public class CriusThirdThriftService {
         String body = "{\"userId\":" + userId + "}";
         EGReq req = assembleEGReq(CmdType.CONFIG, 0x500082, body);
         try {
-            EGResp call = thriftFactory.call(req, "caller");
+            EGResp call = thriftFactory.call(req, "crius");
             if (Optional.ofNullable(call).filter(code -> call.getCode() == 0).isPresent()){
                 JSONObject object = JSONObject.parseObject(call.getData());
                 if (Optional.ofNullable(object).filter(level -> object.getLong("levelId") != null).isPresent()) {
