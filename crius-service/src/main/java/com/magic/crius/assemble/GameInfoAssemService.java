@@ -47,13 +47,14 @@ public class GameInfoAssemService {
 			public void run() {
 				try {
 					logger.info("----gameInfo.init--start--");
-					if (!gameInfoService.getLock()) {//20分钟内控制(集群下)只有一个任务在执行
-						if (!gameInfoService.setLock()) {
-							logger.error("proc gameInfo set lock error");
-						} else {
-							getAllGames();
-						}
-					}
+//					if (!gameInfoService.getLock()) {//20分钟内控制(集群下)只有一个任务在执行
+//						if (!gameInfoService.setLock()) {
+//							logger.error("proc gameInfo set lock error");
+//						} else {
+//							getAllGames();
+//						}
+//					}
+					getAllGames();
 				} catch (Exception e) {
 					logger.error("----gameInfo.init--", e);
 				}
