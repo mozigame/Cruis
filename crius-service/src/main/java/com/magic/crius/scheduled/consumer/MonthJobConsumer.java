@@ -1,36 +1,32 @@
 package com.magic.crius.scheduled.consumer;
 
-import com.alibaba.dubbo.common.json.JSON;
-import com.alibaba.dubbo.common.json.JSONObject;
 import com.magic.analysis.exception.ConfigException;
 import com.magic.analysis.utils.DateKit;
 import com.magic.analysis.utils.JsonUtils;
 import com.magic.analysis.utils.StringUtils;
 import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.codis.JedisFactory;
-import com.magic.api.commons.core.exception.CommonException;
 import com.magic.bc.query.service.BillingCycleService;
 import com.magic.bc.query.service.ContractFeeService;
 import com.magic.bc.query.vo.BillingCycleVo;
 import com.magic.bc.query.vo.ContractFeeOwnerDetailsVo;
-import com.magic.commons.enginegw.service.ThriftFactory;
+import com.magic.commons.gateway.ThriftService;
 import com.magic.config.thrift.base.CmdType;
 import com.magic.config.thrift.base.EGResp;
 import com.magic.crius.constants.RedisConstants;
-import com.magic.crius.po.BillInfo;
 import com.magic.crius.service.BillInfoService;
 import com.magic.crius.service.ProxyInfoService;
+import com.magic.crius.service.thrift.CriusThirdThriftService;
 import com.magic.crius.util.ThreadTaskPoolFactory;
 import com.magic.crius.vo.StmlBillInfoReq;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
 
 /**
  * 代理和业主月结账单任务调度
@@ -41,7 +37,7 @@ public class MonthJobConsumer {
     private ExecutorService MonthJobTaskPool = ThreadTaskPoolFactory.coreThreadTaskPool;
 
     @Resource
-    private ThriftFactory thriftFactory;
+    private CriusThirdThriftService criusThirdThriftService;
 
     @Resource
     BillingCycleService billingCycleService;
@@ -123,11 +119,8 @@ public class MonthJobConsumer {
             }
         }
         stmlBillInfoReq.setBillDate(stmlBillInfoReq.getStartDay().toString().substring(0, 6));
-        String body = JsonUtils.toJsonStringTrimNull(stmlBillInfoReq);
-        ApiLogger.info("代理和业主月结账单任务调度请求报文：" + body);
-
         //调thrift接口
-        EGResp resp = thriftFactory.call(CmdType.SETTLE, 0x300013, body, "yezhu");
+        EGResp resp = criusThirdThriftService.getOwnerMonthBill(stmlBillInfoReq);
         ApiLogger.info("代理和业主月结账单任务调度返回报文：" + resp);
         if (resp == null) {
             ApiLogger.error("代理和业主月结账单任务调度访问thrift接口失败");

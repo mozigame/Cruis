@@ -3,13 +3,10 @@ package com.magic.crius.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.magic.analysis.utils.StringUtils;
 import com.magic.api.commons.ApiLogger;
-import com.magic.commons.enginegw.service.ThriftFactory;
-import com.magic.config.thrift.base.CmdType;
-import com.magic.config.thrift.base.EGHeader;
-import com.magic.config.thrift.base.EGReq;
 import com.magic.config.thrift.base.EGResp;
 import com.magic.crius.po.*;
 import com.magic.crius.service.*;
+import com.magic.crius.service.thrift.CriusThirdThriftService;
 import com.magic.crius.storage.db.BillInfoDbService;
 import com.magic.crius.storage.mongo.AgentBillReqMongoService;
 import com.magic.crius.storage.mongo.OwnerBillReqMongoService;
@@ -59,9 +56,8 @@ public class BillInfoServiceImpl implements BillInfoService {
 
     @Resource
     private UserInfoService userInfoService;
-
     @Resource
-    private ThriftFactory thriftFactory;
+    private CriusThirdThriftService criusThirdThriftService;
 
     @Override
     public boolean save(BillInfo billInfo) {
@@ -193,10 +189,8 @@ public class BillInfoServiceImpl implements BillInfoService {
      * @return
      */
     private AgentConfigVo getAgentConfig(long uid) {
-        String body = "{\"agentId\":" + uid + "}";
-        EGReq req = assembleEGReq(CmdType.CONFIG, 0x500043, body);
         try {
-            EGResp resp = thriftFactory.call(req, "crius");
+            EGResp resp = criusThirdThriftService.getAgentConfig(uid);
             if (Optional.ofNullable(resp).filter(code -> code.getCode() == 0).isPresent()) {
                 return JSONObject.parseObject(resp.getData(), AgentConfigVo.class);
             }
@@ -206,23 +200,6 @@ public class BillInfoServiceImpl implements BillInfoService {
         return null;
     }
 
-    /**
-     * 组装thrift请求对象
-     *
-     * @param cmdType
-     * @param cmd
-     * @param body
-     * @return
-     */
-    private EGReq assembleEGReq(CmdType cmdType, int cmd, String body) {
-        EGReq req = new EGReq();
-        EGHeader header = new EGHeader();
-        header.setType(cmdType);
-        header.setCmd(cmd);
-        req.setHeader(header);
-        req.setBody(body);
-        return req;
-    }
 
     private BillInfo assembleBillInfo(AgentBillReq agentBillReq) {
         BillInfo billInfo = new BillInfo();

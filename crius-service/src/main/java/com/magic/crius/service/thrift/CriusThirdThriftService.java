@@ -2,12 +2,14 @@ package com.magic.crius.service.thrift;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.magic.analysis.utils.JsonUtils;
 import com.magic.api.commons.ApiLogger;
 import com.magic.commons.gateway.ThriftService;
 import com.magic.config.thrift.base.CmdType;
 import com.magic.config.thrift.base.EGHeader;
 import com.magic.config.thrift.base.EGReq;
 import com.magic.config.thrift.base.EGResp;
+import com.magic.crius.vo.StmlBillInfoReq;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -56,6 +58,28 @@ public class CriusThirdThriftService {
         return 0L;
     }
 
+    /**
+     * 获取代理参数配置信息
+     * @param uid
+     * @return
+     */
+    public EGResp getAgentConfig(long uid) {
+        String body = "{\"agentId\":" + uid + "}";
+        EGReq req = assembleEGReq(CmdType.CONFIG, 0x500043, body);
+        return thriftService.call(req, "crius");
+
+    }
+
+    /**
+     * 代理和业主月结账单
+     * @param stmlBillInfoReq
+     * @return
+     */
+    public EGResp getOwnerMonthBill(StmlBillInfoReq stmlBillInfoReq) {
+        String body = JsonUtils.toJsonStringTrimNull(stmlBillInfoReq);
+        ApiLogger.info("代理和业主月结账单任务调度请求报文：" + body);
+        return thriftService.call(CmdType.SETTLE, 0x300013, body, "crius");
+    }
 
     /**
      * 组装thrift请求对象
