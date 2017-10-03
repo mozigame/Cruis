@@ -80,7 +80,9 @@ public class GameInfoAssemService {
         EGResp resp = criusThirdThriftService.getAllGames(body, "crius");
         if (resp != null && resp.getCode() == 0) {
             long startTime = System.currentTimeMillis();
-            JSONArray jsonObj = JSONArray.parseArray(resp.getData());
+
+			JSONObject obj = JSONObject.parseObject(resp.getData());
+            JSONArray jsonObj = obj.getJSONArray("GameInfos");
             List<GameInfo> gameInfos = new ArrayList<>();
             for (Object j : jsonObj) {
                 JSONObject obj1 = (JSONObject) j;
@@ -95,18 +97,16 @@ public class GameInfoAssemService {
 	            batchSaveGame(gameInfos);
         	}   
             logger.info("insert all gameInfo spend time " +(System.currentTimeMillis() - startTime));
-        }
-        else{
+        }else{
         	if(resp!=null){
         		logger.warn("----getAllGame--code="+resp.getCode()+" body="+body+" data="+resp.getData());
-        	}
-        	else{
+        	}else{
         		logger.error("----getAllGame--body="+body+" error:return null");
         	}
         }
     }
-    
-    private void deleteAll(){
+
+	private void deleteAll(){
     	//先清空游戏表
         if (!gameInfoService.deleteAll()) {
             logger.warn("delete gameInfos failed");
