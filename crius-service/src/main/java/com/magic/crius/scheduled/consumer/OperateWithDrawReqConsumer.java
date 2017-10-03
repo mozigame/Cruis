@@ -70,9 +70,6 @@ public class OperateWithDrawReqConsumer {
     private RepairLockService repairLockService;
 
     @Resource
-    private MemberConditionVoAssemService memberConditionVoAssemService;
-
-    @Resource
     private UserTradeSummaryAssemService userTradeSummaryAssemService;
     @Resource
     private BaseReqService baseReqService;
@@ -154,7 +151,6 @@ public class OperateWithDrawReqConsumer {
             List<OwnerCompanyAccountDetail> ownerCompanyAccountDetails = new ArrayList<>();
             List<UserTrade> userTrades = new ArrayList<>();
             List<OperateWithDrawReq> sucReqs = new ArrayList<>();
-            Map<Long, MemberConditionVo> memberConditionVoMap = new HashMap<>();
             Map<Long, UserTradeSummary> userTradeSummaries = new HashMap<>();
             for (OperateWithDrawReq req : list) {
                 /*人工出款详情*/
@@ -169,14 +165,6 @@ public class OperateWithDrawReqConsumer {
                         ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req,req.getUserIds()[i]));
                         userOutMoneyDetails.add(userOutMoneyDetailAssemService.assembleUserOutMoneyDetail(req, req.getUserIds()[i], req.getBillIds()[i]));
                         ownerOperateOutDetails.add(assembleOwnerOperateOutDetail(req));
-                        /*会员提款*/
-                        if (memberConditionVoMap.get(req.getUserIds()[i]) == null) {
-                            memberConditionVoMap.put(req.getUserIds()[i], memberConditionVoAssemService.assembleWithdrawMVo(req, req.getUserIds()[i]));
-                        } else {
-                            MemberConditionVo vo  = memberConditionVoMap.get(req.getUserIds()[i]);
-                            vo.setWithdrawCount(vo.getWithdrawCount() + 1);
-                            vo.setWithdrawMoney(vo.getWithdrawMoney() + req.getAmount());
-                        }
 
                         /*个人资金汇总*/
                         if (userTradeSummaries.get(req.getUserIds()[i]) == null) {
@@ -196,7 +184,8 @@ public class OperateWithDrawReqConsumer {
             }
             ownerOperateOutDetailAssemService.batchSave(ownerOperateOutDetails);
             ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
-            memberConditionVoAssemService.batchWithdraw(memberConditionVoMap.values());
+            //人工存提不计入会员存取款汇总
+//            memberConditionVoAssemService.batchWithdraw(memberConditionVoMap.values());
             userTradeAssemService.batchSave(userTrades);
             userOutMoneyDetailAssemService.batchSave(userOutMoneyDetails);
             userTradeSummaryAssemService.batchSave(userTradeSummaries);

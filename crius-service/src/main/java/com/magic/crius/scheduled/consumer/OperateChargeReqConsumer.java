@@ -138,7 +138,7 @@ public class OperateChargeReqConsumer {
             
             List<UserTrade> userTrades = new ArrayList<>();
             List<OperateChargeReq> sucReqs = new ArrayList<>();
-            Map<Long, MemberConditionVo> memberConditionVoMap = new HashMap<>();
+//            Map<Long, MemberConditionVo> memberConditionVoMap = new HashMap<>();
             Map<Long, UserTradeSummary> userTradeSummaries = new HashMap<>();
             for (OperateChargeReq req : list) {
                 /*
@@ -154,14 +154,6 @@ public class OperateChargeReqConsumer {
                         ownerCompanyAccountDetails.add(ownerCompanyAccountDetailAssemService.assembleOwnerCompanyAccountDetail(req,req.getUserIds()[i]));
                         userFlowMoneyDetails.add(userFlowMoneyDetailAssemService.assembleUserFlowMoneyDetail(req, req.getUserIds()[i], req.getBillIds()[i]));
                         ownerOperateFlowSummmaries.add(assembleOwnerOperateFlowDetail(req));
-                        /*会员入款*/
-                        if (memberConditionVoMap.get(req.getUserIds()[i]) == null) {
-                            memberConditionVoMap.put(req.getUserIds()[i], memberConditionVoAssemService.assembleDepositMVo(req, req.getUserIds()[i]));
-                        } else {
-                            MemberConditionVo vo  = memberConditionVoMap.get(req.getUserIds()[i]);
-                            vo.setDepositCount(vo.getDepositCount() + 1);
-                            vo.setDepositMoney(vo.getDepositMoney() + req.getChargeAmount());
-                        }
 
                         /*个人资金汇总*/
                         if (userTradeSummaries.get(req.getUserIds()[i]) == null) {
@@ -184,7 +176,8 @@ public class OperateChargeReqConsumer {
             }
             ownerOperateFlowDetailAssemService.batchSave(ownerOperateFlowSummmaries);
             ownerCompanyAccountDetailAssemService.batchSave(ownerCompanyAccountDetails);
-            memberConditionVoAssemService.batchRecharge(memberConditionVoMap.values());
+            //人工存提不记录会员的存取款
+//            memberConditionVoAssemService.batchRecharge(memberConditionVoMap.values());
             userFlowMoneyDetailAssemService.batchSave(userFlowMoneyDetails);
             userTradeAssemService.batchSave(userTrades);
             userTradeSummaryAssemService.batchSave(userTradeSummaries);
