@@ -11,10 +11,11 @@
         <result column="game_factory_type_name" jdbcType="VARCHAR" property="gameFactoryTypeName"/>
         <result column="game_abstract_type" jdbcType="VARCHAR" property="gameAbstractType"/>
         <result column="game_abstract_type_name" jdbcType="VARCHAR" property="gameAbstractTypeName"/>
+        <result column="record_mode" jdbcType="INTEGER" property="recordMode"/>
     </resultMap>
     <sql id="Base_Column_List">
     Id, game_id, game_name, game_type, game_type_name, game_factory_type, game_factory_type_name, 
-    game_abstract_type, game_abstract_type_name
+    game_abstract_type, game_abstract_type_name,record_mode
   </sql>
 
 
@@ -24,12 +25,12 @@
         insert into game_info ( game_id, game_name,
           game_type, game_type_name, game_factory_type,
           game_factory_type_name, game_abstract_type,
-          game_abstract_type_name
+          game_abstract_type_name,record_mode
           )
         values ( #{gameId,jdbcType=VARCHAR}, #{gameName,jdbcType=VARCHAR},
           #{gameType,jdbcType=VARCHAR}, #{gameTypeName,jdbcType=VARCHAR}, #{gameFactoryType,jdbcType=VARCHAR},
           #{gameFactoryTypeName,jdbcType=VARCHAR}, #{gameAbstractType,jdbcType=VARCHAR},
-          #{gameAbstractTypeName,jdbcType=VARCHAR}
+          #{gameAbstractTypeName,jdbcType=VARCHAR}, #{recordMode,jdbcType=INTEGER}
           )
     </insert>
 
@@ -39,7 +40,7 @@
             insert into game_info ( game_id, game_name,
             game_type, game_type_name, game_factory_type,
             game_factory_type_name, game_abstract_type,
-            game_abstract_type_name
+            game_abstract_type_name, record_mode
             )
             values
             ( #{param.gameId,jdbcType=VARCHAR},
@@ -49,7 +50,8 @@
             #{param.gameFactoryType,jdbcType=VARCHAR},
             #{param.gameFactoryTypeName,jdbcType=VARCHAR},
             #{param.gameAbstractType,jdbcType=VARCHAR},
-            #{param.gameAbstractTypeName,jdbcType=VARCHAR}
+            #{param.gameAbstractTypeName,jdbcType=VARCHAR},
+            #{param.recordMode,jdbcType=VARCHAR}
             )
         </foreach>
     </insert>

@@ -71,8 +71,8 @@ public class GameInfoAssemService {
      * 同步游戏数据
      */
     public void getAllGames() {
-        String body = "{\"api\":\"game_list\",\"status\":1}";
-        EGResp resp = criusThirdThriftService.getAllGames(body, "account");
+        String body = "{\"Status\":1}";
+        EGResp resp = criusThirdThriftService.getAllGames(body, "crius");
         if (resp != null && resp.getCode() == 0) {
             long startTime = System.currentTimeMillis();
             JSONArray jsonObj = JSONArray.parseArray(resp.getData());

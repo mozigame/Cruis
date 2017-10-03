@@ -10,20 +10,22 @@ public class GameInfo {
     private Integer id;
     @JSONField(name = "GameId")
     private String gameId;
-    @JSONField(name = "Game_name")
+    @JSONField(name = "GameName")
     private String gameName;
-    @JSONField(name = "Platform_halltype_id")
+    @JSONField(name = "PlatformHalltypeId")
     private String gameType;    //游戏类型
-    @JSONField(name = "Platform_halltype_name")
+    @JSONField(name = "PlatformHalltypeName")
     private String gameTypeName;    //游戏类型名称    手机游戏/QQ游戏/QQ跑酷/QQ游戏
-    @JSONField(name = "Platform_id")
+    @JSONField(name = "PlatformId")
     private String gameFactoryType; //游戏组类型
-    @JSONField(name = "Platform_name")
+    @JSONField(name = "PlatformName")
     private String gameFactoryTypeName; //游戏组类型名称
-    @JSONField(name = "Halltype_id")
+    @JSONField(name = "HalltypeId")
     private String gameAbstractType;    //游戏类别
-    @JSONField(name = "Halltype_name")
+    @JSONField(name = "HalltypeName")
     private String gameAbstractTypeName;    //游戏类别名称    视讯
+    @JSONField(name = "RecordMode")
+    private Integer recordMode; //是否为注单相关资料 1=是 2=否
 
     private Long createTime;
 
@@ -115,5 +117,13 @@ public class GameInfo {
 
     public void setUpdateTime(Long updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getRecordMode() {
+        return recordMode;
+    }
+
+    public void setRecordMode(Integer recordMode) {
+        this.recordMode = recordMode;
     }
 }

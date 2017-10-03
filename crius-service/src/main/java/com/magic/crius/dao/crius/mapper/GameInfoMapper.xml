@@ -11,10 +11,12 @@
         <result column="game_factory_type_name" jdbcType="VARCHAR" property="gameFactoryTypeName"/>
         <result column="game_abstract_type" jdbcType="VARCHAR" property="gameAbstractType"/>
         <result column="game_abstract_type_name" jdbcType="VARCHAR" property="gameAbstractTypeName"/>
+        <result column="record_mode" jdbcType="INTEGER" property="recordMode"/>
+
     </resultMap>
     <sql id="Base_Column_List">
     Id, game_id, game_name, game_type, game_type_name, game_factory_type, game_factory_type_name, 
-    game_abstract_type, game_abstract_type_name
+    game_abstract_type, game_abstract_type_name,record_mode
   </sql>
 
 
@@ -24,12 +26,12 @@
         insert into game_info ( game_id, game_name,
           game_type, game_type_name, game_factory_type,
           game_factory_type_name, game_abstract_type,
-          game_abstract_type_name,update_time
+          game_abstract_type_name,update_time,record_mode
           )
         values ( #{gameId,jdbcType=VARCHAR}, #{gameName,jdbcType=VARCHAR},
           #{gameType,jdbcType=VARCHAR}, #{gameTypeName,jdbcType=VARCHAR}, #{gameFactoryType,jdbcType=VARCHAR},
           #{gameFactoryTypeName,jdbcType=VARCHAR}, #{gameAbstractType,jdbcType=VARCHAR},
-          #{gameAbstractTypeName,jdbcType=VARCHAR},#{updateTime,jdbcType=INTEGER}
+          #{gameAbstractTypeName,jdbcType=VARCHAR},#{updateTime,jdbcType=BIGINT},#{recordMode,jdbcType=BIGINT}
           )
     </insert>
 
@@ -39,7 +41,7 @@
             insert into game_info ( game_id, game_name,
             game_type, game_type_name, game_factory_type,
             game_factory_type_name, game_abstract_type,
-            game_abstract_type_name,update_time
+            game_abstract_type_name,update_time,record_mode
             )
             values
             ( #{param.gameId,jdbcType=VARCHAR},
@@ -50,7 +52,8 @@
             #{param.gameFactoryTypeName,jdbcType=VARCHAR},
             #{param.gameAbstractType,jdbcType=VARCHAR},
             #{param.gameAbstractTypeName,jdbcType=VARCHAR},
-            #{param.updateTime,jdbcType=INTEGER}
+            #{param.updateTime,jdbcType=INTEGER},
+            #{param.recordMode,jdbcType=INTEGER}
             )
         </foreach>
     </insert>
@@ -66,7 +69,8 @@
 				      game_abstract_type = #{item.gameAbstractType,jdbcType=VARCHAR},
 				      game_abstract_type_name = #{item.gameAbstractTypeName,jdbcType=VARCHAR},
 				      create_time = #{item.createTime,jdbcType=BIGINT},
-				      update_time = #{item.updateTime,jdbcType=BIGINT}
+				      update_time = #{item.updateTime,jdbcType=BIGINT},
+                      record_mode = #{item.recordMode,jdbcType=BIGINT}
 				    where game_id = #{gameId,jdbcType=VARCHAR}
 		 </foreach>
     </update>

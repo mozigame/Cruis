@@ -31,7 +31,7 @@ public class CriusThirdThriftService {
      * @return
      */
     public EGResp getAllGames(String body, String caller) {
-        EGReq egReq = assembleEGReq(CmdType.GAME, 0x600004, body);
+        EGReq egReq = assembleEGReq(CmdType.CONFIG, 0x502004, body);
         return thriftFactory.call(egReq, caller);
     }
 
