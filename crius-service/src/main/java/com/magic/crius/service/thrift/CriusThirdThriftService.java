@@ -3,14 +3,13 @@ package com.magic.crius.service.thrift;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.magic.api.commons.ApiLogger;
-import com.magic.commons.enginegw.service.ThriftFactory;
+import com.magic.commons.gateway.ThriftService;
 import com.magic.config.thrift.base.CmdType;
 import com.magic.config.thrift.base.EGHeader;
 import com.magic.config.thrift.base.EGReq;
 import com.magic.config.thrift.base.EGResp;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.Optional;
 
 /**
@@ -21,8 +20,7 @@ import java.util.Optional;
 @Service
 public class CriusThirdThriftService {
 
-    @Resource
-    private ThriftFactory thriftFactory;
+    private static ThriftService thriftService = ThriftService.getInstance();
 
     /**
      * 拉取游戏列表
@@ -32,7 +30,7 @@ public class CriusThirdThriftService {
      */
     public EGResp getAllGames(String body, String caller) {
         EGReq egReq = assembleEGReq(CmdType.CONFIG, 0x502004, body);
-        return thriftFactory.call(egReq, caller);
+        return thriftService.call(egReq, caller);
     }
 
     /**
@@ -45,7 +43,7 @@ public class CriusThirdThriftService {
         String body = "{\"userId\":" + userId + "}";
         EGReq req = assembleEGReq(CmdType.CONFIG, 0x500082, body);
         try {
-            EGResp call = thriftFactory.call(req, "crius");
+            EGResp call = thriftService.call(req, "crius");
             if (Optional.ofNullable(call).filter(code -> call.getCode() == 0).isPresent()){
                 JSONObject object = JSONObject.parseObject(call.getData());
                 if (Optional.ofNullable(object).filter(level -> object.getLong("levelId") != null).isPresent()) {
