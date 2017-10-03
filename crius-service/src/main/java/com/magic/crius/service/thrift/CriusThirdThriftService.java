@@ -31,8 +31,13 @@ public class CriusThirdThriftService {
      * @return
      */
     public EGResp getAllGames(String body, String caller) {
-        EGReq egReq = assembleEGReq(CmdType.CONFIG, 0x502004, body);
-        return thriftService.call(egReq, caller);
+        try {
+            EGReq egReq = assembleEGReq(CmdType.CONFIG, 0x502004, body);
+            return thriftService.call(egReq, caller);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -64,9 +69,14 @@ public class CriusThirdThriftService {
      * @return
      */
     public EGResp getAgentConfig(long uid) {
-        String body = "{\"agentId\":" + uid + "}";
-        EGReq req = assembleEGReq(CmdType.CONFIG, 0x500043, body);
-        return thriftService.call(req, "crius");
+        try {
+            String body = "{\"agentId\":" + uid + "}";
+            EGReq req = assembleEGReq(CmdType.CONFIG, 0x500043, body);
+            return thriftService.call(req, "crius");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
 
     }
 
@@ -76,9 +86,14 @@ public class CriusThirdThriftService {
      * @return
      */
     public EGResp getOwnerMonthBill(StmlBillInfoReq stmlBillInfoReq) {
-        String body = JsonUtils.toJsonStringTrimNull(stmlBillInfoReq);
-        ApiLogger.info("代理和业主月结账单任务调度请求报文：" + body);
-        return thriftService.call(CmdType.SETTLE, 0x300013, body, "crius");
+        try {
+            String body = JsonUtils.toJsonStringTrimNull(stmlBillInfoReq);
+            ApiLogger.info("代理和业主月结账单任务调度请求报文：" + body);
+            return thriftService.call(CmdType.SETTLE, 0x300013, body, "crius");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

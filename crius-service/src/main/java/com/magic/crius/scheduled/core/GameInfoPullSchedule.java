@@ -27,7 +27,7 @@ public class GameInfoPullSchedule {
     /**
      * 定时拉取游戏列表
      */
-    @Scheduled(initialDelay = 10, fixedRate = CriusInitConstants.gameListPullRate)
+    @Scheduled(initialDelay = CriusInitConstants.gameListPullInitDelay, fixedRate = CriusInitConstants.gameListPullRate)
     public void gameInfoPullSchedule() {
         //如果没有开启定时任务的开关，不执行
         if (!baseReqService.getScheduleSwitch()) {
