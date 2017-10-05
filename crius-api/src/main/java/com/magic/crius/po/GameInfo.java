@@ -10,7 +10,7 @@ public class GameInfo {
     private Integer id;
     @JSONField(name = "GameId")
     private String gameId;
-    @JSONField(name = "GameName")
+    @JSONField(name = "GamePersonalName")
     private String gameName;
     @JSONField(name = "PlatformHalltypeId")
     private String gameType;    //游戏类型
