@@ -34,8 +34,8 @@ public class BaseReqController {
      *
      * @return
      */
-    @RequestMapping(value = "/base/req/get_order_id", method = RequestMethod.POST)
-    public String getOrderId(@RequestParam("id") Long id) {
-        return baseReqService.setOrderInitId(id);
+    @RequestMapping(value = "/base/req/get_order_id", method = RequestMethod.GET)
+    public String getOrderId() {
+        return baseReqService.getOrderReqId()+"";
     }
 }
