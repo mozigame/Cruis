@@ -30,6 +30,7 @@ public class BaseOrderReqServiceImpl implements BaseOrderReqService {
 
     @Override
     public boolean save(BaseOrderReq req) {
+
         //此处逻辑改为如果mongo插入成功才写入redis
         if (baseOrderReqMongoService.save(req)) {
             if (!baseOrderReqRedisService.save(req)) {

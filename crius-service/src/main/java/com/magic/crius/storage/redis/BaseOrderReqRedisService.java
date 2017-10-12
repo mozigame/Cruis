@@ -24,4 +24,6 @@ public interface BaseOrderReqRedisService{
      * @return
      */
     List<BaseOrderReq> batchPop(Date date);
+
+
 }

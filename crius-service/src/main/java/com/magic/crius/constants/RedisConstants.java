@@ -55,6 +55,10 @@ public class RedisConstants {
      * 是否执行定时任务
      */
     public static final String SCHEDULE_SWITCH="cri_sche_switch";
+    /**
+     * 订单的自增ID
+     */
+    public static final String ORDER_ID_SEQ="cr_order_id_seq";
 
 
     /**

@@ -36,4 +36,14 @@ public class BaseReqServiceImpl implements BaseReqService{
     public void delScheduleSwitch() {
         baseReqRedisService.delScheduleSwitch();
     }
+
+    @Override
+    public long getOrderReqId() {
+        return baseReqRedisService.getOrderReqId();
+    }
+
+    @Override
+    public String setOrderInitId(long initId) {
+        return baseReqRedisService.setOrderInitId(initId);
+    }
 }

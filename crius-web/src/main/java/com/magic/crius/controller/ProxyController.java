@@ -21,6 +21,11 @@ public class ProxyController {
     @Resource
     private ProxyInfoAssemService proxyInfoAssemService;
 
+    /**
+     * 纠正代理数据
+     * @param startTime
+     * @param endTime
+     */
     @RequestMapping(value = "/rectify", method = RequestMethod.POST)
     @ResponseBody
     public void rectify(
