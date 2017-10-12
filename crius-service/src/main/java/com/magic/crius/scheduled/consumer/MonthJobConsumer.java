@@ -185,9 +185,9 @@ public class MonthJobConsumer {
                         billInfo.setOwnerId(ownerId);
                         billInfo.setPdate(Integer.parseInt(billingCycleVo.getStartTime().toString().substring(0,6)));
                         boolean isexist = billInfoService.isExistBill(billInfo);*/
-                        //判断期数状态未使用并且结束日期等于今天，则进行结算
+                        //判断期数状态未使用并且结束日期大于今天，则进行结算
                         if (billingCycleVo != null) {
-                            if (billingCycleVo.getStatus() == 1 && DateKit.compareDateFormat(DateKit.getCurrentDay(), billingCycleVo.getEndTime(), "YYYYMMdd") >= 0) {
+                            if (billingCycleVo.getStatus() == 1 && DateKit.compareDateFormat(DateKit.getCurrentDay(), billingCycleVo.getEndTime(), "YYYYMMdd") >= 1) {
                                 stmlBillInfoReq_proxy.setStartDay(Integer.parseInt(billingCycleVo.getStartTime()));
                                 stmlBillInfoReq_proxy.setEndDay(Integer.parseInt(billingCycleVo.getEndTime()));
                                 stmlBillInfoReq_proxy.setBillType(2);//代理账单

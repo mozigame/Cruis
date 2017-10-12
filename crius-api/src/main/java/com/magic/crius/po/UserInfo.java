@@ -1,7 +1,5 @@
 package com.magic.crius.po;
 
-import com.magic.crius.enums.AccountType;
-
 /**
  * 会员基础信息
  */
@@ -32,8 +30,12 @@ public class UserInfo {
     private String ownerName;   //业主名称
 
     private Integer type;   //用户类型
-    
+
     private Long userCount;
+
+    private Long beginTime;    //开始时间
+
+    private Long endTime;    //结束时间
 
     public Integer getId() {
         return id;
@@ -45,14 +47,14 @@ public class UserInfo {
 
 
     public Long getUserCount() {
-		return userCount;
-	}
+        return userCount;
+    }
 
-	public void setUserCount(Long userCount) {
-		this.userCount = userCount;
-	}
+    public void setUserCount(Long userCount) {
+        this.userCount = userCount;
+    }
 
-	public Long getOwnerId() {
+    public Long getOwnerId() {
         return ownerId;
     }
 
@@ -138,6 +140,22 @@ public class UserInfo {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public Long getBeginTime() {
+        return beginTime;
+    }
+
+    public void setBeginTime(Long beginTime) {
+        this.beginTime = beginTime;
+    }
+
+    public Long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Long endTime) {
+        this.endTime = endTime;
     }
 
     public String getOwnerName() {
