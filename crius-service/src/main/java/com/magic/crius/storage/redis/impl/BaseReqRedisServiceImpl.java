@@ -89,4 +89,56 @@ public class BaseReqRedisServiceImpl implements BaseReqRedisService {
             criusJedisFactory.close(jedis);
         }
     }
+
+    @Override
+    public long getOrderReqId() {
+        Jedis jedis = null;
+        long id = 0;
+        try {
+            jedis = criusJedisFactory.getInstance();
+            id =jedis.incr(RedisConstants.ORDER_ID_SEQ);
+            return id;
+        } catch (Exception e){
+            ApiLogger.error("getOrderReqId error,retry ", e);
+            id= retryGetOrderId(jedis);
+        } finally {
+            criusJedisFactory.close(jedis);
+        }
+        return id;
+    }
+
+    @Override
+    public String setOrderInitId(long initId) {
+        Jedis jedis = null;
+        try {
+            jedis = criusJedisFactory.getInstance();
+            return jedis.set(RedisConstants.ORDER_ID_SEQ, initId+"");
+        } catch (Exception e) {
+            ApiLogger.error("setOrderInitId error, initId : "+initId, e);
+        }finally {
+            criusJedisFactory.close(jedis);
+        }
+        return "";
+    }
+
+    private long retryGetOrderId(Jedis jedis) {
+        long id = 0;
+        for (int i = 0; i < 5; i++) {
+            try {
+                id = jedis.incr(RedisConstants.ORDER_ID_SEQ);
+            } catch (Exception e) {
+                ApiLogger.error("retryGetOrderId error, id :"+id, e);
+            }
+            if (id <= 0) {
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                break;
+            }
+        }
+        return id;
+    }
 }

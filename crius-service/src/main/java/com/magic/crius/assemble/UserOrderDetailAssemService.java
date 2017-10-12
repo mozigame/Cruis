@@ -7,6 +7,7 @@ import com.magic.crius.assemble.UserOrderDetailAssemService;
 import com.magic.crius.enums.IsPaidType;
 import com.magic.crius.enums.ProcessStatus;
 import com.magic.crius.po.UserOrderDetail;
+import com.magic.crius.service.BaseReqService;
 import com.magic.crius.service.GameInfoService;
 import com.magic.crius.service.TethysUserOrderDetailService;
 import com.magic.crius.service.UserOrderDetailService;
@@ -36,6 +37,8 @@ public class UserOrderDetailAssemService {
     private TethysUserOrderDetailService tethysUserOrderDetailService;
     @Resource
     private GameInfoService gameInfoService;
+    @Resource
+    private BaseReqService baseReqService;
 
     public boolean batchSave(List<UserOrderDetail> details) {
         List<Long> insertUserIds = new ArrayList<>();
@@ -135,7 +138,8 @@ public class UserOrderDetailAssemService {
     public UserOrderDetail assembleUserOrderDetail(DealerRewardReq req) {
         // TODO Auto-generated method stub
         UserOrderDetail detail = new UserOrderDetail();
-        detail.setId(req.getReqId());
+        //order 的 主键id 从缓存中获取
+        detail.setId(baseReqService.getOrderReqId());
         detail.setOwnerId(req.getOwnerId());
         detail.setUserId(req.getUserId());
         //打赏的gameId是gameType，需要在数据库中拿到一个随机的gameId
@@ -159,7 +163,8 @@ public class UserOrderDetailAssemService {
     public UserOrderDetail assembleUserOrderDetail(JpReq req) {
         // TODO Auto-generated method stub
         UserOrderDetail detail = new UserOrderDetail();
-        detail.setId(req.getReqId());
+        //order 的 主键id 从缓存中获取
+        detail.setId(baseReqService.getOrderReqId());
         detail.setOwnerId(req.getOwnerId());
         detail.setUserId(req.getUserId());
         detail.setGameId(String.valueOf(req.getGameId()));
@@ -181,7 +186,8 @@ public class UserOrderDetailAssemService {
 
     public UserOrderDetail assembleUserOrderDetail(BaseOrderReq req) {
         UserOrderDetail detail = new UserOrderDetail();
-        detail.setId(req.getReqId());
+        //order 的 主键id 从缓存中获取
+        detail.setId(baseReqService.getOrderReqId());
         detail.setOwnerId(req.getOwnerId());
         detail.setUserId(req.getUserId());
         detail.setGameId(String.valueOf(req.getGameId()));

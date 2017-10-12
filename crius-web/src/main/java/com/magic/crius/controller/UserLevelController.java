@@ -26,6 +26,11 @@ public class UserLevelController {
     @Resource
     private UserLevelAssemService userLevelAssemService;
 
+    /**
+     * 纠正用户层级数据
+     * @param startUpdateTime
+     * @param endUpdateTime
+     */
     @ResponseBody
     @RequestMapping(value = "/rectify", method = RequestMethod.POST)
     public void rectifyUserLevel(
@@ -35,6 +40,11 @@ public class UserLevelController {
         userLevelAssemService.rectifyLevel(startUpdateTime, endUpdateTime);
     }
 
+    /**
+     * 修改用户层级
+     * @param userId
+     * @param level
+     */
     @ResponseBody
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public void updateUserLevel(

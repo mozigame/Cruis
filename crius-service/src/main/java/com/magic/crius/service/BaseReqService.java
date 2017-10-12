@@ -29,4 +29,17 @@ public interface BaseReqService {
      * 删除是否执行定时任务的开关
      */
     void delScheduleSwitch();
+
+    /**
+     * 获取订单的reqId
+     * @return
+     */
+    long getOrderReqId();
+
+    /**
+     * 初始化订单id的起始值
+     * @param initId
+     * @return
+     */
+    String setOrderInitId(long initId);
 }
