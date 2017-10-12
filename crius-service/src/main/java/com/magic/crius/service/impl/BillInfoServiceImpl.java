@@ -254,6 +254,9 @@ public class BillInfoServiceImpl implements BillInfoService {
         UserInfo userInfo = new UserInfo();
         userInfo.setOwnerId(agentBillReq.getOwnerId());
         userInfo.setProxyId(agentBillReq.getAgentId());
+        userInfo.setBeginTime(agentBillReq.getBillStartTime());
+        userInfo.setEndTime(agentBillReq.getBillEndTime());
+
         proxyBillDetail.setUserNum(Long.parseLong(userInfoService.getSummaryUserNum(userInfo) + ""));
         return proxyBillDetail;
     }

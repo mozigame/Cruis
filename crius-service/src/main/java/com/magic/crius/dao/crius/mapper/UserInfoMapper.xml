@@ -154,16 +154,35 @@
 
 
     <select id="getSummaryNum" resultType="int" parameterType="com.magic.crius.po.UserInfo">
-        select count(distinct user_id) as userCount
-        from user_info
+        select count(distinct detail.user_id) as userCount
+        from (select user_id from user_order_detail
         where 1=1
         <if test="ownerId != null">
             and owner_id = #{ownerId,jdbcType=BIGINT}
         </if>
-        <if test="proxyId != null">
-            and proxy_id = #{proxyId,jdbcType=BIGINT}
+        <if test="beginTime != null">
+            and  <![CDATA[ create_time >= #{beginTime,jdbcType=BIGINT} ]]>
+        </if>
+        <if test="endTime != null">
+            and  <![CDATA[ create_time <= #{endTime,jdbcType=BIGINT} ]]>
+        </if>
+         UNION
+        select user_id from user_flow_money_detail
+        where 1=1
+        <if test="ownerId != null">
+            and owner_id = #{ownerId,jdbcType=BIGINT}
         </if>
 
+        <if test="beginTime != null">
+            and  <![CDATA[ create_time >= #{beginTime,jdbcType=BIGINT} ]]>
+        </if>
+        <if test="endTime != null">
+            and  <![CDATA[ create_time <= #{endTime,jdbcType=BIGINT} ]]>
+        </if>
+        )detail join user_info info on detail.user_id = info.user_id
+        <if test="proxyId != null">
+            and info.proxy_id = #{proxyId,jdbcType=BIGINT}
+        </if>
 
     </select>
 
