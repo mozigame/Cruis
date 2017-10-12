@@ -141,7 +141,7 @@ public class UserOrderDetailAssemService {
         //打赏的gameId是gameType，需要在数据库中拿到一个随机的gameId
         detail.setGameId(gameInfoService.getGameId(req.getGameId() + ""));
         detail.setOrderId(req.getBillId());
-        detail.setRemark("荷官打赏：" + req.getRewardAmount());
+        detail.setRemark("荷官打赏：" + req.getRewardAmount()/100);
         detail.setOrderCount(0L);
         detail.setEffectOrderCount(0L);
         detail.setPayOffCount(0L);
