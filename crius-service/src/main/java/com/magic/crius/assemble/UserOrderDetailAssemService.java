@@ -3,6 +3,7 @@ package com.magic.crius.assemble;
 import com.magic.analysis.enums.GameTypeEnum;
 import com.magic.api.commons.ApiLogger;
 import com.magic.api.commons.tools.DateUtil;
+import com.magic.api.commons.tools.LocalDateTimeUtil;
 import com.magic.crius.assemble.UserOrderDetailAssemService;
 import com.magic.crius.enums.IsPaidType;
 import com.magic.crius.enums.ProcessStatus;
@@ -197,8 +198,15 @@ public class UserOrderDetailAssemService {
         detail.setPayOffCount(req.getPayoff());
         //todo 订单状态
         detail.setOrderState(ProcessStatus.init.status());
-        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getUpdateDatetime()), "yyyyMMdd")));
+//        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getUpdateDatetime()), "yyyyMMdd")));
+
+        //转换成美东时间
+        detail.setPdate(Integer.parseInt(LocalDateTimeUtil.toAmerica(req.getUpdateDatetime(),LocalDateTimeUtil.YYYYMMDD)));
+
+
         detail.setCreateTime(req.getBetDatetime());
+
+
         detail.setUpdateTime(req.getUpdateDatetime());
         if (req.getIsPaid() != null) {
             detail.setIsPaid(req.getIsPaid());
