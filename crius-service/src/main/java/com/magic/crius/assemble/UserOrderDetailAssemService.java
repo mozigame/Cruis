@@ -198,10 +198,10 @@ public class UserOrderDetailAssemService {
         detail.setPayOffCount(req.getPayoff());
         //todo 订单状态
         detail.setOrderState(ProcessStatus.init.status());
-//        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getUpdateDatetime()), "yyyyMMdd")));
+        detail.setPdate(Integer.parseInt(DateUtil.formatDateTime(new Date(req.getUpdateDatetime()), "yyyyMMdd")));
 
         //转换成美东时间
-        detail.setPdate(Integer.parseInt(LocalDateTimeUtil.toAmerica(req.getUpdateDatetime(),LocalDateTimeUtil.YYYYMMDD)));
+//        detail.setPdate(Integer.parseInt(LocalDateTimeUtil.toAmerica(req.getUpdateDatetime(),LocalDateTimeUtil.YYYYMMDD)));
 
 
         detail.setCreateTime(req.getBetDatetime());
